@@ -50,6 +50,18 @@
     </div>
   </section>
 
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item"><div class="stat-value" data-target="18" data-suffix="+">0</div><div class="stat-label">Live Modules</div></div>
+      <div class="stat-item"><div class="stat-value" data-target="108" data-suffix="">0</div><div class="stat-label">Team Members</div></div>
+      <div class="stat-item"><div class="stat-value" data-target="80" data-suffix="%">0</div><div class="stat-label">Automation Rate</div></div>
+      <div class="stat-item"><div class="stat-value" data-target="13" data-suffix="">0</div><div class="stat-label">Dashboards Built</div></div>
+      <div class="stat-item"><div class="stat-value" data-target="1200" data-suffix="">0</div><div class="stat-label">Calls/Day Analyzed</div></div>
+      <div class="stat-item"><div class="stat-value" data-target="197" data-suffix="+">0</div><div class="stat-label">Stories Written</div></div>
+    </div>
+  </div>
+
   <!-- ABOUT -->
   <section class="section section-alt" id="about">
     <div class="section-inner">
@@ -131,6 +143,12 @@
         <h3>Android Call Recording Sync App</h3>
         <p>Custom-built mobile automation app using Google Apps Script to securely access local call recording folders on Android devices and sync them to a designated Google Drive directory. Features configurable upload intervals, authentication handling, and optional auto-deletion from device post-upload.</p>
         <div class="project-tech"><span>Google Apps Script</span><span>·</span><span>Google Drive API</span><span>·</span><span>Automation</span></div>
+        <button class="project-expand-btn"><span class="btn-text">Case Study</span> <span class="arrow">→</span></button>
+        <div class="project-case-study">
+          <div class="case-section"><div class="case-label">Problem</div><div class="case-text">Telecalling team recordings were stored locally on 12 Android devices with no centralized access. Managers had no way to audit calls without physically collecting phones.</div></div>
+          <div class="case-section"><div class="case-label">Approach</div><div class="case-text">Built a lightweight Android-compatible sync app using Apps Script + Drive API that auto-uploads recordings on a schedule, with authentication and optional device-side cleanup.</div></div>
+          <div class="case-section"><div class="case-label">Result</div><div class="case-text">100% call recording capture rate. Enabled the AI call analysis pipeline that now processes 1,200 calls/day with structured coaching feedback.</div></div>
+        </div>
       </div>
 
       <div class="project-card">
@@ -139,6 +157,12 @@
         <h3>End-to-End Sales Lifecycle Tracking System</h3>
         <p>Unified system tracking the complete sales journey from order creation to dispatch, delivery, feedback, and rejection handling. Includes automated reminders, exception tracking, and cross-team workflow integration.</p>
         <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Apps Script</span><span>·</span><span>Workflow Design</span></div>
+        <button class="project-expand-btn"><span class="btn-text">Case Study</span> <span class="arrow">→</span></button>
+        <div class="project-case-study">
+          <div class="case-section"><div class="case-label">Problem</div><div class="case-text">Sales data existed in siloed stages — orders, dispatch, delivery, and feedback were tracked in disconnected systems with no visibility into the full lifecycle.</div></div>
+          <div class="case-section"><div class="case-label">Approach</div><div class="case-text">Designed a unified tracking system connecting all stages with automated reminders, exception flags, and cross-team workflow handoffs.</div></div>
+          <div class="case-section"><div class="case-label">Result</div><div class="case-text">Reduced order-to-delivery tracking gaps by 90%. Enabled real-time visibility into rejection patterns, driving a 15% improvement in delivery acceptance rates.</div></div>
+        </div>
       </div>
 
       <div class="project-card">
@@ -155,6 +179,12 @@
         <h3>SCOT Purchase Pattern Dashboard</h3>
         <p>Behavior-driven dashboard analyzing historical buying patterns to predict future purchase cycles and enable proactive sales prioritization.</p>
         <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Data Modeling</span><span>·</span><span>Visualization</span></div>
+        <button class="project-expand-btn"><span class="btn-text">Case Study</span> <span class="arrow">→</span></button>
+        <div class="project-case-study">
+          <div class="case-section"><div class="case-label">Problem</div><div class="case-text">Sales teams had no predictive view of customer buying cycles, leading to reactive selling and missed reorder windows.</div></div>
+          <div class="case-section"><div class="case-label">Approach</div><div class="case-text">Built the SCOT (Supply Cycle Optimization Tracker) analyzing purchase history to surface predicted next-buy dates and flag overdue reorders.</div></div>
+          <div class="case-section"><div class="case-label">Result</div><div class="case-text">Field reps shifted from cold calling to data-guided prioritization. Proactive outreach increased reorder compliance and reduced churn on key accounts.</div></div>
+        </div>
       </div>
 
       <div class="project-card">
@@ -232,7 +262,7 @@
       <div class="pub-grid reveal">
         <div class="pub-card"><div class="pub-type">Published Book</div><h3>Light Enough</h3><p>A work of introspective fiction exploring quiet emotional landscapes. Available on Amazon.</p><a href="https://www.amazon.in/" target="_blank" class="pub-link">Amazon →</a></div>
         <div class="pub-card"><div class="pub-type">Published Book</div><h3>Hi Heart I Read</h3><p>A collection exploring the inner textures of thought — published under the pen name Poker Hearts.</p><a href="https://www.amazon.in/" target="_blank" class="pub-link">Amazon →</a></div>
-        <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Sessions</h3><p>A psychological thriller centered on memory distortion and therapeutic deconstruction. 10 backstory chapters + 10 therapy sessions, each tied to concepts like nostalgic rumination, memory loops, and avoidance behavior.</p></div>
+        <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Sessions</h3><p>A psychological thriller centered on memory distortion and therapeutic deconstruction. 10 backstory chapters + 10 therapy sessions, each tied to concepts like nostalgic rumination, memory loops, and avoidance behavior.</p><button class="read-fragment-btn" onclick="openModal()">Read a Fragment ✦</button></div>
         <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Chapters</h3><p>Focusing on "what-if" scenarios and introspective narratives — exploring the spaces between decisions and their alternate outcomes.</p></div>
         <div class="pub-card"><div class="pub-type">Blog · 197+ Posts</div><h3>Life of Poker Hearts</h3><p>Active since 2019. Stories, sessions, introvert diaries, and experimental fiction. 3,000 monthly visits, 70% repeat audience.</p><a href="https://pokerdeeds.blogspot.com" target="_blank" class="pub-link">Read Blog →</a></div>
         <div class="pub-card"><div class="pub-type">LinkedIn Article</div><h3>The Kintsugi Principle</h3><p>Applies the Japanese art of repairing with gold to organizational resilience — embracing imperfections for stronger systems.</p><a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="pub-link">LinkedIn →</a></div>
@@ -343,6 +373,14 @@
         <div class="cert-item"><div class="cert-dot"></div><div><div class="cert-name">Copyright Registration</div><div class="cert-source">Published Works</div></div></div>
       </div>
       <p style="text-align:center; margin-top:2rem;"><a href="https://github.com/PokerHearts/Certificates" target="_blank" class="pub-link" style="font-size:0.85rem;">View all certificates on GitHub →</a></p>
+
+      <!-- CREDENTIALS MAP -->
+      <div class="creds-map reveal">
+        <div class="creds-map-title">Knowledge Ecosystem</div>
+        <div class="creds-map-canvas">
+          <svg class="creds-lines" width="100%" height="100%"></svg>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -370,6 +408,41 @@
     </div>
     <p>© 2026 Pratap Jindal · Built with intent</p>
   </footer>
+
+  <!-- STORY MODAL -->
+  <div class="modal-overlay" id="storyModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-tag">Fragment 1 of 4</div>
+      <h3>Loading...</h3>
+      <blockquote>Loading...</blockquote>
+      <div class="excerpt-note">Loading...</div>
+    </div>
+  </div>
+
+  <!-- CHATBOT -->
+  <button class="chatbot-fab" id="chatFab" aria-label="Chat">💬</button>
+  <div class="chatbot-panel" id="chatPanel">
+    <div class="chatbot-header">
+      <h4>Ask about Pratap</h4>
+      <button id="chatClose">✕</button>
+    </div>
+    <div class="chatbot-messages" id="chatMessages">
+      <div class="chat-msg bot">Hi! I'm Pratap's portfolio assistant. Ask me about his work, management approach, writing, or anything you see here.</div>
+    </div>
+    <div class="chatbot-suggestions">
+      <span class="chat-suggestion">What does he do?</span>
+      <span class="chat-suggestion">Team leadership</span>
+      <span class="chat-suggestion">Dashboard work</span>
+      <span class="chat-suggestion">Writing & books</span>
+      <span class="chat-suggestion">AI projects</span>
+      <span class="chat-suggestion">Contact info</span>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatInput" placeholder="Ask something...">
+      <button id="chatSend">→</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

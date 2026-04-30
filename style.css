@@ -151,9 +151,9 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== SECTIONS ===== */
-.section { padding: 2.5rem 2rem; position: relative; }
+.section { padding: 5rem 2rem; position: relative; }
 .section-inner { max-width: var(--max-width); margin: 0 auto; }
-.section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+.section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
 .section-number { font-family: var(--font-serif); font-size: 0.85rem; color: var(--accent); font-weight: 600; }
 .section-title { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }

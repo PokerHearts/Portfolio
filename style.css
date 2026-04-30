@@ -98,7 +98,7 @@ img { max-width: 100%; display: block; }
 /* ===== HERO ===== */
 .hero {
   display: flex; align-items: center;
-  padding: 8rem 2rem 0.5rem; position: relative;
+  padding: 4rem 2rem 0.5rem; position: relative;
   background: linear-gradient(170deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 .hero::before {

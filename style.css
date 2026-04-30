@@ -151,9 +151,9 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== SECTIONS ===== */
-.section { padding: 5rem 2rem; position: relative; }
+.section { padding: 1.5rem 2rem; position: relative; }
 .section-inner { max-width: var(--max-width); margin: 0 auto; }
-.section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
+.section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.2rem; }
 .section-number { font-family: var(--font-serif); font-size: 0.85rem; color: var(--accent); font-weight: 600; }
 .section-title { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
 .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }
@@ -180,7 +180,7 @@ img { max-width: 100%; display: block; }
 /* ===== EXPERIENCE TIMELINE ===== */
 .timeline { position: relative; padding-left: 2rem; }
 .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
-.timeline-item { position: relative; padding-bottom: 2.5rem; }
+.timeline-item { position: relative; padding-bottom: 1.5rem; }
 .timeline-item:last-child { padding-bottom: 0; }
 .timeline-item::before {
   content: ''; position: absolute; left: -2rem; top: 6px;
@@ -343,7 +343,7 @@ img { max-width: 100%; display: block; }
   .nav-links.open { display: flex; }
   .nav-toggle { display: block; }
   .hero-meta { gap: 1.5rem; }
-  .section { padding: 3.5rem 1.25rem; }
+  .section { padding: 1.5rem 1.25rem; }
 }
 
 @media (max-width: 480px) {

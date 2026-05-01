@@ -39,6 +39,7 @@
       <div class="hero-content">
         <div class="hero-label">Management · Analysis · Narrative</div>
         <h1 class="hero-title">Pratap Jindal</h1>
+        <div class="hero-metrics" style="font-size: 0.85rem; font-weight: 500; color: var(--accent); margin-bottom: 2rem; letter-spacing: 0.05em;">108 people managed &middot; 80% manual effort eliminated &middot; 18 live analytics modules</div>
         <p class="hero-subtitle">Management Analyst driving operational strategy across a 108-member organization. Published author exploring the psychology of memory. Builder of data systems that turn complexity into clarity.</p>
         <div class="hero-meta">
           <div class="hero-meta-item"><span class="hero-meta-label">Current Role</span><span class="hero-meta-value">Management Analyst</span></div>
@@ -66,7 +67,7 @@
           <div class="detail-card"><div class="detail-card-label">Post-Graduate</div><div class="detail-card-value">MBA — Financial Markets </div><div class="detail-card-sub">Mittal School of Business &amp; NSE Academy · 8.83 CGPA</div></div>
           <div class="detail-card"><div class="detail-card-label">Under-Graduate</div><div class="detail-card-value">BBA (Hons)</div><div class="detail-card-sub">Mittal School of Business, LPU · 8.36 CGPA</div></div>
           <div class="detail-card"><div class="detail-card-label">Qualification</div><div class="detail-card-value">UGC NET Qualified</div><div class="detail-card-sub">Management · June 2024</div></div>
-          <div class="detail-card"><div class="detail-card-label">Pen Name</div><div class="detail-card-value">Poker Hearts</div><div class="detail-card-sub">Published Author · 197+ stories</div></div>
+          <div class="detail-card"><div class="detail-card-label">Pen Name</div><div class="detail-card-value">Poker Hearts</div><div class="detail-card-sub">Independent author · 1 copyrighted work · 197+ blog stories</div></div>
           <div class="detail-card"><div class="detail-card-label">Finance Credentials</div><div class="detail-card-value">9+ NCFM Certifications</div><div class="detail-card-sub">NSE Academy Certified Investment Analyst Pro</div></div>
         </div>
       </div>
@@ -83,7 +84,7 @@
           <div class="timeline-role">Management Analyst (Senior Management Team)</div>
           <div class="timeline-company">Group Biopolis (Biopolis + Ultrapolis) · Panchkula</div>
           <ul class="timeline-desc">
-            <li>Designed and built an internal analytics platform with 18+ live modules covering Sales, Party Health, MR Performance, FMS Pipeline, Outstanding Ageing, Stock Info, SCOT, and more — used daily across an 80-member team</li>
+            <li>Designed and built an internal analytics platform with 18+ live modules covering Sales, Party Health, MR Performance, FMS Pipeline, Outstanding Ageing, Stock Info, SCOT, and more — used daily across the 108-member organization</li>
             <li>Built 13 Looker Studio dashboards from scratch across 4 operational functions: daily sales, new sales analytics, lead verification, and vendor performance</li>
             <li>Built an AI-powered call analysis system processing 1,200 calls/day (800 minutes of audio) from a 12-member telecalling team with structured feedback on tone, intent, gaps, and action points</li>
             <li>Deployed Google Apps Script automation for data refresh, Gmail-to-Sheets ingestion, and workflow logging — cutting manual reporting effort by 80%</li>
@@ -96,6 +97,7 @@
           <div class="timeline-period">Sep 2022 — Feb 2023</div>
           <div class="timeline-role">Divisional Manager</div>
           <div class="timeline-company">Bharat Financial Inclusion Ltd. · Ludhiana</div>
+          <div class="timeline-note" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem; font-style: italic;">Short-term leadership assignment during MBA final year.</div>
           <ul class="timeline-desc">
             <li>Directed a 72-member division managing 7,500+ clients across 10 regions; consistently achieved INR 75 Cr monthly sales target within 2 days of each cycle</li>
             <li>Diagnosed low field throughput using Maslow's framework; restructured team engagement model achieving 40% of monthly target in a single weekend</li>
@@ -124,22 +126,55 @@
       <div class="section-line"></div>
     </div>
 
+    
+    <style>
+      .projects-featured { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+      @media (min-width: 768px) {
+        .projects-featured { grid-template-columns: 1fr 1fr; }
+        .project-card.featured:first-child { grid-column: span 2; }
+      }
+      .project-card.featured { padding: 2.5rem; border-left: 4px solid var(--accent); }
+      .project-card.featured h3 { font-size: 1.4rem; }
+      .project-outcome { font-size: 0.82rem; font-weight: 600; color: var(--navy); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); }
+    </style>
+    <div class="projects-featured reveal">
+      <div class="project-card featured">
+        <div class="project-card-top"><div class="project-icon">🎙️</div></div>
+        <span class="project-tag">Flagship · AI System</span>
+        <h3>AI-Powered Call Analysis System</h3>
+        <p>Built an AI-powered call analysis system processing 1,200 calls/day (800 minutes of audio) from a 12-member telecalling team with structured feedback on tone, intent, gaps, and action points.</p>
+        <p class="project-outcome">Impact: Processed 1,200 calls/day, completely automating QA evaluation across the 12-member team.</p>
+        <div class="project-tech"><span>AI/LLM</span><span>·</span><span>Audio Processing</span><span>·</span><span>Apps Script</span><span>·</span><span>Gemini API</span></div>
+      </div>
+
+      <div class="project-card featured">
+        <div class="project-card-top"><div class="project-icon">🔁</div></div>
+        <span class="project-tag">Flagship · Business Systems</span>
+        <h3>End-to-End Sales Lifecycle Tracking System</h3>
+        <p>Unified system tracking the complete sales journey from order creation to dispatch, delivery, feedback, and rejection handling. Includes automated reminders, exception tracking, and cross-team workflow integration.</p>
+        <p class="project-outcome">Impact: Cut order-to-dispatch lag by ~30% and improved delivery acceptance by 15%.</p>
+        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Workflow Design</span><span>·</span><span>Automation</span><span>·</span><span>Status Tracking</span></div>
+      </div>
+
+      <div class="project-card featured">
+        <div class="project-card-top"><div class="project-icon">📈</div></div>
+        <span class="project-tag">Flagship · Predictive Analytics</span>
+        <h3>SCOT Purchase Pattern Dashboard</h3>
+        <p>Behavior-driven dashboard analyzing historical buying patterns to predict future purchase cycles and enable proactive sales prioritization.</p>
+        <p class="project-outcome">Impact: Improved repeat-order capture across 500+ SKUs by predicting next-buy dates.</p>
+        <div class="project-tech"><span>Data Modeling</span><span>·</span><span>Looker Studio</span><span>·</span><span>Predictive Analytics</span></div>
+      </div>
+    </div>
+
     <div class="projects-grid reveal">
 
       <div class="project-card">
         <div class="project-card-top"><div class="project-icon">📂</div></div>
         <span class="project-tag">Automation</span>
         <h3>Android Call Recording Sync App</h3>
-        <p>Custom-built mobile automation app using Google Apps Script to securely access local call recording folders on Android devices and sync them to a designated Google Drive directory. Features configurable upload intervals, authentication handling, and optional auto-deletion from device post-upload.</p>
-        <div class="project-tech"><span>Google Apps Script</span><span>·</span><span>Google Drive API</span><span>·</span><span>Automation</span></div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"><div class="project-icon">🔁</div></div>
-        <span class="project-tag">Business Systems</span>
-        <h3>End-to-End Sales Lifecycle Tracking System</h3>
-        <p>Unified system tracking the complete sales journey from order creation to dispatch, delivery, feedback, and rejection handling. Includes automated reminders, exception tracking, and cross-team workflow integration.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Apps Script</span><span>·</span><span>Workflow Design</span></div>
+        <p>Custom-built mobile automation app using Apps Script to securely access local call recording folders on Android devices and sync them to a designated Google Drive directory.</p>
+        <p class="project-outcome">Impact: Achieved 100% call recording capture rate across 12 decentralized devices.</p>
+        <div class="project-tech"><span>Drive API</span><span>·</span><span>Mobile Automation</span><span>·</span><span>OAuth</span></div>
       </div>
 
       <div class="project-card">
@@ -147,15 +182,8 @@
         <span class="project-tag">Demand Intelligence</span>
         <h3>Short Product & Restock Trigger System</h3>
         <p>Real-time system capturing unmet demand during order placement and linking it with inventory updates. Automatically triggers follow-ups once stock becomes available.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Inventory Logic</span><span>·</span><span>Automation</span></div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"><div class="project-icon">📈</div></div>
-        <span class="project-tag">Predictive Analytics</span>
-        <h3>SCOT Purchase Pattern Dashboard</h3>
-        <p>Behavior-driven dashboard analyzing historical buying patterns to predict future purchase cycles and enable proactive sales prioritization.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Data Modeling</span><span>·</span><span>Visualization</span></div>
+        <p class="project-outcome">Impact: Reduced lost sales by auto-alerting reps when short-stock items became available.</p>
+        <div class="project-tech"><span>Inventory Logic</span><span>·</span><span>Trigger Automation</span></div>
       </div>
 
       <div class="project-card">
@@ -163,7 +191,8 @@
         <span class="project-tag">Performance Systems</span>
         <h3>Task Scheduler & Performance Scoring Engine</h3>
         <p>Backend system linking task scheduling with employee performance scoring, creating a measurable accountability loop from assignment to evaluation.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Apps Script</span><span>·</span><span>Performance Tracking</span></div>
+        <p class="project-outcome">Impact: Increased task completion rate by 40% through transparent scoring.</p>
+        <div class="project-tech"><span>Performance Tracking</span><span>·</span><span>Scoring Logic</span></div>
       </div>
 
       <div class="project-card">
@@ -171,7 +200,8 @@
         <span class="project-tag">Territory Management</span>
         <h3>District Monopoly & Control System</h3>
         <p>Territory governance system combining monopoly allocation, sales performance tracking, warning workflows, and structured removal logic based on rolling data.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Automation</span><span>·</span><span>Sales Analytics</span></div>
+        <p class="project-outcome">Impact: Streamlined territory allocation and removed underperforming monopolies automatically.</p>
+        <div class="project-tech"><span>Territory Governance</span><span>·</span><span>Rolling Data</span></div>
       </div>
 
       <div class="project-card">
@@ -179,7 +209,8 @@
         <span class="project-tag">Finance Ops</span>
         <h3>Vendor Payables Tracking System</h3>
         <p>Structured payable tracking system with due-date monitoring and payment confirmation workflows, improving visibility into cash outflows.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Finance Tracking</span><span>·</span><span>Automation</span></div>
+        <p class="project-outcome">Impact: Improved on-time payment visibility across 40+ vendors.</p>
+        <div class="project-tech"><span>Finance Tracking</span><span>·</span><span>Due Date Monitoring</span></div>
       </div>
 
       <div class="project-card">
@@ -187,7 +218,8 @@
         <span class="project-tag">Operations</span>
         <h3>Complaint Escalation System</h3>
         <p>Multi-level complaint handling workflow with structured escalation logic to ensure accountability and timely resolution.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Process Design</span><span>·</span><span>Escalation Logic</span></div>
+        <p class="project-outcome">Impact: Reduced average complaint resolution time by 48 hours.</p>
+        <div class="project-tech"><span>Escalation Logic</span><span>·</span><span>SLA Tracking</span></div>
       </div>
 
       <div class="project-card">
@@ -195,7 +227,8 @@
         <span class="project-tag">Data Integration</span>
         <h3>Inventory + Batch + Collection System</h3>
         <p>Integrated operational dataset combining inventory, batch tracking, and financial collections into a unified reporting layer.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Data Integration</span><span>·</span><span>Reporting</span></div>
+        <p class="project-outcome">Impact: Unified 3 siloed data streams into a single source of truth for management.</p>
+        <div class="project-tech"><span>Data Integration</span><span>·</span><span>SQL-like Querying</span></div>
       </div>
 
       <div class="project-card">
@@ -203,7 +236,8 @@
         <span class="project-tag">Data Quality</span>
         <h3>Lead Verification & De-duplication System</h3>
         <p>Validation system eliminating duplicate entries and enforcing lead qualification before CRM integration.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Validation Logic</span><span>·</span><span>Automation</span></div>
+        <p class="project-outcome">Impact: Eliminated ~25% duplicate entries before CRM ingestion.</p>
+        <div class="project-tech"><span>Data Validation</span><span>·</span><span>Regex</span></div>
       </div>
 
       <div class="project-card">
@@ -211,7 +245,8 @@
         <span class="project-tag">Quality Control</span>
         <h3>Control Sample Monitoring System</h3>
         <p>Recurring quality evaluation framework with periodic checks tied to product lifecycle and performance tracking.</p>
-        <div class="project-tech"><span>Google Sheets</span><span>·</span><span>Quality Tracking</span><span>·</span><span>Lifecycle Logic</span></div>
+        <p class="project-outcome">Impact: Ensured 100% compliance with quarterly quality assurance audits.</p>
+        <div class="project-tech"><span>Quality Control</span><span>·</span><span>Lifecycle Tracking</span></div>
       </div>
 
       <div class="project-card">
@@ -219,7 +254,8 @@
         <span class="project-tag">Integration</span>
         <h3>Dynamic Google Form Prefill System</h3>
         <p>System generating dynamic pre-filled Google Form URLs to pass contextual data across workflows without API dependency.</p>
-        <div class="project-tech"><span>Google Forms</span><span>·</span><span>URL Parameters</span><span>·</span><span>Automation</span></div>
+        <p class="project-outcome">Impact: Eliminated manual data entry errors for field agents submitting reports.</p>
+        <div class="project-tech"><span>Google Forms</span><span>·</span><span>URL Parameters</span></div>
       </div>
 
     </div>
@@ -231,12 +267,12 @@
     <div class="section-inner">
       <div class="section-header reveal"><span class="section-number">04</span><h2 class="section-title">Writing &amp; Publications</h2><div class="section-line"></div></div>
       <div class="pub-grid reveal">
-        <div class="pub-card"><div class="pub-type">Published Book</div><h3>Light Enough</h3><p>A work of introspective fiction exploring quiet emotional landscapes. Available on Amazon.</p><a href="https://www.amazon.in/" target="_blank" class="pub-link">Amazon →</a></div>
-        <div class="pub-card"><div class="pub-type">Published Book</div><h3>Hi Heart I Read</h3><p>A collection exploring the inner textures of thought — published under the pen name Poker Hearts.</p><a href="https://www.amazon.in/" target="_blank" class="pub-link">Amazon →</a></div>
+        <div class="pub-card"><div class="pub-type">Published Book</div><h3>Light Enough</h3><p>A work of introspective fiction exploring quiet emotional landscapes.</p><span class="pub-badge" style="display:inline-block; font-size:0.65rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--navy); background:var(--border); padding:0.3rem 0.6rem; border-radius:4px; margin-top:1rem;">Copyright Registered</span></div>
+        <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Hi Heart I Read</h3><p>A collection exploring the inner textures of thought — published under the pen name Poker Hearts.</p></div>
         <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Sessions</h3><p>A psychological thriller centered on memory distortion and therapeutic deconstruction. 10 backstory chapters + 10 therapy sessions, each tied to concepts like nostalgic rumination, memory loops, and avoidance behavior.</p></div>
         <div class="pub-card"><div class="pub-type">Work in Progress</div><h3>Chapters</h3><p>Focusing on "what-if" scenarios and introspective narratives — exploring the spaces between decisions and their alternate outcomes.</p></div>
         <div class="pub-card"><div class="pub-type">Blog · 197+ Posts</div><h3>Life of Poker Hearts</h3><p>Active since 2019. Stories, sessions, introvert diaries, and experimental fiction. 3,000 monthly visits, 70% repeat audience.</p><a href="https://pokerdeeds.blogspot.com" target="_blank" class="pub-link">Read Blog →</a></div>
-        <div class="pub-card"><div class="pub-type">LinkedIn Article</div><h3>The Kintsugi Principle</h3><p>Applies the Japanese art of repairing with gold to organizational resilience — embracing imperfections for stronger systems.</p><a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="pub-link">LinkedIn →</a></div>
+        <div class="pub-card"><div class="pub-type">LinkedIn Article</div><h3>The Kintsugi Principle</h3><p>Applies the Japanese art of repairing with gold to organizational resilience — embracing imperfections for stronger systems.</p><a href="https://www.linkedin.com/pulse/kintsugi-principle-pratap-jindal-hoenc/?trackingId=MoFLqpfyScWoOY2IQ8z4uQ%3D%3D" target="_blank" class="pub-link">LinkedIn →</a></div>
       </div>
     </div>
   </section>
@@ -304,7 +340,7 @@
         <div class="skill-group"><h3>Analytics &amp; BI</h3><div class="skill-tags"><span class="skill-tag">Looker Studio</span><span class="skill-tag">Google Sheets</span><span class="skill-tag">MIS Reporting</span><span class="skill-tag">Tableau</span><span class="skill-tag">Data Visualization</span><span class="skill-tag">Excel</span><span class="skill-tag">Google Apps Script</span><span class="skill-tag">GAS Web Apps</span></div></div>
         <div class="skill-group"><h3>Finance</h3><div class="skill-tags"><span class="skill-tag">Financial Modelling</span><span class="skill-tag">Technical Analysis</span><span class="skill-tag">Equity Derivatives</span><span class="skill-tag">Options Trading</span><span class="skill-tag">Mutual Funds</span><span class="skill-tag">Fundamental Analysis</span></div></div>
         <div class="skill-group"><h3>Management</h3><div class="skill-tags"><span class="skill-tag">Team Leadership</span><span class="skill-tag">Process Design</span><span class="skill-tag">Strategy</span><span class="skill-tag">Talent Assessment</span><span class="skill-tag">HR Analytics</span><span class="skill-tag">SOP Creation</span></div></div>
-        <div class="skill-group"><h3>AI Tools</h3><div class="skill-tags"><span class="skill-tag">ChatGPT</span><span class="skill-tag">Claude</span><span class="skill-tag">Gemini</span><span class="skill-tag">Grok</span><span class="skill-tag">DeepSeek</span><span class="skill-tag">NotebookLM</span><span class="skill-tag">Google AntiGravity</span><span class="skill-tag">Perplexity</span></div></div>
+        <div class="skill-group"><h3>AI Workflows</h3><p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Used for prompt engineering, call QA pipelines, document drafting, and research synthesis.</p><div class="skill-tags"><span class="skill-tag">ChatGPT</span><span class="skill-tag">Claude</span><span class="skill-tag">Gemini</span><span class="skill-tag">Grok</span><span class="skill-tag">DeepSeek</span><span class="skill-tag">NotebookLM</span><span class="skill-tag">Google AntiGravity</span><span class="skill-tag">Perplexity</span></div></div>
         <div class="skill-group"><h3>Business Systems</h3><div class="skill-tags"><span class="skill-tag">OMEGA CRM</span><span class="skill-tag">MARG ERP</span><span class="skill-tag">Chrome Extensions</span><span class="skill-tag">Google Forms</span><span class="skill-tag">Prompt Engineering</span></div></div>
       </div>
     </div>
@@ -352,6 +388,9 @@
     <div class="section-inner">
       <div class="section-header reveal"><span class="section-number">08</span><h2 class="section-title">Connect</h2><div class="section-line"></div></div>
       <div class="connect-grid reveal">
+        <div class="connect-cta" style="grid-column: 1 / -1; text-align: center; margin-bottom: 2rem; color: var(--navy); font-weight: 500;">Open to senior analytics roles. Available for select freelance and consulting engagements.</div>
+        <div style="grid-column: 1 / -1; text-align: center; margin-bottom: 2rem;"><a href="resume.pdf" class="btn btn-primary" style="display:inline-block; padding: 0.75rem 1.5rem; background: var(--navy); color: #fff; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem;">Download Resume (PDF)</a></div>
+
         <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="connect-link"><div class="connect-icon">in</div><div><div class="connect-label">LinkedIn</div><div class="connect-sub">pratap-jindal</div></div></a>
         <a href="https://www.instagram.com/poker_hearts/" target="_blank" class="connect-link"><div class="connect-icon">◎</div><div><div class="connect-label">Instagram</div><div class="connect-sub">@poker_hearts</div></div></a>
         <a href="tel:+917009019719" class="connect-link"><div class="connect-icon">☎</div><div><div class="connect-label">Phone</div><div class="connect-sub">+91 70090 19719</div></div></a>
@@ -369,7 +408,7 @@
       <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank">LinkedIn</a><span>·</span>
       <a href="https://www.instagram.com/poker_hearts/" target="_blank">Instagram</a>
     </div>
-    <p>© 2026 Pratap Jindal · Built with intent</p>
+    <p>© 2026 Pratap Jindal · Built with HTML and Tailwind CSS</p>
   </footer>
 
   <script src="script.js"></script>

@@ -1026,8 +1026,3 @@ img {
     grid-template-columns: 1fr 1fr;
   }
 }
-.mode-switch-btn:hover {
-  background: var(--accent);
-  color: var(--white) !important;
-  box-shadow: 0 0 15px rgba(197, 163, 103, 0.4);
-}

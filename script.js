@@ -1,3 +1,4 @@
+// ===== NAVIGATION =====
 const nav = document.getElementById('nav');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
@@ -20,6 +21,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   });
 });
 
+// ===== SCROLL REVEAL =====
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {

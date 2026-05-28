@@ -906,7 +906,10 @@ document.addEventListener('DOMContentLoaded', () => {
   rotateIdentityQuote();
 
   // === THREE-STATE THEME PRESET SWITCH CONTROLLER ===
-  const themeToggleBtn = document.getElementById('themeToggle');
+  const btnSwitchCorporate = document.getElementById('btnSwitchCorporate');
+  const btnSwitchSanatan = document.getElementById('btnSwitchSanatan');
+  const btnSwitchPlain = document.getElementById('btnSwitchPlain');
+  
   const heroSpiritualSubtitle = document.getElementById('heroSpiritualSubtitle');
   const heroBadgeText = document.getElementById('heroBadgeText');
   const footerCopyright = document.getElementById('footerCopyright');
@@ -915,15 +918,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remove all classes first
     document.body.classList.remove('sanatan-theme', 'plain-theme');
     
-    const iconSpan = themeToggleBtn ? themeToggleBtn.querySelector('.toggle-icon') : null;
-    const textSpan = themeToggleBtn ? themeToggleBtn.querySelector('.toggle-text') : null;
+    // Hide active button, show remaining two
+    if (btnSwitchCorporate && btnSwitchSanatan && btnSwitchPlain) {
+      if (theme === 'corporate') {
+        btnSwitchCorporate.style.display = 'none';
+        btnSwitchSanatan.style.display = 'flex';
+        btnSwitchPlain.style.display = 'flex';
+      } else if (theme === 'sanatan') {
+        btnSwitchCorporate.style.display = 'flex';
+        btnSwitchSanatan.style.display = 'none';
+        btnSwitchPlain.style.display = 'flex';
+      } else if (theme === 'plain') {
+        btnSwitchCorporate.style.display = 'flex';
+        btnSwitchSanatan.style.display = 'flex';
+        btnSwitchPlain.style.display = 'none';
+      }
+    }
     
     if (theme === 'corporate') {
       isSanatanTheme = false;
-      
-      if (iconSpan) iconSpan.textContent = "🦚";
-      if (textSpan) textSpan.textContent = "Sanatan";
-      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-glass)";
       
       // Dynamic texts swap
       if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
@@ -943,10 +956,6 @@ document.addEventListener('DOMContentLoaded', () => {
       isSanatanTheme = true;
       document.body.classList.add('sanatan-theme');
       
-      if (iconSpan) iconSpan.textContent = "📖";
-      if (textSpan) textSpan.textContent = "Plain";
-      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-active)";
-      
       // Dynamic texts swap
       if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'block';
       if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Hare Krishna 🦚";
@@ -964,10 +973,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (theme === 'plain') {
       isSanatanTheme = false;
       document.body.classList.add('plain-theme');
-      
-      if (iconSpan) iconSpan.textContent = "💼";
-      if (textSpan) textSpan.textContent = "Corporate";
-      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-active)";
       
       // Dynamic texts swap
       if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
@@ -994,15 +999,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply initially saved or default theme
   applyTheme(themes[currentThemeIndex]);
 
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-      const newTheme = themes[currentThemeIndex];
-      applyTheme(newTheme);
-      localStorage.setItem('pj-helix-theme', newTheme);
-      
-      const themeLabel = newTheme === 'corporate' ? 'Corporate Executive' : newTheme === 'sanatan' ? 'Karma Yoga Devotion' : 'Plain Readable';
-      showToast(`Theme updated: ${themeLabel}`);
+  // Bind click listeners on distinct switcher buttons
+  if (btnSwitchCorporate) {
+    btnSwitchCorporate.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('corporate');
+      applyTheme('corporate');
+      localStorage.setItem('pj-helix-theme', 'corporate');
+      showToast("Theme updated: Corporate Executive");
+    });
+  }
+  if (btnSwitchSanatan) {
+    btnSwitchSanatan.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('sanatan');
+      applyTheme('sanatan');
+      localStorage.setItem('pj-helix-theme', 'sanatan');
+      showToast("Theme updated: Karma Yoga Devotion");
+    });
+  }
+  if (btnSwitchPlain) {
+    btnSwitchPlain.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('plain');
+      applyTheme('plain');
+      localStorage.setItem('pj-helix-theme', 'plain');
+      showToast("Theme updated: Plain Readable");
     });
   }
 

@@ -1995,6 +1995,9 @@ a:hover {
 .theme-toggle-wrapper {
   margin-left: 1.5rem;
   z-index: 1010;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .theme-toggle-btn {

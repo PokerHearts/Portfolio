@@ -918,21 +918,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remove all classes first
     document.body.classList.remove('sanatan-theme', 'plain-theme');
     
-    // Hide active button, show remaining two
+    // Highlight the active button in the segmented control, showing all three
     if (btnSwitchCorporate && btnSwitchSanatan && btnSwitchPlain) {
-      if (theme === 'corporate') {
-        btnSwitchCorporate.style.display = 'none';
-        btnSwitchSanatan.style.display = 'flex';
-        btnSwitchPlain.style.display = 'flex';
-      } else if (theme === 'sanatan') {
-        btnSwitchCorporate.style.display = 'flex';
-        btnSwitchSanatan.style.display = 'none';
-        btnSwitchPlain.style.display = 'flex';
-      } else if (theme === 'plain') {
-        btnSwitchCorporate.style.display = 'flex';
-        btnSwitchSanatan.style.display = 'flex';
-        btnSwitchPlain.style.display = 'none';
-      }
+      btnSwitchCorporate.style.display = 'flex';
+      btnSwitchSanatan.style.display = 'flex';
+      btnSwitchPlain.style.display = 'flex';
+      
+      btnSwitchCorporate.classList.toggle('active', theme === 'corporate');
+      btnSwitchSanatan.classList.toggle('active', theme === 'sanatan');
+      btnSwitchPlain.classList.toggle('active', theme === 'plain');
     }
     
     if (theme === 'corporate') {

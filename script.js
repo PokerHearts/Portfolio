@@ -782,7 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (briefForm && successOverlay) {
     briefForm.addEventListener('submit', (e) => {
-      // Do NOT preventDefault() to allow native submission to the target hidden iframe
+      e.preventDefault();
       
       const company = document.getElementById('briefCompany').value.trim();
       const rawBudget = document.getElementById('briefRange').value;
@@ -798,6 +798,30 @@ document.addEventListener('DOMContentLoaded', () => {
                    `• Timeline / Urgency: ${urgency}\n\n` +
                    `• Job Description / Scope Parameters:\n${jd}\n\n` +
                    `Best regards,\n${company}`;
+
+      // Google Form Silent Autosubmission via fetch (mode: 'no-cors' simple request to bypass CORS restrictions silently)
+      const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwbMK8Iaf0n-o5GbA4OlloW0RlQrGr9G6sMjSxj8DYWSdaSQ/formResponse";
+      const formData = new URLSearchParams();
+      formData.append('entry.1743451334', company);
+      formData.append('entry.1105308269', rawBudget);
+      formData.append('entry.18600838', urgency);
+      formData.append('entry.1473890577', jd);
+      formData.append('entry.767287326', contact);
+
+      fetch(googleFormUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData
+      })
+      .then(() => {
+        console.log("Strategic brief successfully autosubmitted to Google Form via background fetch.");
+      })
+      .catch((err) => {
+        console.warn("Autosubmit request registered silently:", err);
+      });
 
       // Render simplified success overlay UI
       successOverlay.innerHTML = `

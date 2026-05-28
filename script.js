@@ -784,12 +784,19 @@ document.addEventListener('DOMContentLoaded', () => {
     briefForm.addEventListener('submit', (e) => {
       // Do NOT preventDefault() to allow native submission to the target hidden iframe
       
-      // Dynamically rotate target name to bypass browser-level cross-origin consecutive submission guards
+      // Dynamically recreate a new target iframe to bypass browser consecutive submission blocks and prevent new tab opening fallbacks
       const uniqueIframeName = 'hidden_iframe_' + Date.now();
-      const hiddenIframe = document.getElementById('hidden_iframe');
-      if (hiddenIframe) {
-        hiddenIframe.name = uniqueIframeName;
+      const oldIframe = document.getElementById('dynamic_hidden_iframe');
+      if (oldIframe) {
+        oldIframe.parentNode.removeChild(oldIframe);
       }
+      
+      const newIframe = document.createElement('iframe');
+      newIframe.id = 'dynamic_hidden_iframe';
+      newIframe.name = uniqueIframeName;
+      newIframe.style.display = 'none';
+      document.body.appendChild(newIframe);
+      
       briefForm.setAttribute('target', uniqueIframeName);
       
       const company = document.getElementById('briefCompany').value.trim();

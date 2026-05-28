@@ -1,7 +1,7 @@
 /* ==========================================================================
    DESIGN SYSTEM & VARIABLES (Bright Spatial Digital Theme)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Playfair+Display:wght@600;700&display=swap');
 
 :root {
   /* Harmonious Light Palette - Systems Intelligence */
@@ -108,6 +108,62 @@ body.sanatan-theme .system-radial-glow {
   background: 
     radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.04) 0%, transparent 45%),
     radial-gradient(circle at 90% 80%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
+}
+
+/* ==========================================================================
+   PLAIN THEME PRESET VARIABLES
+   ========================================================================== */
+body.plain-theme {
+  --bg-spatial: #faf8f5;
+  --bg-surface: #ffffff;
+  --bg-surface-solid: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-panel-hover: #fdfcfa;
+  
+  --border-glass: #e4dfd6;
+  --border-light: #e4dfd6;
+  --border-active: #8b6f47;
+  --border-accent: #8b6f47;
+  
+  --color-primary: #1a1a2e;
+  --color-secondary: #4a4a5a;
+  --color-muted: #8a8a96;
+  
+  --accent-blue: #8b6f47;
+  --accent-purple: #8b6f47;
+  --accent-teal: #8b6f47;
+  --accent-glow: rgba(139, 111, 71, 0.04);
+  
+  --grad-primary: linear-gradient(135deg, #8b6f47, #a0824f);
+  --grad-soft: linear-gradient(135deg, rgba(139, 111, 71, 0.05), rgba(160, 130, 79, 0.05));
+  --grad-bright: linear-gradient(180deg, #faf8f5 0%, #f2efe9 100%);
+  
+  --font-display: 'Playfair Display', Georgia, serif;
+  
+  --shadow-ambient: 0 4px 30px rgba(0, 0, 0, 0.01);
+  --shadow-card: 0 10px 40px -10px rgba(26, 26, 46, 0.02), 0 1px 1px rgba(0, 0, 0, 0.01);
+  --shadow-hover: 0 20px 50px -12px rgba(139, 111, 71, 0.08), 0 1px 2px rgba(139, 111, 71, 0.01);
+  --shadow-inset: none;
+}
+
+body.plain-theme .system-grid-overlay,
+body.plain-theme .system-radial-glow,
+body.plain-theme #webgl-canvas {
+  display: none !important;
+}
+
+body.plain-theme .glass-card {
+  background: var(--bg-surface-solid) !important;
+  border: 1px solid var(--border-glass) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+body.plain-theme .glass-card:hover {
+  background: var(--bg-panel-hover) !important;
+  border-color: var(--border-active) !important;
+  box-shadow: var(--shadow-hover) !important;
 }
 
 /* ==========================================================================

@@ -9,6 +9,8 @@ const maxDistance = 9;
 let nodeMaterial; // Declared globally for dynamic theme interpolation
 let spiritualTextGroup; // Group container for dynamic spiritual floating text sprites
 let isSanatanTheme = false;
+const themes = ['corporate', 'sanatan', 'plain'];
+let currentThemeIndex = 0;
 
 // Memorable Identity Quotes (Rotating on Refresh)
 const corporateQuotes = [
@@ -231,6 +233,7 @@ function setupCameraScrollChoreography() {
 // Core WebGL Frame Animation Render Loop
 function animate() {
   requestAnimationFrame(animate);
+  if (themes[currentThemeIndex] === 'plain') return; // Skip updating and rendering when in Plain Reading Mode!
 
   const time = Date.now() * 0.0008;
 
@@ -902,61 +905,104 @@ document.addEventListener('DOMContentLoaded', () => {
   // Rotate once on initial page load
   rotateIdentityQuote();
 
-  // === DUAL-THEME PRESET SWITCH CONTROLLER ===
+  // === THREE-STATE THEME PRESET SWITCH CONTROLLER ===
   const themeToggleBtn = document.getElementById('themeToggle');
   const heroSpiritualSubtitle = document.getElementById('heroSpiritualSubtitle');
   const heroBadgeText = document.getElementById('heroBadgeText');
   const footerCopyright = document.getElementById('footerCopyright');
   
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      isSanatanTheme = !isSanatanTheme;
-      document.body.classList.toggle('sanatan-theme', isSanatanTheme);
+  function applyTheme(theme) {
+    // Remove all classes first
+    document.body.classList.remove('sanatan-theme', 'plain-theme');
+    
+    const iconSpan = themeToggleBtn ? themeToggleBtn.querySelector('.toggle-icon') : null;
+    const textSpan = themeToggleBtn ? themeToggleBtn.querySelector('.toggle-text') : null;
+    
+    if (theme === 'corporate') {
+      isSanatanTheme = false;
       
-      const iconSpan = themeToggleBtn.querySelector('.toggle-icon');
-      const textSpan = themeToggleBtn.querySelector('.toggle-text');
+      if (iconSpan) iconSpan.textContent = "🦚";
+      if (textSpan) textSpan.textContent = "Sanatan";
+      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-glass)";
       
-      if (isSanatanTheme) {
-        if (iconSpan) iconSpan.textContent = "💼";
-        if (textSpan) textSpan.textContent = "Corporate";
-        themeToggleBtn.style.borderColor = "var(--border-active)";
-        
-        // Dynamic texts swap
-        if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'block';
-        if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Hare Krishna 🦚";
-        if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Dedicated in Loving Devotion to Sri Krishna &middot; Hare Krishna 🦚";
-        
-        // Swapping Intro Pane text for Krishna devotion
-        const paneTextStrat = document.getElementById('textStrategic');
-        if (paneTextStrat) {
-          paneTextStrat.innerHTML = `I operate at the intersection of systems optimization and deep devotion, performing every action as **Karma Yoga** — an offering to Sri Krishna. Managing a team of 108, I translate executive intent into scalable automated instruments, aligning organizational duty with absolute precision and selfless service.`;
-        }
-        
-        showToast("Theme updated: Devotion to Sri Krishna & Karma Yoga");
-      } else {
-        if (iconSpan) iconSpan.textContent = "🦚";
-        if (textSpan) textSpan.textContent = "Sanatan";
-        themeToggleBtn.style.borderColor = "var(--border-glass)";
-        
-        // Dynamic texts swap
-        if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
-        if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8";
-        if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Three.js";
-        
-        // Swapping Intro Pane text back to corporate identity
-        const paneTextStrat = document.getElementById('textStrategic');
-        if (paneTextStrat) {
-          paneTextStrat.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
-        }
-        
-        showToast("Theme updated: Corporate Executive Systems");
+      // Dynamic texts swap
+      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
+      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Three.js";
+      
+      // Swapping Intro Pane text back to corporate identity
+      const paneTextStrat = document.getElementById('textStrategic');
+      if (paneTextStrat) {
+        paneTextStrat.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
       }
       
-      // Update the quote dynamically
-      rotateIdentityQuote();
+      // Interpolate Three.js spatial variables
+      updateThreeTheme(false);
+      
+    } else if (theme === 'sanatan') {
+      isSanatanTheme = true;
+      document.body.classList.add('sanatan-theme');
+      
+      if (iconSpan) iconSpan.textContent = "📖";
+      if (textSpan) textSpan.textContent = "Plain";
+      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-active)";
+      
+      // Dynamic texts swap
+      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'block';
+      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Hare Krishna 🦚";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Dedicated in Loving Devotion to Sri Krishna &middot; Hare Krishna 🦚";
+      
+      // Swapping Intro Pane text for Krishna devotion
+      const paneTextStrat = document.getElementById('textStrategic');
+      if (paneTextStrat) {
+        paneTextStrat.innerHTML = `I operate at the intersection of systems optimization and deep devotion, performing every action as **Karma Yoga** — an offering to Sri Krishna. Managing a team of 108, I translate executive intent into scalable automated instruments, aligning organizational duty with absolute precision and selfless service.`;
+      }
       
       // Interpolate Three.js spatial variables
-      updateThreeTheme(isSanatanTheme);
+      updateThreeTheme(true);
+      
+    } else if (theme === 'plain') {
+      isSanatanTheme = false;
+      document.body.classList.add('plain-theme');
+      
+      if (iconSpan) iconSpan.textContent = "💼";
+      if (textSpan) textSpan.textContent = "Corporate";
+      if (themeToggleBtn) themeToggleBtn.style.borderColor = "var(--border-active)";
+      
+      // Dynamic texts swap
+      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
+      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Reading Preset 📖";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Plain Stylesheets &middot; Plain Preset 📖";
+      
+      // Revert text to standard corporate text
+      const paneTextStrat = document.getElementById('textStrategic');
+      if (paneTextStrat) {
+        paneTextStrat.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
+      }
+    }
+    
+    // Rotate the quote dynamically
+    rotateIdentityQuote();
+  }
+
+  // Restore saved theme
+  const savedTheme = localStorage.getItem('pj-helix-theme');
+  if (savedTheme && themes.includes(savedTheme)) {
+    currentThemeIndex = themes.indexOf(savedTheme);
+  }
+  
+  // Apply initially saved or default theme
+  applyTheme(themes[currentThemeIndex]);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      const newTheme = themes[currentThemeIndex];
+      applyTheme(newTheme);
+      localStorage.setItem('pj-helix-theme', newTheme);
+      
+      const themeLabel = newTheme === 'corporate' ? 'Corporate Executive' : newTheme === 'sanatan' ? 'Karma Yoga Devotion' : 'Plain Readable';
+      showToast(`Theme updated: ${themeLabel}`);
     });
   }
 

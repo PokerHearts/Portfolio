@@ -784,6 +784,14 @@ document.addEventListener('DOMContentLoaded', () => {
     briefForm.addEventListener('submit', (e) => {
       // Do NOT preventDefault() to allow native submission to the target hidden iframe
       
+      // Dynamically rotate target name to bypass browser-level cross-origin consecutive submission guards
+      const uniqueIframeName = 'hidden_iframe_' + Date.now();
+      const hiddenIframe = document.getElementById('hidden_iframe');
+      if (hiddenIframe) {
+        hiddenIframe.name = uniqueIframeName;
+      }
+      briefForm.setAttribute('target', uniqueIframeName);
+      
       const company = document.getElementById('briefCompany').value.trim();
       const rawBudget = document.getElementById('briefRange').value;
       const budget = parseInt(rawBudget).toLocaleString();

@@ -782,7 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (briefForm && successOverlay) {
     briefForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+      // Do NOT preventDefault() to allow native submission to the target hidden iframe
       
       const company = document.getElementById('briefCompany').value.trim();
       const rawBudget = document.getElementById('briefRange').value;
@@ -799,66 +799,45 @@ document.addEventListener('DOMContentLoaded', () => {
                    `• Job Description / Scope Parameters:\n${jd}\n\n` +
                    `Best regards,\n${company}`;
 
-      // Google Form Silent Autosubmission via fetch (mode: 'no-cors' simple request to bypass CORS restrictions silently)
-      const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScwbMK8Iaf0n-o5GbA4OlloW0RlQrGr9G6sMjSxj8DYWSdaSQ/formResponse";
-      const formData = new URLSearchParams();
-      formData.append('entry.1743451334', company);
-      formData.append('entry.1105308269', rawBudget);
-      formData.append('entry.18600838', urgency);
-      formData.append('entry.1473890577', jd);
-      formData.append('entry.767287326', contact);
-
-      fetch(googleFormUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: formData
-      })
-      .then(() => {
-        console.log("Strategic brief successfully autosubmitted to Google Form via background fetch.");
-      })
-      .catch((err) => {
-        console.warn("Autosubmit request registered silently:", err);
-      });
-
-      // Render simplified success overlay UI
-      successOverlay.innerHTML = `
-        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
-          <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
-            ✓
+      // Defer DOM changes and animations slightly to ensure browser completes the native post request to the hidden iframe
+      setTimeout(() => {
+        // Render simplified success overlay UI
+        successOverlay.innerHTML = `
+          <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
+              ✓
+            </div>
+            <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Submission Received</h4>
+            <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; max-width: 320px; margin-bottom: 2rem;">
+              Thanks for the response. You will be contacted on your provided information.
+            </p>
+            <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; max-width: 220px; padding: 0.7rem 1.25rem; font-size: 0.82rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-secondary) !important; cursor: pointer; transition: all 0.2s ease;">
+              🔄 Submit Another Request
+            </button>
           </div>
-          <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Submission Received</h4>
-          <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; max-width: 320px; margin-bottom: 2rem;">
-            Thanks for the response. You will be contacted on your provided information.
-          </p>
-          <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; max-width: 220px; padding: 0.7rem 1.25rem; font-size: 0.82rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-secondary) !important; cursor: pointer; transition: all 0.2s ease;">
-            🔄 Submit Another Request
-          </button>
-        </div>
-      `;
-      
-      // Animate success panel fade-in
-      successOverlay.style.display = 'flex';
-      gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
-      
-      const btnResetBrief = document.getElementById('btnResetBrief');
-      if (btnResetBrief) {
-        btnResetBrief.addEventListener('click', () => {
-          gsap.to(successOverlay, {
-            opacity: 0,
-            scale: 0.98,
-            duration: 0.25,
-            onComplete: () => {
-              successOverlay.style.display = 'none';
-              briefForm.reset();
-              const val = parseInt(briefSlider.value);
-              sliderOutput.textContent = val.toLocaleString();
-            }
+        `;
+        
+        // Animate success panel fade-in
+        successOverlay.style.display = 'flex';
+        gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
+        
+        const btnResetBrief = document.getElementById('btnResetBrief');
+        if (btnResetBrief) {
+          btnResetBrief.addEventListener('click', () => {
+            gsap.to(successOverlay, {
+              opacity: 0,
+              scale: 0.98,
+              duration: 0.25,
+              onComplete: () => {
+                successOverlay.style.display = 'none';
+                briefForm.reset();
+                const val = parseInt(briefSlider.value);
+                sliderOutput.textContent = val.toLocaleString();
+              }
+            });
           });
-        });
-      }
+        }
+      }, 100);
     });
   }
 

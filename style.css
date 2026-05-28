@@ -2235,3 +2235,74 @@ body.sanatan-theme .section-head-main {
   color: var(--color-primary);
   font-weight: 800;
 }
+
+/* ==========================================================================
+   ACTIVITIES & PURSUITS SECTION
+   ========================================================================== */
+.activities-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem;
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.activity-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.activity-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.activity-card p {
+  font-size: 0.88rem;
+  color: var(--color-secondary);
+  line-height: 1.6;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 0.5rem;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Sanatan Conditional Visibility */
+.sanatan-only {
+  display: none !important;
+}
+
+body.sanatan-theme .sanatan-only {
+  display: flex !important;
+}

@@ -799,29 +799,17 @@ document.addEventListener('DOMContentLoaded', () => {
                    `• Job Description / Scope Parameters:\n${jd}\n\n` +
                    `Best regards,\n${company}`;
 
-      // Render success overlay fallback UI
+      // Render simplified success overlay UI
       successOverlay.innerHTML = `
-        <div style="border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.25rem;">
-          <span class="mono-tag" style="background: rgba(59, 130, 246, 0.05); color: var(--accent-blue); border-color: rgba(59, 130, 246, 0.15); font-size: 0.6rem;">Brief Received</span>
-          <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary); margin-top: 0.5rem; margin-bottom: 0.25rem;">Strategic Proposal Processed</h4>
-          <p style="font-size: 0.78rem; color: var(--color-muted); line-height: 1.4;">
-            Your strategic brief has been automatically processed and securely autosubmitted in the background. We will analyze your specifications and reach out shortly. A copy of your submitted brief has been compiled below for your records.
+        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
+            ✓
+          </div>
+          <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Submission Received</h4>
+          <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; max-width: 320px; margin-bottom: 2rem;">
+            Thanks for the response. You will be contacted on your provided information.
           </p>
-        </div>
-        
-        <div style="flex-grow: 1; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
-          <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">Submitted Brief Copy</span>
-          <textarea id="briefCopyArea" readonly style="width: 100%; flex-grow: 1; min-height: 140px; background: rgba(226, 232, 240, 0.4); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 0.65rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-secondary); resize: none; outline: none;">${body}</textarea>
-        </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <button id="btnCopyBrief" class="brief-submit-btn" style="margin-top: 0; width: 100%; font-size: 0.8rem; background: var(--grad-primary); border-radius: var(--radius-sm);">
-            📋 Copy Brief to Clipboard
-          </button>
-          <button id="btnCopyEmailOnly" class="roi-select-btn" style="width: 100%; padding: 0.6rem; font-size: 0.78rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light) !important;">
-            ✉️ Copy Email Address Only
-          </button>
-          <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; padding: 0.6rem; font-size: 0.78rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-muted) !important;">
+          <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; max-width: 220px; padding: 0.7rem 1.25rem; font-size: 0.82rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-secondary) !important; cursor: pointer; transition: all 0.2s ease;">
             🔄 Submit Another Request
           </button>
         </div>
@@ -830,29 +818,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Animate success panel fade-in
       successOverlay.style.display = 'flex';
       gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
-      
-      // Bind helper copy actions
-      const btnCopyBrief = document.getElementById('btnCopyBrief');
-      if (btnCopyBrief) {
-        btnCopyBrief.addEventListener('click', () => {
-          const copyText = document.getElementById('briefCopyArea');
-          copyText.select();
-          document.execCommand('copy');
-          btnCopyBrief.textContent = "✓ Brief Copied to Clipboard";
-          showToast("Brief data copied to clipboard");
-          setTimeout(() => { btnCopyBrief.textContent = "📋 Copy Brief to Clipboard"; }, 2000);
-        });
-      }
-      
-      const btnCopyEmailOnly = document.getElementById('btnCopyEmailOnly');
-      if (btnCopyEmailOnly) {
-        btnCopyEmailOnly.addEventListener('click', () => {
-          navigator.clipboard.writeText("pratapjindal812@gmail.com");
-          btnCopyEmailOnly.textContent = "✓ Email Address Copied";
-          showToast("Corporate email copied to clipboard");
-          setTimeout(() => { btnCopyEmailOnly.textContent = "✉️ Copy Email Address Only"; }, 2000);
-        });
-      }
       
       const btnResetBrief = document.getElementById('btnResetBrief');
       if (btnResetBrief) {

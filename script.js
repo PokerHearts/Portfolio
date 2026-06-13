@@ -6,6 +6,7 @@ let nodeGroup, edgeGroup;
 let nodes = []; // 22 node meshes
 let edges = []; // 22 line meshes
 let hoveredNodeIndex = -1;
+let lastHoveredNodeIndex = -2;
 
 // Base 3D Coordinates for 22 project nodes arranged by structural clusters
 const nodeBaseCoordinates = [
@@ -379,23 +380,28 @@ function animate() {
     hoveredNodeIndex = -1;
   }
 
-  // Apply visual highlights based on hover state
-  nodes.forEach((node, idx) => {
-    let targetScale = 1.0;
-    if (idx === hoveredNodeIndex) {
-      targetScale = 1.7;
-      node.material.color.setHex(0xffaa00); // Highlight in Gold
-    } else {
-      node.material.color.setHex(getNodeColorForMode(idx));
-    }
-    node.scale.set(targetScale, targetScale, targetScale);
-  });
+  // Only update node colors, scales, and edge highlights when the hovered state changes
+  if (hoveredNodeIndex !== lastHoveredNodeIndex) {
+    // Apply visual highlights based on hover state
+    nodes.forEach((node, idx) => {
+      let targetScale = 1.0;
+      if (idx === hoveredNodeIndex) {
+        targetScale = 1.7;
+        node.material.color.setHex(0xffaa00); // Highlight in Gold
+      } else {
+        node.material.color.setHex(getNodeColorForMode(idx));
+      }
+      node.scale.set(targetScale, targetScale, targetScale);
+    });
 
-  edges.forEach(edge => {
-    const isHighlighted = (hoveredNodeIndex === edge.from || hoveredNodeIndex === edge.to);
-    edge.lineMesh.material.opacity = isHighlighted ? 0.75 : getEdgeOpacityForMode(edge.from, edge.to);
-    edge.lineMesh.material.color.setHex(isHighlighted ? 0xffaa00 : getEdgeColorForMode(edge.from, edge.to));
-  });
+    edges.forEach(edge => {
+      const isHighlighted = (hoveredNodeIndex === edge.from || hoveredNodeIndex === edge.to);
+      edge.lineMesh.material.opacity = isHighlighted ? 0.75 : getEdgeOpacityForMode(edge.from, edge.to);
+      edge.lineMesh.material.color.setHex(isHighlighted ? 0xffaa00 : getEdgeColorForMode(edge.from, edge.to));
+    });
+
+    lastHoveredNodeIndex = hoveredNodeIndex;
+  }
 
   // 4. Update graph tooltip
   const tooltip = document.getElementById('graph-tooltip');
@@ -1351,107 +1357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Strategic ROI Display rendering
-  const roiButtons = document.querySelectorAll('.roi-select-btn');
-  const roiDisplayCard = document.getElementById('roiDisplayCard');
 
-  // ROI Calculator Data
-  const roiData = {
-    hrVoice: {
-      title: "AI Voice Mock Interview Simulator & Portal",
-      outcome: "High-fidelity mock interview training sandbox",
-      align: "Senior Product Manager / Systems Lead",
-      metrics: [
-        { label: "Hours Saved", val: "Intensive job simulation prep" },
-        { label: "Operating Cost", val: "~$0.05 API cost per interview" },
-        { label: "Conversion Lift", val: "Adaptive Hindi/English dialogues" }
-      ],
-      flow: "Resume Upload (PDF.js) ➔ Hindi/English VAD dialogue loop (Web Audio/Speech APIs) ➔ Structured performance metrics ➔ Google Sheets"
-    },
-    callQA: {
-      title: "AI-Powered Call QA Analysis",
-      outcome: "100% Quality Assurance evaluation coverage",
-      align: "Chief of Staff / Analytics Lead",
-      metrics: [
-        { label: "Audio Ingested", val: "1,200 Calls / 800 mins daily" },
-        { label: "QA Hours Saved", val: "360 Hours / Month" },
-        { label: "Feedback Loop", val: "Real-time rep notifications" }
-      ],
-      flow: "Call recording folder ➔ Android sync script ➔ Drive directory ➔ Batch transcripts analysis (Gemini API) ➔ Structured Sheets"
-    },
-    b2bOrder: {
-      title: "B2B Order Booking Workspace",
-      outcome: "60% recurring B2B booking latency eliminated",
-      align: "Senior PM / Systems Architect",
-      metrics: [
-        { label: "Transaction Time", val: "Slashed from 8 mins to 45 secs" },
-        { label: "Infrastructure Cost", val: "$0.00 (Google Apps Script)" },
-        { label: "Order Accuracy", val: "100% (Zero manual typos)" }
-      ],
-      flow: "Retailers ➔ Mobile B2B catalog interface ➔ Custom token verification ➔ State storage ➔ Real-time jsPDF invoicing ➔ Transit log"
-    },
-    invPO: {
-      title: "Predictive Inventory & PO Optimizer",
-      outcome: "Chronic stock shortages cut from 17 to 2",
-      align: "Chief of Staff / Supply Operations",
-      metrics: [
-        { label: "Sales Lift", val: "20% increase on rationalized lines" },
-        { label: "Out-of-Stock Delay", val: "Reduced by 85%" },
-        { label: "Purchase Loops", val: "Fully automated moving-averages" }
-      ],
-      flow: "Out-of-stock data capture ➔ Moving averages safety parameters ➔ Auto reorder thresholds ➔ Purchase Order tracking ledgers"
-    }
-  };
-
-  function renderROI(sysKey) {
-    const data = roiData[sysKey];
-    if (!data || !roiDisplayCard) return;
-    
-    gsap.to(roiDisplayCard, {
-      opacity: 0.3,
-      y: 5,
-      duration: 0.15,
-      onComplete: () => {
-        roiDisplayCard.innerHTML = `
-          <div style="border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-              <span class="mono-tag" style="background: rgba(99, 102, 241, 0.05); color: var(--accent-purple); border-color: rgba(99, 102, 241, 0.12); font-size: 0.6rem;">${data.align}</span>
-              <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted); font-weight: 600; text-transform: uppercase;">Operational ROI</span>
-            </div>
-            <h4 style="font-size: 1.2rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.25rem;">${data.title}</h4>
-            <p style="font-size: 0.82rem; color: var(--accent-blue); font-weight: 700;">🎯 Key Value: ${data.outcome}</p>
-          </div>
-          
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;" class="roi-calculator-container">
-            ${data.metrics.map(m => `
-              <div class="roi-metric-chip">
-                <span style="font-size: 0.65rem; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em;">${m.label}</span>
-                <span style="font-size: 0.95rem; font-weight: 800; color: var(--color-primary); margin-top: 0.15rem; line-height: 1.2;">${m.val}</span>
-              </div>
-            `).join('')}
-          </div>
-          
-          <div style="background: rgba(226, 232, 240, 0.4); border: 1px solid var(--border-light); padding: 1rem; border-radius: var(--radius-sm); margin-top: auto;">
-            <span style="font-family: var(--font-mono); font-size: 0.55rem; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.5rem;">Systems Architecture Flow</span>
-            <p style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-secondary); line-height: 1.5; word-break: break-word;">${data.flow}</p>
-          </div>
-        `;
-        gsap.to(roiDisplayCard, { opacity: 1, y: 0, duration: 0.35 });
-      }
-    });
-  }
-
-  roiButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      roiButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const sysKey = btn.getAttribute('data-sys');
-      renderROI(sysKey);
-    });
-  });
-
-  // Trigger initial ROI
-  renderROI('hrVoice');
 
   // 4. Projects Filter Grid Event Wiring
   const filterPills = document.querySelectorAll('#projectFilters .filter-pill');
@@ -1809,7 +1715,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Role, Badge and Copyright copy swaps
     const heroRole = document.querySelector('.hero-role');
-    const heroIntroText = document.getElementById('textStrategic');
+    const heroIntroText = document.getElementById('heroIntroText');
 
     if (theme === 'strategy') {
       document.title = "Pratap Jindal — Strategic Systems & Analytics";

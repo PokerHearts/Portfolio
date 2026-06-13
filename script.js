@@ -1,13 +1,7 @@
 /* ==========================================================================
-   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT PARTICLES
+   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT CANVAS
    ========================================================================== */
 let scene, camera, renderer, dirLight;
-let particleGroup;
-let ambientParticles;
-let particleMaterial;
-
-const themes = ['strategy', 'product', 'academic', 'transformation'];
-let currentThemeIndex = 0;
 
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
@@ -20,8 +14,8 @@ function initThree() {
   if (!canvas) return;
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf6f8fc);
-  scene.fog = new THREE.FogExp2(0xf6f8fc, 0.025);
+  scene.background = new THREE.Color(0xf1f5f9);
+  scene.fog = new THREE.FogExp2(0xf1f5f9, 0.025);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 5, 25);
@@ -41,31 +35,6 @@ function initThree() {
   dirLight = new THREE.DirectionalLight(0xeef2ff, 1.2);
   dirLight.position.set(10, 20, 15);
   scene.add(dirLight);
-
-  particleGroup = new THREE.Group();
-  scene.add(particleGroup);
-
-  // Subtle fluid particle motion cloud (dust/star particles)
-  const particleGeo = new THREE.BufferGeometry();
-  const particleCount = 150;
-  const posArray = new Float32Array(particleCount * 3);
-
-  for (let i = 0; i < particleCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 45;
-  }
-
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-  particleMaterial = new THREE.PointsMaterial({
-    size: 0.2,
-    color: 0x3b82f6, // Default Strategy Blue
-    transparent: true,
-    opacity: 0.35,
-    blending: THREE.NormalBlending
-  });
-
-  ambientParticles = new THREE.Points(particleGeo, particleMaterial);
-  particleGroup.add(ambientParticles);
 
   // Register Event Handlers
   window.addEventListener('resize', onWindowResize);
@@ -106,7 +75,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 8, y: -2, z: 18 })
   .to(camera.rotation, { x: 0.1, y: -0.3, z: 0 }, "<");
 
-  // Projects Grid -> Timeline
+  // Projects Grid -> Experience
   gsap.timeline({
     scrollTrigger: {
       trigger: "#experience",
@@ -118,7 +87,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -6, y: -8, z: 15 })
   .to(camera.rotation, { x: -0.15, y: 0.25, z: 0 }, "<");
 
-  // Timeline -> Knowledge Repository
+  // Experience -> Research
   gsap.timeline({
     scrollTrigger: {
       trigger: "#research",
@@ -130,10 +99,10 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 5, y: -14, z: 20 })
   .to(camera.rotation, { x: 0.05, y: -0.15, z: 0 }, "<");
 
-  // Knowledge Repository -> Capability Matrix
+  // Research -> Writing
   gsap.timeline({
     scrollTrigger: {
-      trigger: "#skills",
+      trigger: "#writing",
       start: "top bottom",
       end: "top top",
       scrub: 1.2
@@ -142,10 +111,10 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -3, y: -20, z: 16 })
   .to(camera.rotation, { x: -0.1, y: 0.1, z: 0 }, "<");
 
-  // Capability Matrix -> Connect Portal
+  // Writing -> Contact
   gsap.timeline({
     scrollTrigger: {
-      trigger: "#connect",
+      trigger: "#contact",
       start: "top bottom",
       end: "top top",
       scrub: 1.2
@@ -181,12 +150,6 @@ function animate() {
   
   const isReduced = prefersReducedMotion.matches;
   
-  // Ambient particle drift (only rotate if motion is not reduced)
-  if (!isReduced && particleGroup) {
-    particleGroup.rotation.y += 0.0001;
-    particleGroup.rotation.x += 0.00005;
-  }
-
   // Camera mouse parallax drift (only float if motion is not reduced)
   if (!isReduced && camera) {
     mouseX += (targetMouseX - mouseX) * 0.05;
@@ -1079,7 +1042,7 @@ const caseStudiesData = {
    DYNAMIC INTERACTIVE UI INTERACTIONS
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize WebGL Knowledge Graph
+  // 1. Initialize WebGL Knowledge Graph (color shifts canvas)
   initThree();
 
   // 2. Navigation Active Tab Highlighting
@@ -1128,141 +1091,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
+  // 3. Render Projects Grid
+  renderProjectGrid();
 
   // 4. Projects Filter Grid Event Wiring
-  const filterPills = document.querySelectorAll('#projectFilters .filter-pill');
+  const filterPills = document.querySelectorAll('.projects-filter-bar .filter-pill');
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      renderProjectGrid();
+      const filter = pill.getAttribute('data-filter');
+      filterProjects(filter);
     });
   });
 
-  // 5. Intelligent Timeline Flow Experiences mapping
-  const experienceData = {
-    analyst: {
-      title: "Management Analyst",
-      subtitle: "Group Biopolis (Biopolis + Ultrapolis) · Panchkula",
-      bullets: [
-        "Designed and engineered a centralized internal operations analytics platform with 18+ live interactive dashboard modules (Sales, Stocks, Pipeline, SCOT) serving the entire 108-member group.",
-        "Architected a mobile-first, serverless B2B order booking web application with custom secure session authentication and zero-latency automated PDF generation, reducing client order timelines by over 60%.",
-        "Built a scalable call analysis system utilizing AI to digest and score 1,200 voice recordings (800 audio minutes) daily, providing structured feedback metrics on customer intent and agent scripts.",
-        "Engineered an automated end-to-end inventory management and PO tracking pipeline featuring custom predictive reorder algorithms; reduced shortage alerts from 17 to 2 and fueled 20% growth.",
-        "Developed a custom Looker Studio Chrome Refresher extension to bypass native 15-minute delays, unlocking instantaneous, zero-delay operational database telemetry."
-      ],
-      flow: [
-        { label: "Raw Database", icon: "💾" },
-        { label: "AI & Apps Script", icon: "⚙️" },
-        { label: "18+ Live MIS Panels", icon: "📊" }
-      ]
-    },
-    manager: {
-      title: "Divisional Manager",
-      subtitle: "Bharat Financial Inclusion Ltd. (IndusInd Bank Bank Group)",
-      bullets: [
-        "Directed a 72-member regional division controlling a portfolio of 7,500+ micro-banking clients across 10 distinct districts; consistently cleared target collections within 48 hours of cycle launch.",
-        "Diagnosed local field operation bottlenecks utilizing Maslow's organizational framework, restructuring field officer scripts to secure 40% of targets within a single operational weekend.",
-        "Replaced traditional punitive metrics with a high-engagement gamified reward framework, accelerating lead generation and conversions by 25% within one fiscal quarter."
-      ],
-      flow: [
-        { label: "7,500 Clients", icon: "👥" },
-        { label: "Field Redesign", icon: "🗺️" },
-        { label: "+25% Growth", icon: "📈" }
-      ]
-    },
-    intern: {
-      title: "Customer Delight Intern",
-      subtitle: "Zolostays Property Solutions Ltd. &middot; Operations",
-      bullets: [
-        "Orchestrated direct customer support operations, processing over 2,000 inquiries with 99.95% verification accuracy, resolving 100+ complex tickets daily at 95% SLA compliance.",
-        "Mapped and standardized internal property refund workflows, slashing resolution delay times and related customer complaints by 60% via structured SOP manuals."
-      ],
-      flow: [
-        { label: "Support Input", icon: "📥" },
-        { label: "SOP Restructure", icon: "📝" },
-        { label: "60% SLA Speedup", icon: "⚡" }
-      ]
-    }
-  };
+  // 5. Searchable Writing Archive Logic
+  const creativeSearchInput = document.getElementById('creativeSearch');
+  const creativeFilters = document.querySelectorAll('#creativeFilters .archive-filter-btn');
+  const creativeCards = document.querySelectorAll('#creativeGrid .archive-card');
 
-  const timelineItems = document.querySelectorAll('.timeline-flow-item');
-  const pipelineSub = document.getElementById('pipelineSub');
-  const pipelineTitle = document.getElementById('pipelineTitle');
-  const pipelineBullets = document.getElementById('pipelineBullets');
-  const flowNodesWrapper = document.getElementById('flowNodesWrapper');
-
-  function renderTimelineDetail(expKey) {
-    const data = experienceData[expKey];
-    if (!data) return;
-
-    gsap.to("#pipelineCard", {
-      opacity: 0.3,
-      y: 5,
-      duration: 0.15,
-      onComplete: () => {
-        if (pipelineSub) pipelineSub.textContent = data.subtitle;
-        if (pipelineTitle) pipelineTitle.textContent = data.title;
-
-        if (pipelineBullets) {
-          pipelineBullets.innerHTML = "";
-          data.bullets.forEach(bullet => {
-            const li = document.createElement('li');
-            li.className = "pipeline-bullet";
-            li.textContent = bullet;
-            pipelineBullets.appendChild(li);
-          });
-        }
-
-        if (flowNodesWrapper) {
-          flowNodesWrapper.innerHTML = "";
-          data.flow.forEach((node, index) => {
-            const nodeEl = document.createElement('div');
-            nodeEl.className = "flow-node-item";
-            nodeEl.innerHTML = `
-              <div class="node-icon-circle">${node.icon}</div>
-              <span class="node-lbl">${node.label}</span>
-            `;
-            flowNodesWrapper.appendChild(nodeEl);
-
-            if (index < data.flow.length - 1) {
-              const arrow = document.createElement('span');
-              arrow.className = "flow-connector-arrow";
-              arrow.textContent = "➔";
-              flowNodesWrapper.appendChild(arrow);
-            }
-          });
-        }
-
-        gsap.to("#pipelineCard", { opacity: 1, y: 0, duration: 0.35 });
-      }
-    });
-  }
-
-  timelineItems.forEach(item => {
-    item.addEventListener('click', () => {
-      timelineItems.forEach(t => t.classList.remove('active'));
-      item.classList.add('active');
-      const expKey = item.getAttribute('data-exp');
-      renderTimelineDetail(expKey);
-    });
-  });
-
-  // Render initial timeline
-  renderTimelineDetail('analyst');
-
-  // 6. Searchable Knowledge Archive Logic
-  const creativeSearchInput = document.getElementById('archiveSearch');
-  const archiveFilters = document.querySelectorAll('#archiveFilters .archive-filter-btn');
-  const archiveCards = document.querySelectorAll('#archiveGrid .archive-card');
-
-  function filterArchiveGrid() {
+  function filterCreativeGrid() {
     const query = creativeSearchInput.value.toLowerCase().trim();
-    const activeFilterBtn = document.querySelector('#archiveFilters .archive-filter-btn.active');
+    const activeFilterBtn = document.querySelector('#creativeFilters .archive-filter-btn.active');
     const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-cat') : 'all';
 
-    archiveCards.forEach(card => {
+    creativeCards.forEach(card => {
       const title = card.querySelector('h3').textContent.toLowerCase();
       const text = card.querySelector('p').textContent.toLowerCase();
       const tags = Array.from(card.querySelectorAll('.mono-tag')).map(t => t.textContent.toLowerCase()).join(' ');
@@ -1276,77 +1129,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (creativeSearchInput) {
-    creativeSearchInput.addEventListener('input', filterArchiveGrid);
+    creativeSearchInput.addEventListener('input', filterCreativeGrid);
   }
 
-  archiveFilters.forEach(btn => {
+  creativeFilters.forEach(btn => {
     btn.addEventListener('click', () => {
-      archiveFilters.forEach(b => b.classList.remove('active'));
+      creativeFilters.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      filterArchiveGrid();
+      filterCreativeGrid();
     });
   });
 
-  // 7. B2B Brief Form Slider
-  const briefSlider = document.getElementById('briefRange');
-  const sliderOutput = document.getElementById('sliderOutput');
-  if (briefSlider && sliderOutput) {
-    briefSlider.addEventListener('input', () => {
-      const val = parseInt(briefSlider.value);
-      sliderOutput.textContent = val.toLocaleString();
-    });
-  }
-
-  // Toast System
-  function showToast(message) {
-    const toast = document.createElement('div');
-    toast.style.position = 'fixed';
-    toast.style.bottom = '32px';
-    toast.style.left = '50%';
-    toast.style.transform = 'translateX(-50%) translateY(20px)';
-    toast.style.background = 'rgba(15, 23, 42, 0.9)';
-    toast.style.color = '#ffffff';
-    toast.style.padding = '0.65rem 1.5rem';
-    toast.style.borderRadius = '99px';
-    toast.style.fontSize = '0.8rem';
-    toast.style.fontFamily = 'var(--font-display)';
-    toast.style.fontWeight = '600';
-    toast.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
-    toast.style.zIndex = '99999';
-    toast.style.opacity = '0';
-    toast.style.pointerEvents = 'none';
-    toast.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-    toast.textContent = message;
-    
-    document.body.appendChild(toast);
-    toast.offsetHeight; // force repaint
-    
-    toast.style.transform = 'translateX(-50%) translateY(0)';
-    toast.style.opacity = '1';
-    
-    setTimeout(() => {
-      toast.style.transform = 'translateX(-50%) translateY(-20px)';
-      toast.style.opacity = '0';
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 400);
-    }, 2200);
-  }
-
-  // Copy integrations
+  // 6. Copy Direct Email/Phone Actions
   const directEmailLink = document.querySelector('a[href^="mailto:"]');
   if (directEmailLink) {
     directEmailLink.addEventListener('click', (e) => {
+      e.preventDefault();
       navigator.clipboard.writeText("pratapjindal812@gmail.com");
       showToast("Email address copied to clipboard");
+      setTimeout(() => {
+        window.location.href = "mailto:pratapjindal812@gmail.com";
+      }, 500);
     });
   }
 
   const directPhoneLink = document.querySelector('a[href^="tel:"]');
   if (directPhoneLink) {
     directPhoneLink.addEventListener('click', (e) => {
+      e.preventDefault();
       navigator.clipboard.writeText("+917009019719");
       showToast("Secure voice number copied to clipboard");
+      setTimeout(() => {
+        window.location.href = "tel:+917009019719";
+      }, 500);
     });
   }
 
@@ -1357,403 +1172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. Silent Form Auto-submissions via fetch (No CORS/New Tabs)
-  const briefForm = document.getElementById('briefForm');
-  const successOverlay = document.getElementById('briefSuccessOverlay');
-
-  if (briefForm && successOverlay) {
-    briefForm.addEventListener('submit', (e) => {
-      e.preventDefault(); // Intercept default browser submission
-      
-      const submitBtn = briefForm.querySelector('.brief-submit-btn');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Transmitting request...";
-      }
-
-      // Submit Google Form details silently in the background
-      fetch(briefForm.action, {
-        method: 'POST',
-        body: new FormData(briefForm),
-        mode: 'no-cors'
-      })
-      .then(() => {
-        successOverlay.innerHTML = `
-          <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
-            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
-              ✓
-            </div>
-            <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Brief Transmitted Successfully</h4>
-            <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; max-width: 320px; margin-bottom: 2rem;">
-              Thanks for the details. Pratap will audit your requirements and respond on the provided coordinates.
-            </p>
-            <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; max-width: 220px; padding: 0.7rem 1.25rem; font-size: 0.82rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-secondary) !important; cursor: pointer; transition: all 0.2s ease;">
-              🔄 Submit Another Request
-            </button>
-          </div>
-        `;
-        successOverlay.style.display = 'flex';
-        gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
-        
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Generate Strategic Request →";
-        }
-
-        const btnResetBrief = document.getElementById('btnResetBrief');
-        if (btnResetBrief) {
-          btnResetBrief.addEventListener('click', () => {
-            gsap.to(successOverlay, {
-              opacity: 0,
-              scale: 0.98,
-              duration: 0.25,
-              onComplete: () => {
-                successOverlay.style.display = 'none';
-                briefForm.reset();
-                if (briefSlider && sliderOutput) {
-                  const val = parseInt(briefSlider.value);
-                  sliderOutput.textContent = val.toLocaleString();
-                }
-              }
-            });
-          });
-        }
-      })
-      .catch((err) => {
-        showToast("Transmission lag detected. Please connect directly.");
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Generate Strategic Request →";
-        }
-      });
-    });
-  }
-
-  // 9. Brand Toggles and Quotes Logic
-  const dynamicQuoteText = document.getElementById('dynamicQuoteText');
-  const dynamicQuoteAuthor = document.getElementById('dynamicQuoteAuthor');
-  
-  const corporateQuotes = [
-    { text: "I build systems, write stories, and explore the space where logic meets memory.", author: "Pratap Jindal" },
-    { text: "We do not build systems to eliminate work; we build them to free the mind for what matters.", author: "Pratap Jindal" },
-    { text: "Between the raw database and the final narrative lies the fragile space of human memory.", author: "Poker Hearts" },
-    { text: "True efficiency is not speed; it is the absolute elimination of unnecessary cycles.", author: "Pratap Jindal" },
-    { text: "We repair our broken workflows with code, much like kintsugi, highlighting the cracks in gold.", author: "Poker Hearts" },
-    { text: "Systems function in loops; human lives function in stories.", author: "Poker Hearts" }
-  ];
-
-  const academicQuotes = [
-    { text: "Research is to see what everybody else has seen, and to think what nobody else has thought.", author: "Albert Szent-Gyorgyi" },
-    { text: "The system is the solution.", author: "W. Edwards Deming" },
-    { text: "We do not build systems to eliminate work; we build them to model the truth.", author: "Pratap Jindal" },
-    { text: "Information is the resolution of uncertainty.", author: "Claude Shannon" }
-  ];
-
-  function rotateIdentityQuote() {
-    const mode = themes[currentThemeIndex];
-    if (mode === 'academic') {
-      const randomIndex = Math.floor(Math.random() * academicQuotes.length);
-      const chosen = academicQuotes[randomIndex];
-      if (dynamicQuoteText) dynamicQuoteText.innerHTML = `"${chosen.text}"`;
-      if (dynamicQuoteAuthor) dynamicQuoteAuthor.innerHTML = `— ${chosen.author}`;
-    } else {
-      const randomIndex = Math.floor(Math.random() * corporateQuotes.length);
-      const chosen = corporateQuotes[randomIndex];
-      if (dynamicQuoteText) dynamicQuoteText.innerHTML = `"${chosen.text}"`;
-      if (dynamicQuoteAuthor) dynamicQuoteAuthor.innerHTML = `— ${chosen.author}`;
-    }
-  }
-
-  rotateIdentityQuote();
-
-  // === 4-BUTTON MODE SWITCHING PRESET SWITCH CONTROLLER ===
-  const btnSwitchStrategy = document.getElementById('btnSwitchStrategy');
-  const btnSwitchProduct = document.getElementById('btnSwitchProduct');
-  const btnSwitchAcademic = document.getElementById('btnSwitchAcademic');
-  const btnSwitchTransformation = document.getElementById('btnSwitchTransformation');
-  
-  const heroBadgeText = document.getElementById('heroBadgeText');
-  const footerCopyright = document.getElementById('footerCopyright');
-  const academicEditorialBoard = document.getElementById('academicEditorialBoard');
-  const creativeWritingsWrapper = document.querySelector('.creative-writings-wrapper');
-
-  function applyTheme(theme) {
-    document.body.classList.remove('strategy-mode', 'product-mode', 'academic-mode', 'transformation-mode');
-    document.body.classList.add(`${theme}-mode`);
-
-    if (btnSwitchStrategy && btnSwitchProduct && btnSwitchAcademic && btnSwitchTransformation) {
-      btnSwitchStrategy.classList.toggle('active', theme === 'strategy');
-      btnSwitchProduct.classList.toggle('active', theme === 'product');
-      btnSwitchAcademic.classList.toggle('active', theme === 'academic');
-      btnSwitchTransformation.classList.toggle('active', theme === 'transformation');
-    }
-
-    const heroRole = document.querySelector('.hero-role');
-    const heroIntroText = document.getElementById('heroIntroText');
-
-    if (theme === 'strategy') {
-      if (heroRole) heroRole.innerHTML = "Management Analyst &amp; Business Systems Architect";
-      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Three.js";
-      if (heroIntroText) {
-        heroIntroText.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
-      }
-      
-      updateCounters("22", "Operational Systems Built", "₹75 Cr+", "Operations Supported", "360 Hrs", "QA Automated Monthly", "17 → 2", "Stock Shortages Resolved");
-
-      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
-      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
-      
-      updateThreeVariables(false);
-
-    } else if (theme === 'product') {
-      if (heroRole) heroRole.innerHTML = "Product Manager &amp; Operations Architect";
-      if (heroBadgeText) heroBadgeText.innerHTML = "Product Management Operations Dashboard v2.8";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Product Dashboards";
-      if (heroIntroText) {
-        heroIntroText.innerHTML = `I identify business friction points, design clear product workflows, and launch automated internal toolspaces. Translating complex stakeholder requirements into zero-cost serverless instruments, I focus on optimizing user adoption and quantifying bottom-line operational ROI.`;
-      }
-
-      updateCounters("108+", "Active Product Users", "92%", "Product Engagement Rate", "₹75 Cr", "Transaction Volume Scaled", "45s", "Average Booking Time");
-
-      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
-      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
-      
-      updateThreeVariables(false);
-
-    } else if (theme === 'academic') {
-      if (heroRole) heroRole.innerHTML = "Decision Science &amp; Operations Researcher";
-      if (heroBadgeText) heroBadgeText.innerHTML = "Academic Portfolio &amp; Research Archive v2.8";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with clean typography &amp; Static Network Models &middot; Academic Edition";
-      if (heroIntroText) {
-        heroIntroText.innerHTML = `Applied researcher investigating organizational design, algorithmic operations research, and human-computer decision workflows. Formulating heuristic inventory models and empirical speech-to-text QA cycles, I explore where system optimization intersects with behavioral execution.`;
-      }
-
-      updateCounters("108", "Researchers Coordinated", "99%", "Core Research Accuracy", "750k+", "Research Datasets Ingested", "r > 0.85", "LLM Audit Correlation");
-
-      if (academicEditorialBoard) academicEditorialBoard.style.display = 'flex';
-      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
-      
-      updateThreeVariables(true);
-
-    } else if (theme === 'transformation') {
-      if (heroRole) heroRole.innerHTML = "Digital Transformation &amp; Business Systems Lead";
-      if (heroBadgeText) heroBadgeText.innerHTML = "Digital Transformation Architecture v2.8";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Enterprise Integration Blueprints";
-      if (heroIntroText) {
-        heroIntroText.innerHTML = `I lead digital transformation projects, moving organizations from slow, manual spreadsheets to automated, unified cloud pipelines. Restructuring workflows with custom Chrome integrations and serverless scripts, I systematically secure data integrity and streamline team execution.`;
-      }
-
-      updateCounters("108", "Personnel Digitized", "80%", "Manual Processes Digitized", "₹7.5 Cr", "Enterprise Savings Created", "-70%", "Manual Screening Time");
-
-      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
-      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
-      
-      updateThreeVariables(false);
-    }
-
-    updateSEOMetadata(theme);
-    renderProjectGrid();
-    rotateIdentityQuote();
-  }
-
-  function updateCounters(num1, lbl1, num2, lbl2, num3, lbl3, num4, lbl4) {
-    const cNum1 = document.getElementById('statTeam');
-    const cLbl1 = cNum1 ? cNum1.nextElementSibling : null;
-    const cNum2 = document.getElementById('statEffort');
-    const cLbl2 = cNum2 ? cNum2.nextElementSibling : null;
-    const cNum3 = document.getElementById('statSales');
-    const cLbl3 = cNum3 ? cNum3.nextElementSibling : null;
-    const cNum4 = document.getElementById('statShortages');
-    const cLbl4 = cNum4 ? cNum4.nextElementSibling : null;
-
-    if (cNum1) cNum1.textContent = num1;
-    if (cLbl1) cLbl1.textContent = lbl1;
-    if (cNum2) cNum2.textContent = num2;
-    if (cLbl2) cLbl2.textContent = lbl2;
-    if (cNum3) cNum3.textContent = num3;
-    if (cLbl3) cLbl3.textContent = lbl3;
-    if (cNum4) cNum4.textContent = num4;
-    if (cLbl4) cLbl4.textContent = lbl4;
-  }
-
-  // Restore cached switcher state
-  const savedTheme = localStorage.getItem('pj-helix-theme-mode');
-  if (savedTheme && themes.includes(savedTheme)) {
-    currentThemeIndex = themes.indexOf(savedTheme);
-  }
-  applyTheme(themes[currentThemeIndex]);
-
-  // Bind click events on switcher segmented controls
-  if (btnSwitchStrategy) {
-    btnSwitchStrategy.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('strategy');
-      applyTheme('strategy');
-      localStorage.setItem('pj-helix-theme-mode', 'strategy');
-      showToast("Mode Selected: Strategy & Analytics");
-    });
-  }
-  if (btnSwitchProduct) {
-    btnSwitchProduct.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('product');
-      applyTheme('product');
-      localStorage.setItem('pj-helix-theme-mode', 'product');
-      showToast("Mode Selected: Product Management");
-    });
-  }
-  if (btnSwitchAcademic) {
-    btnSwitchAcademic.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('academic');
-      applyTheme('academic');
-      localStorage.setItem('pj-helix-theme-mode', 'academic');
-      showToast("Mode Selected: Research & Academic");
-    });
-  }
-  if (btnSwitchTransformation) {
-    btnSwitchTransformation.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('transformation');
-      applyTheme('transformation');
-      localStorage.setItem('pj-helix-theme-mode', 'transformation');
-      showToast("Mode Selected: Digital Transformation");
-    });
-  }
-
-  // Collapsible Archive toggler
-  const btnToggleArchive = document.getElementById('btnToggleArchive');
-  const archiveContainer = document.getElementById('archiveContainer');
-  if (btnToggleArchive && archiveContainer) {
-    btnToggleArchive.addEventListener('click', () => {
-      const isExpanded = btnToggleArchive.getAttribute('aria-expanded') === 'true';
-      btnToggleArchive.setAttribute('aria-expanded', !isExpanded);
-      
-      if (!isExpanded) {
-        archiveContainer.style.display = 'block';
-        btnToggleArchive.querySelector('.toggle-arrow').textContent = '▲';
-        btnToggleArchive.querySelector('.btn-text').textContent = '📦 Hide Full Systems Registry';
-        gsap.fromTo(archiveContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
-      } else {
-        gsap.to(archiveContainer, {
-          opacity: 0,
-          y: 10,
-          duration: 0.2,
-          onComplete: () => {
-            archiveContainer.style.display = 'none';
-            btnToggleArchive.querySelector('.toggle-arrow').textContent = '▼';
-            btnToggleArchive.querySelector('.btn-text').textContent = '📦 View Full Systems Registry (Show All 22 Modules)';
-          }
-        });
-      }
-    });
-  }
-
-  // Collapsible Creative Writings toggler
-  const btnToggleCreative = document.getElementById('btnToggleCreative');
-  const creativeContainer = document.getElementById('creativeContainer');
-  if (btnToggleCreative && creativeContainer) {
-    btnToggleCreative.addEventListener('click', () => {
-      const isExpanded = btnToggleCreative.getAttribute('aria-expanded') === 'true';
-      btnToggleCreative.setAttribute('aria-expanded', !isExpanded);
-      
-      if (!isExpanded) {
-        creativeContainer.style.display = 'block';
-        btnToggleCreative.querySelector('.toggle-arrow').textContent = '▲';
-        gsap.fromTo(creativeContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
-      } else {
-        gsap.to(creativeContainer, {
-          opacity: 0,
-          y: 10,
-          duration: 0.2,
-          onComplete: () => {
-            creativeContainer.style.display = 'none';
-            btnToggleCreative.querySelector('.toggle-arrow').textContent = '▼';
-          }
-        });
-      }
-    });
-  }
-
-  // Content Hub Click Interaction mapping
-  const hubCards = document.querySelectorAll('.hub-card');
-  hubCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const filter = card.getAttribute('data-hub');
-      
-      let catFilter = 'all';
-      if (filter === 'operations') catFilter = 'supply-ops';
-      else if (filter === 'ai-automation') catFilter = 'ai-systems';
-      else if (filter === 'product-design') catFilter = 'fullstack';
-      else if (filter === 'digital-transformation') catFilter = 'extensions';
-      else if (filter === 'research-systems') catFilter = 'supply-ops';
-
-      // Open archive if collapsed
-      if (archiveContainer && btnToggleArchive && archiveContainer.style.display === 'none') {
-        btnToggleArchive.click();
-      }
-
-      // Set search input to empty
-      const archiveSearchInput = document.getElementById('archiveSearchInput');
-      if (archiveSearchInput) archiveSearchInput.value = '';
-
-      // Set active filter pill in archive
-      const pills = document.querySelectorAll('.archive-pill');
-      pills.forEach(pill => {
-        if (pill.getAttribute('data-filter') === catFilter) {
-          pill.classList.add('active');
-        } else {
-          pill.classList.remove('active');
-        }
-      });
-
-      // Trigger archive filtering
-      filterArchiveTable(catFilter, '');
-
-      // Scroll to projects section
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      showToast(`Showing registry systems matching Content Hub: [${card.querySelector('h3').textContent}]`);
-    });
-  });
-
-  // Archive Table search & filter events
-  const archiveSearchInput = document.getElementById('archiveSearchInput');
-  const registryFilters = document.querySelectorAll('.archive-pill');
-  
-  function filterArchiveTable(category, query) {
-    const tbody = document.getElementById('archiveTableBody');
-    if (!tbody) return;
-    const rows = tbody.querySelectorAll('.archive-row');
-    
-    rows.forEach(row => {
-      const rowCat = row.getAttribute('data-category');
-      const text = row.textContent.toLowerCase();
-      const matchesCategory = category === 'all' || rowCat === category;
-      const matchesSearch = text.includes(query.toLowerCase());
-      
-      row.style.display = (matchesCategory && matchesSearch) ? '' : 'none';
-    });
-  }
-
-  if (archiveSearchInput) {
-    archiveSearchInput.addEventListener('input', () => {
-      const activePill = document.querySelector('.archive-pill.active');
-      const cat = activePill ? activePill.getAttribute('data-filter') : 'all';
-      filterArchiveTable(cat, archiveSearchInput.value);
-    });
-  }
-
-  registryFilters.forEach(pill => {
-    pill.addEventListener('click', () => {
-      registryFilters.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      const query = archiveSearchInput ? archiveSearchInput.value : '';
-      filterArchiveTable(pill.getAttribute('data-filter'), query);
-    });
-  });
-
-  // Bind sliding study close drawer
+  // 7. Case Study Close Drawer
   const closeDrawerBtn = document.getElementById('closeDrawerBtn');
   const caseStudyDrawer = document.getElementById('caseStudyDrawer');
   if (closeDrawerBtn && caseStudyDrawer) {
@@ -1762,12 +1181,84 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   document.addEventListener('click', (e) => {
-    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target)) {
+    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.classList.contains('case-study-trigger-btn')) {
       caseStudyDrawer.classList.remove('open');
     }
   });
 
+  // 8. Eye-Tracking Avatar
+  const avatarFrame = document.getElementById('avatarFrame');
+  const pupilLeft = document.getElementById('pupil-left');
+  const pupilRight = document.getElementById('pupil-right');
+
+  if (avatarFrame && pupilLeft && pupilRight) {
+    document.addEventListener('mousemove', (e) => {
+      const rect = avatarFrame.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const dist = Math.hypot(dx, dy);
+      
+      const maxMove = 8;
+      const angle = Math.atan2(dy, dx);
+      
+      const moveX = Math.cos(angle) * Math.min(maxMove, dist * 0.05);
+      const moveY = Math.sin(angle) * Math.min(maxMove, dist * 0.05);
+      
+      pupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      pupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        const maxMove = 8;
+        const moveX = Math.max(-maxMove, Math.min(maxMove, e.gamma / 5));
+        const moveY = Math.max(-maxMove, Math.min(maxMove, (e.beta - 45) / 5));
+        
+        pupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        pupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      }
+    });
+  }
 });
+
+// Toast System
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.style.position = 'fixed';
+  toast.style.bottom = '32px';
+  toast.style.left = '50%';
+  toast.style.transform = 'translateX(-50%) translateY(20px)';
+  toast.style.background = 'rgba(15, 23, 42, 0.9)';
+  toast.style.color = '#ffffff';
+  toast.style.padding = '0.65rem 1.5rem';
+  toast.style.borderRadius = '99px';
+  toast.style.fontSize = '0.8rem';
+  toast.style.fontFamily = 'var(--font-display)';
+  toast.style.fontWeight = '600';
+  toast.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
+  toast.style.zIndex = '99999';
+  toast.style.opacity = '0';
+  toast.style.pointerEvents = 'none';
+  toast.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  toast.textContent = message;
+  
+  document.body.appendChild(toast);
+  toast.offsetHeight; // force repaint
+  
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  toast.style.opacity = '1';
+  
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(-20px)';
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 400);
+  }, 2200);
+}
 
 // Semantic interlinking mappings
 function getSemanticLinks(id) {
@@ -1800,290 +1291,133 @@ function getSemanticLinks(id) {
 
 // Highlight and jump to a specific project module
 function highlightProject(id) {
-  const targetRow = document.getElementById(`archive-row-${id}`);
+  const targetCard = document.getElementById(`project-card-${id}`);
   
-  // Expand archive registry if collapsed
-  const archiveContainer = document.getElementById('archiveContainer');
-  const btnToggleArchive = document.getElementById('btnToggleArchive');
-  if (archiveContainer && btnToggleArchive && archiveContainer.style.display === 'none') {
-    btnToggleArchive.click();
-  }
-  
-  if (targetRow) {
+  if (targetCard) {
+    // Make sure 'All' is active or the category of the target card is active
+    const activePill = document.querySelector('.projects-filter-bar .filter-pill.active');
+    const targetCat = targetCard.getAttribute('data-category');
+    
+    if (activePill && activePill.getAttribute('data-filter') !== 'all' && activePill.getAttribute('data-filter') !== targetCat) {
+      const allPill = document.querySelector('.projects-filter-bar .filter-pill[data-filter="all"]');
+      if (allPill) allPill.click();
+    }
+    
     setTimeout(() => {
-      targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      targetRow.style.backgroundColor = 'rgba(99, 102, 241, 0.15)';
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetCard.style.outline = '2px solid var(--accent-blue)';
+      targetCard.style.outlineOffset = '4px';
+      targetCard.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.2)';
+      
       setTimeout(() => {
-        targetRow.style.backgroundColor = '';
+        targetCard.style.outline = '';
+        targetCard.style.outlineOffset = '';
+        targetCard.style.boxShadow = '';
       }, 2500);
       showToast(`Navigated to System Registry Profile: [${id}]`);
     }, 350);
   }
 }
 
-// Update Dynamic Meta & JSON-LD tags
-function updateSEOMetadata(theme) {
-  const metaDescriptions = {
-    strategy: "Portfolio of Pratap Jindal — Management Analyst at Group Biopolis. Specializing in operations analytics, B2B workflows, and strategic business systems.",
-    product: "Product operations portfolio of Pratap Jindal. Focused on identifying operational friction, designing serverless internal tools, and driving business ROI.",
-    academic: "Academic portfolio of Pratap Jindal, UGC NET Qualified Management researcher. Focused on heuristic inventory models and human-AI collaborative workflows.",
-    transformation: "Enterprise digitization portfolio of Pratap Jindal. Architect of automated workflows, custom integrations, and cloud migrations."
-  };
-
-  const titles = {
-    strategy: "Pratap Jindal — Strategic Systems & Analytics Leader",
-    product: "Pratap Jindal — Product Manager & Operations Architect",
-    academic: "Pratap Jindal — Decision Science & Operations Researcher",
-    transformation: "Pratap Jindal — Digital Transformation & Business Systems Lead"
-  };
-
-  document.title = titles[theme] || "Pratap Jindal — Systems Strategist";
-
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) {
-    metaDesc.setAttribute('content', metaDescriptions[theme]);
-  }
-
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', titles[theme]);
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', metaDescriptions[theme]);
-
-  const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-  if (twitterTitle) twitterTitle.setAttribute('content', titles[theme]);
-  const twitterDesc = document.querySelector('meta[name="twitter:description"]');
-  if (twitterDesc) twitterDesc.setAttribute('content', metaDescriptions[theme]);
-
-  const canonicalLink = document.querySelector('link[rel="canonical"]');
-  if (canonicalLink) {
-    canonicalLink.setAttribute('href', `https://pokerhearts.in/?mode=${theme}`);
-  }
-
-  const schemaScript = document.getElementById('seo-schema');
-  if (schemaScript) {
-    const baseSchema = {
-      "@context": "https://schema.org",
-      "@type": "ProfilePage",
-      "dateModified": new Date().toISOString().split('T')[0],
-      "mainEntity": {
-        "@type": "Person",
-        "name": "Pratap Jindal",
-        "url": "https://pokerhearts.in",
-        "image": "https://pokerhearts.in/profile.png",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Group Biopolis"
-        },
-        "alumniOf": {
-          "@type": "EducationalOrganization",
-          "name": "Lovely Professional University"
-        }
-      }
-    };
-
-    if (theme === 'strategy') {
-      baseSchema.mainEntity.jobTitle = "Management Analyst";
-      baseSchema.mainEntity.description = "Management Analyst specializing in operations analytics, Chief of Staff operations, and enterprise systems intelligence.";
-      baseSchema.mainEntity.knowsAbout = ["Operations Analytics", "Business Intelligence", "SOP Automation", "Strategic Systems"];
-    } else if (theme === 'product') {
-      baseSchema.mainEntity.jobTitle = "Product Manager";
-      baseSchema.mainEntity.description = "Product operations leader designing zero-overhead serverless internal tools and optimizing user workflows.";
-      baseSchema.mainEntity.knowsAbout = ["Product Management", "Product Operations", "UX Design", "Workflow Automation"];
-    } else if (theme === 'academic') {
-      baseSchema.mainEntity.jobTitle = "Decision Science Researcher";
-      baseSchema.mainEntity.description = "UGC NET Qualified Management researcher investigating heuristic inventory models and human-AI collaborative workflows.";
-      baseSchema.mainEntity.knowsAbout = ["Operations Research", "Decision Science", "Heuristic Inventory Governance", "Academic Inquiry"];
-    } else if (theme === 'transformation') {
-      baseSchema.mainEntity.jobTitle = "Digital Transformation Lead";
-      baseSchema.mainEntity.description = "Transformation architect migrating legacy operations to automated cloud pipelines and Chrome extensions.";
-      baseSchema.mainEntity.knowsAbout = ["Digital Transformation", "Process Automation", "Legacy Migration", "Enterprise Integration"];
+// Filter projects in the projectsGrid
+function filterProjects(category) {
+  const cards = document.querySelectorAll('#projectsGrid .project-card');
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-category');
+    if (category === 'all' || cardCat === category) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
     }
-
-    schemaScript.textContent = JSON.stringify(baseSchema, null, 2);
-  }
+  });
 }
 
-// Re-render project cards dynamically inside three-tier layout
+// Render all 22 projects in a single clean grid
 function renderProjectGrid() {
-  const featuredGrid = document.getElementById('featuredProjects');
-  const supportingGrid = document.getElementById('supportingProjects');
-  const archiveTableBody = document.getElementById('archiveTableBody');
+  const grid = document.getElementById('projectsGrid');
+  if (!grid) return;
   
-  if (!featuredGrid || !supportingGrid || !archiveTableBody) return;
-  
-  featuredGrid.innerHTML = '';
-  supportingGrid.innerHTML = '';
-  archiveTableBody.innerHTML = '';
+  grid.innerHTML = '';
 
-  const mode = themes[currentThemeIndex];
-
-  // Map Featured & Supporting ID lists per theme mode
-  const featuredIdsMap = {
-    strategy: ["MOD_01", "MOD_02", "MOD_03", "MOD_04"],
-    product: ["MOD_02", "MOD_03", "MOD_04", "MOD_06"],
-    academic: ["MOD_01", "MOD_02", "MOD_04", "MOD_06"],
-    transformation: ["MOD_01", "MOD_02", "MOD_03", "MOD_04"]
-  };
-
-  const supportingIdsMap = {
-    strategy: ["MOD_05", "MOD_06", "MOD_07", "MOD_14", "MOD_15", "MOD_22"],
-    product: ["MOD_07", "MOD_10", "MOD_13", "MOD_15", "MOD_19", "MOD_22"],
-    academic: ["MOD_07", "MOD_08", "MOD_13", "MOD_15", "MOD_20", "MOD_22"],
-    transformation: ["MOD_07", "MOD_11", "MOD_15", "MOD_16", "MOD_18", "MOD_22"]
-  };
-
-  const featuredIds = featuredIdsMap[mode] || [];
-  const supportingIds = supportingIdsMap[mode] || [];
-
-  function getModeText(proj, type) {
-    const defaultData = proj.strategy;
-    const modeData = proj[mode] || defaultData;
-    
-    if (type === 'title') return modeData.title || defaultData.title;
-    
-    if (type === 'problem') {
-      return proj.product?.problem || proj.transformation?.before || defaultData.desc;
-    }
-    if (type === 'context') {
-      return defaultData.desc || "Operational system design in SME structure.";
-    }
-    if (type === 'approach') {
-      return proj.product?.decisions || proj.transformation?.change || proj.research?.methodology || "Architected custom software automation layers.";
-    }
-    if (type === 'solution') {
-      return proj.product?.solution || proj.transformation?.after || "Interactive dashboard and automated script validation.";
-    }
-    if (type === 'outcome') {
-      return proj.product?.outcome || proj.transformation?.value || proj.research?.contribution || defaultData.outcomeText;
-    }
-    if (type === 'takeaway') {
-      return proj.product?.decisions || proj.transformation?.change || "Validate data schemas and normalize contact indices before script deployment.";
-    }
-    return "";
-  }
-
-  // 1. Render Featured Flagships
-  const featuredProjects = projectData.filter(p => featuredIds.includes(p.id));
-  featuredProjects.forEach(proj => {
+  projectData.forEach(proj => {
     const card = document.createElement('div');
-    card.className = 'glass-card featured-card';
+    card.className = 'glass-card project-card';
     card.setAttribute('data-category', proj.category);
-    
+    card.setAttribute('data-id', proj.id);
+    card.id = `project-card-${proj.id}`;
+
+    const defaultData = proj.strategy;
+    const techStack = defaultData.tech || [];
     const links = getSemanticLinks(proj.id);
-    const techStack = proj.strategy.tech || [];
+
+    // Check if flagship (MOD_01 to MOD_04)
+    const isFlagship = ["MOD_01", "MOD_02", "MOD_03", "MOD_04"].includes(proj.id);
     
+    let flagshipVisualHtml = '';
+    if (isFlagship) {
+      card.classList.add('flagship-card');
+      let imgUrl = '';
+      let caption = '';
+      if (proj.id === 'MOD_01') {
+        imgUrl = 'media__1779962828387.png';
+        caption = 'Anonymized AI Mock Interview Interface — Data Redacted for Client Confidentiality';
+      } else if (proj.id === 'MOD_02') {
+        imgUrl = 'media__1779963258084.png';
+        caption = 'AI QA Audit Pipeline Dashboard View — Internal Analytics Data Masked';
+      } else if (proj.id === 'MOD_03') {
+        imgUrl = 'media__1781341256406.png';
+        caption = 'B2B Sales Portal Order Registry — Anonymized Client Transaction View';
+      } else if (proj.id === 'MOD_04') {
+        imgUrl = 'media__1781341573518.png';
+        caption = 'Inventory Safety Buffer Optimization Model — Suppressed Stock Quantities';
+      }
+
+      flagshipVisualHtml = `
+        <div class="project-visual-wrapper" style="margin: 1rem 0; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-light);">
+          <img src="${imgUrl}" alt="${defaultData.title} Visual Proof" style="width: 100%; height: auto; display: block; filter: contrast(1.01) saturate(0.95);">
+          <div class="project-visual-caption" style="padding: 0.5rem; background: rgba(15, 23, 42, 0.03); border-top: 1px solid var(--border-light); font-size: 0.72rem; color: var(--color-muted); font-family: var(--font-body); font-style: italic; text-align: center;">
+            ${caption}
+          </div>
+        </div>
+      `;
+    }
+
     card.innerHTML = `
-      <div class="featured-card-header">
-        <span class="mono-tag" style="background: rgba(59, 130, 246, 0.05); color: var(--accent-blue); border-color: rgba(59,130,246,0.15);">Flagship Project</span>
-        <span class="card-num">${proj.id}</span>
+      <div class="project-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span class="mono-tag" style="background: ${isFlagship ? 'rgba(99, 102, 241, 0.08)' : 'rgba(15, 23, 42, 0.05)'}; color: ${isFlagship ? 'var(--accent-purple)' : 'var(--color-secondary)'}; border-color: ${isFlagship ? 'rgba(99,102,241,0.2)' : 'var(--border-light)'};">
+          ${isFlagship ? '★ Flagship System' : (proj.category === 'ai-systems' ? 'AI System' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Chrome Extension')}
+        </span>
+        <span class="card-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-muted); font-weight: 700;">${proj.id}</span>
       </div>
-      <h3>${getModeText(proj, 'title')}</h3>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">${defaultData.title}</h3>
       
-      <div class="featured-scannable-grid">
-        <div class="scannable-block">
-          <h4>Problem Statement</h4>
-          <p>${getModeText(proj, 'problem')}</p>
-        </div>
-        <div class="scannable-block">
-          <h4>Context &amp; Operational Need</h4>
-          <p>${getModeText(proj, 'context')}</p>
-        </div>
-        <div class="scannable-block">
-          <h4>Approach &amp; Method</h4>
-          <p>${getModeText(proj, 'approach')}</p>
-        </div>
-        <div class="scannable-block">
-          <h4>Solution &amp; Ingested Tools</h4>
-          <p>${getModeText(proj, 'solution')}</p>
-        </div>
+      <p class="project-card-desc" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-secondary); margin-bottom: 1rem;">
+        ${defaultData.desc}
+      </p>
+
+      ${flagshipVisualHtml}
+
+      <div class="strategic-outcome-widget" style="margin: 1.25rem 0; padding: 0.85rem; border-radius: var(--radius-sm); background: rgba(99, 102, 241, 0.03); border-left: 3px solid var(--accent-blue);">
+        <div class="outcome-label" style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem;">Direct Business Outcome</div>
+        <div class="outcome-text" style="font-size: 0.82rem; font-weight: 600; color: var(--color-primary); line-height: 1.4;">${defaultData.outcomeText}</div>
       </div>
 
-      <div class="strategic-outcome-widget" style="margin-bottom: 1.5rem;">
-        <div class="outcome-label">Direct Business Outcome &amp; Impact</div>
-        <div class="outcome-text">${getModeText(proj, 'outcome')}</div>
-      </div>
-
-      <div style="font-size: 0.82rem; color: var(--color-secondary); line-height: 1.55; margin-bottom: 1.25rem; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light); background: rgba(255, 255, 255, 0.55);">
-        <strong>LEO Lessons Learned:</strong> ${getModeText(proj, 'takeaway')}
-      </div>
-
-      <div class="analytics-card-tech" style="border-top: 1px solid var(--border-light); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+      <div class="project-card-footer" style="display: flex; flex-direction: column; gap: 0.75rem; border-top: 1px solid var(--border-light); padding-top: 0.85rem; margin-top: auto;">
+        <div class="project-tech-tags" style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
           ${techStack.map(t => `<span class="tech-tag">${t}</span>`).join('')}
         </div>
-        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted);">
-          🔗 Links: <span class="archive-action-link" onclick="highlightProject('${links.project}')">${links.project}</span> | Theme: <em>${links.theme}</em>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--color-muted); font-family: var(--font-mono);">
+          <span>Related: <span class="archive-action-link" style="color: var(--accent-blue); text-decoration: underline; cursor: pointer;" onclick="highlightProject('${links.project}')">${links.project}</span></span>
+          <span>Theme: <em>${links.theme}</em></span>
         </div>
+        ${defaultData.cta ? `
+          <button class="case-study-trigger-btn" data-project="${defaultData.cta.key}" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">
+            🔎 Systems Deep-Dive &rarr;
+          </button>
+        ` : ''}
       </div>
-      
-      ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}" style="margin-top: 1.25rem; width: fit-content; padding: 0.55rem 1.15rem; font-size: 0.78rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">🔎 Systems Deep-Dive &rarr;</button>` : ''}
     `;
-    featuredGrid.appendChild(card);
-  });
-
-  // 2. Render Supporting Projects
-  const supportingProjects = projectData.filter(p => supportingIds.includes(p.id));
-  supportingProjects.forEach(proj => {
-    const card = document.createElement('div');
-    card.className = 'glass-card analytics-card';
-    card.setAttribute('data-category', proj.category);
-    
-    const links = getSemanticLinks(proj.id);
-    const techStack = proj.strategy.tech || [];
-    
-    card.innerHTML = `
-      <div class="analytics-card-header">
-        <span class="mono-tag">${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</span>
-        <span class="card-num">${proj.id}</span>
-      </div>
-      <h3>${getModeText(proj, 'title')}</h3>
-      <p class="analytics-card-desc" style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem;">${proj.strategy.desc}</p>
-      
-      <div class="strategic-outcome-widget">
-        <div class="outcome-label">Direct Business Outcome</div>
-        <div class="outcome-text">${getModeText(proj, 'outcome')}</div>
-      </div>
-
-      <div class="analytics-card-tech" style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; margin-top: auto; border-top: 1px solid var(--border-light);">
-        <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
-          ${techStack.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')}
-        </div>
-        <div style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--color-muted);">
-          🔗 Links: <span class="archive-action-link" onclick="highlightProject('${links.project}')">${links.project}</span>
-        </div>
-      </div>
-      
-      ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}" style="margin-top: 1rem; width: fit-content; padding: 0.45rem 0.9rem; font-size: 0.72rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">🔎 Systems Deep-Dive</button>` : ''}
-    `;
-    supportingGrid.appendChild(card);
-  });
-
-  // 3. Populate Full Table Registry
-  projectData.forEach(proj => {
-    const row = document.createElement('tr');
-    row.className = 'archive-row';
-    row.id = `archive-row-${proj.id}`;
-    row.setAttribute('data-category', proj.category);
-    
-    const techStack = proj.strategy.tech || [];
-    
-    row.innerHTML = `
-      <td style="font-family: var(--font-mono); font-weight: 700; color: var(--color-primary);">${proj.id}</td>
-      <td>
-        <strong style="color: var(--color-primary); font-size: 0.9rem;">${getModeText(proj, 'title')}</strong>
-        <div style="font-size: 0.75rem; color: var(--color-muted); margin-top: 0.25rem;">Type: ${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</div>
-      </td>
-      <td><span style="font-size: 0.8rem; line-height: 1.4; display: block;">${proj.strategy.desc}</span></td>
-      <td>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.2rem;">
-          ${techStack.map(t => `<span class="archive-tech-tag">${t}</span>`).join('')}
-        </div>
-      </td>
-      <td>
-        <div style="font-size: 0.8rem; font-weight: 500; color: var(--color-secondary);">${getModeText(proj, 'outcome')}</div>
-      </td>
-    `;
-    archiveTableBody.appendChild(row);
+    grid.appendChild(card);
   });
 
   // Re-bind click events on dynamic card deep dives
@@ -2123,67 +1457,5 @@ function renderProjectGrid() {
       }
     });
   });
-
-  const activeCountLabel = document.getElementById('projectActiveCount');
-  if (activeCountLabel) {
-    const visibleCards = featuredProjects.length + supportingProjects.length;
-    activeCountLabel.textContent = visibleCards;
-  }
-}
-
-// Update Three.js background colors
-function updateThreeVariables(isAcademic) {
-  if (!scene) return;
-  const duration = 0.8;
-
-  const mode = themes[currentThemeIndex];
-  let bgColorHex = 0xf6f8fc;
-  let lightColorHex = 0xeef2ff;
-  let partColorHex = 0x8b5cf6;
-
-  if (mode === 'strategy') {
-    bgColorHex = 0xf1f5f9;
-    lightColorHex = 0x3b82f6;
-    partColorHex = 0x3b82f6;
-  } else if (mode === 'product') {
-    bgColorHex = 0xf3f4f6;
-    lightColorHex = 0xe5e7eb;
-    partColorHex = 0x4f46e5;
-  } else if (mode === 'academic') {
-    bgColorHex = 0xfbf9f4;
-    lightColorHex = 0xe4dfd6;
-    partColorHex = 0xb45309;
-  } else if (mode === 'transformation') {
-    bgColorHex = 0xf8fafc;
-    lightColorHex = 0x0ea5e9;
-    partColorHex = 0x0ea5e9;
-  }
-
-  const targetBgColor = new THREE.Color(bgColorHex);
-  const targetLightColor = new THREE.Color(lightColorHex);
-  const targetPartColor = new THREE.Color(partColorHex);
-
-  gsap.to(scene.background, {
-    r: targetBgColor.r, g: targetBgColor.g, b: targetBgColor.b,
-    duration: duration
-  });
-  if (scene.fog) {
-    gsap.to(scene.fog.color, {
-      r: targetBgColor.r, g: targetBgColor.g, b: targetBgColor.b,
-      duration: duration
-    });
-  }
-  if (dirLight) {
-    gsap.to(dirLight.color, {
-      r: targetLightColor.r, g: targetLightColor.g, b: targetLightColor.b,
-      duration: duration
-    });
-  }
-  if (particleMaterial) {
-    gsap.to(particleMaterial.color, {
-      r: targetPartColor.r, g: targetPartColor.g, b: targetPartColor.b,
-      duration: duration
-    });
-  }
 }
 

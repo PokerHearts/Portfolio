@@ -66,104 +66,227 @@ a, p, h1, h2, h3, h4, h5, span, button, input, textarea, div,
 /* ==========================================================================
    SANATAN DHARMA PRESET VARIABLES
    ========================================================================== */
-body.sanatan-theme {
-  --bg-spatial: #fffbf4; /* Warm sandalwood cream background */
-  --bg-surface: rgba(255, 252, 245, 0.55);
-  --bg-surface-solid: #fffcf8;
-  --bg-panel: rgba(255, 252, 245, 0.78);
-  --bg-panel-hover: rgba(255, 248, 235, 0.95);
+/* ==========================================================================
+   MODE 1: STRATEGY & ANALYTICS PRESET (Dark Executive Studio)
+   ========================================================================== */
+body.strategy-mode {
+  --bg-spatial: #0b0f19; /* Dark executive studio background */
+  --bg-surface: rgba(15, 23, 42, 0.45);
+  --bg-surface-solid: #0f172a;
+  --bg-panel: rgba(15, 23, 42, 0.65);
+  --bg-panel-hover: rgba(30, 41, 59, 0.85);
   
-  --border-glass: rgba(255, 218, 179, 0.6);
-  --border-light: rgba(255, 232, 204, 0.7);
-  --border-active: #ea580c; /* Vivid Saffron */
-  --border-accent: #d97706; /* Deep Golden Sandalwood */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.05);
+  --border-active: #3b82f6; /* Executive Blue */
+  --border-accent: #8b5cf6; /* Strategic Lavender */
   
-  --color-primary: #3f1b04;      /* Rich Dark Brown Sugar */
-  --color-secondary: #70320a;    /* Warm Clay Terracotta */
-  --color-muted: #a16207;        /* Pure Ochre/Marigold */
+  --color-primary: #f8fafc;      /* Crisp Light Slate */
+  --color-secondary: #cbd5e1;    /* Cool Light Gray */
+  --color-muted: #64748b;        /* Cool Gray */
   
-  --accent-blue: #ea580c;       /* Vibrant Saffron */
-  --accent-purple: #b45309;     /* Deep Ochre Gold */
-  --accent-teal: #d97706;       /* Bright Marigold */
-  --accent-glow: rgba(234, 88, 12, 0.08);
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-teal: #0ea5e9;
+  --accent-glow: rgba(59, 130, 246, 0.15);
   
-  --grad-primary: linear-gradient(135deg, #f97316, #b45309); /* Saffron to Warm Gold gradient */
-  --grad-soft: linear-gradient(135deg, rgba(249, 115, 22, 0.06), rgba(180, 83, 9, 0.06));
-  --grad-bright: linear-gradient(180deg, #fffcf6 0%, #fef3c7 100%);
+  --grad-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --grad-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+  --grad-bright: linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
   
-  --shadow-ambient: 0 4px 30px rgba(180, 83, 9, 0.03);
-  --shadow-card: 0 10px 40px -10px rgba(120, 53, 15, 0.05), 0 1px 1px rgba(0, 0, 0, 0.02);
-  --shadow-hover: 0 20px 50px -12px rgba(249, 115, 22, 0.15), 0 1px 2px rgba(249, 115, 22, 0.04);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px rgba(120, 53, 15, 0.02);
+  --shadow-ambient: 0 4px 30px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(255, 255, 255, 0.02);
+  --shadow-hover: 0 20px 50px -12px rgba(99, 102, 241, 0.25), 0 1px 2px rgba(255, 255, 255, 0.04);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.5);
 }
 
-body.sanatan-theme .system-grid-overlay {
+body.strategy-mode .system-grid-overlay {
   background-image: 
-    linear-gradient(rgba(249, 115, 22, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249, 115, 22, 0.018) 1px, transparent 1px);
-  opacity: 0.95;
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  opacity: 0.6;
 }
 
-body.sanatan-theme .system-radial-glow {
+body.strategy-mode .system-radial-glow {
   background: 
-    radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.04) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
 }
 
 /* ==========================================================================
-   PLAIN THEME PRESET VARIABLES
+   MODE 2: PRODUCT MANAGEMENT PRESET (Bright Modern Studio)
    ========================================================================== */
-body.plain-theme {
-  --bg-spatial: #faf8f5;
+body.product-mode {
+  --bg-spatial: #f3f4f6; /* Modern light-gray */
+  --bg-surface: rgba(255, 255, 255, 0.65);
+  --bg-surface-solid: #ffffff;
+  --bg-panel: rgba(255, 255, 255, 0.8);
+  --bg-panel-hover: rgba(255, 255, 255, 0.95);
+  
+  --border-glass: rgba(59, 130, 246, 0.15);
+  --border-light: rgba(229, 231, 235, 0.8);
+  --border-active: #2563eb; /* Product Blue */
+  --border-accent: #4f46e5;
+  
+  --color-primary: #111827;      /* Near Black */
+  --color-secondary: #374151;    /* Dark Gray */
+  --color-muted: #6b7280;        /* Mid Gray */
+  
+  --accent-blue: #2563eb;
+  --accent-purple: #4f46e5;
+  --accent-teal: #06b6d4;
+  --accent-glow: rgba(37, 99, 235, 0.06);
+  
+  --grad-primary: linear-gradient(135deg, #2563eb, #4f46e5);
+  --grad-soft: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(79, 70, 229, 0.05));
+  --grad-bright: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  
+  --shadow-ambient: 0 4px 30px rgba(0, 0, 0, 0.02);
+  --shadow-card: 0 10px 40px -10px rgba(37, 99, 235, 0.04), 0 1px 1px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 20px 50px -12px rgba(37, 99, 235, 0.1), 0 1px 2px rgba(37, 99, 235, 0.02);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px rgba(0, 0, 0, 0.01);
+}
+
+body.product-mode .system-grid-overlay {
+  background-image: 
+    linear-gradient(rgba(37, 99, 235, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.025) 1px, transparent 1px);
+  opacity: 0.8;
+}
+
+body.product-mode .system-radial-glow {
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(79, 70, 229, 0.04) 0%, transparent 45%);
+}
+
+body.product-mode .analytics-card-tech {
+  display: none !important; /* Hide technical stack tags in PM mode */
+}
+
+/* ==========================================================================
+   MODE 3: RESEARCH & ACADEMIC PRESET (Clean Editorial Serif Paper)
+   ========================================================================== */
+body.academic-mode {
+  --bg-spatial: #fbf9f4; /* Sandalwood paper-cream */
   --bg-surface: #ffffff;
   --bg-surface-solid: #ffffff;
   --bg-panel: #ffffff;
-  --bg-panel-hover: #fdfcfa;
+  --bg-panel-hover: #faf8f5;
   
-  --border-glass: #e4dfd6;
+  --border-glass: #d8d3c5;
   --border-light: #e4dfd6;
-  --border-active: #8b6f47;
-  --border-accent: #8b6f47;
+  --border-active: #78350f; /* Warm Academic Brown */
+  --border-accent: #b45309;
   
-  --color-primary: #1a1a2e;
-  --color-secondary: #4a4a5a;
-  --color-muted: #8a8a96;
+  --color-primary: #1c1917;      /* Charcoal Warm Black */
+  --color-secondary: #44403c;    /* Deep Gray-Brown */
+  --color-muted: #78716c;        /* Editorial Gray */
   
-  --accent-blue: #8b6f47;
-  --accent-purple: #8b6f47;
-  --accent-teal: #8b6f47;
-  --accent-glow: rgba(139, 111, 71, 0.04);
+  --accent-blue: #78350f;
+  --accent-purple: #78350f;
+  --accent-teal: #78350f;
+  --accent-glow: rgba(120, 53, 15, 0.03);
   
-  --grad-primary: linear-gradient(135deg, #8b6f47, #a0824f);
-  --grad-soft: linear-gradient(135deg, rgba(139, 111, 71, 0.05), rgba(160, 130, 79, 0.05));
-  --grad-bright: linear-gradient(180deg, #faf8f5 0%, #f2efe9 100%);
+  --grad-primary: linear-gradient(135deg, #78350f, #b45309);
+  --grad-soft: linear-gradient(135deg, rgba(120, 53, 15, 0.03), rgba(180, 83, 9, 0.03));
+  --grad-bright: linear-gradient(180deg, #fdfbf7 0%, #f7f5ef 100%);
   
   --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: Georgia, serif;
   
   --shadow-ambient: 0 4px 30px rgba(0, 0, 0, 0.01);
-  --shadow-card: 0 10px 40px -10px rgba(26, 26, 46, 0.02), 0 1px 1px rgba(0, 0, 0, 0.01);
-  --shadow-hover: 0 20px 50px -12px rgba(139, 111, 71, 0.08), 0 1px 2px rgba(139, 111, 71, 0.01);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 15px rgba(120, 53, 15, 0.08);
   --shadow-inset: none;
 }
 
-body.plain-theme .system-grid-overlay,
-body.plain-theme .system-radial-glow,
-body.plain-theme #webgl-canvas {
-  display: none !important;
+body.academic-mode .system-grid-overlay,
+body.academic-mode .system-radial-glow {
+  display: none !important; /* Completely clean publication layout */
 }
 
-body.plain-theme .glass-card {
-  background: var(--bg-surface-solid) !important;
-  border: 1px solid var(--border-glass) !important;
+body.academic-mode {
+  font-family: Georgia, serif !important;
+}
+
+body.academic-mode h1,
+body.academic-mode h2,
+body.academic-mode h3,
+body.academic-mode h4,
+body.academic-mode h5,
+body.academic-mode .hero-name,
+body.academic-mode .hero-role,
+body.academic-mode .item-title,
+body.academic-mode .pipeline-title,
+body.academic-mode .pane-text,
+body.academic-mode .nav-brand,
+body.academic-mode .nav-links-list a {
+  font-family: 'Playfair Display', Georgia, serif !important;
+}
+
+body.academic-mode .glass-card {
+  background: #ffffff !important;
+  border: 1px solid #d8d3c5 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   box-shadow: var(--shadow-card) !important;
+  border-radius: 4px !important;
+  transform: none !important;
 }
 
-body.plain-theme .glass-card:hover {
-  background: var(--bg-panel-hover) !important;
-  border-color: var(--border-active) !important;
+body.academic-mode .glass-card:hover {
+  transform: none !important;
   box-shadow: var(--shadow-hover) !important;
+  border-color: var(--border-active) !important;
+  background: var(--bg-panel-hover) !important;
+}
+
+/* ==========================================================================
+   MODE 4: DIGITAL TRANSFORMATION PRESET (Enterprise Architecture Blueprint)
+   ========================================================================== */
+body.transformation-mode {
+  --bg-spatial: #070a13; /* Deep blueprint navy */
+  --bg-surface: rgba(15, 23, 42, 0.65);
+  --bg-surface-solid: #0f172a;
+  --bg-panel: rgba(15, 23, 42, 0.8);
+  --bg-panel-hover: rgba(30, 41, 59, 0.9);
+  
+  --border-glass: rgba(14, 165, 233, 0.2);
+  --border-light: rgba(14, 165, 233, 0.1);
+  --border-active: #0ea5e9; /* Teal Blueprint */
+  --border-accent: #38bdf8;
+  
+  --color-primary: #f0fdf4;      /* Blueprint Light White */
+  --color-secondary: #cbd5e1;
+  --color-muted: #64748b;
+  
+  --accent-blue: #0ea5e9;
+  --accent-purple: #6366f1;
+  --accent-teal: #0ea5e9;
+  --accent-glow: rgba(14, 165, 233, 0.12);
+  
+  --grad-primary: linear-gradient(135deg, #0ea5e9, #6366f1);
+  --grad-soft: linear-gradient(135deg, rgba(14, 165, 233, 0.05), rgba(99, 102, 241, 0.05));
+  --grad-bright: linear-gradient(180deg, #0f172a 0%, #070a13 100%);
+  
+  --shadow-ambient: 0 4px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.6), 0 1px 1px rgba(14, 165, 233, 0.02);
+  --shadow-hover: 0 20px 50px -12px rgba(14, 165, 233, 0.2), 0 1px 2px rgba(14, 165, 233, 0.05);
+  --shadow-inset: inset 0 1px 0 rgba(14, 165, 233, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+}
+
+body.transformation-mode .system-grid-overlay {
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
+  opacity: 0.95;
+}
+
+body.transformation-mode .system-radial-glow {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
 }
 
 /* ==========================================================================
@@ -2055,8 +2178,8 @@ a:hover {
   transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body.sanatan-theme .sliding-case-study-drawer {
-  background: rgba(255, 252, 246, 0.9);
+body.academic-mode .sliding-case-study-drawer {
+  background: rgba(253, 251, 247, 0.98);
   border-left-color: var(--border-glass);
 }
 
@@ -2112,7 +2235,7 @@ body.sanatan-theme .sliding-case-study-drawer {
   letter-spacing: 0.08em;
 }
 
-body.sanatan-theme .case-study-section h5 {
+body.academic-mode .case-study-section h5 {
   color: var(--accent-blue);
 }
 
@@ -2136,8 +2259,8 @@ body.sanatan-theme .case-study-section h5 {
   border-radius: var(--radius-sm);
 }
 
-body.sanatan-theme .case-study-spec-card {
-  background: rgba(234, 88, 12, 0.02);
+body.academic-mode .case-study-spec-card {
+  background: rgba(120, 53, 15, 0.02);
 }
 
 .case-study-spec-card span {
@@ -2181,8 +2304,8 @@ body.sanatan-theme .case-study-spec-card {
   transform: translateX(2px);
 }
 
-body.sanatan-theme .case-study-trigger-btn:hover {
-  background: rgba(234, 88, 12, 0.05) !important;
+body.academic-mode .case-study-trigger-btn:hover {
+  background: rgba(120, 53, 15, 0.05) !important;
   border-color: var(--accent-blue) !important;
 }
 
@@ -2205,10 +2328,11 @@ body.sanatan-theme .case-study-trigger-btn:hover {
   letter-spacing: -0.03em;
 }
 
-body.sanatan-theme .section-head-main {
-  background: linear-gradient(135deg, var(--color-primary), var(--accent-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+body.academic-mode .section-head-main {
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: var(--accent-blue) !important;
 }
 
 .mono-tag {
@@ -2309,14 +2433,7 @@ body.sanatan-theme .section-head-main {
   border: 0;
 }
 
-/* Sanatan Conditional Visibility */
-.sanatan-only {
-  display: none !important;
-}
-
-body.sanatan-theme .sanatan-only {
-  display: flex !important;
-}
+/* Devotional songs element is now always visible */
 
 /* Playlist Cover Placeholder Styling */
 .playlist-cover-placeholder {

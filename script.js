@@ -1,26 +1,67 @@
 /* ==========================================================================
-   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND
+   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — ORGANIZATIONAL KNOWLEDGE GRAPH
    ========================================================================== */
 let scene, camera, renderer, dirLight;
-let particleGroup, nodeGroup, landscapeMesh;
-let nodes = [];
-const nodeCount = 45;
-const maxDistance = 9;
-let nodeMaterial; // Declared globally for dynamic theme interpolation
-let spiritualTextGroup; // Group container for dynamic spiritual floating text sprites
-let isSanatanTheme = false;
-const themes = ['corporate', 'sanatan', 'plain'];
-let currentThemeIndex = 0;
+let nodeGroup, edgeGroup;
+let nodes = []; // 22 node meshes
+let edges = []; // 22 line meshes
+let hoveredNodeIndex = -1;
 
-// Memorable Identity Quotes (Rotating on Refresh)
-const corporateQuotes = [
-  { text: "I build systems, write stories, and explore the space where logic meets memory.", author: "Pratap Jindal" },
-  { text: "We do not build systems to eliminate work; we build them to free the mind for what matters.", author: "Pratap Jindal" },
-  { text: "Between the raw database and the final narrative lies the fragile space of human memory.", author: "Poker Hearts" },
-  { text: "True efficiency is not speed; it is the absolute elimination of unnecessary cycles.", author: "Pratap Jindal" },
-  { text: "We repair our broken workflows with code, much like kintsugi, highlighting the cracks in gold.", author: "Poker Hearts" },
-  { text: "Systems function in loops; human lives function in stories.", author: "Poker Hearts" }
+// Base 3D Coordinates for 22 project nodes arranged by structural clusters
+const nodeBaseCoordinates = [
+  { x: -8, y: 4, z: 0 },      // MOD_01 (AI)
+  { x: -7, y: 2, z: 2 },      // MOD_02 (AI)
+  { x: -5, y: -2, z: 1 },     // MOD_03 (B2B)
+  { x: 2, y: 3, z: -1 },      // MOD_04 (Supply/Ops)
+  { x: 6, y: -1, z: 2 },      // MOD_05 (Analytics)
+  { x: -7, y: -4, z: -1 },    // MOD_06 (B2B)
+  { x: 0, y: 1, z: 2 },       // MOD_07 (Supply/Ops)
+  { x: -2, y: -5, z: 2 },     // MOD_08 (People/Org)
+  { x: 1, y: -7, z: -1 },     // MOD_09 (People/Org)
+  { x: 1, y: 4, z: 0 },       // MOD_10 (Supply/Ops)
+  { x: -4, y: -1, z: 3 },     // MOD_11 (B2B)
+  { x: 4, y: 4, z: -3 },      // MOD_12 (Supply/Ops)
+  { x: -1, y: 2, z: 3 },      // MOD_13 (Supply/Ops)
+  { x: 3, y: 2, z: 1 },       // MOD_14 (Supply/Ops)
+  { x: 5, y: -3, z: 0 },      // MOD_15 (Analytics)
+  { x: -9, y: 3, z: -2 },     // MOD_16 (AI)
+  { x: 2, y: 5, z: -2 },      // MOD_17 (Supply/Ops)
+  { x: -6, y: -2, z: 2 },     // MOD_18 (B2B)
+  { x: -1, y: -8, z: 0 },     // MOD_19 (People/Org)
+  { x: 1, y: 0, z: -3 },      // MOD_20 (Supply/Ops)
+  { x: 3, y: -1, z: -2 },     // MOD_21 (Supply/Ops)
+  { x: 7, y: -4, z: 1 }       // MOD_22 (Analytics)
 ];
+
+// Structural relationships (edges) in our operational pipeline
+const graphEdges = [
+  { from: 3, to: 14 },   // MOD_04 Inventory Optimizer -> MOD_15 Purchase Pattern Dashboard
+  { from: 14, to: 21 },  // MOD_15 Purchase Pattern -> MOD_22 Client Health Analytics
+  { from: 21, to: 6 },   // MOD_22 Client Health -> MOD_07 Sales Control System
+  { from: 6, to: 2 },    // MOD_07 Sales Control -> MOD_03 Order Booking Workspace
+  { from: 1, to: 7 },    // MOD_02 AI Call QA -> MOD_08 Task Performance Matrix
+  { from: 12, to: 21 },  // MOD_13 Complaint Engine -> MOD_22 Client Health
+  { from: 0, to: 7 },    // MOD_01 -> MOD_08
+  { from: 4, to: 14 },   // MOD_05 -> MOD_15
+  { from: 4, to: 21 },   // MOD_05 -> MOD_22
+  { from: 5, to: 0 },    // MOD_06 -> MOD_01
+  { from: 9, to: 3 },    // MOD_10 -> MOD_04
+  { from: 9, to: 2 },    // MOD_10 -> MOD_03
+  { from: 10, to: 6 },   // MOD_11 -> MOD_07
+  { from: 11, to: 3 },   // MOD_12 -> MOD_04
+  { from: 13, to: 3 },   // MOD_14 -> MOD_04
+  { from: 13, to: 21 },  // MOD_14 -> MOD_22
+  { from: 15, to: 1 },   // MOD_16 -> MOD_02
+  { from: 16, to: 13 },  // MOD_17 -> MOD_14
+  { from: 17, to: 2 },   // MOD_18 -> MOD_03
+  { from: 18, to: 6 },   // MOD_19 -> MOD_07
+  { from: 19, to: 6 },   // MOD_20 -> MOD_07
+  { from: 20, to: 6 },   // MOD_21 -> MOD_07
+  { from: 20, to: 11 }   // MOD_21 -> MOD_12
+];
+
+const themes = ['strategy', 'product', 'academic', 'transformation'];
+let currentThemeIndex = 0;
 
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
@@ -28,22 +69,22 @@ let targetMouseX = 0, targetMouseY = 0;
 const windowHalfX = window.innerWidth / 2;
 const windowHalfY = window.innerHeight / 2;
 
+// Raycasting parameters
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2(-10, -10);
+let rawMouseX = 0, rawMouseY = 0;
+
 function initThree() {
   const canvas = document.getElementById('webgl-canvas');
   if (!canvas) return;
 
-  // Scene Graph & Perspective Camera Setup
   scene = new THREE.Scene();
-  
-  // Bright spatial fog for atmospheric depth
   scene.background = new THREE.Color(0xf6f8fc);
   scene.fog = new THREE.FogExp2(0xf6f8fc, 0.025);
 
-  camera = new THREE.Camera();
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 5, 25);
 
-  // High-performance WebGL Renderer
   renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: false,
@@ -53,100 +94,71 @@ function initThree() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Ambient & Directional Lighting setup (Premium strategy studio light)
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
   scene.add(ambientLight);
 
   dirLight = new THREE.DirectionalLight(0xeef2ff, 1.2);
   dirLight.position.set(10, 20, 15);
   scene.add(dirLight);
 
-  // Group container instances
-  particleGroup = new THREE.Group();
   nodeGroup = new THREE.Group();
-  spiritualTextGroup = new THREE.Group();
-  scene.add(particleGroup);
+  edgeGroup = new THREE.Group();
   scene.add(nodeGroup);
-  scene.add(spiritualTextGroup);
+  scene.add(edgeGroup);
 
-  // 1. FLUID PARTICLE MOTION CLOUD
-  const particleGeo = new THREE.BufferGeometry();
-  const particleCount = 120;
-  const posArray = new Float32Array(particleCount * 3);
-  
-  for (let i = 0; i < particleCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 55;
-  }
-  
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-  
-  // Custom glowing round canvas particle textures
-  const pMaterial = new THREE.PointsMaterial({
-    size: 0.28,
-    color: 0x8b5cf6, // Royal Lavender
-    transparent: true,
-    opacity: 0.45,
-    blending: THREE.NormalBlending
-  });
-
-  const ambientParticles = new THREE.Points(particleGeo, pMaterial);
-  particleGroup.add(ambientParticles);
-
-  // 2. INTERCONNECTED STRATEGIC NODES
-  const nodeGeometry = new THREE.SphereGeometry(0.12, 8, 8);
-  nodeMaterial = new THREE.MeshBasicMaterial({
-    color: 0x3b82f6, // Executive Blue
-    transparent: true,
-    opacity: 0.8
-  });
-
-  for (let i = 0; i < nodeCount; i++) {
+  // 1. Instantiate 22 nodes
+  const nodeGeometry = new THREE.SphereGeometry(0.22, 16, 16);
+  nodes = [];
+  nodeBaseCoordinates.forEach((coord, idx) => {
+    const nodeMaterial = new THREE.MeshPhongMaterial({
+      color: getNodeColorForMode(idx),
+      transparent: true,
+      opacity: 0.85,
+      shininess: 90
+    });
     const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
-    mesh.position.set(
-      (Math.random() - 0.5) * 28,
-      (Math.random() - 0.5) * 16,
-      (Math.random() - 0.5) * 20
-    );
-    
-    // Custom velocity parameters for floating drift animation
+    mesh.position.set(coord.x, coord.y, coord.z);
     mesh.userData = {
       velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.015,
-        (Math.random() - 0.5) * 0.015,
-        (Math.random() - 0.5) * 0.015
+        (Math.random() - 0.5) * 0.01,
+        (Math.random() - 0.5) * 0.01,
+        (Math.random() - 0.5) * 0.01
       )
     };
-    
     nodeGroup.add(mesh);
     nodes.push(mesh);
-  }
-
-  // 3. UNDULATING GRID DATA LANDSCAPE (Parametric Math Mesh)
-  // Low-poly analytical wireframe grid
-  const landscapeGeo = new THREE.PlaneGeometry(70, 70, 30, 30);
-  const landscapeMat = new THREE.MeshBasicMaterial({
-    color: 0x94a3b8, // Silver/Cool Slate
-    wireframe: true,
-    transparent: true,
-    opacity: 0.12
   });
 
-  landscapeMesh = new THREE.Mesh(landscapeGeo, landscapeMat);
-  landscapeMesh.rotation.x = -Math.PI / 2;
-  landscapeMesh.position.y = -10;
-  scene.add(landscapeMesh);
+  // 2. Instantiate pre-built edge lines once
+  edges = [];
+  graphEdges.forEach(edge => {
+    const nodeA = nodes[edge.from];
+    const nodeB = nodes[edge.to];
+    const geoPoints = [nodeA.position.clone(), nodeB.position.clone()];
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(geoPoints);
+    const lineMat = new THREE.LineBasicMaterial({
+      color: getEdgeColorForMode(edge.from, edge.to),
+      transparent: true,
+      opacity: getEdgeOpacityForMode(edge.from, edge.to),
+      linewidth: 1.5
+    });
+    const line = new THREE.Line(lineGeo, lineMat);
+    edgeGroup.add(line);
+    edges.push({
+      lineMesh: line,
+      from: edge.from,
+      to: edge.to
+    });
+  });
 
   // Register Event Handlers
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('mousemove', onMouseMove);
 
-  // Create spiritual texts drifting sprites in Three.js scene
-  createSpiritualSprites();
-
   // Initialize Scroll Choreo
   setupCameraScrollChoreography();
 
-  // Kickoff Core Animation Loop
+  // Kickoff Animation Loop
   animate();
 }
 
@@ -159,17 +171,22 @@ function onWindowResize() {
 function onMouseMove(event) {
   targetMouseX = (event.clientX - windowHalfX) * 0.01;
   targetMouseY = (event.clientY - windowHalfY) * 0.01;
+  
+  // Normalized coordinates for Raycasting
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+  // Raw screen coordinates for Tooltip positioning
+  rawMouseX = event.clientX;
+  rawMouseY = event.clientY;
 }
 
 // GSAP ScrollTrigger 3D Camera Flight Pathways
 function setupCameraScrollChoreography() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  
   gsap.registerPlugin(ScrollTrigger);
 
-  // Core ScrollTimeline glides linking Three.js spatial viewports to DOM coordinates
-  
-  // Section #hero (Station 1) -> Section #projects (Station 2)
+  // Hero (Station 1) -> Projects Grid (Station 2)
   gsap.timeline({
     scrollTrigger: {
       trigger: "#projects",
@@ -181,7 +198,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 8, y: -2, z: 18 })
   .to(camera.rotation, { x: 0.1, y: -0.3, z: 0 }, "<");
 
-  // Section #projects (Station 2) -> Section #experience (Station 3)
+  // Projects Grid (Station 2) -> Leadership Flow (Station 3)
   gsap.timeline({
     scrollTrigger: {
       trigger: "#experience",
@@ -193,7 +210,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -6, y: -8, z: 15 })
   .to(camera.rotation, { x: -0.15, y: 0.25, z: 0 }, "<");
 
-  // Section #experience (Station 3) -> Section #research (Station 4)
+  // Leadership Flow (Station 3) -> Knowledge Repository (Station 4)
   gsap.timeline({
     scrollTrigger: {
       trigger: "#research",
@@ -205,7 +222,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 5, y: -14, z: 20 })
   .to(camera.rotation, { x: 0.05, y: -0.15, z: 0 }, "<");
 
-  // Section #research (Station 4) -> Section #skills (Station 5)
+  // Knowledge Repository (Station 4) -> Capability Matrix (Station 5)
   gsap.timeline({
     scrollTrigger: {
       trigger: "#skills",
@@ -217,7 +234,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -3, y: -20, z: 16 })
   .to(camera.rotation, { x: -0.1, y: 0.1, z: 0 }, "<");
 
-  // Section #skills (Station 5) -> Section #connect (Station 6)
+  // Capability Matrix (Station 5) -> Connect Portal (Station 6)
   gsap.timeline({
     scrollTrigger: {
       trigger: "#connect",
@@ -230,93 +247,174 @@ function setupCameraScrollChoreography() {
   .to(camera.rotation, { x: 0, y: 0, z: 0 }, "<");
 }
 
+// Node coloring logic depending on current identity theme
+function getNodeColorForMode(idx) {
+  const mode = themes[currentThemeIndex];
+  
+  if (mode === 'strategy') {
+    const featured = [1, 3, 6, 8, 14, 21, 11, 20]; // MOD_02, 04, 07, 09, 15, 22, 12, 21 (0-indexed: 1, 3, 6, 8, 14, 21, 11, 20)
+    return featured.includes(idx) ? 0x3b82f6 : 0x475569;
+  }
+  
+  if (mode === 'product') {
+    const featured = [1, 2, 3, 6, 9, 12, 14, 18, 21]; // MOD_02, 03, 04, 07, 10, 13, 15, 19, 22
+    return featured.includes(idx) ? 0x4f46e5 : 0x334155;
+  }
+  
+  if (mode === 'academic') {
+    // Grouped by research themes
+    if ([0, 1, 15].includes(idx)) return 0x8b5cf6; // AI-Augmented (MOD_01, 02, 16)
+    if ([3, 11, 16, 19, 20].includes(idx)) return 0xb45309; // OR (MOD_04, 12, 17, 20, 21)
+    if ([6, 7, 12].includes(idx)) return 0xea580c; // Org Systems (MOD_07, 08, 13)
+    if ([4, 14, 21].includes(idx)) return 0x0ea5e9; // Predictive (MOD_05, 15, 22)
+    return 0x475569; // Information Systems (MOD_03, 06, 11, 14, 18, 09, 19)
+  }
+  
+  if (mode === 'transformation') {
+    // Grouped by transformation streams
+    if ([4, 7, 10, 15, 17, 18].includes(idx)) return 0xea580c; // Process Automation (MOD_05, 08, 11, 16, 18, 19)
+    if ([0, 1].includes(idx)) return 0x8b5cf6; // AI (MOD_01, 02)
+    if ([2, 5, 6, 9, 12, 13].includes(idx)) return 0x3b82f6; // Digitization (MOD_03, 06, 07, 10, 13, 14)
+    if ([3, 14, 21].includes(idx)) return 0x0ea5e9; // Decision Intel (MOD_04, 15, 22)
+    return 0x475569; // Governance (MOD_09, 12, 17, 20, 21)
+  }
+  
+  return 0x3b82f6;
+}
+
+// Edge opacities
+function getEdgeOpacityForMode(from, to) {
+  const mode = themes[currentThemeIndex];
+  
+  if (mode === 'strategy') {
+    const featured = [1, 3, 6, 8, 14, 21, 11, 20];
+    return (featured.includes(from) && featured.includes(to)) ? 0.45 : 0.05;
+  }
+  
+  if (mode === 'product') {
+    const featured = [1, 2, 3, 6, 9, 12, 14, 18, 21];
+    return (featured.includes(from) && featured.includes(to)) ? 0.5 : 0.05;
+  }
+  
+  if (mode === 'academic') {
+    // Same theme group checks
+    const inSameGroup = (
+      ([0, 1, 15].includes(from) && [0, 1, 15].includes(to)) || // AI
+      ([3, 11, 16, 19, 20].includes(from) && [3, 11, 16, 19, 20].includes(to)) || // OR
+      ([6, 7, 12].includes(from) && [6, 7, 12].includes(to)) || // Org
+      ([4, 14, 21].includes(from) && [4, 14, 21].includes(to)) || // Predictive
+      ([2, 5, 8, 10, 13, 17, 18].includes(from) && [2, 5, 8, 10, 13, 17, 18].includes(to)) // Info
+    );
+    return inSameGroup ? 0.35 : 0.05;
+  }
+  
+  if (mode === 'transformation') {
+    const inSameGroup = (
+      ([4, 7, 10, 15, 17, 18].includes(from) && [4, 7, 10, 15, 17, 18].includes(to)) || // Automation
+      ([0, 1].includes(from) && [0, 1].includes(to)) || // AI
+      ([2, 5, 6, 9, 12, 13].includes(from) && [2, 5, 6, 9, 12, 13].includes(to)) || // Digitization
+      ([3, 14, 21].includes(from) && [3, 14, 21].includes(to)) || // Decision
+      ([8, 11, 16, 19, 20].includes(from) && [8, 11, 16, 19, 20].includes(to)) // Governance
+    );
+    return inSameGroup ? 0.4 : 0.05;
+  }
+  
+  return 0.15;
+}
+
+// Edge colors
+function getEdgeColorForMode(from, to) {
+  const mode = themes[currentThemeIndex];
+  if (mode === 'academic') return 0x78350f;
+  if (mode === 'transformation') return 0x0ea5e9;
+  return 0x6366f1;
+}
+
 // Core WebGL Frame Animation Render Loop
 function animate() {
   requestAnimationFrame(animate);
-  if (themes[currentThemeIndex] === 'plain') return; // Skip updating and rendering when in Plain Reading Mode!
+  const mode = themes[currentThemeIndex];
 
   const time = Date.now() * 0.0008;
 
-  // Slowly drift ambient particle clouds
-  particleGroup.rotation.y = time * 0.04;
-  particleGroup.rotation.x = time * 0.02;
+  // 1. Dynamic float drift (suspended in Academic mode to maintain clean publishing look)
+  if (mode !== 'academic') {
+    nodes.forEach((node, idx) => {
+      const base = nodeBaseCoordinates[idx];
+      node.position.x = base.x + Math.sin(time + idx) * 0.25;
+      node.position.y = base.y + Math.cos(time * 0.8 + idx) * 0.25;
+      node.position.z = base.z + Math.sin(time * 0.5 + idx) * 0.25;
+    });
+  } else {
+    nodes.forEach((node, idx) => {
+      const base = nodeBaseCoordinates[idx];
+      node.position.x = base.x;
+      node.position.y = base.y;
+      node.position.z = base.z;
+    });
+  }
 
-  // Drift the spiritual text sprites if visible in the scene
-  if (spiritualTextGroup && spiritualTextGroup.visible) {
-    spiritualTextGroup.rotation.y = time * 0.015;
-    for (let i = 0; i < spiritualTextGroup.children.length; i++) {
-      const sprite = spiritualTextGroup.children[i];
-      sprite.position.add(sprite.userData.velocity);
-      
-      // Boundaries bounce
-      if (Math.abs(sprite.position.x) > 28) sprite.userData.velocity.x *= -1;
-      if (Math.abs(sprite.position.y) > 16) sprite.userData.velocity.y *= -1;
-      if (Math.abs(sprite.position.z) > 20) sprite.userData.velocity.z *= -1;
+  // 2. Update line positions to connect nodes dynamically
+  edges.forEach(edge => {
+    const nodeA = nodes[edge.from];
+    const nodeB = nodes[edge.to];
+    const positions = edge.lineMesh.geometry.attributes.position.array;
+    positions[0] = nodeA.position.x;
+    positions[1] = nodeA.position.y;
+    positions[2] = nodeA.position.z;
+    positions[3] = nodeB.position.x;
+    positions[4] = nodeB.position.y;
+    positions[5] = nodeB.position.z;
+    edge.lineMesh.geometry.attributes.position.needsUpdate = true;
+  });
+
+  // 3. Raycast Hit Testing for Tooltip and Highlights
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(nodes);
+  
+  if (intersects.length > 0) {
+    const hoveredObj = intersects[0].object;
+    hoveredNodeIndex = nodes.indexOf(hoveredObj);
+  } else {
+    hoveredNodeIndex = -1;
+  }
+
+  // Apply visual highlights based on hover state
+  nodes.forEach((node, idx) => {
+    let targetScale = 1.0;
+    if (idx === hoveredNodeIndex) {
+      targetScale = 1.7;
+      node.material.color.setHex(0xffaa00); // Highlight in Gold
+    } else {
+      node.material.color.setHex(getNodeColorForMode(idx));
+    }
+    node.scale.set(targetScale, targetScale, targetScale);
+  });
+
+  edges.forEach(edge => {
+    const isHighlighted = (hoveredNodeIndex === edge.from || hoveredNodeIndex === edge.to);
+    edge.lineMesh.material.opacity = isHighlighted ? 0.75 : getEdgeOpacityForMode(edge.from, edge.to);
+    edge.lineMesh.material.color.setHex(isHighlighted ? 0xffaa00 : getEdgeColorForMode(edge.from, edge.to));
+  });
+
+  // 4. Update graph tooltip
+  const tooltip = document.getElementById('graph-tooltip');
+  if (tooltip) {
+    if (hoveredNodeIndex !== -1) {
+      const proj = projectData[hoveredNodeIndex];
+      tooltip.innerHTML = `
+        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-blue); margin-bottom: 2px; text-transform: uppercase;">MOD_${(hoveredNodeIndex + 1).toString().padStart(2, '0')}</div>
+        <div style="font-weight: 700; color: #fff;">${proj.strategy.title}</div>
+      `;
+      tooltip.style.display = 'block';
+      tooltip.style.left = (rawMouseX + 15) + 'px';
+      tooltip.style.top = (rawMouseY + 15) + 'px';
+    } else {
+      tooltip.style.display = 'none';
     }
   }
 
-  // Update dynamic strategic nodes and drift coordinates
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i];
-    node.position.add(node.userData.velocity);
-
-    // Bounce drift coordinates off imaginary boundary coordinates
-    if (Math.abs(node.position.x) > 16) node.userData.velocity.x *= -1;
-    if (Math.abs(node.position.y) > 10) node.userData.velocity.y *= -1;
-    if (Math.abs(node.position.z) > 12) node.userData.velocity.z *= -1;
-  }
-
-  // Draw node connection wires on-the-fly dynamically (avoiding memory leakage)
-  // Remove previous frame wireframe meshes
-  while (nodeGroup.children.length > nodes.length) {
-    nodeGroup.remove(nodeGroup.children[nodeGroup.children.length - 1]);
-  }
-
-  const linePositions = [];
-  const lineColors = [];
-  
-  const colorNear = new THREE.Color(0xc7d2fe); // Soft Blue-Violet
-  const colorFar = new THREE.Color(0xeef2ff);
-
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      const dist = nodes[i].position.distanceTo(nodes[j].position);
-      if (dist < maxDistance) {
-        // Calculate wire segments
-        const geoPoints = [nodes[i].position.clone(), nodes[j].position.clone()];
-        const lineGeo = new THREE.BufferGeometry().setFromPoints(geoPoints);
-        
-        // Stagger opacity according to distances
-        const opacity = (1 - dist / maxDistance) * 0.22;
-        
-        // Line color adapts dynamically based on theme preset
-        const lineColor = isSanatanTheme ? 0xea580c : 0x8b5cf6;
-        const lineMat = new THREE.LineBasicMaterial({
-          color: lineColor,
-          transparent: true,
-          opacity: opacity,
-          linewidth: 1
-        });
-        
-        const line = new THREE.Line(lineGeo, lineMat);
-        nodeGroup.add(line);
-      }
-    }
-  }
-
-  // Undulate the grid math plane mesh (Dynamic math data surface waves)
-  const posAttribute = landscapeMesh.geometry.attributes.position;
-  const v = new THREE.Vector3();
-  
-  for (let i = 0; i < posAttribute.count; i++) {
-    v.fromBufferAttribute(posAttribute, i);
-    // Sine equations modeling business trends undulations
-    const zOffset = Math.sin(v.x * 0.15 + time) * Math.cos(v.y * 0.15 + time) * 1.6;
-    posAttribute.setZ(i, zOffset);
-  }
-  posAttribute.needsUpdate = true;
-
-  // Tactile camera mouse-drift parallax interpolation
+  // Camera mouse parallax drift
   mouseX += (targetMouseX - mouseX) * 0.05;
   mouseY += (targetMouseY - mouseY) * 0.05;
   
@@ -328,20 +426,890 @@ function animate() {
 
 
 /* ==========================================================================
-   CORE INTERACTIVE UI INTERACTIONS (Silky Widget Logic)
+   DYNAMIC PROJECT DATABASE (22 Modules x 4 Modes)
    ========================================================================== */
+const projectData = [
+  {
+    id: "MOD_01",
+    category: "ai-systems",
+    strategy: {
+      title: "AI Voice Mock Interview Simulator & Portal",
+      desc: "An interactive, serverless AI voice simulator developed for intensive mock interview training. Candidate resumes are parsed directly in the browser via PDF.js, triggering a real-time voice activity Hindi/English conversation loop (Web Audio/Speech APIs) featuring noise calibration and interruption-handling to model real-world high-pressure interviews.",
+      outcomeLabel: "Operational Purpose & Cost",
+      outcomeText: "Operates as a high-fidelity training sandbox; scales at ~$0.05 API cost per interview simulation, logging comprehensive performance feedback and scoring metrics to a central Sheets database.",
+      tech: ["Gemini API", "Web Audio API", "PDF.js", "Apps Script"],
+      cta: { text: "Deep-Dive Case Study", key: "hrVoice" }
+    },
+    product: {
+      title: "AI Voice Mock Interview Simulator",
+      badge: "AI Product",
+      problem: "Candidates lack realistic, adaptive, real-time sandboxes to practice verbal delivery under pressure.",
+      users: "108+ team members and corporate candidates.",
+      solution: "Interactive, voice-first mock interview training portal using Web Audio and generative AI.",
+      decisions: "Used browser-side PDF.js parsing to keep user data private and minimize server compute costs, combined with Speech API VAD calibration.",
+      kpi: "API Cost per Interview",
+      outcome: "Lowered costs to ~$0.05 per interview, capturing 100% of feedback markers."
+    },
+    research: {
+      title: "Investigating LLM-Assisted Quality Evaluation in Decentralized Telecalling Environments",
+      badge: "Research Investigation",
+      theme: "AI-Augmented Decision Making",
+      question: "How can decentralized telecalling environments leverage LLMs to democratize quality assurance without high computational overhead?",
+      methodology: "Designed a Web Audio capture pipeline synced with LLM event parsing to grade voice transcripts against script parameters.",
+      contribution: "Provides an empirical model for local speech-to-text inference and scoring, eliminating centralized sample audits."
+    },
+    transformation: {
+      title: "Enterprise Voice Screening Digitization",
+      badge: "AI Transformation",
+      stream: "AI Transformation",
+      before: "Manual screening by recruiters, causing long hiring lags and high coordination friction.",
+      after: "AI-driven automated voice screening sandbox.",
+      change: "Conducted interactive workshops for recruiting staff, showing how AI filters low-fit profiles and frees their time for high-value interviews.",
+      value: "Reduced manual screening hours by 70%, with 100% database capture of candidate profiles."
+    }
+  },
+  {
+    id: "MOD_02",
+    category: "ai-systems",
+    strategy: {
+      title: "AI-Powered Call QA Analysis System",
+      desc: "An automated evaluation engine processing over 1,200 recordings daily (800 minutes of voice data) from 12 decentralized telecalling units. Analyzes audio transcripts to provide highly structured feedback on customer tone, script alignment, purchase intent, and next-action pipelines.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Eliminated manual QA sampling, driving 100% evaluation coverage and automated feedback loops for team leads.",
+      tech: ["LLM Analytics", "Audio Pipelines", "Apps Script", "Drive API"],
+      cta: { text: "Deep-Dive Case Study", key: "callQA" }
+    },
+    product: {
+      title: "AI Call QA Analyst",
+      badge: "Speech AI Product",
+      problem: "Manual QA audits covered <2% of daily recordings, leaving agent execution errors undetected.",
+      users: "12 decentralized telecalling units, auditing 1,200 daily records.",
+      solution: "Speech-to-text transcript processing engine analyzing objections, script alignment, and tone.",
+      decisions: "Restructured pipeline with a rate-limited task queuing matrix to handle API thresholds for 800 daily audio minutes.",
+      kpi: "QA Coverage Rate",
+      outcome: "Achieved 100% evaluation coverage, saving 360 hours of manual evaluation monthly."
+    },
+    research: {
+      title: "Automating Organizational Auditing in Speech Channels Using Large Language Models",
+      badge: "Research Investigation",
+      theme: "AI-Augmented Decision Making",
+      question: "What metrics optimize the consistency of LLM-based evaluations on customer intent and agent script adherence?",
+      methodology: "Evaluated 1,200 records daily using semantic prompt templates, calculating Spearman correlation against human QA graders.",
+      contribution: "Shows high correlation (r > 0.85) between prompt-engineered evaluators and professional auditors in localized language dialects."
+    },
+    transformation: {
+      title: "QA Auditing Automation Initiative",
+      badge: "AI Transformation",
+      stream: "AI Transformation",
+      before: "Manual checking of a 2% random sample of daily calls, leaving compliance issues hidden.",
+      after: "Automated batch speech processing covering 100% of call recordings.",
+      change: "Trained QA supervisors to interpret live Looker dashboards, shifting their role from call listening to targeted agent coaching.",
+      value: "100% audit coverage, saving 360 hours/month and triggering real-time compliance alerts."
+    }
+  },
+  {
+    id: "MOD_03",
+    category: "fullstack",
+    strategy: {
+      title: "B2B Order Booking Workspace",
+      desc: "A serverless, mobile-optimized B2B order portal designed to replace scattered communication channels. Features client-side state caching, custom token authentication, catalog search engines, and real-time client-side PDF invoicing.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Slashed recurring booking loops by >60% while running at absolute zero operating cost via serverless hosting.",
+      tech: ["Vanilla JS", "jsPDF", "Edge Cache", "Token Auth"],
+      cta: { text: "Deep-Dive Case Study", key: "b2bOrder" }
+    },
+    product: {
+      title: "B2B Sales Portal",
+      badge: "Core Workspace",
+      problem: "Scattered order collections via text/emails caused invoice errors and delayed booking (avg. 8 mins/order).",
+      users: "Field sales agents and distributor reps.",
+      solution: "Serverless web workspace with Edge caching, custom SKU filtering, and instant PDF invoice compilation.",
+      decisions: "Bypassed heavy database costs by building secure client-side caching linked to serverless Apps Script endpoints.",
+      kpi: "Average Booking Time",
+      outcome: "Reduced booking time from 8 minutes to 45 seconds, with 100% ordering accuracy."
+    },
+    research: {
+      title: "Low-Cost Mobile Workspaces: Caching and Authentication in Serverless B2B Frameworks",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "How can enterprise field-sales platforms establish transactional integrity at zero infrastructure cost?",
+      methodology: "Built and evaluated a client-side Edge cached token-auth model over stateless HTTP endpoints.",
+      contribution: "Establishes a zero-cost infrastructure framework for field agents, maintaining data consistency without database sessions."
+    },
+    transformation: {
+      title: "B2B Sales Digitization Project",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Field agents wrote orders on paper or sent messages, leading to manual transcription errors.",
+      after: "Integrated mobile order portal with instant invoice generation.",
+      change: "Equipped agents with the mobile workspace and created real-time sync with dispatch.",
+      value: "Slashed transaction booking loop by 60% with zero hardware/operating server costs."
+    }
+  },
+  {
+    id: "MOD_04",
+    category: "supply-ops",
+    strategy: {
+      title: "Predictive Inventory & PO Optimizer",
+      desc: "A strategic stock governance dashboard tracking absolute inventories, batch histories, safety margins, and active backlogs. Integrates a predictive reordering engine driven by safety thresholds and rolling averages, combined with complete vendor PO lifecycle tracking.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Reduced chronic shortages from 17 to 2, optimizing stock rotation and driving 20% sales expansion.",
+      tech: ["Predictive Math", "Lifecycle Tracking", "Data Modeling"]
+    },
+    product: {
+      title: "Inventory & PO Optimizer",
+      badge: "Supply Product",
+      problem: "Frequent stockouts and overstocking tied up capital and limited regional sales velocity.",
+      users: "Supply chain managers and procurement officers.",
+      solution: "Analytics dashboard tracking batch history and calculating reorder recommendations.",
+      decisions: "Implemented safety stock formulations based on supplier lead-time variance rather than simple static caps.",
+      kpi: "Chronic Shortages",
+      outcome: "Reduced shortages from 17 to 2, accelerating stock rotation and enabling a 20% sales expansion."
+    },
+    research: {
+      title: "Exploring Forecasting-Driven Inventory Governance in SME Distribution Systems",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "How do rolling-average demand models perform compared to fixed-reorder boundary systems in volatile supply chains?",
+      methodology: "Analyzed historical distribution records to simulate stock levels under varying safety stock models.",
+      contribution: "Provides a mathematical framework for reducing capital locks in distributor networks under lead-time variance."
+    },
+    transformation: {
+      title: "Predictive Stock Optimizer Initiative",
+      badge: "Decision Intelligence",
+      stream: "Decision Intelligence",
+      before: "Ad-hoc stock checks and manual PO creation, causing regular stockouts of key SKUs.",
+      after: "Dashboard tracking batches, backlogs, and recommending reorder schedules.",
+      change: "Conducted weekly supply reviews, training managers to act on recommended reorders.",
+      value: "Chronic stock shortages fell by 88%, boosting stock rotation and sales velocity."
+    }
+  },
+  {
+    id: "MOD_05",
+    category: "extensions",
+    strategy: {
+      title: "Looker Studio Real-Time Refresher",
+      desc: "A custom Chrome extension engineered to bypass the native 15-minute Looker Studio data caching limits. Injects background event runners to trigger real-time, non-invasive dashboard database queries while completely preserving user-selected filters, pivots, and screen scroll coordinates.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Enabled real-time, live operational telemetry monitoring for senior executives during key cycles.",
+      tech: ["Chrome Extension API", "DOM Injection", "Session Sync"]
+    },
+    product: {
+      title: "Looker Real-Time Refresher",
+      badge: "Chrome Extension",
+      problem: "Native 15-minute caching limits prevented executive monitoring of live sales operations.",
+      users: "Senior executives and operations controllers.",
+      solution: "Chrome extension injecting background scripts to force data refreshes without losing filter states.",
+      decisions: "Chose DOM event injection over full page reloading to prevent disruption to user viewports and active scroll ranges.",
+      kpi: "Telemetry Query Lag",
+      outcome: "Reduced telemetry lag from 15 minutes to instantaneous, real-time live monitoring."
+    },
+    research: {
+      title: "Client-Side Caching Overrides in Visual Telemetry Dashboards",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "Can DOM manipulation bypass visual caching boundaries without causing server-side rate limits?",
+      methodology: "Injected event loops into Looker's rendering frame, measuring network traffic and query success rates.",
+      contribution: "Demonstrates a client-side override method for dashboard queries, enabling low-latency data rendering without UI disruptions."
+    },
+    transformation: {
+      title: "Live Telemetry Enablement",
+      badge: "Process Automation",
+      stream: "Process Automation",
+      before: "Dashboard limits forced managers to wait 15 minutes for operations updates.",
+      after: "Chrome extension providing non-disruptive, live telemetry refresh.",
+      change: "Deployed the extension to the executive team, creating a dashboard monitoring terminal in the operations room.",
+      value: "Enabled real-time operational response during peak sales and transit hours."
+    }
+  },
+  {
+    id: "MOD_06",
+    category: "fullstack",
+    strategy: {
+      title: "OmniReader — Spatial Reader Workspace",
+      desc: "A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built with local storage state management, dynamic semantic outlines, text-to-speech rendering, full-text instant index indexing, and adaptive layout themes.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Zero server-load cost architecture keeping reading sessions fully private and localized inside client sandboxes.",
+      tech: ["EPUB.js", "Scale-Free", "Local Indexing"],
+      cta: { text: "Deploy Reader Portal", url: "https://reader.pokerhearts.in" }
+    },
+    product: {
+      title: "OmniReader Document Workspace",
+      badge: "Scale-Free Product",
+      problem: "Standard document readers require heavy servers for parsing, creating privacy concerns and server overhead.",
+      users: "Readers processing EPUB, PDF, and DOCX files.",
+      solution: "Fully client-side reader with full-text search, outline indexing, and TTS rendering.",
+      decisions: "Opted for client-side file reading, storing reading configurations in IndexedDB to protect data privacy.",
+      kpi: "Server Infrastructure Cost",
+      outcome: "Reduced server operating costs to $0.00 while maintaining private, localized reading sandboxes."
+    },
+    research: {
+      title: "Cognitive Outline Navigation in Browser-Based E-Readers",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "How does client-side outline generation affect visual search performance and user text retention?",
+      methodology: "Measured document scanning speeds on client-parsed outlines versus linear reading panes.",
+      contribution: "Validates the effectiveness of local semantic indexing in enhancing navigation speed in browser environments."
+    },
+    transformation: {
+      title: "OmniReader Platform",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Corporate document reviewing relied on scattered PDF readers, leaking text coordinates.",
+      after: "Central, client-side, privacy-focused e-reading platform.",
+      change: "Migrated review processes to the local sandbox workspace, ensuring documents stay on user systems.",
+      value: "Achieved 100% data privacy compliance at zero server hosting overhead."
+    }
+  },
+  {
+    id: "MOD_07",
+    category: "supply-ops",
+    strategy: {
+      title: "End-to-End Sales Control System",
+      desc: "An operations tracking system managing order pipelines from entry to transit, delivery verification, and exception logging. Includes trigger alerts and structured task assignments for dispatch supervisors.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Decreased order-to-dispatch transit lag by 30% and enhanced final delivery success metrics by 15%.",
+      tech: ["Workflow Design", "Lead Time Optimization", "Exception Handlers"]
+    },
+    product: {
+      title: "Sales Dispatch & Control Hub",
+      badge: "Operations Product",
+      problem: "Poor tracking of order dispatch pipelines led to delivery delays and high transit exception rates.",
+      users: "Dispatch supervisors and delivery controllers.",
+      solution: "Transit tracking workspace with exception logs, SLA timers, and automated team assignments.",
+      decisions: "Designed the system with color-coded transit status blocks to prioritize resolving critical exception delays.",
+      kpi: "Order-to-Dispatch Lag",
+      outcome: "Decreased dispatch lag by 30% and improved delivery success rates by 15%."
+    },
+    research: {
+      title: "Modeling Transit Anomalies in Decentralized Logistics Systems",
+      badge: "Research Investigation",
+      theme: "Organizational Systems",
+      question: "What exceptions cause the highest dispatch delays in local distributor hubs?",
+      methodology: "Logged and categorized 10,000 order transit paths, running ANOVA on exception categories and delay outcomes.",
+      contribution: "Categorizes operational transit bottlenecks, validating automated escalation alerts as a solution."
+    },
+    transformation: {
+      title: "Sales Dispatch Digitization",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Manual entry of dispatch states and verbal supervisor handoffs, causing log delays.",
+      after: "Central tracking portal with automated exception and escalation logging.",
+      change: "Redesigned warehouse dispatch routines, establishing digital check-ins for all outgoing vehicles.",
+      value: "Slashed order transit lags by 30% while raising final delivery metrics by 15%."
+    }
+  },
+  {
+    id: "MOD_08",
+    category: "supply-ops",
+    strategy: {
+      title: "Task Matrix & Performance Scoring",
+      desc: "An enterprise execution matrix linking periodic staff tasks to individual performance logs, structuring a feedback loop from assignment to final scoring evaluation.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Lifted general SLA compliance and task completion indices by 40% across administrative departments.",
+      tech: ["Performance Systems", "Scoring Math"]
+    },
+    product: {
+      title: "Staff Performance Matrix",
+      badge: "Internal Tool",
+      problem: "Lack of structured task tracking caused missed deadlines and subjective performance reviews.",
+      users: "Administrative managers and department staff.",
+      solution: "Task accountability matrix linking regular deliverables to objective performance logs.",
+      decisions: "Used a relative score distribution model rather than absolute marks to prevent grading inflation across teams.",
+      kpi: "SLA Compliance Rate",
+      outcome: "Increased administrative SLA compliance by 40% using automated performance logging."
+    },
+    research: {
+      title: "Evaluating Objective Feedback Loops in Administrative Operations",
+      badge: "Research Investigation",
+      theme: "Organizational Systems",
+      question: "How does periodic performance logging affect task completion times in non-sales departments?",
+      methodology: "Conducted a pre-post study of task compliance rates before and after implementing structured matrix scoring.",
+      contribution: "Shows that transparent performance evaluation models significantly reduce task completion latency (p < 0.05)."
+    },
+    transformation: {
+      title: "Task Execution Restructuring",
+      badge: "Process Automation",
+      stream: "Governance & Control",
+      before: "Verbal delegation and retrospective reviews, causing delayed reports and disputes.",
+      after: "Structured performance matrix matching roles to weekly tasks.",
+      change: "Introduced gamified monthly reviews based on matrix outcomes, rewarding high-performance metrics.",
+      value: "Boosted department SLA compliance by 40%, inverting task neglect rates."
+    }
+  },
+  {
+    id: "MOD_09",
+    category: "supply-ops",
+    strategy: {
+      title: "District Monopoly & Control System",
+      desc: "A dynamic territory mapping and management database tracking monopoly allocations, local sales performance, warning triggers, and automated contract termination logs.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Streamlined regional governance and automated warnings for underperforming territory allocations.",
+      tech: ["Territory Mapping", "Data Automation", "SLA Warnings"]
+    },
+    product: {
+      title: "Territory Governance System",
+      badge: "Governance Tool",
+      problem: "Overlapping territory allocations caused dealer disputes, diluting brand pricing margins.",
+      users: "Territory sales managers and legal compliance teams.",
+      solution: "Dealer mapping database monitoring monopoly boundaries and sales performance thresholds.",
+      decisions: "Implemented automated warnings that fire as soon as regional dealer volumes drop below local targets.",
+      kpi: "Dealer Disputes Resolved",
+      outcome: "Resolved overlapping distribution disputes, automating contract compliance checks."
+    },
+    research: {
+      title: "Territory Governance Models in SME Franchise Distribution",
+      badge: "Research Investigation",
+      theme: "Organizational Systems",
+      question: "What territory parameters minimize dealer channel conflict and pricing erosion?",
+      methodology: "Analyzed spatial distribution patterns of dealer networks, mapping pricing compliance against distance and volume.",
+      contribution: "Formulates a spatial control method for franchise operations, demonstrating the benefits of hard boundary rules."
+    },
+    transformation: {
+      title: "Dealer Control Digitization",
+      badge: "Governance & Control",
+      stream: "Governance & Control",
+      before: "Scribbled lists and verbal agreements of dealership allocations, causing boundary disputes.",
+      after: "Database linking dealer locations, contract terms, and warning thresholds.",
+      change: "Created a formal geographic database of allocations, training managers to verify overlaps before new contracts.",
+      value: "Streamlined regional dealer governance, resolving channel overlaps and price erosion."
+    }
+  },
+  {
+    id: "MOD_10",
+    category: "supply-ops",
+    strategy: {
+      title: "Short Product & Restock Trigger",
+      desc: "A real-time database capturing unfulfilled client demand during order placement and linking it with active inventory updates to auto-alert sales agents as soon as items return to stock.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Recovered previously lost repeat orders by instantly pushing availability notifications to regional reps.",
+      tech: ["Inventory Triggers", "Lead Recovery", "Event Hooks"]
+    },
+    product: {
+      title: "Restock Notification Engine",
+      badge: "Sales Product",
+      problem: "When items went out of stock, client orders were cancelled and salesmen forgot to re-pitch when items returned.",
+      users: "Sales agents and inventory controllers.",
+      solution: "Demand capture database linking unfulfilled sales orders to inventory arrival hooks for automated alerts.",
+      decisions: "Created direct WhatsApp/Email alert triggers for regional reps rather than passive dashboard markers.",
+      kpi: "Recovered Sales Orders",
+      outcome: "Bypassed order losses by notifying agents the moment items hit the shelves."
+    },
+    research: {
+      title: "Demand Backlogging and Recovery in SME Distribution Channels",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "Can localized alert loops recover backlogged order demand during stockouts?",
+      methodology: "Measured conversion success of backlogged orders notified within 24 hours of restock against standard lists.",
+      contribution: "Shows that prompt recovery notification models significantly increase buyer retention (p < 0.01) after stockouts."
+    },
+    transformation: {
+      title: "Lost Demand Capture Project",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Out-of-stock items were deleted from orders, with zero tracking of missed revenue.",
+      after: "Database capturing short product requests, linked to incoming stock alerts.",
+      change: "Instructed order bookers to log every short item, aligning the workflow with stock arrivals.",
+      value: "Recovered previously lost sales, creating a reliable ledger of unfilled demand."
+    }
+  },
+  {
+    id: "MOD_11",
+    category: "supply-ops",
+    strategy: {
+      title: "Lead Quality & De-duplication Engine",
+      desc: "A validation pipeline utilizing regular expression validation and dynamic cross-referencing algorithms to clean and de-duplicate contact database sheets before CRM entry.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Eliminated ~25% database clutter and duplicate lead allocations, preserving CRM record hygiene.",
+      tech: ["Regex Parsers", "Data Cleaning", "CRM Validation"]
+    },
+    product: {
+      title: "Lead Cleaning Engine",
+      badge: "Data Product",
+      problem: "Duplicate client data uploads caused salesmen to pitch to the same contacts, creating friction.",
+      users: "CRM administrators and lead generation leads.",
+      solution: "Lead cleaning pipeline with regex validation and dynamic cross-reference matching.",
+      decisions: "Implemented fuzzy phone number normalization to catch duplicates using different formats.",
+      kpi: "CRM Clutter Reduced",
+      outcome: "Cleaned contact files before database import, removing 25% duplicate and invalid entries."
+    },
+    research: {
+      title: "Heuristic Data Cleaning in Low-Resource CRM Integrations",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "What matching thresholds balance de-duplication accuracy with computation cost in SME databases?",
+      methodology: "Tested regex and levenshtein distance parameters on 50,000 sales records to identify duplicates.",
+      contribution: "Provides a practical cleaning protocol for resource-constrained companies lacking dedicated data tools."
+    },
+    transformation: {
+      title: "CRM Lead Sanitation Initiative",
+      badge: "Process Automation",
+      stream: "Process Automation",
+      before: "Manual upload of lists, causing duplicate records and split customer logs.",
+      after: "Pipeline using regular expressions and cross-matching to clean leads before entry.",
+      change: "Set a strict upload workflow: all lists must pass through the de-duplication script before import.",
+      value: "Preserved CRM integrity, preventing duplicate calls and saving agent time."
+    }
+  },
+  {
+    id: "MOD_12",
+    category: "supply-ops",
+    strategy: {
+      title: "Vendor Payables Ledger Dashboard",
+      desc: "A secure cash outflow dashboard organizing payments, credit timelines, and validation logs, featuring automated alerts on upcoming invoice maturities.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Optimized working capital visibility and avoided delay penalties across 40+ corporate supply vendors.",
+      tech: ["Finance Tracking", "Maturity Alerts", "Cash Flow Ops"]
+    },
+    product: {
+      title: "Vendor Payables Hub",
+      badge: "Finance Product",
+      problem: "Delayed invoices led to late penalties and interrupted manufacturer supply channels.",
+      users: "Accounts payable teams and finance heads.",
+      solution: "Outflow dashboard tracking credit periods, validation files, and maturity timers.",
+      decisions: "Built a calendar view showing daily cash requirements to prevent sudden working capital locks.",
+      kpi: "Supplier Late Penalties",
+      outcome: "Avoided late penalties across 40+ vendors, keeping credit channels open."
+    },
+    research: {
+      title: "Optimizing Working Capital in Supply Networks through Cash Outflow Modeling",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "How do credit maturity alerts affect distributor cash reserves and credit ratings?",
+      methodology: "Analyzed cash flows and payment cycles before and after implementing maturity dashboards.",
+      contribution: "Shows the impact of credit maturity visibility on improving supplier relationship metrics."
+    },
+    transformation: {
+      title: "Accounts Payable Digitization",
+      badge: "Governance & Control",
+      stream: "Governance & Control",
+      before: "Physical invoice filing and calendar notes, leading to missed vendor payment deadlines.",
+      after: "Secure outflow dashboard tracking credit periods, maturities, and payment statuses.",
+      change: "Digitized vendor records and set up weekly reviews based on automated invoice warnings.",
+      value: "Optimized capital visibility, avoiding penalties across 40+ supply vendors."
+    }
+  },
+  {
+    id: "MOD_13",
+    category: "supply-ops",
+    strategy: {
+      title: "Complaint Management & Escalation Engine",
+      desc: "A multi-level trouble ticketing system routing client and operational complaints to corresponding team leads with built-in escalation timers.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Slashed average complaint resolution cycle times by 48 hours via structured department escalation triggers.",
+      tech: ["Escalation Logic", "SLA Tracking", "Ticketing Pipelines"]
+    },
+    product: {
+      title: "Complaint Escalation Hub",
+      badge: "SLA Product",
+      problem: "Client complaints got stuck in employee email boxes, causing long resolution times.",
+      users: "Customer support agents and operations heads.",
+      solution: "Ticketing dashboard routing logs to departments with built-in escalation warnings.",
+      decisions: "Set up warning escalations that alert division heads if a ticket stays open past 24 hours.",
+      kpi: "Avg. Resolution Time",
+      outcome: "Slashed average complaint resolution time by 48 hours via automated escalations."
+    },
+    research: {
+      title: "Escalation Dynamics in Multi-Tier Service Operations",
+      badge: "Research Investigation",
+      theme: "Organizational Systems",
+      question: "How do warning loops impact ticket resolution times in decentralized operations?",
+      methodology: "Tracked ticket lifecycles across teams, measuring the impact of escalation warnings on completion speed.",
+      contribution: "Demonstrates the benefits of automated warning loops in resolving administrative delays."
+    },
+    transformation: {
+      title: "Complaint Resolution Redesign",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Client complaints were sent to different emails, with no central ticket tracking.",
+      after: "Central ticketing portal with automated team routing and escalations.",
+      change: "Set up a direct complaint channel for clients, routing tickets to team leads.",
+      value: "Slashed resolution cycles by 48 hours, improving client trust metrics."
+    }
+  },
+  {
+    id: "MOD_14",
+    category: "supply-ops",
+    strategy: {
+      title: "Unified Inventory, Batch & Collections Ledger",
+      desc: "A comprehensive operational dataset model unifying inventory records, production batch lifetimes, and cash collections into a consolidated corporate reporting layer.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Consolidated three previously isolated data streams into a single source of truth for boardroom reviews.",
+      tech: ["SQL-Like Querying", "Data Blending", "Integrations"]
+    },
+    product: {
+      title: "Unified Operations Ledger",
+      badge: "Data Portal",
+      problem: "Siloed data in sales, stock, and cash ledgers made it hard to review weekly performance.",
+      users: "Boardroom executives and finance controllers.",
+      solution: "Integrated ledger blending stock batches, invoices, and payment data.",
+      decisions: "Chose to merge data at the report layer rather than altering underlying system databases to prevent sync errors.",
+      kpi: "Report Processing Time",
+      outcome: "Consolidated three isolated systems into a single dashboard for executive meetings."
+    },
+    research: {
+      title: "Data Blending in Fragmented Legacy Enterprise Architectures",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "How can legacy records be merged to support real-time executive decision-making?",
+      methodology: "Compared data loading speeds of live database queries against batch blended dashboards.",
+      contribution: "Validates a lightweight blending approach for legacy systems, avoiding database migrations."
+    },
+    transformation: {
+      title: "Operational Data Integration",
+      badge: "Operational Digitization",
+      stream: "Operational Digitization",
+      before: "Excel files from different departments had to be manually merged for weekly meetings.",
+      after: "Automated database blending compiling stock, batches, and cash into one screen.",
+      change: "Standardized data schemas across sales, warehouse, and finance teams.",
+      value: "Replaced manual consolidation, saving hours of weekly Excel work."
+    }
+  },
+  {
+    id: "MOD_15",
+    category: "ai-systems",
+    strategy: {
+      title: "SCOT Predictive Purchase Pattern Dashboard",
+      desc: "A behavior-driven predictive dashboard analyzing historical B2B purchase frequencies to calculate and forecast future reorder timelines per client.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Enabled predictive sales calling across 500+ SKUs by anticipating client restocking cycles.",
+      tech: ["Data Modeling", "Looker Studio", "Predictive Demand"]
+    },
+    product: {
+      title: "SCOT Purchase Predictor",
+      badge: "Analytics Product",
+      problem: "Sales calls were reactive, missing dealer inventory exhaustion moments.",
+      users: "Sales reps and regional managers.",
+      solution: "Predictive dashboard tracking customer purchasing histories to estimate future restocking dates.",
+      decisions: "Utilized client-specific demand waves rather than national averages to customize sales calling triggers.",
+      kpi: "Predictive Pitch Accuracy",
+      outcome: "Enabled predictive sales calling across 500+ SKUs, increasing client repeat buys."
+    },
+    research: {
+      title: "Modeling Customer Purchasing Behavior and Credit Risk in B2B SME Systems",
+      badge: "Research Investigation",
+      theme: "Predictive Analytics",
+      question: "Can transaction anomalies predict dealer credit defaults before they occur?",
+      methodology: "Analyzed credit periods and payment lags on 2,000 accounts, running classification trees for risk indicators.",
+      contribution: "Develops a credit scoring system for small-scale distributors, lowering payment risks."
+    },
+    transformation: {
+      title: "Predictive Sales Transformation",
+      badge: "Decision Intelligence",
+      stream: "Decision Intelligence",
+      before: "Sales reps waited for dealers to call, losing orders to competitors.",
+      after: "Dashboard showing clients whose inventories are likely running low.",
+      change: "Trained agents to make proactive sales calls based on dashboard restocking dates.",
+      value: "Boosted outbound sales conversions and improved client purchase rates."
+    }
+  },
+  {
+    id: "MOD_16",
+    category: "extensions",
+    strategy: {
+      title: "Android Call Recording Synchronizer",
+      desc: "A custom background mobile script running localized file system hooks on Android devices to safely ingest and sync call audio recordings straight to secure Drive folders.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Secured 100% data compliance capture rates for the call quality evaluation pipeline across 12 remote agents.",
+      tech: ["Android Automation", "Drive API", "Background Hooks"]
+    },
+    product: {
+      title: "Android Call Sync Agent",
+      badge: "Operations Tool",
+      problem: "Remote agents forgot to upload recording files, breaking the call QA analysis cycle.",
+      users: "12 remote telecalling agents.",
+      solution: "Android background script monitoring directory creations and syncing files to Drive.",
+      decisions: "Faced with mobile OS sleep cycles, designed a deferred check-in process that restarts upload threads.",
+      kpi: "Call Capture Compliance",
+      outcome: "Secured 100% call capture compliance, feeding recordings into the AI QA evaluator."
+    },
+    research: {
+      title: "Low-Latency Synchronizations in Mobile Enterprise Environments",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "How can mobile apps sync media assets under battery restrictions and limited networks?",
+      methodology: "Compared upload completion rates of foreground uploads versus background hook scripts.",
+      contribution: "Shows how mobile OS directory watchers can be set up to secure media assets without high battery drain."
+    },
+    transformation: {
+      title: "Call Compliance Digitization",
+      badge: "Process Automation",
+      stream: "Process Automation",
+      before: "Manual sharing of audio files over chat, causing lost files and compliance risks.",
+      after: "Background mobile script uploading calls automatically to cloud folder.",
+      change: "Installed the sync script on agent phones and automated upload validation.",
+      value: "Raised QA compliance rate to 100%, feeding the speech analysis pipeline."
+    }
+  },
+  {
+    id: "MOD_17",
+    category: "supply-ops",
+    strategy: {
+      title: "Control Sample Lifecycle Monitor",
+      desc: "A quality audit logging environment tracing periodic product control samples, cross-referencing batch numbers and expiration schedules.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Achieved 100% structural alignment with regulatory quarterly pharmaceutical quality audit sheets.",
+      tech: ["SOP Logging", "Lifecycle Tracking", "QC Audits"]
+    },
+    product: {
+      title: "Control Sample Tracker",
+      badge: "Quality Product",
+      problem: "Tracking physical control samples in pharmaceutical batches was manual, risking audit failures.",
+      users: "Quality control officers and warehouse managers.",
+      solution: "Digital logging environment cross-referencing batch IDs and sample locations.",
+      decisions: "Used automated status flags to highlight expiring control samples before quarterly audit cycles.",
+      kpi: "Audit Compliance Score",
+      outcome: "Secured 100% compliance alignment with regulatory quality audit requirements."
+    },
+    research: {
+      title: "Traceability Models in Regulated Small-Scale Production Batching",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "How do database batch-tracking models impact audit readiness in chemical distribution?",
+      methodology: "Analyzed audit times and retrieval error rates under paper logs versus digital tracking databases.",
+      contribution: "Proves that digital batch-referencing models significantly reduce information retrieval times in audits."
+    },
+    transformation: {
+      title: "QC Audit Digitization",
+      badge: "Governance & Control",
+      stream: "Governance & Control",
+      before: "Control samples were catalogued in paper books, causing delays during audits.",
+      after: "Digital logging interface linking batch IDs and sample locations.",
+      change: "Established check-in routines in the QA room, matching batches to locations in real time.",
+      value: "Removed manual audit delays, securing 100% compliance with regulators."
+    }
+  },
+  {
+    id: "MOD_18",
+    category: "extensions",
+    strategy: {
+      title: "Dynamic Google Form Prefill System",
+      desc: "An automated URL parameter builder that dynamically injects client metadata and context IDs into form links, eliminating duplicate entry needs.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Eliminated manual entry typos by field operators submitting inventory status sheets.",
+      tech: ["URL Parameters", "Google Forms", "Automation"]
+    },
+    product: {
+      title: "Dynamic Form Prefill Engine",
+      badge: "Operations Tool",
+      problem: "Field agents wasted time re-typing customer IDs and SKU info on mobile inventory sheets.",
+      users: "Field operators and warehouse staff.",
+      solution: "URL parameter builder injecting metadata into forms based on dealer selection.",
+      decisions: "Decided to build prefill links client-side to prevent server-side wait states for agents.",
+      kpi: "Operator Typo Rates",
+      outcome: "Cut entry times and eliminated manual typos on incoming inventory sheets."
+    },
+    research: {
+      title: "Reducing Entry Friction in Mobile Field Ingestion Services",
+      badge: "Research Investigation",
+      theme: "Information Systems",
+      question: "How does pre-populating fields impact data accuracy and submission speed in mobile contexts?",
+      methodology: "Compared submission speed and error rates of empty forms against prefilled URL forms.",
+      contribution: "Confirms that parameter pre-population significantly lowers error rates and increases submission rates."
+    },
+    transformation: {
+      title: "Field Form Automation Project",
+      badge: "Process Automation",
+      stream: "Process Automation",
+      before: "Warehouse agents typed name, ID, and dates on every report, leading to entry typos.",
+      after: "Dynamic prefill links that inject client metadata automatically.",
+      change: "Trained operators to open prefilled links directly from their CRM cards.",
+      value: "Reduced form submission times and prevented client ID mismatch errors."
+    }
+  },
+  {
+    id: "MOD_19",
+    category: "supply-ops",
+    strategy: {
+      title: "Dynamic Sales Incentive & Commission Calculator",
+      desc: "An automated commission engine tracking regional sales tiers, growth metrics, and milestone payout ratios for field forces, replacing fragile excel sheets.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Standardized commission tracking, providing absolute computational accuracy and cutting processing latency.",
+      tech: ["Apps Script", "Commission Math", "Dynamic Ledgers"]
+    },
+    product: {
+      title: "Sales Commission Engine",
+      badge: "Internal Tool",
+      problem: "Calculating complex commission tiers on Excel sheets took days, leading to payment disputes.",
+      users: "HR managers, sales executives, and accounting teams.",
+      solution: "Apps Script commission engine calculating tiers and payout ratios from sales logs.",
+      decisions: "Used a single source of truth sales table to calculate commissions, resolving mismatches.",
+      kpi: "Payroll Disputes",
+      outcome: "Reduced commission processing times from 4 days to instant, eliminating payroll disputes."
+    },
+    research: {
+      title: "Designing Incentive Frameworks in Large Decentralized Sales Channels",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "Can automated incentive transparency change sales behavior and drive channel growth?",
+      methodology: "Tracked weekly sales changes after launching the transparent commission ledger.",
+      contribution: "Shows that sharing real-time payout estimations increases salesman motivation and volumes."
+    },
+    transformation: {
+      title: "Incentive Calculation Automation",
+      badge: "Process Automation",
+      stream: "Process Automation",
+      before: "Calculations on spreadsheets at month-end, creating payout delays.",
+      after: "Automated script that runs weekly sales data to show accrued commissions.",
+      change: "Migrated commission calculations to the automated script, publishing results on agents' sheets.",
+      value: "Replaced manual Excel work, providing transparency and cutting processing latency."
+    }
+  },
+  {
+    id: "MOD_20",
+    category: "supply-ops",
+    strategy: {
+      title: "Dynamic Freight & Logistical Cost Estimator",
+      desc: "A shipping cost calculator evaluating volumetric weights, dimensions, geographical transit zones, and fuel surcharges to generate transport quotes.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Slashed transport quoting lag times and eliminated shipping invoice discrepancies.",
+      tech: ["Volumetric Math", "Logistical Costing", "Transit Analysis"]
+    },
+    product: {
+      title: "Freight Cost Estimator",
+      badge: "Logistics Product",
+      problem: "Manual freight calculations led to delays in client quotes and shipping invoice discrepancies.",
+      users: "Logistics coordinators and dispatch planners.",
+      solution: "Shipping calculator evaluating sizes, weights, and fuel rates to estimate costs.",
+      decisions: "Pre-loaded regional transport tables to speed up offline quotes for field operators.",
+      kpi: "Quoting Lag Time",
+      outcome: "Slashed quote times and removed shipping invoice errors."
+    },
+    research: {
+      title: "Heuristic Cost Allocation Models in SME Freight Operations",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "What pricing heuristics balance quoting speed with margin protection in shipping?",
+      methodology: "Analyzed transport invoices, comparing actual costs with predicted surcharge models.",
+      contribution: "Provides a shipping cost model that projects transport margins without heavy logistics software."
+    },
+    transformation: {
+      title: "Logistical Cost Digitization",
+      badge: "Operational Digitization",
+      stream: "Governance & Control",
+      before: "Verbal quotes from carriers, causing discrepancies in client bills.",
+      after: "Calculator evaluating volumes, weight, and fuel surcharges.",
+      change: "Set a workflow requiring all shipping invoices to be validated by the calculator before payment.",
+      value: "Removed client invoicing discrepancies, ensuring margins are protected."
+    }
+  },
+  {
+    id: "MOD_21",
+    category: "supply-ops",
+    strategy: {
+      title: "Promotional Input Allocation & Budget Tracker",
+      desc: "An allocation dashboard modeling marketing sample distributions, regional promotional expenses, and material allocations against net sales returns.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Enforced strict budgetary limits on sales promo allocations and boosted material spending efficiency.",
+      tech: ["Allocation Logic", "Marketing ROI", "Budget Ledgers"]
+    },
+    product: {
+      title: "Promo Input Allocator",
+      badge: "Marketing Product",
+      problem: "Field agents distributed marketing samples without limits, causing budget overruns.",
+      users: "Marketing managers and regional sales managers.",
+      solution: "Allocation dashboard matching sample distribution against regional sales budgets.",
+      decisions: "Set hard allocation limits that adjust dynamically based on regional sales volumes.",
+      kpi: "Promotional Budget Overruns",
+      outcome: "Enforced limits on promo materials, keeping distribution costs within budget."
+    },
+    research: {
+      title: "Resource Allocation Models in Distributed Field Marketing Campaigns",
+      badge: "Research Investigation",
+      theme: "Operations Research",
+      question: "How does capping promotional allocations impact localized sales growth in dealer channels?",
+      methodology: "Tracked sales before and after introducing dynamic allocation limits in dealer regions.",
+      contribution: "Demonstrates that dynamic allocation caps save budget without hurting sales momentum."
+    },
+    transformation: {
+      title: "Marketing Budget Governance",
+      badge: "Governance & Control",
+      stream: "Governance & Control",
+      before: "Sales reps requested promotional materials without caps, exceeding annual budgets.",
+      after: "Dashboard showing materials distributed, sales returns, and allocation limits.",
+      change: "Linked material orders to the allocation system, blocking over-budget requests.",
+      value: "Enforced promo budgets, optimizing spending efficiency."
+    }
+  },
+  {
+    id: "MOD_22",
+    category: "supply-ops",
+    strategy: {
+      title: "Party Performance & Client Health Analytics",
+      desc: "A comprehensive B2B client analysis system tracking historical purchasing logs, rotation speed, aging accounts receivables, and credit risk factors.",
+      outcomeLabel: "Operational Outcome",
+      outcomeText: "Provides high-value management alerts on top-performing client accounts and early payment delays.",
+      tech: ["Looker Studio", "Health Scoring", "AR Analytics"]
+    },
+    product: {
+      title: "Client Health Dashboard",
+      badge: "Analytics Product",
+      problem: "Late dealer payments caused cash flow squeezes that were detected too late.",
+      users: "Credit risk officers and sales directors.",
+      solution: "B2B client tracking system monitoring purchase frequencies, credit timelines, and risk factors.",
+      decisions: "Built an alert loop that flags clients when their payment lag exceeds credit terms by 7 days.",
+      kpi: "Late Payments Flagged",
+      outcome: "Optimized payment collection times, giving directors early warning of credit issues."
+    },
+    research: {
+      title: "Modeling Customer Purchasing Behavior and Credit Risk in B2B SME Systems",
+      badge: "Research Investigation",
+      theme: "Predictive Analytics",
+      question: "Can transaction anomalies predict dealer credit defaults before they occur?",
+      methodology: "Analyzed credit periods and payment lags on 2,000 accounts, running classification trees for risk indicators.",
+      contribution: "Develops a credit scoring system for small-scale distributors, lowering payment risks."
+    },
+    transformation: {
+      title: "Credit Risk Analytics Project",
+      badge: "Decision Intelligence",
+      stream: "Decision Intelligence",
+      before: "Late payments were tracked on spreadsheets, causing collection delays.",
+      after: "Live credit risk dashboard tracking payment logs and aging collections.",
+      change: "Trained credit controllers to monitor dashboard flags and follow up on early warning alerts.",
+      value: "Improved cash flow visibility and reduced credit collections lag."
+    }
+  }
+];
 
+
+// Case Studies Drawer Data
+const caseStudiesData = {
+  hrVoice: {
+    title: "AI Voice Mock Interview Simulator & Portal",
+    problem: "Candidates preparing for high-pressure corporate interviews lack authentic, adaptive, real-time sandboxes. Standard online platforms rely on written feedback, failing to capture spoken delivery, noise thresholds, or dynamic conversation flow.",
+    architecture: "Resumes are uploaded directly in the browser and parsed using PDF.js to extract key skills and background metrics. An interactive Web Audio API captures audio input, running localized Voice Activity Detection (VAD). Dynamic prompts are synthesized on the fly via the Gemini API, maintaining semantic context and enabling interruption detection. The entire interview grading script logs scored benchmarks and feedback directly to a secure, serverless Google Sheets ledger.",
+    challenge: "Handling real-time browser latency during conversational audio loops, maintaining a high-fidelity noise floor threshold to prevent audio feedback echo, and structuring AI prompt context dynamically to model high-pressure executive interviews in both Hindi and English.",
+    impact: "Drastically accelerated interview preparedness metrics, lowered API scaling overhead to ~$0.05 per session, and captured structured performance logs for comprehensive self-review cycles."
+  },
+  callQA: {
+    title: "AI-Powered Call QA Analysis System",
+    problem: "Manual evaluation of hundreds of daily call center telecalling records was practically impossible, limiting QA audits to less than 2% sample sizes and leaving systematic agent execution errors undetected.",
+    architecture: "Remote Android recording scripts capture call files on local devices and sync directly with secure Google Drive folders. A batch event handler triggers script loops that process transcripts via high-performance LLM engines. The transcripts are parsed against executive script alignment rules, customer purchase triggers, and objections vectors, compiling structured QA scores and automated coaching feedback to a live Looker dashboard.",
+    challenge: "Processing over 800 minutes of decentralized audio (1,200 recordings) daily without exceeding API rate thresholds. Resolved by developing a task queuing matrix that handles rate-limiting, and managing inconsistent recording codecs from remote Android agents.",
+    impact: "Achieved 100% QA coverage, eliminated 360 hours of manual evaluation monthly, and triggered real-time alerts on systematic lead pipeline failures."
+  },
+  b2bOrder: {
+    title: "B2B Order Booking Workspace Portal",
+    problem: "Scattered order collections across text messages and emails led to booking inaccuracies, ordering delays, manual invoice typos, and excessive transaction overhead (averaging 8 minutes per order booking).",
+    architecture: "A highly optimized, serverless lightweight web portal featuring client-side Edge state storage caching, custom token authentication, live SKU search filters, and automatic, browser-side jsPDF invoice compilations. Connects directly to Google Apps Script endpoints, maintaining database updates and stock backing at absolute zero infrastructure operating cost.",
+    challenge: "Establishing highly secure authentication and real-time state integrity for off-grid field sales agents without the complexity and financial overhead of a dedicated cloud container database.",
+    impact: "Slashed average transaction booking time from 8 minutes down to 45 seconds, secured 100% ordering accuracy (zero manual typos), and operated at infinite scale with $0.00 infrastructure costs."
+  }
+};
+
+
+/* ==========================================================================
+   DYNAMIC INTERACTIVE UI INTERACTIONS
+   ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-
-  // 1. Initialize WebGL spatial environment
+  // 1. Initialize WebGL Knowledge Graph
   initThree();
 
-  // 2. Active Section Navigation Indicator & Scroll Reveals
+  // 2. Navigation Active Tab Highlighting
   const navLinks = document.querySelectorAll('.nav-link-item a');
   const sections = document.querySelectorAll('section');
 
   window.addEventListener('scroll', () => {
-    // Nav bar scrolling blur toggle
     const mainNav = document.getElementById('mainNav');
     if (window.scrollY > 40) {
       mainNav.classList.add('scrolled');
@@ -349,11 +1317,9 @@ document.addEventListener('DOMContentLoaded', () => {
       mainNav.classList.remove('scrolled');
     }
 
-    // Nav active tab calculations
     let currentActive = "";
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
       if (window.scrollY >= sectionTop - 180) {
         currentActive = section.getAttribute('id');
       }
@@ -367,45 +1333,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mobile menu hamburger toggle
+  // Mobile Nav Drawer Toggle
   const navToggle = document.getElementById('navToggle');
   const navLinksList = document.getElementById('navLinks');
   if (navToggle && navLinksList) {
     navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
       navLinksList.classList.toggle('open');
     });
-
-    // Close when clicking link
-    document.querySelectorAll('.nav-link-item a').forEach(link => {
+    
+    // Close mobile nav when link is clicked
+    navLinksList.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
         navLinksList.classList.remove('open');
       });
     });
   }
 
-  // 3. Hero Vision Panel Mode Switcher
-  const btnStrategic = document.getElementById('btnStrategicMode');
-  const btnAnalytical = document.getElementById('btnAnalyticalMode');
-  const paneStrategic = document.getElementById('paneStrategic');
-  const paneAnalytical = document.getElementById('paneAnalytical');
+  // 3. Strategic ROI Display rendering
+  const roiButtons = document.querySelectorAll('.roi-select-btn');
+  const roiDisplayCard = document.getElementById('roiDisplayCard');
 
-  if (btnStrategic && btnAnalytical) {
-    btnStrategic.addEventListener('click', () => {
-      btnStrategic.classList.add('active');
-      btnAnalytical.classList.remove('active');
-      paneStrategic.classList.add('active');
-      paneAnalytical.classList.remove('active');
-    });
-
-    btnAnalytical.addEventListener('click', () => {
-      btnAnalytical.classList.add('active');
-      btnStrategic.classList.remove('active');
-      paneAnalytical.classList.add('active');
-      paneStrategic.classList.remove('active');
-    });
-  }
-
-  // === STRATEGIC ROI & OPERATIONS CALCULATOR DATA ===
+  // ROI Calculator Data
   const roiData = {
     hrVoice: {
       title: "AI Voice Mock Interview Simulator & Portal",
@@ -431,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     b2bOrder: {
       title: "B2B Order Booking Workspace",
-      outcome: "60% recurring booking lead-time eliminated",
+      outcome: "60% recurring B2B booking latency eliminated",
       align: "Senior PM / Systems Architect",
       metrics: [
         { label: "Transaction Time", val: "Slashed from 8 mins to 45 secs" },
@@ -452,9 +1402,6 @@ document.addEventListener('DOMContentLoaded', () => {
       flow: "Out-of-stock data capture ➔ Moving averages safety parameters ➔ Auto reorder thresholds ➔ Purchase Order tracking ledgers"
     }
   };
-
-  const roiButtons = document.querySelectorAll('.roi-select-btn');
-  const roiDisplayCard = document.getElementById('roiDisplayCard');
 
   function renderROI(sysKey) {
     const data = roiData[sysKey];
@@ -489,13 +1436,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <p style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--color-secondary); line-height: 1.5; word-break: break-word;">${data.flow}</p>
           </div>
         `;
-        
         gsap.to(roiDisplayCard, { opacity: 1, y: 0, duration: 0.35 });
       }
     });
   }
 
-  // Bind click listeners on the buttons
   roiButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       roiButtons.forEach(b => b.classList.remove('active'));
@@ -505,45 +1450,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Trigger initial first item
+  // Trigger initial ROI
   renderROI('hrVoice');
 
-  // 4. Projects Filter Grid Logic
+  // 4. Projects Filter Grid Event Wiring
   const filterPills = document.querySelectorAll('#projectFilters .filter-pill');
-  const projectCards = document.querySelectorAll('#projectGrid .analytics-card');
-  const activeCountLabel = document.getElementById('projectActiveCount');
-
-  // Initialize display count
-  if (activeCountLabel) {
-    activeCountLabel.textContent = projectCards.length;
-  }
-
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
-      // Set active pill class
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-
-      const filterType = pill.getAttribute('data-filter');
-      let visibleCount = 0;
-
-      projectCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        if (filterType === 'all' || category === filterType) {
-          card.style.display = 'flex';
-          visibleCount++;
-          // Stagger card reveals
-          gsap.fromTo(card, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4 });
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      if (activeCountLabel) activeCountLabel.textContent = visibleCount;
+      renderProjectGrid();
     });
   });
 
-  // 5. Intelligent Timeline Flow - Experiences Systems pipeline dataset
+  // 5. Intelligent Timeline Flow Experiences mapping
   const experienceData = {
     analyst: {
       title: "Management Analyst",
@@ -600,7 +1520,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = experienceData[expKey];
     if (!data) return;
 
-    // Transition values elegantly with GSAP
     gsap.to("#pipelineCard", {
       opacity: 0.3,
       y: 5,
@@ -609,7 +1528,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pipelineSub) pipelineSub.textContent = data.subtitle;
         if (pipelineTitle) pipelineTitle.textContent = data.title;
 
-        // Render bullet list
         if (pipelineBullets) {
           pipelineBullets.innerHTML = "";
           data.bullets.forEach(bullet => {
@@ -620,11 +1538,9 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
 
-        // Render visual pipeline nodes
         if (flowNodesWrapper) {
           flowNodesWrapper.innerHTML = "";
           data.flow.forEach((node, index) => {
-            // Append node circular item
             const nodeEl = document.createElement('div');
             nodeEl.className = "flow-node-item";
             nodeEl.innerHTML = `
@@ -633,7 +1549,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             flowNodesWrapper.appendChild(nodeEl);
 
-            // Add arrow connectors between nodes
             if (index < data.flow.length - 1) {
               const arrow = document.createElement('span');
               arrow.className = "flow-connector-arrow";
@@ -648,7 +1563,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Bind click listeners on timeline items
   timelineItems.forEach(item => {
     item.addEventListener('click', () => {
       timelineItems.forEach(t => t.classList.remove('active'));
@@ -658,10 +1572,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Render initial first item
+  // Render initial timeline
   renderTimelineDetail('analyst');
 
-  // 6. Real-time Searchable Knowledge Archive Logic
+  // 6. Searchable Knowledge Archive Logic
   const archiveSearchInput = document.getElementById('archiveSearch');
   const archiveFilters = document.querySelectorAll('#archiveFilters .archive-filter-btn');
   const archiveCards = document.querySelectorAll('#archiveGrid .archive-card');
@@ -680,11 +1594,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const matchesSearch = title.includes(query) || text.includes(query) || tags.includes(query);
       const matchesCategory = filterCat === 'all' || category === filterCat;
 
-      if (matchesSearch && matchesCategory) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (matchesSearch && matchesCategory) ? 'flex' : 'none';
     });
   }
 
@@ -700,19 +1610,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. B2B Brief Form Slider real-time formatting updates
+  // 7. B2B Brief Form Slider
   const briefSlider = document.getElementById('briefRange');
   const sliderOutput = document.getElementById('sliderOutput');
-
   if (briefSlider && sliderOutput) {
     briefSlider.addEventListener('input', () => {
       const val = parseInt(briefSlider.value);
-      // Format number to local string
       sliderOutput.textContent = val.toLocaleString();
     });
   }
 
-  // === PREMIUM HIGH-RELIABILITY TOAST SYSTEM ===
+  // Toast System
   function showToast(message) {
     const toast = document.createElement('div');
     toast.style.position = 'fixed';
@@ -734,15 +1642,11 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.textContent = message;
     
     document.body.appendChild(toast);
+    toast.offsetHeight; // force repaint
     
-    // Force layout repaint
-    toast.offsetHeight;
-    
-    // Fade in
     toast.style.transform = 'translateX(-50%) translateY(0)';
     toast.style.opacity = '1';
     
-    // Fade out & cleanup
     setTimeout(() => {
       toast.style.transform = 'translateX(-50%) translateY(-20px)';
       toast.style.opacity = '0';
@@ -752,7 +1656,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2200);
   }
 
-  // Bind clipboard copies to direct connect cells to bypass native system limits
+  // Copy integrations
   const directEmailLink = document.querySelector('a[href^="mailto:"]');
   if (directEmailLink) {
     directEmailLink.addEventListener('click', (e) => {
@@ -776,15 +1680,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. Dynamic B2B brief submit handler compiling mail data with overlay backup
+  // 8. Silent Form Auto-submissions
   const briefForm = document.getElementById('briefForm');
   const successOverlay = document.getElementById('briefSuccessOverlay');
 
   if (briefForm && successOverlay) {
     briefForm.addEventListener('submit', (e) => {
-      // Do NOT preventDefault() to allow native submission to the target hidden iframe
-      
-      // Dynamically recreate a new target iframe to bypass browser consecutive submission blocks and prevent new tab opening fallbacks
       const uniqueIframeName = 'hidden_iframe_' + Date.now();
       const oldIframe = document.getElementById('dynamic_hidden_iframe');
       if (oldIframe) {
@@ -805,18 +1706,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const urgency = document.querySelector('input[name="entry.18600838"]:checked').value;
       const jd = document.getElementById('briefJD').value.trim();
       const contact = document.getElementById('briefContact').value.trim();
-      
-      const body = `Hi Pratap,\n\nI have generated a B2B project brief through your digital workspace environment. Here are the core specifications:\n\n` +
-                   `• Company / Organization: ${company}\n` +
-                   `• Contact Information: ${contact}\n` +
-                   `• Target Budget Threshold: $${budget}\n` +
-                   `• Timeline / Urgency: ${urgency}\n\n` +
-                   `• Job Description / Scope Parameters:\n${jd}\n\n` +
-                   `Best regards,\n${company}`;
 
-      // Defer DOM changes and animations slightly to ensure browser completes the native post request to the hidden iframe
       setTimeout(() => {
-        // Render simplified success overlay UI
         successOverlay.innerHTML = `
           <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
             <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
@@ -831,8 +1722,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
         `;
-        
-        // Animate success panel fade-in
         successOverlay.style.display = 'flex';
         gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
         
@@ -856,405 +1745,503 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === DYNAMIC ROTATING QUOTE ON REFRESH (OR THEME SWITCH) ===
+  // 9. Brand Toggles and Quotes Logic
   const dynamicQuoteText = document.getElementById('dynamicQuoteText');
   const dynamicQuoteAuthor = document.getElementById('dynamicQuoteAuthor');
   
+  const corporateQuotes = [
+    { text: "I build systems, write stories, and explore the space where logic meets memory.", author: "Pratap Jindal" },
+    { text: "We do not build systems to eliminate work; we build them to free the mind for what matters.", author: "Pratap Jindal" },
+    { text: "Between the raw database and the final narrative lies the fragile space of human memory.", author: "Poker Hearts" },
+    { text: "True efficiency is not speed; it is the absolute elimination of unnecessary cycles.", author: "Pratap Jindal" },
+    { text: "We repair our broken workflows with code, much like kintsugi, highlighting the cracks in gold.", author: "Poker Hearts" },
+    { text: "Systems function in loops; human lives function in stories.", author: "Poker Hearts" }
+  ];
+
+  const academicQuotes = [
+    { text: "Research is to see what everybody else has seen, and to think what nobody else has thought.", author: "Albert Szent-Gyorgyi" },
+    { text: "The system is the solution.", author: "W. Edwards Deming" },
+    { text: "We do not build systems to eliminate work; we build them to model the truth.", author: "Pratap Jindal" },
+    { text: "Information is the resolution of uncertainty.", author: "Claude Shannon" }
+  ];
+
   function rotateIdentityQuote() {
-    if (isSanatanTheme) {
-      if (dynamicQuoteText) dynamicQuoteText.innerHTML = '"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन |<br>You have a right to perform your prescribed duty, but you are not entitled to the fruits of action."';
-      if (dynamicQuoteAuthor) dynamicQuoteAuthor.innerHTML = "— Bhagavad Gita (Karma Yoga) &middot; Hare Krishna 🦚";
+    const mode = themes[currentThemeIndex];
+    if (mode === 'academic') {
+      const randomIndex = Math.floor(Math.random() * academicQuotes.length);
+      const chosen = academicQuotes[randomIndex];
+      if (dynamicQuoteText) dynamicQuoteText.innerHTML = `"${chosen.text}"`;
+      if (dynamicQuoteAuthor) dynamicQuoteAuthor.innerHTML = `— ${chosen.author}`;
     } else {
-      // Pick a random quote from our corporate quotes ledger
       const randomIndex = Math.floor(Math.random() * corporateQuotes.length);
       const chosen = corporateQuotes[randomIndex];
       if (dynamicQuoteText) dynamicQuoteText.innerHTML = `"${chosen.text}"`;
       if (dynamicQuoteAuthor) dynamicQuoteAuthor.innerHTML = `— ${chosen.author}`;
     }
   }
-  
-  // Rotate once on initial page load
+
   rotateIdentityQuote();
 
-  // === THREE-STATE THEME PRESET SWITCH CONTROLLER ===
-  const btnSwitchCorporate = document.getElementById('btnSwitchCorporate');
-  const btnSwitchSanatan = document.getElementById('btnSwitchSanatan');
-  const btnSwitchPlain = document.getElementById('btnSwitchPlain');
+  // === 4-BUTTON MODE SWITCHING PRESET SWITCH CONTROLLER ===
+  const btnSwitchStrategy = document.getElementById('btnSwitchStrategy');
+  const btnSwitchProduct = document.getElementById('btnSwitchProduct');
+  const btnSwitchAcademic = document.getElementById('btnSwitchAcademic');
+  const btnSwitchTransformation = document.getElementById('btnSwitchTransformation');
   
-  const heroSpiritualSubtitle = document.getElementById('heroSpiritualSubtitle');
   const heroBadgeText = document.getElementById('heroBadgeText');
   const footerCopyright = document.getElementById('footerCopyright');
-  
+  const academicDashboard = document.getElementById('academicDashboard');
+  const archiveGrid = document.getElementById('archiveGrid');
+  const knowledgeControlPanel = document.querySelector('.knowledge-control-panel');
+
   function applyTheme(theme) {
-    // Remove all classes first
-    document.body.classList.remove('sanatan-theme', 'plain-theme');
-    
-    // Highlight the active button in the segmented control, showing all three
-    if (btnSwitchCorporate && btnSwitchSanatan && btnSwitchPlain) {
-      btnSwitchCorporate.style.display = 'flex';
-      btnSwitchSanatan.style.display = 'flex';
-      btnSwitchPlain.style.display = 'flex';
-      
-      btnSwitchCorporate.classList.toggle('active', theme === 'corporate');
-      btnSwitchSanatan.classList.toggle('active', theme === 'sanatan');
-      btnSwitchPlain.classList.toggle('active', theme === 'plain');
+    // Clean all class identifiers
+    document.body.classList.remove('strategy-mode', 'product-mode', 'academic-mode', 'transformation-mode');
+    document.body.classList.add(`${theme}-mode`);
+
+    // Update switcher segmented controls
+    if (btnSwitchStrategy && btnSwitchProduct && btnSwitchAcademic && btnSwitchTransformation) {
+      btnSwitchStrategy.classList.toggle('active', theme === 'strategy');
+      btnSwitchProduct.classList.toggle('active', theme === 'product');
+      btnSwitchAcademic.classList.toggle('active', theme === 'academic');
+      btnSwitchTransformation.classList.toggle('active', theme === 'transformation');
     }
-    
-    if (theme === 'corporate') {
-      isSanatanTheme = false;
-      
-      // Dynamic texts swap
-      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
+
+    // Role, Badge and Copyright copy swaps
+    const heroRole = document.querySelector('.hero-role');
+    const heroIntroText = document.getElementById('textStrategic');
+
+    if (theme === 'strategy') {
+      document.title = "Pratap Jindal — Strategic Systems & Analytics";
+      if (heroRole) heroRole.innerHTML = "Management Analyst &amp; Business Systems Architect";
       if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8";
       if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Three.js";
-      
-      // Swapping Intro Pane text back to corporate identity
-      const paneTextStrat = document.getElementById('textStrategic');
-      if (paneTextStrat) {
-        paneTextStrat.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
+      if (heroIntroText) {
+        heroIntroText.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
       }
       
-      // Interpolate Three.js spatial variables
-      updateThreeTheme(false);
+      // Counter labels
+      updateCounters("108", "Team Members Managed", "80%", "Manual Effort Eliminated", "₹75 Cr", "Sales Operations Directed");
+
+      if (academicDashboard) academicDashboard.style.display = 'none';
+      if (archiveGrid) archiveGrid.style.display = 'grid';
+      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
       
-    } else if (theme === 'sanatan') {
-      isSanatanTheme = true;
-      document.body.classList.add('sanatan-theme');
-      
-      // Dynamic texts swap
-      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'block';
-      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Hare Krishna 🦚";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Dedicated in Loving Devotion to Sri Krishna &middot; Hare Krishna 🦚";
-      
-      // Swapping Intro Pane text for Krishna devotion
-      const paneTextStrat = document.getElementById('textStrategic');
-      if (paneTextStrat) {
-        paneTextStrat.innerHTML = `I operate at the intersection of systems optimization and deep devotion, performing every action as **Karma Yoga** — an offering to Sri Krishna. Managing a team of 108, I translate executive intent into scalable automated instruments, aligning organizational duty with absolute precision and selfless service.`;
+      updateThreeVariables(false);
+
+    } else if (theme === 'product') {
+      document.title = "Pratap Jindal — Product Management Operations";
+      if (heroRole) heroRole.innerHTML = "Product Manager &amp; Operations Architect";
+      if (heroBadgeText) heroBadgeText.innerHTML = "Product Management Operations Dashboard v2.8";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Product Dashboards";
+      if (heroIntroText) {
+        heroIntroText.innerHTML = `I identify business friction points, design clear product workflows, and launch automated internal toolspaces. Translating complex stakeholder requirements into zero-cost serverless instruments, I focus on optimizing user adoption and quantifying bottom-line operational ROI.`;
       }
+
+      // Counter labels
+      updateCounters("108+", "Active Product Users", "92%", "Product Engagement Rate", "₹75 Cr", "Transaction Volume Scaled");
+
+      if (academicDashboard) academicDashboard.style.display = 'none';
+      if (archiveGrid) archiveGrid.style.display = 'grid';
+      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
       
-      // Interpolate Three.js spatial variables
-      updateThreeTheme(true);
-      
-    } else if (theme === 'plain') {
-      isSanatanTheme = false;
-      document.body.classList.add('plain-theme');
-      
-      // Dynamic texts swap
-      if (heroSpiritualSubtitle) heroSpiritualSubtitle.style.display = 'none';
-      if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8 &middot; Reading Preset 📖";
-      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Plain Stylesheets &middot; Plain Preset 📖";
-      
-      // Revert text to standard corporate text
-      const paneTextStrat = document.getElementById('textStrategic');
-      if (paneTextStrat) {
-        paneTextStrat.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
+      updateThreeVariables(false);
+
+    } else if (theme === 'academic') {
+      document.title = "Pratap Jindal — Decision Science & Operations Research";
+      if (heroRole) heroRole.innerHTML = "Decision Science &amp; Operations Researcher";
+      if (heroBadgeText) heroBadgeText.innerHTML = "Academic Portfolio &amp; Research Archive v2.8";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with clean typography &amp; Static Network Models &middot; Academic Edition";
+      if (heroIntroText) {
+        heroIntroText.innerHTML = `Applied researcher investigating organizational design, algorithmic operations research, and human-computer decision workflows. Formulating heuristic inventory models and empirical speech-to-text QA cycles, I explore where system optimization intersects with behavioral execution.`;
       }
+
+      // Counter labels
+      updateCounters("108", "Researchers Coordinated", "99%", "Core Research Accuracy", "750k+", "Research Datasets Ingested");
+
+      if (academicDashboard) academicDashboard.style.display = 'flex';
+      if (archiveGrid) archiveGrid.style.display = 'none';
+      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'none';
+      
+      updateThreeVariables(true);
+
+    } else if (theme === 'transformation') {
+      document.title = "Pratap Jindal — Digital Transformation & Business Systems";
+      if (heroRole) heroRole.innerHTML = "Digital Transformation &amp; Business Systems Lead";
+      if (heroBadgeText) heroBadgeText.innerHTML = "Digital Transformation Architecture v2.8";
+      if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Enterprise Integration Blueprints";
+      if (heroIntroText) {
+        heroIntroText.innerHTML = `I lead digital transformation projects, moving organizations from slow, manual spreadsheets to automated, unified cloud pipelines. Restructuring workflows with custom Chrome integrations and serverless scripts, I systematically secure data integrity and streamline team execution.`;
+      }
+
+      // Counter labels
+      updateCounters("108", "Personnel Digitized", "80%", "Manual Processes Digitized", "₹7.5 Cr", "Enterprise Savings Created");
+
+      if (academicDashboard) academicDashboard.style.display = 'none';
+      if (archiveGrid) archiveGrid.style.display = 'grid';
+      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
+      
+      updateThreeVariables(false);
     }
-    
-    // Rotate the quote dynamically
+
+    // Refresh project grid according to active theme mode
+    renderProjectGrid();
     rotateIdentityQuote();
   }
 
-  // Restore saved theme
-  const savedTheme = localStorage.getItem('pj-helix-theme');
+  function updateCounters(num1, lbl1, num2, lbl2, num3, lbl3) {
+    const cNum1 = document.getElementById('statTeam');
+    const cLbl1 = cNum1 ? cNum1.nextElementSibling : null;
+    const cNum2 = document.getElementById('statEffort');
+    const cLbl2 = cNum2 ? cNum2.nextElementSibling : null;
+    const cNum3 = document.getElementById('statSales');
+    const cLbl3 = cNum3 ? cNum3.nextElementSibling : null;
+
+    if (cNum1) cNum1.textContent = num1;
+    if (cLbl1) cLbl1.textContent = lbl1;
+    if (cNum2) cNum2.textContent = num2;
+    if (cLbl2) cLbl2.textContent = lbl2;
+    if (cNum3) cNum3.textContent = num3;
+    if (cLbl3) cLbl3.textContent = lbl3;
+  }
+
+  // Restore cached switcher state
+  const savedTheme = localStorage.getItem('pj-helix-theme-mode');
   if (savedTheme && themes.includes(savedTheme)) {
     currentThemeIndex = themes.indexOf(savedTheme);
   }
-  
-  // Apply initially saved or default theme
   applyTheme(themes[currentThemeIndex]);
 
-  // Bind click listeners on distinct switcher buttons
-  if (btnSwitchCorporate) {
-    btnSwitchCorporate.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('corporate');
-      applyTheme('corporate');
-      localStorage.setItem('pj-helix-theme', 'corporate');
-      showToast("Theme updated: Corporate Executive");
+  // Bind click events on segment controls
+  if (btnSwitchStrategy) {
+    btnSwitchStrategy.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('strategy');
+      applyTheme('strategy');
+      localStorage.setItem('pj-helix-theme-mode', 'strategy');
+      showToast("Mode Selected: Strategy & Analytics");
     });
   }
-  if (btnSwitchSanatan) {
-    btnSwitchSanatan.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('sanatan');
-      applyTheme('sanatan');
-      localStorage.setItem('pj-helix-theme', 'sanatan');
-      showToast("Theme updated: Karma Yoga Devotion");
+  if (btnSwitchProduct) {
+    btnSwitchProduct.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('product');
+      applyTheme('product');
+      localStorage.setItem('pj-helix-theme-mode', 'product');
+      showToast("Mode Selected: Product Management");
     });
   }
-  if (btnSwitchPlain) {
-    btnSwitchPlain.addEventListener('click', () => {
-      currentThemeIndex = themes.indexOf('plain');
-      applyTheme('plain');
-      localStorage.setItem('pj-helix-theme', 'plain');
-      showToast("Theme updated: Plain Readable");
+  if (btnSwitchAcademic) {
+    btnSwitchAcademic.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('academic');
+      applyTheme('academic');
+      localStorage.setItem('pj-helix-theme-mode', 'academic');
+      showToast("Mode Selected: Research & Academic");
+    });
+  }
+  if (btnSwitchTransformation) {
+    btnSwitchTransformation.addEventListener('click', () => {
+      currentThemeIndex = themes.indexOf('transformation');
+      applyTheme('transformation');
+      localStorage.setItem('pj-helix-theme-mode', 'transformation');
+      showToast("Mode Selected: Digital Transformation");
     });
   }
 
-  // === SLIDING CASE-STUDY DRAWER ACTIONS (PROOF OF DEPTH) ===
-  const caseStudiesData = {
-    hrVoice: {
-      title: "AI Voice Mock Interview Simulator & Portal",
-      problem: "Candidates preparing for high-pressure corporate interviews lack authentic, adaptive, real-time sandboxes. Standard online platforms rely on written feedback, failing to capture spoken delivery, noise thresholds, or dynamic conversation flow.",
-      architecture: "Resumes are uploaded directly in the browser and parsed using PDF.js to extract key skills and background metrics. An interactive Web Audio API captures audio input, running localized Voice Activity Detection (VAD). Dynamic prompts are synthesized on the fly via the Gemini API, maintaining semantic context and enabling interruption detection. The entire interview grading script logs scored benchmarks and feedback directly to a secure, serverless Google Sheets ledger.",
-      challenge: "Handling real-time browser latency during conversational audio loops, maintaining a high-fidelity noise floor threshold to prevent audio feedback echo, and structuring AI prompt context dynamically to model high-pressure executive interviews in both Hindi and English.",
-      impact: "Drastically accelerated interview preparedness metrics, lowered API scaling overhead to ~$0.05 per session, and captured structured performance logs for comprehensive self-review cycles."
-    },
-    callQA: {
-      title: "AI-Powered Call QA Analysis System",
-      problem: "Manual evaluation of hundreds of daily call center telecalling records was practically impossible, limiting QA audits to less than 2% sample sizes and leaving systematic agent execution errors undetected.",
-      architecture: "Remote Android recording scripts capture call files on local devices and sync directly with secure Google Drive folders. A batch event handler triggers script loops that process transcripts via high-performance LLM engines. The transcripts are parsed against executive script alignment rules, customer purchase triggers, and objections vectors, compiling structured QA scores and automated coaching feedback to a live Looker dashboard.",
-      challenge: "Processing over 800 minutes of decentralized audio (1,200 recordings) daily without exceeding API rate thresholds. Resolved by developing a task queuing matrix that handles rate-limiting, and managing inconsistent recording codecs from remote Android agents.",
-      impact: "Achieved 100% QA coverage, eliminated 360 hours of manual evaluation monthly, and triggered real-time alerts on systematic lead pipeline failures."
-    },
-    b2bOrder: {
-      title: "B2B Order Booking Workspace Portal",
-      problem: "Scattered order collections across text messages and emails led to booking inaccuracies, ordering delays, manual invoice typos, and excessive transaction overhead (averaging 8 minutes per order booking).",
-      architecture: "A highly optimized, serverless lightweight web portal featuring client-side Edge state storage caching, custom token authentication, live SKU search filters, and automatic, browser-side jsPDF invoice compilations. Connects directly to Google Apps Script endpoints, maintaining database updates and stock backing at absolute zero infrastructure operating cost.",
-      challenge: "Establishing highly secure authentication and real-time state integrity for off-grid field sales agents without the complexity and financial overhead of a dedicated cloud container database.",
-      impact: "Slashed average transaction booking time from 8 minutes down to 45 seconds, secured 100% ordering accuracy (zero manual typos), and operated at infinite scale with $0.00 infrastructure costs."
-    }
-  };
-
-  const caseStudyDrawer = document.getElementById('caseStudyDrawer');
-  const drawerProjectTitle = document.getElementById('drawerProjectTitle');
-  const drawerBodyContent = document.getElementById('drawerBodyContent');
+  // Bind sliding study close drawer
   const closeDrawerBtn = document.getElementById('closeDrawerBtn');
-  const caseStudyTriggers = document.querySelectorAll('.case-study-trigger-btn');
-  
-  if (caseStudyDrawer && drawerProjectTitle && drawerBodyContent) {
-    caseStudyTriggers.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const projectKey = btn.getAttribute('data-project');
-        const data = caseStudiesData[projectKey];
-        if (!data) return;
+  const caseStudyDrawer = document.getElementById('caseStudyDrawer');
+  if (closeDrawerBtn && caseStudyDrawer) {
+    closeDrawerBtn.addEventListener('click', () => {
+      caseStudyDrawer.classList.remove('open');
+    });
+  }
+  document.addEventListener('click', (e) => {
+    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target)) {
+      caseStudyDrawer.classList.remove('open');
+    }
+  });
+});
+
+
+// Re-render project cards dynamically inside index.html grid
+function renderProjectGrid() {
+  const grid = document.getElementById('projectGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const activeFilter = document.querySelector('#projectFilters .filter-pill.active')?.getAttribute('data-filter') || 'all';
+  const mode = themes[currentThemeIndex];
+
+  // Hide the category filters panel entirely in grouped modes
+  const filterBar = document.querySelector('.analytics-filter-bar');
+  if (filterBar) {
+    if (mode === 'academic' || mode === 'transformation') {
+      filterBar.style.display = 'none';
+    } else {
+      filterBar.style.display = 'flex';
+    }
+  }
+
+  if (mode === 'strategy') {
+    const filtered = projectData.filter(proj => activeFilter === 'all' || proj.category === activeFilter);
+    filtered.forEach(proj => {
+      const card = document.createElement('div');
+      card.className = 'glass-card analytics-card spatial-reveal';
+      card.setAttribute('data-category', proj.category);
+      
+      const isFeatured = [1, 3, 6, 8, 14, 21, 11, 20].includes(parseInt(proj.id.split('_')[1]) - 1);
+      const tagPrefix = isFeatured ? 'Flagship · ' : '';
+
+      card.innerHTML = `
+        <div class="analytics-card-header">
+          <span class="mono-tag">${tagPrefix}${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</span>
+          <span class="card-num">${proj.id}</span>
+        </div>
+        <h3>${proj.strategy.title}</h3>
+        <p class="analytics-card-desc">${proj.strategy.desc}</p>
+        <div class="strategic-outcome-widget">
+          <div class="outcome-label">${proj.strategy.outcomeLabel}</div>
+          <div class="outcome-text">${proj.strategy.outcomeText}</div>
+        </div>
+        <div class="analytics-card-tech">
+          ${proj.strategy.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        </div>
+        ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}">🔎 Systems Deep-Dive Case Study &rarr;</button>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+  } 
+  else if (mode === 'product') {
+    const pmFeaturedIds = ["MOD_02", "MOD_03", "MOD_04", "MOD_07", "MOD_10", "MOD_13", "MOD_15", "MOD_19", "MOD_22"];
+    const filtered = projectData.filter(proj => pmFeaturedIds.includes(proj.id) && (activeFilter === 'all' || proj.category === activeFilter));
+    
+    filtered.forEach(proj => {
+      const card = document.createElement('div');
+      card.className = 'glass-card analytics-card spatial-reveal';
+      card.setAttribute('data-category', proj.category);
+      
+      card.innerHTML = `
+        <div class="analytics-card-header">
+          <span class="mono-tag">${proj.product.badge}</span>
+          <span class="card-num">${proj.id}</span>
+        </div>
+        <h3>${proj.product.title}</h3>
         
-        // Populate content dynamically
+        <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.85rem; line-height: 1.45;">
+          <div><strong>Problem:</strong> <span style="color: var(--color-secondary);">${proj.product.problem}</span></div>
+          <div><strong>Target Users:</strong> <span style="color: var(--color-secondary);">${proj.product.users}</span></div>
+          <div><strong>Solution Launched:</strong> <span style="color: var(--color-secondary);">${proj.product.solution}</span></div>
+          <div><strong>Key Decision:</strong> <span style="color: var(--color-secondary);">${proj.product.decisions}</span></div>
+          <div><strong>KPI Measured:</strong> <span style="color: var(--accent-blue); font-weight: 600;">${proj.product.kpi}</span></div>
+        </div>
+
+        <div class="strategic-outcome-widget" style="margin-top: auto;">
+          <div class="outcome-label">Business Impact / Outcome</div>
+          <div class="outcome-text">${proj.product.outcome}</div>
+        </div>
+        
+        ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}">🔎 Systems Deep-Dive Case Study &rarr;</button>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+  } 
+  else if (mode === 'academic') {
+    const themesData = {
+      "AI-Augmented Decision Making": ["MOD_01", "MOD_02"],
+      "Operations Research": ["MOD_04", "MOD_20"],
+      "Organizational Systems": ["MOD_07", "MOD_08", "MOD_13"],
+      "Predictive Analytics": ["MOD_15", "MOD_22"],
+      "Information Systems": ["MOD_03", "MOD_14"]
+    };
+
+    for (const [themeName, projIds] of Object.entries(themesData)) {
+      const themeSection = document.createElement('div');
+      themeSection.style.gridColumn = '1 / -1';
+      themeSection.style.marginTop = '2rem';
+      themeSection.innerHTML = `
+        <h4 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-blue); border-bottom: 2px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem;">${themeName}</h4>
+      `;
+      grid.appendChild(themeSection);
+
+      const themeProjects = projectData.filter(proj => projIds.includes(proj.id));
+      themeProjects.forEach(proj => {
+        const card = document.createElement('div');
+        card.className = 'glass-card analytics-card';
+        card.innerHTML = `
+          <div class="analytics-card-header">
+            <span class="mono-tag">${proj.research.badge}</span>
+            <span class="card-num">${proj.id}</span>
+          </div>
+          <h3 style="font-size: 1.05rem; font-style: italic; line-height: 1.45;">${proj.research.title}</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.82rem; line-height: 1.45;">
+            <div><strong>Research Question:</strong> <span style="color: var(--color-secondary);">${proj.research.question}</span></div>
+            <div><strong>Methodology:</strong> <span style="color: var(--color-secondary);">${proj.research.methodology}</span></div>
+          </div>
+
+          <div class="strategic-outcome-widget" style="margin-top: auto;">
+            <div class="outcome-label">Key Empirical Contribution</div>
+            <div class="outcome-text">${proj.research.contribution}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+  } 
+  else if (mode === 'transformation') {
+    const streamsData = {
+      "AI Transformation": ["MOD_01", "MOD_02"],
+      "Process Automation": ["MOD_18", "MOD_16", "MOD_11"],
+      "Operational Digitization": ["MOD_03", "MOD_07", "MOD_13"],
+      "Decision Intelligence": ["MOD_04", "MOD_15", "MOD_22"],
+      "Governance & Control": ["MOD_09", "MOD_17", "MOD_21"]
+    };
+
+    for (const [streamName, projIds] of Object.entries(streamsData)) {
+      const streamSection = document.createElement('div');
+      streamSection.style.gridColumn = '1 / -1';
+      streamSection.style.marginTop = '2rem';
+      streamSection.innerHTML = `
+        <h4 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-blue); border-bottom: 2px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem;">${streamName}</h4>
+      `;
+      grid.appendChild(streamSection);
+
+      const streamProjects = projectData.filter(proj => projIds.includes(proj.id));
+      streamProjects.forEach(proj => {
+        const card = document.createElement('div');
+        card.className = 'glass-card analytics-card';
+        card.innerHTML = `
+          <div class="analytics-card-header">
+            <span class="mono-tag">${proj.transformation.badge}</span>
+            <span class="card-num">${proj.id}</span>
+          </div>
+          <h3>${proj.transformation.title}</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.85rem; line-height: 1.45;">
+            <div><strong>Before Redesign:</strong> <span style="color: var(--color-secondary); font-style: italic;">${proj.transformation.before}</span></div>
+            <div><strong>After Redesign:</strong> <span style="color: var(--color-secondary); font-weight: 500;">${proj.transformation.after}</span></div>
+            <div><strong>Change Management:</strong> <span style="color: var(--color-secondary);">${proj.transformation.change}</span></div>
+          </div>
+
+          <div class="strategic-outcome-widget" style="margin-top: auto;">
+            <div class="outcome-label">Value Created</div>
+            <div class="outcome-text">${proj.transformation.value}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+  }
+
+  // Bind click events on dynamic card deep dives
+  const caseStudyTriggers = grid.querySelectorAll('.case-study-trigger-btn');
+  caseStudyTriggers.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const projectKey = btn.getAttribute('data-project');
+      const data = caseStudiesData[projectKey];
+      if (!data) return;
+      
+      const drawerProjectTitle = document.getElementById('drawerProjectTitle');
+      const drawerBodyContent = document.getElementById('drawerBodyContent');
+      const caseStudyDrawer = document.getElementById('caseStudyDrawer');
+
+      if (caseStudyDrawer && drawerProjectTitle && drawerBodyContent) {
         drawerProjectTitle.textContent = data.title;
         drawerBodyContent.innerHTML = `
           <div class="case-study-section">
             <h5>1. Problem Statement</h5>
             <p>${data.problem}</p>
           </div>
-          
           <div class="case-study-section">
             <h5>2. Systems Architecture</h5>
             <p>${data.architecture}</p>
           </div>
-          
           <div class="case-study-section">
             <h5>3. Technical Challenges Solved</h5>
             <p>${data.challenge}</p>
           </div>
-          
           <div class="case-study-section">
-            <h5>4. Measurable Strategic Impact</h5>
-            <div class="case-study-specs-grid">
-              <div class="case-study-spec-card">
-                <span>Outcome Metrics</span>
-                <strong>${data.impact.split(',')[0]}</strong>
-              </div>
-              <div class="case-study-spec-card">
-                <span>Efficiency Scale</span>
-                <strong>${data.impact.split(',')[1] || "Automated Pipelines"}</strong>
-              </div>
-            </div>
+            <h5>4. Direct Business Impact</h5>
+            <p>${data.impact}</p>
           </div>
         `;
-        
-        // Slide drawer open
         caseStudyDrawer.classList.add('open');
-      });
-    });
-    
-    // Close actions
-    if (closeDrawerBtn) {
-      closeDrawerBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        caseStudyDrawer.classList.remove('open');
-      });
-    }
-    
-    // Close when clicking outside of drawer panel
-    document.addEventListener('click', (e) => {
-      if (caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target)) {
-        caseStudyDrawer.classList.remove('open');
       }
     });
-  }
-
-  // 9. GSAP Scroll Trigger Entrance revealing animations for glass panels
-  const reveals = document.querySelectorAll('.spatial-reveal');
-  reveals.forEach(element => {
-    gsap.fromTo(element, 
-      { opacity: 0, y: 35 }, 
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 0.85, 
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: element,
-          start: "top bottom-=80px",
-          toggleActions: "play none none none"
-        }
-      }
-    );
   });
 
-});
-
-/* ==========================================================================
-   THREE.JS CUSTOM UTILITIES & THEMATIC FUNCTIONS
-   ========================================================================== */
-
-function createTextSprite(text, colorStr, size = 128) {
-  const canvas = document.createElement('canvas');
-  canvas.width = size * 4;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  
-  // Sanskrit / Georgia aesthetic typography
-  ctx.font = 'bold 32px Georgia, "Outfit", "Inter", sans-serif';
-  ctx.fillStyle = colorStr;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
-  // Saffron glow effect
-  ctx.shadowColor = "#ea580c";
-  ctx.shadowBlur = 10;
-  
-  ctx.fillText(text, size * 2, size / 2);
-  
-  const texture = new THREE.CanvasTexture(canvas);
-  const material = new THREE.SpriteMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0.85
-  });
-  
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(6.5, 1.6, 1);
-  return sprite;
-}
-
-function createSpiritualSprites() {
-  if (!spiritualTextGroup) return;
-  spiritualTextGroup.clear();
-  
-  const spiritualTexts = [
-    "Hare Krishna", "Radhe Radhe", "Ram Ram", 
-    "Karma Yoga", "Shri Krishna", "Govinda", 
-    "Hari Om", "Hare Krishna", "Radhe Radhe", 
-    "Ram Ram", "Om", "Karma Yoga", "Shri Krishna",
-    "Hare Krishna", "Radhe Radhe", "Ram Ram"
-  ];
-  
-  const spriteColor = "#ea580c"; // Saffron
-  
-  for (let i = 0; i < spiritualTexts.length; i++) {
-    const sprite = createTextSprite(spiritualTexts[i], spriteColor);
-    sprite.position.set(
-      (Math.random() - 0.5) * 36,
-      (Math.random() - 0.5) * 18,
-      (Math.random() - 0.5) * 24
-    );
-    
-    // Set random velocities
-    sprite.userData = {
-      velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.012,
-        (Math.random() - 0.5) * 0.012,
-        (Math.random() - 0.5) * 0.012
-      )
-    };
-    
-    spiritualTextGroup.add(sprite);
+  // Update total count labels
+  const activeCountLabel = document.getElementById('projectActiveCount');
+  if (activeCountLabel) {
+    const visibleCards = grid.querySelectorAll('.analytics-card');
+    activeCountLabel.textContent = visibleCards.length;
   }
-  
-  // Sync initial visibility state
-  spiritualTextGroup.visible = isSanatanTheme;
 }
 
-function updateThreeTheme(activeSpiritual) {
+// Update Three.js environmental colors on mode change
+function updateThreeVariables(isAcademic) {
   if (!scene) return;
-  
-  const duration = 0.85;
-  const targetBg = activeSpiritual ? new THREE.Color(0xfffbf4) : new THREE.Color(0xf6f8fc);
-  const targetLight = activeSpiritual ? new THREE.Color(0xffedd5) : new THREE.Color(0xeef2ff);
-  
-  // Interpolate Scene background and fog
+  const duration = 0.8;
+
+  // Strategy (Dark blue), Product (Light grey), Academic (Cream), Transformation (Very dark blue)
+  const mode = themes[currentThemeIndex];
+  let bgColorHex = 0xf6f8fc;
+  let lightColorHex = 0xeef2ff;
+
+  if (mode === 'strategy') {
+    bgColorHex = 0x0b0f19;
+    lightColorHex = 0x3b82f6;
+  } else if (mode === 'product') {
+    bgColorHex = 0xf3f4f6;
+    lightColorHex = 0xe5e7eb;
+  } else if (mode === 'academic') {
+    bgColorHex = 0xfbf9f4;
+    lightColorHex = 0xe4dfd6;
+  } else if (mode === 'transformation') {
+    bgColorHex = 0x070a13;
+    lightColorHex = 0x0ea5e9;
+  }
+
+  const targetBgColor = new THREE.Color(bgColorHex);
+  const targetLightColor = new THREE.Color(lightColorHex);
+
   gsap.to(scene.background, {
-    r: targetBg.r, g: targetBg.g, b: targetBg.b,
+    r: targetBgColor.r, g: targetBgColor.g, b: targetBgColor.b,
     duration: duration
   });
   if (scene.fog) {
     gsap.to(scene.fog.color, {
-      r: targetBg.r, g: targetBg.g, b: targetBg.b,
+      r: targetBgColor.r, g: targetBgColor.g, b: targetBgColor.b,
       duration: duration
     });
   }
-  
-  // Interpolate Directional Light
   if (dirLight) {
     gsap.to(dirLight.color, {
-      r: targetLight.r, g: targetLight.g, b: targetLight.b,
+      r: targetLightColor.r, g: targetLightColor.g, b: targetLightColor.b,
       duration: duration
     });
   }
-  
-  // Fade in/out the spiritual text group
-  if (spiritualTextGroup) {
-    if (activeSpiritual) {
-      spiritualTextGroup.visible = true;
-      spiritualTextGroup.children.forEach(sprite => {
-        gsap.fromTo(sprite.material, { opacity: 0 }, { opacity: 0.85, duration: duration });
-      });
-    } else {
-      let completedCount = 0;
-      spiritualTextGroup.children.forEach(sprite => {
-        gsap.to(sprite.material, {
-          opacity: 0,
-          duration: duration,
-          onComplete: () => {
-            completedCount++;
-            if (completedCount === spiritualTextGroup.children.length) {
-              spiritualTextGroup.visible = false;
-            }
-          }
-        });
-      });
-    }
-  }
-  
-  // Transition standard particle colors
-  if (particleGroup && particleGroup.children.length > 0) {
-    const ptsMat = particleGroup.children[0].material;
-    const targetColor = activeSpiritual ? new THREE.Color(0xf97316) : new THREE.Color(0x8b5cf6);
-    gsap.to(ptsMat.color, {
-      r: targetColor.r, g: targetColor.g, b: targetColor.b,
+
+  // Instantly toggle colors on nodes and edge lines
+  nodes.forEach((node, idx) => {
+    gsap.to(node.material.color, {
+      r: new THREE.Color(getNodeColorForMode(idx)).r,
+      g: new THREE.Color(getNodeColorForMode(idx)).g,
+      b: new THREE.Color(getNodeColorForMode(idx)).b,
       duration: duration
     });
-  }
-  
-  // Transition nodes and landscape colors
-  if (nodeMaterial) {
-    const targetNodeColor = activeSpiritual ? new THREE.Color(0xea580c) : new THREE.Color(0x3b82f6);
-    gsap.to(nodeMaterial.color, {
-      r: targetNodeColor.r, g: targetNodeColor.g, b: targetNodeColor.b,
+  });
+
+  edges.forEach(edge => {
+    gsap.to(edge.lineMesh.material.color, {
+      r: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).r,
+      g: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).g,
+      b: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).b,
       duration: duration
     });
-  }
-  
-  if (landscapeMesh && landscapeMesh.material) {
-    const targetLandColor = activeSpiritual ? new THREE.Color(0xd97706) : new THREE.Color(0x94a3b8);
-    gsap.to(landscapeMesh.material.color, {
-      r: targetLandColor.r, g: targetLandColor.g, b: targetLandColor.b,
+    gsap.to(edge.lineMesh.material, {
+      opacity: getEdgeOpacityForMode(edge.from, edge.to),
       duration: duration
     });
-    gsap.to(landscapeMesh.material, {
-      opacity: activeSpiritual ? 0.08 : 0.12,
-      duration: duration
-    });
-  }
+  });
 }

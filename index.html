@@ -40,19 +40,23 @@
         <li class="nav-link-item"><a href="#activities">Outlets</a></li>
         <li class="nav-link-item"><a href="#connect">Connect</a></li>
       </ul>
-      <!-- Theme Switcher Toggler -->
+      <!-- Professional Identity Switcher Toggler -->
       <div class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="btnSwitchCorporate" aria-label="Switch to Corporate Theme" style="display: none;">
-          <span class="toggle-icon">💼</span>
-          <span class="toggle-text">TechView</span>
+        <button class="theme-toggle-btn" id="btnSwitchStrategy" aria-label="Switch to Strategy &amp; Analytics Mode">
+          <span class="toggle-icon">📊</span>
+          <span class="toggle-text">Strategy</span>
         </button>
-        <button class="theme-toggle-btn" id="btnSwitchSanatan" aria-label="Switch to Sanatan Theme" style="display: none;">
-          <span class="toggle-icon">🦚</span>
-          <span class="toggle-text">Sanatan</span>
+        <button class="theme-toggle-btn" id="btnSwitchProduct" aria-label="Switch to Product Management Mode">
+          <span class="toggle-icon">📦</span>
+          <span class="toggle-text">Product</span>
         </button>
-        <button class="theme-toggle-btn" id="btnSwitchPlain" aria-label="Switch to Plain Theme" style="display: none;">
-          <span class="toggle-icon">📖</span>
-          <span class="toggle-text">Corporate</span>
+        <button class="theme-toggle-btn" id="btnSwitchAcademic" aria-label="Switch to Research &amp; Academic Mode">
+          <span class="toggle-icon">🎓</span>
+          <span class="toggle-text">Academic</span>
+        </button>
+        <button class="theme-toggle-btn" id="btnSwitchTransformation" aria-label="Switch to Digital Transformation Mode">
+          <span class="toggle-icon">⚡</span>
+          <span class="toggle-text">Transformation</span>
         </button>
       </div>
       <button class="nav-toggle-btn" id="navToggle" aria-label="Toggle Navigation Menu">
@@ -243,481 +247,7 @@
 
       <!-- Analytics Cards Grid -->
       <div class="analytics-grid" id="projectGrid">
-        
-        <!-- 1. AI HR Screening -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="ai-systems">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Flagship · AI Engine</span>
-            <span class="card-num">MOD_01</span>
-          </div>
-          <h3>AI Voice Mock Interview Simulator &amp; Portal</h3>
-          <p class="analytics-card-desc">
-            An interactive, serverless AI voice simulator developed for intensive mock interview training. Candidate resumes are parsed directly in the browser via PDF.js, triggering a real-time voice activity Hindi/English conversation loop (Web Audio/Speech APIs) featuring noise calibration and interruption-handling to model real-world high-pressure interviews.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Purpose &amp; Cost</div>
-            <div class="outcome-text">Operates as a high-fidelity training sandbox; scales at ~$0.05 API cost per interview simulation, logging comprehensive performance feedback and scoring metrics to a central Sheets database.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Gemini API</span>
-            <span class="tech-tag">Web Audio API</span>
-            <span class="tech-tag">PDF.js</span>
-            <span class="tech-tag">Apps Script</span>
-          </div>
-          <button class="case-study-trigger-btn" data-project="hrVoice">
-            🔎 Systems Deep-Dive Case Study &rarr;
-          </button>
-        </div>
-
-        <!-- 2. AI Call Analysis System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="ai-systems">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Flagship · Speech AI</span>
-            <span class="card-num">MOD_02</span>
-          </div>
-          <h3>AI-Powered Call QA Analysis System</h3>
-          <p class="analytics-card-desc">
-            An automated evaluation engine processing over 1,200 recordings daily (800 minutes of voice data) from 12 decentralized telecalling units. Analyzes audio transcripts to provide highly structured feedback on customer tone, script alignment, purchase intent, and next-action pipelines.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Eliminated manual QA sampling, driving 100% evaluation coverage and automated feedback loops for team leads.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">LLM Analytics</span>
-            <span class="tech-tag">Audio Pipelines</span>
-            <span class="tech-tag">Apps Script</span>
-            <span class="tech-tag">Drive API</span>
-          </div>
-          <button class="case-study-trigger-btn" data-project="callQA">
-            🔎 Systems Deep-Dive Case Study &rarr;
-          </button>
-        </div>
-
-        <!-- 3. Enterprise B2B Order Booking App -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="fullstack">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Core · Architecture</span>
-            <span class="card-num">MOD_03</span>
-          </div>
-          <h3>B2B Order Booking Workspace</h3>
-          <p class="analytics-card-desc">
-            A serverless, mobile-optimized B2B order portal designed to replace scattered communication channels. Features client-side state caching, custom token authentication, catalog search engines, and real-time client-side PDF invoicing.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Slashed recurring booking loops by &gt;60% while running at absolute zero operating cost via serverless hosting.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Vanilla JS</span>
-            <span class="tech-tag">jsPDF</span>
-            <span class="tech-tag">Edge Cache</span>
-            <span class="tech-tag">Token Auth</span>
-          </div>
-          <button class="case-study-trigger-btn" data-project="b2bOrder">
-            🔎 Systems Deep-Dive Case Study &rarr;
-          </button>
-        </div>
-
-        <!-- 4. End-to-End Inventory & PO Lifecycle System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Supply Chain</span>
-            <span class="card-num">MOD_04</span>
-          </div>
-          <h3>Predictive Inventory &amp; PO Optimizer</h3>
-          <p class="analytics-card-desc">
-            A strategic stock governance dashboard tracking absolute inventories, batch histories, safety margins, and active backlogs. Integrates a predictive reordering engine driven by safety thresholds and rolling averages, combined with complete vendor PO lifecycle tracking.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Reduced chronic shortages from 17 to 2, optimizing stock rotation and driving 20% sales expansion.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Predictive Math</span>
-            <span class="tech-tag">Lifecycle Tracking</span>
-            <span class="tech-tag">Data Modeling</span>
-          </div>
-        </div>
-
-        <!-- 5. Looker Studio Auto-Refresher Extension -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="extensions">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Chrome Extension</span>
-            <span class="card-num">MOD_05</span>
-          </div>
-          <h3>Looker Studio Real-Time Refresher</h3>
-          <p class="analytics-card-desc">
-            A custom Chrome extension engineered to bypass the native 15-minute Looker Studio data caching limits. Injects background event runners to trigger real-time, non-invasive dashboard database queries while completely preserving user-selected filters, pivots, and screen scroll coordinates.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Enabled real-time, live operational telemetry monitoring for senior executives during key cycles.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Chrome Extension API</span>
-            <span class="tech-tag">DOM Injection</span>
-            <span class="tech-tag">Session Sync</span>
-          </div>
-        </div>
-
-        <!-- 6. OmniReader -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="fullstack">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Scale-free Product</span>
-            <span class="card-num">MOD_06</span>
-          </div>
-          <h3>OmniReader — Spatial Reader Workspace</h3>
-          <p class="analytics-card-desc">
-            A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built with local storage state management, dynamic semantic outlines, text-to-speech rendering, full-text instant index indexing, and adaptive layout themes.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Zero server-load cost architecture keeping reading sessions fully private and localized inside client sandboxes.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">EPUB.js</span>
-            <span class="tech-tag">Scale-Free</span>
-            <span class="tech-tag">Local Indexing</span>
-          </div>
-          <a href="https://reader.pokerhearts.in" target="_blank" class="card-cta-link">Deploy Reader Portal (reader.pokerhearts.in) →</a>
-        </div>
-
-        <!-- 7. Sales Lifecycle Pipeline -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Operations</span>
-            <span class="card-num">MOD_07</span>
-          </div>
-          <h3>End-to-End Sales Control System</h3>
-          <p class="analytics-card-desc">
-            An operations tracking system managing order pipelines from entry to transit, delivery verification, and exception logging. Includes trigger alerts and structured task assignments for dispatch supervisors.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Decreased order-to-dispatch transit lag by 30% and enhanced final delivery success metrics by 15%.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Workflow Design</span>
-            <span class="tech-tag">Lead Time Optimization</span>
-            <span class="tech-tag">Exception Handlers</span>
-          </div>
-        </div>
-
-        <!-- 8. Task Scheduler and Accountability Matrix -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">People Systems</span>
-            <span class="card-num">MOD_08</span>
-          </div>
-          <h3>Task Matrix &amp; Performance Scoring</h3>
-          <p class="analytics-card-desc">
-            An enterprise execution matrix linking periodic staff tasks to individual performance logs, structuring a feedback loop from assignment to final scoring evaluation.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Lifted general SLA compliance and task completion indices by 40% across administrative departments.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Performance Systems</span>
-            <span class="tech-tag">Scoring Math</span>
-          </div>
-        </div>
-
-        <!-- 9. District Monopoly & Control System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Territory Governance</span>
-            <span class="card-num">MOD_09</span>
-          </div>
-          <h3>District Monopoly &amp; Control System</h3>
-          <p class="analytics-card-desc">
-            A dynamic territory mapping and management database tracking monopoly allocations, local sales performance, warning triggers, and automated contract termination logs.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Streamlined regional governance and automated warnings for underperforming territory allocations.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Territory Mapping</span>
-            <span class="tech-tag">Data Automation</span>
-            <span class="tech-tag">SLA Warnings</span>
-          </div>
-        </div>
-
-        <!-- 10. Short Product & Restock Trigger System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Demand Capture</span>
-            <span class="card-num">MOD_10</span>
-          </div>
-          <h3>Short Product &amp; Restock Trigger</h3>
-          <p class="analytics-card-desc">
-            A real-time database capturing unfulfilled client demand during order placement and linking it with active inventory updates to auto-alert sales agents as soon as items return to stock.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Recovered previously lost repeat orders by instantly pushing availability notifications to regional reps.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Inventory Triggers</span>
-            <span class="tech-tag">Lead Recovery</span>
-            <span class="tech-tag">Event Hooks</span>
-          </div>
-        </div>
-
-        <!-- 11. Lead Verification & De-duplication System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Data Integrity</span>
-            <span class="card-num">MOD_11</span>
-          </div>
-          <h3>Lead Quality &amp; De-duplication Engine</h3>
-          <p class="analytics-card-desc">
-            A validation pipeline utilizing regular expression validation and dynamic cross-referencing algorithms to clean and de-duplicate contact database sheets before CRM entry.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Eliminated ~25% database clutter and duplicate lead allocations, preserving CRM record hygiene.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Regex Parsers</span>
-            <span class="tech-tag">Data Cleaning</span>
-            <span class="tech-tag">CRM Validation</span>
-          </div>
-        </div>
-
-        <!-- 12. Vendor Payables Tracking System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Finance Ops</span>
-            <span class="card-num">MOD_12</span>
-          </div>
-          <h3>Vendor Payables Ledger Dashboard</h3>
-          <p class="analytics-card-desc">
-            A secure cash outflow dashboard organizing payments, credit timelines, and validation logs, featuring automated alerts on upcoming invoice maturities.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Optimized working capital visibility and avoided delay penalties across 40+ corporate supply vendors.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Finance Tracking</span>
-            <span class="tech-tag">Maturity Alerts</span>
-            <span class="tech-tag">Cash Flow Ops</span>
-          </div>
-        </div>
-
-        <!-- 13. Complaint Escalation System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">SLA Governance</span>
-            <span class="card-num">MOD_13</span>
-          </div>
-          <h3>Complaint Management &amp; Escalation Engine</h3>
-          <p class="analytics-card-desc">
-            A multi-level trouble ticketing system routing client and operational complaints to corresponding team leads with built-in escalation timers.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Slashed average complaint resolution cycle times by 48 hours via structured department escalation triggers.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Escalation Logic</span>
-            <span class="tech-tag">SLA Tracking</span>
-            <span class="tech-tag">Ticketing Pipelines</span>
-          </div>
-        </div>
-
-        <!-- 14. Inventory + Batch + Collection Integration -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Data Integration</span>
-            <span class="card-num">MOD_14</span>
-          </div>
-          <h3>Unified Inventory, Batch &amp; Collections Ledger</h3>
-          <p class="analytics-card-desc">
-            A comprehensive operational dataset model unifying inventory records, production batch lifetimes, and cash collections into a consolidated corporate reporting layer.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Consolidated three previously isolated data streams into a single source of truth for boardroom reviews.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">SQL-Like Querying</span>
-            <span class="tech-tag">Data Blending</span>
-            <span class="tech-tag">Integrations</span>
-          </div>
-        </div>
-
-        <!-- 15. SCOT Purchase Pattern Dashboard -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="ai-systems">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Predictive Analytics</span>
-            <span class="card-num">MOD_15</span>
-          </div>
-          <h3>SCOT Predictive Purchase Pattern Dashboard</h3>
-          <p class="analytics-card-desc">
-            A behavior-driven predictive dashboard analyzing historical B2B purchase frequencies to calculate and forecast future reorder timelines per client.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Enabled predictive sales calling across 500+ SKUs by anticipating client restocking cycles.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Data Modeling</span>
-            <span class="tech-tag">Looker Studio</span>
-            <span class="tech-tag">Predictive Demand</span>
-          </div>
-        </div>
-
-        <!-- 16. Android Call Sync App -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="extensions">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Mobile Automation</span>
-            <span class="card-num">MOD_16</span>
-          </div>
-          <h3>Android Call Recording Synchronizer</h3>
-          <p class="analytics-card-desc">
-            A custom background mobile script running localized file system hooks on Android devices to safely ingest and sync call audio recordings straight to secure Drive folders.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Secured 100% data compliance capture rates for the call quality evaluation pipeline across 12 remote agents.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Android Automation</span>
-            <span class="tech-tag">Drive API</span>
-            <span class="tech-tag">Background Hooks</span>
-          </div>
-        </div>
-
-        <!-- 17. Control Sample Monitoring System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Quality Control</span>
-            <span class="card-num">MOD_17</span>
-          </div>
-          <h3>Control Sample Lifecycle Monitor</h3>
-          <p class="analytics-card-desc">
-            A quality audit logging environment tracing periodic product control samples, cross-referencing batch numbers and expiration schedules.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Achieved 100% structural alignment with regulatory quarterly pharmaceutical quality audit sheets.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">SOP Logging</span>
-            <span class="tech-tag">Lifecycle Tracking</span>
-            <span class="tech-tag">QC Audits</span>
-          </div>
-        </div>
-
-        <!-- 18. Dynamic Google Form Prefill System -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="extensions">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Integration Logic</span>
-            <span class="card-num">MOD_18</span>
-          </div>
-          <h3>Dynamic Google Form Prefill System</h3>
-          <p class="analytics-card-desc">
-            An automated URL parameter builder that dynamically injects client metadata and context IDs into form links, eliminating duplicate entry needs.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Eliminated manual entry typos by field operators submitting inventory status sheets.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">URL Parameters</span>
-            <span class="tech-tag">Google Forms</span>
-            <span class="tech-tag">Automation</span>
-          </div>
-        </div>
-
-        <!-- 19. Incentive Calculator -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Finance Ops</span>
-            <span class="card-num">MOD_19</span>
-          </div>
-          <h3>Dynamic Sales Incentive &amp; Commission Calculator</h3>
-          <p class="analytics-card-desc">
-            An automated commission engine tracking regional sales tiers, growth metrics, and milestone payout ratios for field forces, replacing fragile excel sheets.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Standardized commission tracking, providing absolute computational accuracy and cutting processing latency.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Apps Script</span>
-            <span class="tech-tag">Commission Math</span>
-            <span class="tech-tag">Dynamic Ledgers</span>
-          </div>
-        </div>
-
-        <!-- 20. Freight Estimate Calculator -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Logistics Logic</span>
-            <span class="card-num">MOD_20</span>
-          </div>
-          <h3>Dynamic Freight &amp; Logistical Cost Estimator</h3>
-          <p class="analytics-card-desc">
-            A shipping cost calculator evaluating volumetric weights, dimensions, geographical transit zones, and fuel surcharges to generate transport quotes.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Slashed transport quoting lag times and eliminated shipping invoice discrepancies.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Volumetric Math</span>
-            <span class="tech-tag">Logistical Costing</span>
-            <span class="tech-tag">Transit Analysis</span>
-          </div>
-        </div>
-
-        <!-- 21. Promotional Input Budget Calculator -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Marketing Finance</span>
-            <span class="card-num">MOD_21</span>
-          </div>
-          <h3>Promotional Input Allocation &amp; Budget Tracker</h3>
-          <p class="analytics-card-desc">
-            An allocation dashboard modeling marketing sample distributions, regional promotional expenses, and material allocations against net sales returns.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Enforced strict budgetary limits on sales promo allocations and boosted material spending efficiency.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Allocation Logic</span>
-            <span class="tech-tag">Marketing ROI</span>
-            <span class="tech-tag">Budget Ledgers</span>
-          </div>
-        </div>
-
-        <!-- 22. Party Performance Reports -->
-        <div class="glass-card analytics-card spatial-reveal" data-category="supply-ops">
-          <div class="analytics-card-header">
-            <span class="mono-tag">Client Intelligence</span>
-            <span class="card-num">MOD_22</span>
-          </div>
-          <h3>Party Performance &amp; Client Health Analytics</h3>
-          <p class="analytics-card-desc">
-            A comprehensive B2B client analysis system tracking historical purchasing logs, rotation speed, aging accounts receivables, and credit risk factors.
-          </p>
-          <div class="strategic-outcome-widget">
-            <div class="outcome-label">Operational Outcome</div>
-            <div class="outcome-text">Provides high-value management alerts on top-performing client accounts and early payment delays.</div>
-          </div>
-          <div class="analytics-card-tech">
-            <span class="tech-tag">Looker Studio</span>
-            <span class="tech-tag">Health Scoring</span>
-            <span class="tech-tag">AR Analytics</span>
-          </div>
-        </div>
-
+        <!-- Dynamically populated by professional mode switch -->
       </div>
     </div>
   </section>
@@ -924,6 +454,74 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Academic Research Dashboard (Academic Mode Only) -->
+      <div id="academicDashboard" style="display: none; margin-top: 2.5rem; flex-direction: column; gap: 2.5rem;">
+        
+        <!-- Research Interests & Theme Clusters -->
+        <div class="glass-card" style="padding: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--accent-blue); margin-bottom: 1.25rem;">Research Agenda &amp; Interests</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+            <div class="academic-interest-card" style="border-left: 3px solid var(--border-active); padding-left: 1rem;">
+              <h4 style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem;">Human-AI Collaborative Workflows</h4>
+              <p style="font-size: 0.82rem; color: var(--color-secondary); line-height: 1.5;">Investigating human-in-the-loop decision thresholds and cognitive fatigue in automated QA environments.</p>
+            </div>
+            <div class="academic-interest-card" style="border-left: 3px solid var(--border-active); padding-left: 1rem;">
+              <h4 style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem;">Heuristic Inventory Governance</h4>
+              <p style="font-size: 0.82rem; color: var(--color-secondary); line-height: 1.5;">Developing empirical stocking safety margin rules for volatile supply systems in micro and small enterprises (SMEs).</p>
+            </div>
+            <div class="academic-interest-card" style="border-left: 3px solid var(--border-active); padding-left: 1rem;">
+              <h4 style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem;">Serverless Information Systems</h4>
+              <p style="font-size: 0.82rem; color: var(--color-secondary); line-height: 1.5;">Analyzing structural latency and cost efficiency of zero-overhead serverless databases compared to standard microservices.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Research Questions & Experiments -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; flex-wrap: wrap;">
+          <div class="glass-card" style="padding: 2rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-blue); margin-bottom: 1.25rem;">Core Research Questions</h3>
+            <ul style="list-style-type: decimal; padding-left: 1.25rem; font-size: 0.88rem; color: var(--color-secondary); display: flex; flex-direction: column; gap: 0.75rem;">
+              <li>How does the automation of quality assurance processes in decentralized organizations impact team accountability and error rates?</li>
+              <li>Under what operational constraints do rolling-average replenishment models outperform traditional static buffer stock rules in SMEs?</li>
+              <li>Can browser-side document indexing and rendering (scale-free architectures) eliminate database dependencies for collaborative workspaces?</li>
+            </ul>
+          </div>
+          
+          <div class="glass-card" style="padding: 2rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-blue); margin-bottom: 1.25rem;">Active Empirical Experiments</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="font-size: 0.85rem;">
+                <span class="mono-tag" style="font-size: 0.65rem; background: rgba(120, 53, 15, 0.05);">EXP_01</span>
+                <strong>Voice Interruption Latency Limits</strong>
+                <p style="font-size: 0.8rem; color: var(--color-secondary); margin-top: 0.15rem;">Evaluating conversation backpressure and echo thresholds in browser Web Audio channels.</p>
+              </div>
+              <div style="font-size: 0.85rem;">
+                <span class="mono-tag" style="font-size: 0.65rem; background: rgba(120, 53, 15, 0.05);">EXP_02</span>
+                <strong>Heuristic Reorder Volatility Coefficients</strong>
+                <p style="font-size: 0.8rem; color: var(--color-secondary); margin-top: 0.15rem;">Measuring bullwhip amplification under rolling-average stocking rules in supply links.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Working Papers & Future Directions -->
+        <div class="glass-card" style="padding: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-blue); margin-bottom: 1.25rem;">Working Papers &amp; Drafts</h3>
+          <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.88rem; color: var(--color-secondary);">
+            <div style="border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem;">
+              <span class="mono-tag" style="font-size: 0.65rem; background: rgba(120, 53, 15, 0.05);">WORKING PAPER</span>
+              <strong style="color: var(--color-primary); display: block; margin-top: 0.25rem;">"Empirical Safety Buffer Formulations for SME Inventory Management under High Supplier Lead-Time Variance."</strong>
+              <span style="font-size: 0.75rem;">Pratap Jindal, 2026. (Drafting / Field Data Ingestion stage)</span>
+            </div>
+            <div>
+              <span class="mono-tag" style="font-size: 0.65rem; background: rgba(120, 53, 15, 0.05);">WORKING PAPER</span>
+              <strong style="color: var(--color-primary); display: block; margin-top: 0.25rem;">"Assessing LLM-Assisted Speech Evaluation Frameworks in High-Volume Operations: A Comparative Case Study."</strong>
+              <span style="font-size: 0.75rem;">Pratap Jindal, 2026. (Literature Synthesis stage)</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1420,6 +1018,9 @@
       <!-- Injected by script.js dynamically -->
     </div>
   </div>
+
+  <!-- Interactive Graph Tooltip -->
+  <div id="graph-tooltip" style="position: fixed; display: none; pointer-events: none; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 6px 12px; color: #fff; font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
 
   <!-- Include Core Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

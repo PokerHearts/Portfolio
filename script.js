@@ -155,21 +155,50 @@ function setupCameraScrollChoreography() {
   .to(camera.rotation, { x: 0, y: 0, z: 0 }, "<");
 }
 
+let animationFrameId = null;
+let isTabActive = true;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function handleVisibilityChange() {
+  isTabActive = !document.hidden;
+  if (isTabActive) {
+    if (!animationFrameId) {
+      animate();
+    }
+  } else {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+  }
+}
+
+document.addEventListener('visibilitychange', handleVisibilityChange);
+
 function animate() {
-  requestAnimationFrame(animate);
+  if (!isTabActive) return;
+  animationFrameId = requestAnimationFrame(animate);
   
-  // Ambient particle drift
-  particleGroup.rotation.y += 0.0003;
-  particleGroup.rotation.x += 0.0001;
-
-  // Camera mouse parallax drift
-  mouseX += (targetMouseX - mouseX) * 0.05;
-  mouseY += (targetMouseY - mouseY) * 0.05;
+  const isReduced = prefersReducedMotion.matches;
   
-  camera.position.x += (mouseX - camera.position.x) * 0.05;
-  camera.position.y += (-mouseY - camera.position.y) * 0.05;
+  // Ambient particle drift (only rotate if motion is not reduced)
+  if (!isReduced && particleGroup) {
+    particleGroup.rotation.y += 0.0001;
+    particleGroup.rotation.x += 0.00005;
+  }
 
-  renderer.render(scene, camera);
+  // Camera mouse parallax drift (only float if motion is not reduced)
+  if (!isReduced && camera) {
+    mouseX += (targetMouseX - mouseX) * 0.05;
+    mouseY += (targetMouseY - mouseY) * 0.05;
+    
+    camera.position.x += (mouseX - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY - camera.position.y) * 0.05;
+  }
+
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
+  }
 }
 
 
@@ -1224,12 +1253,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTimelineDetail('analyst');
 
   // 6. Searchable Knowledge Archive Logic
-  const archiveSearchInput = document.getElementById('archiveSearch');
+  const creativeSearchInput = document.getElementById('archiveSearch');
   const archiveFilters = document.querySelectorAll('#archiveFilters .archive-filter-btn');
   const archiveCards = document.querySelectorAll('#archiveGrid .archive-card');
 
   function filterArchiveGrid() {
-    const query = archiveSearchInput.value.toLowerCase().trim();
+    const query = creativeSearchInput.value.toLowerCase().trim();
     const activeFilterBtn = document.querySelector('#archiveFilters .archive-filter-btn.active');
     const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-cat') : 'all';
 
@@ -1246,8 +1275,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (archiveSearchInput) {
-    archiveSearchInput.addEventListener('input', filterArchiveGrid);
+  if (creativeSearchInput) {
+    creativeSearchInput.addEventListener('input', filterArchiveGrid);
   }
 
   archiveFilters.forEach(btn => {
@@ -1328,42 +1357,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. Silent Form Auto-submissions
+  // 8. Silent Form Auto-submissions via fetch (No CORS/New Tabs)
   const briefForm = document.getElementById('briefForm');
   const successOverlay = document.getElementById('briefSuccessOverlay');
 
   if (briefForm && successOverlay) {
     briefForm.addEventListener('submit', (e) => {
-      const uniqueIframeName = 'hidden_iframe_' + Date.now();
-      const oldIframe = document.getElementById('dynamic_hidden_iframe');
-      if (oldIframe) {
-        oldIframe.parentNode.removeChild(oldIframe);
+      e.preventDefault(); // Intercept default browser submission
+      
+      const submitBtn = briefForm.querySelector('.brief-submit-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Transmitting request...";
       }
-      
-      const newIframe = document.createElement('iframe');
-      newIframe.id = 'dynamic_hidden_iframe';
-      newIframe.name = uniqueIframeName;
-      newIframe.style.display = 'none';
-      document.body.appendChild(newIframe);
-      
-      briefForm.setAttribute('target', uniqueIframeName);
-      
-      const company = document.getElementById('briefCompany').value.trim();
-      const rawBudget = document.getElementById('briefRange').value;
-      const budget = parseInt(rawBudget).toLocaleString();
-      const urgency = document.querySelector('input[name="entry.18600838"]:checked').value;
-      const jd = document.getElementById('briefJD').value.trim();
-      const contact = document.getElementById('briefContact').value.trim();
 
-      setTimeout(() => {
+      // Submit Google Form details silently in the background
+      fetch(briefForm.action, {
+        method: 'POST',
+        body: new FormData(briefForm),
+        mode: 'no-cors'
+      })
+      .then(() => {
         successOverlay.innerHTML = `
           <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
             <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; color: var(--accent-blue); font-size: 1.5rem; font-weight: bold; border: 1px solid rgba(59, 130, 246, 0.15);">
               ✓
             </div>
-            <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Submission Received</h4>
+            <h4 style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem; font-family: var(--font-display);">Brief Transmitted Successfully</h4>
             <p style="font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; max-width: 320px; margin-bottom: 2rem;">
-              Thanks for the response. You will be contacted on your provided information.
+              Thanks for the details. Pratap will audit your requirements and respond on the provided coordinates.
             </p>
             <button id="btnResetBrief" class="roi-select-btn" style="width: 100%; max-width: 220px; padding: 0.7rem 1.25rem; font-size: 0.82rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light) !important; background: transparent !important; color: var(--color-secondary) !important; cursor: pointer; transition: all 0.2s ease;">
               🔄 Submit Another Request
@@ -1373,6 +1395,11 @@ document.addEventListener('DOMContentLoaded', () => {
         successOverlay.style.display = 'flex';
         gsap.fromTo(successOverlay, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" });
         
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Generate Strategic Request →";
+        }
+
         const btnResetBrief = document.getElementById('btnResetBrief');
         if (btnResetBrief) {
           btnResetBrief.addEventListener('click', () => {
@@ -1383,13 +1410,22 @@ document.addEventListener('DOMContentLoaded', () => {
               onComplete: () => {
                 successOverlay.style.display = 'none';
                 briefForm.reset();
-                const val = parseInt(briefSlider.value);
-                sliderOutput.textContent = val.toLocaleString();
+                if (briefSlider && sliderOutput) {
+                  const val = parseInt(briefSlider.value);
+                  sliderOutput.textContent = val.toLocaleString();
+                }
               }
             });
           });
         }
-      }, 100);
+      })
+      .catch((err) => {
+        showToast("Transmission lag detected. Please connect directly.");
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Generate Strategic Request →";
+        }
+      });
     });
   }
 
@@ -1438,16 +1474,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const heroBadgeText = document.getElementById('heroBadgeText');
   const footerCopyright = document.getElementById('footerCopyright');
-  const academicDashboard = document.getElementById('academicDashboard');
-  const archiveGrid = document.getElementById('archiveGrid');
-  const knowledgeControlPanel = document.querySelector('.knowledge-control-panel');
+  const academicEditorialBoard = document.getElementById('academicEditorialBoard');
+  const creativeWritingsWrapper = document.querySelector('.creative-writings-wrapper');
 
   function applyTheme(theme) {
-    // Clean all class identifiers
     document.body.classList.remove('strategy-mode', 'product-mode', 'academic-mode', 'transformation-mode');
     document.body.classList.add(`${theme}-mode`);
 
-    // Update switcher segmented controls
     if (btnSwitchStrategy && btnSwitchProduct && btnSwitchAcademic && btnSwitchTransformation) {
       btnSwitchStrategy.classList.toggle('active', theme === 'strategy');
       btnSwitchProduct.classList.toggle('active', theme === 'product');
@@ -1455,12 +1488,10 @@ document.addEventListener('DOMContentLoaded', () => {
       btnSwitchTransformation.classList.toggle('active', theme === 'transformation');
     }
 
-    // Role, Badge and Copyright copy swaps
     const heroRole = document.querySelector('.hero-role');
     const heroIntroText = document.getElementById('heroIntroText');
 
     if (theme === 'strategy') {
-      document.title = "Pratap Jindal — Strategic Systems & Analytics";
       if (heroRole) heroRole.innerHTML = "Management Analyst &amp; Business Systems Architect";
       if (heroBadgeText) heroBadgeText.innerHTML = "Systems Intelligence Matrix v2.8";
       if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Three.js";
@@ -1468,17 +1499,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heroIntroText.innerHTML = `I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.`;
       }
       
-      // Counter labels
-      updateCounters("108", "Team Members Managed", "80%", "Manual Effort Eliminated", "₹75 Cr", "Sales Operations Directed");
+      updateCounters("22", "Operational Systems Built", "₹75 Cr+", "Operations Supported", "360 Hrs", "QA Automated Monthly", "17 → 2", "Stock Shortages Resolved");
 
-      if (academicDashboard) academicDashboard.style.display = 'none';
-      if (archiveGrid) archiveGrid.style.display = 'grid';
-      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
+      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
+      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
       
       updateThreeVariables(false);
 
     } else if (theme === 'product') {
-      document.title = "Pratap Jindal — Product Management Operations";
       if (heroRole) heroRole.innerHTML = "Product Manager &amp; Operations Architect";
       if (heroBadgeText) heroBadgeText.innerHTML = "Product Management Operations Dashboard v2.8";
       if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Product Dashboards";
@@ -1486,17 +1514,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heroIntroText.innerHTML = `I identify business friction points, design clear product workflows, and launch automated internal toolspaces. Translating complex stakeholder requirements into zero-cost serverless instruments, I focus on optimizing user adoption and quantifying bottom-line operational ROI.`;
       }
 
-      // Counter labels
-      updateCounters("108+", "Active Product Users", "92%", "Product Engagement Rate", "₹75 Cr", "Transaction Volume Scaled");
+      updateCounters("108+", "Active Product Users", "92%", "Product Engagement Rate", "₹75 Cr", "Transaction Volume Scaled", "45s", "Average Booking Time");
 
-      if (academicDashboard) academicDashboard.style.display = 'none';
-      if (archiveGrid) archiveGrid.style.display = 'grid';
-      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
+      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
+      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
       
       updateThreeVariables(false);
 
     } else if (theme === 'academic') {
-      document.title = "Pratap Jindal — Decision Science & Operations Research";
       if (heroRole) heroRole.innerHTML = "Decision Science &amp; Operations Researcher";
       if (heroBadgeText) heroBadgeText.innerHTML = "Academic Portfolio &amp; Research Archive v2.8";
       if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with clean typography &amp; Static Network Models &middot; Academic Edition";
@@ -1504,17 +1529,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heroIntroText.innerHTML = `Applied researcher investigating organizational design, algorithmic operations research, and human-computer decision workflows. Formulating heuristic inventory models and empirical speech-to-text QA cycles, I explore where system optimization intersects with behavioral execution.`;
       }
 
-      // Counter labels
-      updateCounters("108", "Researchers Coordinated", "99%", "Core Research Accuracy", "750k+", "Research Datasets Ingested");
+      updateCounters("108", "Researchers Coordinated", "99%", "Core Research Accuracy", "750k+", "Research Datasets Ingested", "r > 0.85", "LLM Audit Correlation");
 
-      if (academicDashboard) academicDashboard.style.display = 'flex';
-      if (archiveGrid) archiveGrid.style.display = 'none';
-      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'none';
+      if (academicEditorialBoard) academicEditorialBoard.style.display = 'flex';
+      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
       
       updateThreeVariables(true);
 
     } else if (theme === 'transformation') {
-      document.title = "Pratap Jindal — Digital Transformation & Business Systems";
       if (heroRole) heroRole.innerHTML = "Digital Transformation &amp; Business Systems Lead";
       if (heroBadgeText) heroBadgeText.innerHTML = "Digital Transformation Architecture v2.8";
       if (footerCopyright) footerCopyright.innerHTML = "&copy; 2026 Pratap Jindal &middot; Built with semantic HTML, CSS Grid &amp; Enterprise Integration Blueprints";
@@ -1522,28 +1544,28 @@ document.addEventListener('DOMContentLoaded', () => {
         heroIntroText.innerHTML = `I lead digital transformation projects, moving organizations from slow, manual spreadsheets to automated, unified cloud pipelines. Restructuring workflows with custom Chrome integrations and serverless scripts, I systematically secure data integrity and streamline team execution.`;
       }
 
-      // Counter labels
-      updateCounters("108", "Personnel Digitized", "80%", "Manual Processes Digitized", "₹7.5 Cr", "Enterprise Savings Created");
+      updateCounters("108", "Personnel Digitized", "80%", "Manual Processes Digitized", "₹7.5 Cr", "Enterprise Savings Created", "-70%", "Manual Screening Time");
 
-      if (academicDashboard) academicDashboard.style.display = 'none';
-      if (archiveGrid) archiveGrid.style.display = 'grid';
-      if (knowledgeControlPanel) knowledgeControlPanel.style.display = 'flex';
+      if (academicEditorialBoard) academicEditorialBoard.style.display = 'none';
+      if (creativeWritingsWrapper) creativeWritingsWrapper.style.display = 'block';
       
       updateThreeVariables(false);
     }
 
-    // Refresh project grid according to active theme mode
+    updateSEOMetadata(theme);
     renderProjectGrid();
     rotateIdentityQuote();
   }
 
-  function updateCounters(num1, lbl1, num2, lbl2, num3, lbl3) {
+  function updateCounters(num1, lbl1, num2, lbl2, num3, lbl3, num4, lbl4) {
     const cNum1 = document.getElementById('statTeam');
     const cLbl1 = cNum1 ? cNum1.nextElementSibling : null;
     const cNum2 = document.getElementById('statEffort');
     const cLbl2 = cNum2 ? cNum2.nextElementSibling : null;
     const cNum3 = document.getElementById('statSales');
     const cLbl3 = cNum3 ? cNum3.nextElementSibling : null;
+    const cNum4 = document.getElementById('statShortages');
+    const cLbl4 = cNum4 ? cNum4.nextElementSibling : null;
 
     if (cNum1) cNum1.textContent = num1;
     if (cLbl1) cLbl1.textContent = lbl1;
@@ -1551,6 +1573,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cLbl2) cLbl2.textContent = lbl2;
     if (cNum3) cNum3.textContent = num3;
     if (cLbl3) cLbl3.textContent = lbl3;
+    if (cNum4) cNum4.textContent = num4;
+    if (cLbl4) cLbl4.textContent = lbl4;
   }
 
   // Restore cached switcher state
@@ -1560,7 +1584,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   applyTheme(themes[currentThemeIndex]);
 
-  // Bind click events on segment controls
+  // Bind click events on switcher segmented controls
   if (btnSwitchStrategy) {
     btnSwitchStrategy.addEventListener('click', () => {
       currentThemeIndex = themes.indexOf('strategy');
@@ -1594,6 +1618,141 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Collapsible Archive toggler
+  const btnToggleArchive = document.getElementById('btnToggleArchive');
+  const archiveContainer = document.getElementById('archiveContainer');
+  if (btnToggleArchive && archiveContainer) {
+    btnToggleArchive.addEventListener('click', () => {
+      const isExpanded = btnToggleArchive.getAttribute('aria-expanded') === 'true';
+      btnToggleArchive.setAttribute('aria-expanded', !isExpanded);
+      
+      if (!isExpanded) {
+        archiveContainer.style.display = 'block';
+        btnToggleArchive.querySelector('.toggle-arrow').textContent = '▲';
+        btnToggleArchive.querySelector('.btn-text').textContent = '📦 Hide Full Systems Registry';
+        gsap.fromTo(archiveContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+      } else {
+        gsap.to(archiveContainer, {
+          opacity: 0,
+          y: 10,
+          duration: 0.2,
+          onComplete: () => {
+            archiveContainer.style.display = 'none';
+            btnToggleArchive.querySelector('.toggle-arrow').textContent = '▼';
+            btnToggleArchive.querySelector('.btn-text').textContent = '📦 View Full Systems Registry (Show All 22 Modules)';
+          }
+        });
+      }
+    });
+  }
+
+  // Collapsible Creative Writings toggler
+  const btnToggleCreative = document.getElementById('btnToggleCreative');
+  const creativeContainer = document.getElementById('creativeContainer');
+  if (btnToggleCreative && creativeContainer) {
+    btnToggleCreative.addEventListener('click', () => {
+      const isExpanded = btnToggleCreative.getAttribute('aria-expanded') === 'true';
+      btnToggleCreative.setAttribute('aria-expanded', !isExpanded);
+      
+      if (!isExpanded) {
+        creativeContainer.style.display = 'block';
+        btnToggleCreative.querySelector('.toggle-arrow').textContent = '▲';
+        gsap.fromTo(creativeContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+      } else {
+        gsap.to(creativeContainer, {
+          opacity: 0,
+          y: 10,
+          duration: 0.2,
+          onComplete: () => {
+            creativeContainer.style.display = 'none';
+            btnToggleCreative.querySelector('.toggle-arrow').textContent = '▼';
+          }
+        });
+      }
+    });
+  }
+
+  // Content Hub Click Interaction mapping
+  const hubCards = document.querySelectorAll('.hub-card');
+  hubCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const filter = card.getAttribute('data-hub');
+      
+      let catFilter = 'all';
+      if (filter === 'operations') catFilter = 'supply-ops';
+      else if (filter === 'ai-automation') catFilter = 'ai-systems';
+      else if (filter === 'product-design') catFilter = 'fullstack';
+      else if (filter === 'digital-transformation') catFilter = 'extensions';
+      else if (filter === 'research-systems') catFilter = 'supply-ops';
+
+      // Open archive if collapsed
+      if (archiveContainer && btnToggleArchive && archiveContainer.style.display === 'none') {
+        btnToggleArchive.click();
+      }
+
+      // Set search input to empty
+      const archiveSearchInput = document.getElementById('archiveSearchInput');
+      if (archiveSearchInput) archiveSearchInput.value = '';
+
+      // Set active filter pill in archive
+      const pills = document.querySelectorAll('.archive-pill');
+      pills.forEach(pill => {
+        if (pill.getAttribute('data-filter') === catFilter) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+
+      // Trigger archive filtering
+      filterArchiveTable(catFilter, '');
+
+      // Scroll to projects section
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      showToast(`Showing registry systems matching Content Hub: [${card.querySelector('h3').textContent}]`);
+    });
+  });
+
+  // Archive Table search & filter events
+  const archiveSearchInput = document.getElementById('archiveSearchInput');
+  const registryFilters = document.querySelectorAll('.archive-pill');
+  
+  function filterArchiveTable(category, query) {
+    const tbody = document.getElementById('archiveTableBody');
+    if (!tbody) return;
+    const rows = tbody.querySelectorAll('.archive-row');
+    
+    rows.forEach(row => {
+      const rowCat = row.getAttribute('data-category');
+      const text = row.textContent.toLowerCase();
+      const matchesCategory = category === 'all' || rowCat === category;
+      const matchesSearch = text.includes(query.toLowerCase());
+      
+      row.style.display = (matchesCategory && matchesSearch) ? '' : 'none';
+    });
+  }
+
+  if (archiveSearchInput) {
+    archiveSearchInput.addEventListener('input', () => {
+      const activePill = document.querySelector('.archive-pill.active');
+      const cat = activePill ? activePill.getAttribute('data-filter') : 'all';
+      filterArchiveTable(cat, archiveSearchInput.value);
+    });
+  }
+
+  registryFilters.forEach(pill => {
+    pill.addEventListener('click', () => {
+      registryFilters.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const query = archiveSearchInput ? archiveSearchInput.value : '';
+      filterArchiveTable(pill.getAttribute('data-filter'), query);
+    });
+  });
+
   // Bind sliding study close drawer
   const closeDrawerBtn = document.getElementById('closeDrawerBtn');
   const caseStudyDrawer = document.getElementById('caseStudyDrawer');
@@ -1609,179 +1768,325 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Semantic interlinking mappings
+function getSemanticLinks(id) {
+  const links = {
+    MOD_01: { project: "MOD_02", theme: "AI-Augmented Decision Making", area: "AI Automation" },
+    MOD_02: { project: "MOD_01", theme: "AI-Augmented Decision Making", area: "AI Automation" },
+    MOD_03: { project: "MOD_07", theme: "Information Systems", area: "Digital Integration" },
+    MOD_04: { project: "MOD_10", theme: "Operations Research", area: "Inventory Optimization" },
+    MOD_05: { project: "MOD_14", theme: "Information Systems", area: "Business Intelligence" },
+    MOD_06: { project: "MOD_03", theme: "Information Systems", area: "Product Operations" },
+    MOD_07: { project: "MOD_03", theme: "Organizational Systems", area: "Process Improvement" },
+    MOD_08: { project: "MOD_09", theme: "Organizational Systems", area: "Process Improvement" },
+    MOD_09: { project: "MOD_08", theme: "Organizational Systems", area: "Process Improvement" },
+    MOD_10: { project: "MOD_04", theme: "Operations Research", area: "Inventory Optimization" },
+    MOD_11: { project: "MOD_16", theme: "Information Systems", area: "AI Automation" },
+    MOD_12: { project: "MOD_19", theme: "Operations Research", area: "Operational Analytics" },
+    MOD_13: { project: "MOD_07", theme: "Organizational Systems", area: "Process Improvement" },
+    MOD_14: { project: "MOD_05", theme: "Information Systems", area: "Business Intelligence" },
+    MOD_15: { project: "MOD_22", theme: "Predictive Analytics", area: "Operational Analytics" },
+    MOD_16: { project: "MOD_11", theme: "Information Systems", area: "AI Automation" },
+    MOD_17: { project: "MOD_21", theme: "Operations Research", area: "Process Improvement" },
+    MOD_18: { project: "MOD_03", theme: "Information Systems", area: "AI Automation" },
+    MOD_19: { project: "MOD_12", theme: "Operations Research", area: "Operational Analytics" },
+    MOD_20: { project: "MOD_04", theme: "Operations Research", area: "Process Improvement" },
+    MOD_21: { project: "MOD_17", theme: "Operations Research", area: "Process Improvement" },
+    MOD_22: { project: "MOD_15", theme: "Predictive Analytics", area: "Operational Analytics" }
+  };
+  return links[id] || { project: "MOD_02", theme: "General Systems", area: "Business Systems" };
+}
 
-// Re-render project cards dynamically inside index.html grid
+// Highlight and jump to a specific project module
+function highlightProject(id) {
+  const targetRow = document.getElementById(`archive-row-${id}`);
+  
+  // Expand archive registry if collapsed
+  const archiveContainer = document.getElementById('archiveContainer');
+  const btnToggleArchive = document.getElementById('btnToggleArchive');
+  if (archiveContainer && btnToggleArchive && archiveContainer.style.display === 'none') {
+    btnToggleArchive.click();
+  }
+  
+  if (targetRow) {
+    setTimeout(() => {
+      targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetRow.style.backgroundColor = 'rgba(99, 102, 241, 0.15)';
+      setTimeout(() => {
+        targetRow.style.backgroundColor = '';
+      }, 2500);
+      showToast(`Navigated to System Registry Profile: [${id}]`);
+    }, 350);
+  }
+}
+
+// Update Dynamic Meta & JSON-LD tags
+function updateSEOMetadata(theme) {
+  const metaDescriptions = {
+    strategy: "Portfolio of Pratap Jindal — Management Analyst at Group Biopolis. Specializing in operations analytics, B2B workflows, and strategic business systems.",
+    product: "Product operations portfolio of Pratap Jindal. Focused on identifying operational friction, designing serverless internal tools, and driving business ROI.",
+    academic: "Academic portfolio of Pratap Jindal, UGC NET Qualified Management researcher. Focused on heuristic inventory models and human-AI collaborative workflows.",
+    transformation: "Enterprise digitization portfolio of Pratap Jindal. Architect of automated workflows, custom integrations, and cloud migrations."
+  };
+
+  const titles = {
+    strategy: "Pratap Jindal — Strategic Systems & Analytics Leader",
+    product: "Pratap Jindal — Product Manager & Operations Architect",
+    academic: "Pratap Jindal — Decision Science & Operations Researcher",
+    transformation: "Pratap Jindal — Digital Transformation & Business Systems Lead"
+  };
+
+  document.title = titles[theme] || "Pratap Jindal — Systems Strategist";
+
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute('content', metaDescriptions[theme]);
+  }
+
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', titles[theme]);
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', metaDescriptions[theme]);
+
+  const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twitterTitle) twitterTitle.setAttribute('content', titles[theme]);
+  const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twitterDesc) twitterDesc.setAttribute('content', metaDescriptions[theme]);
+
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
+  if (canonicalLink) {
+    canonicalLink.setAttribute('href', `https://pokerhearts.in/?mode=${theme}`);
+  }
+
+  const schemaScript = document.getElementById('seo-schema');
+  if (schemaScript) {
+    const baseSchema = {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "dateModified": new Date().toISOString().split('T')[0],
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Pratap Jindal",
+        "url": "https://pokerhearts.in",
+        "image": "https://pokerhearts.in/profile.png",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Group Biopolis"
+        },
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "Lovely Professional University"
+        }
+      }
+    };
+
+    if (theme === 'strategy') {
+      baseSchema.mainEntity.jobTitle = "Management Analyst";
+      baseSchema.mainEntity.description = "Management Analyst specializing in operations analytics, Chief of Staff operations, and enterprise systems intelligence.";
+      baseSchema.mainEntity.knowsAbout = ["Operations Analytics", "Business Intelligence", "SOP Automation", "Strategic Systems"];
+    } else if (theme === 'product') {
+      baseSchema.mainEntity.jobTitle = "Product Manager";
+      baseSchema.mainEntity.description = "Product operations leader designing zero-overhead serverless internal tools and optimizing user workflows.";
+      baseSchema.mainEntity.knowsAbout = ["Product Management", "Product Operations", "UX Design", "Workflow Automation"];
+    } else if (theme === 'academic') {
+      baseSchema.mainEntity.jobTitle = "Decision Science Researcher";
+      baseSchema.mainEntity.description = "UGC NET Qualified Management researcher investigating heuristic inventory models and human-AI collaborative workflows.";
+      baseSchema.mainEntity.knowsAbout = ["Operations Research", "Decision Science", "Heuristic Inventory Governance", "Academic Inquiry"];
+    } else if (theme === 'transformation') {
+      baseSchema.mainEntity.jobTitle = "Digital Transformation Lead";
+      baseSchema.mainEntity.description = "Transformation architect migrating legacy operations to automated cloud pipelines and Chrome extensions.";
+      baseSchema.mainEntity.knowsAbout = ["Digital Transformation", "Process Automation", "Legacy Migration", "Enterprise Integration"];
+    }
+
+    schemaScript.textContent = JSON.stringify(baseSchema, null, 2);
+  }
+}
+
+// Re-render project cards dynamically inside three-tier layout
 function renderProjectGrid() {
-  const grid = document.getElementById('projectGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
+  const featuredGrid = document.getElementById('featuredProjects');
+  const supportingGrid = document.getElementById('supportingProjects');
+  const archiveTableBody = document.getElementById('archiveTableBody');
+  
+  if (!featuredGrid || !supportingGrid || !archiveTableBody) return;
+  
+  featuredGrid.innerHTML = '';
+  supportingGrid.innerHTML = '';
+  archiveTableBody.innerHTML = '';
 
-  const activeFilter = document.querySelector('#projectFilters .filter-pill.active')?.getAttribute('data-filter') || 'all';
   const mode = themes[currentThemeIndex];
 
-  // Hide the category filters panel entirely in grouped modes
-  const filterBar = document.querySelector('.analytics-filter-bar');
-  if (filterBar) {
-    if (mode === 'academic' || mode === 'transformation') {
-      filterBar.style.display = 'none';
-    } else {
-      filterBar.style.display = 'flex';
-    }
-  }
+  // Map Featured & Supporting ID lists per theme mode
+  const featuredIdsMap = {
+    strategy: ["MOD_01", "MOD_02", "MOD_03", "MOD_04"],
+    product: ["MOD_02", "MOD_03", "MOD_04", "MOD_06"],
+    academic: ["MOD_01", "MOD_02", "MOD_04", "MOD_06"],
+    transformation: ["MOD_01", "MOD_02", "MOD_03", "MOD_04"]
+  };
 
-  if (mode === 'strategy') {
-    const filtered = projectData.filter(proj => activeFilter === 'all' || proj.category === activeFilter);
-    filtered.forEach(proj => {
-      const card = document.createElement('div');
-      card.className = 'glass-card analytics-card spatial-reveal';
-      card.setAttribute('data-category', proj.category);
-      
-      const isFeatured = [1, 3, 6, 8, 14, 21, 11, 20].includes(parseInt(proj.id.split('_')[1]) - 1);
-      const tagPrefix = isFeatured ? 'Flagship · ' : '';
+  const supportingIdsMap = {
+    strategy: ["MOD_05", "MOD_06", "MOD_07", "MOD_14", "MOD_15", "MOD_22"],
+    product: ["MOD_07", "MOD_10", "MOD_13", "MOD_15", "MOD_19", "MOD_22"],
+    academic: ["MOD_07", "MOD_08", "MOD_13", "MOD_15", "MOD_20", "MOD_22"],
+    transformation: ["MOD_07", "MOD_11", "MOD_15", "MOD_16", "MOD_18", "MOD_22"]
+  };
 
-      card.innerHTML = `
-        <div class="analytics-card-header">
-          <span class="mono-tag">${tagPrefix}${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</span>
-          <span class="card-num">${proj.id}</span>
-        </div>
-        <h3>${proj.strategy.title}</h3>
-        <p class="analytics-card-desc">${proj.strategy.desc}</p>
-        <div class="strategic-outcome-widget">
-          <div class="outcome-label">${proj.strategy.outcomeLabel}</div>
-          <div class="outcome-text">${proj.strategy.outcomeText}</div>
-        </div>
-        <div class="analytics-card-tech">
-          ${proj.strategy.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
-        </div>
-        ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}">🔎 Systems Deep-Dive Case Study &rarr;</button>` : ''}
-      `;
-      grid.appendChild(card);
-    });
-  } 
-  else if (mode === 'product') {
-    const pmFeaturedIds = ["MOD_02", "MOD_03", "MOD_04", "MOD_07", "MOD_10", "MOD_13", "MOD_15", "MOD_19", "MOD_22"];
-    const filtered = projectData.filter(proj => pmFeaturedIds.includes(proj.id) && (activeFilter === 'all' || proj.category === activeFilter));
+  const featuredIds = featuredIdsMap[mode] || [];
+  const supportingIds = supportingIdsMap[mode] || [];
+
+  function getModeText(proj, type) {
+    const defaultData = proj.strategy;
+    const modeData = proj[mode] || defaultData;
     
-    filtered.forEach(proj => {
-      const card = document.createElement('div');
-      card.className = 'glass-card analytics-card spatial-reveal';
-      card.setAttribute('data-category', proj.category);
-      
-      card.innerHTML = `
-        <div class="analytics-card-header">
-          <span class="mono-tag">${proj.product.badge}</span>
-          <span class="card-num">${proj.id}</span>
-        </div>
-        <h3>${proj.product.title}</h3>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.85rem; line-height: 1.45;">
-          <div><strong>Problem:</strong> <span style="color: var(--color-secondary);">${proj.product.problem}</span></div>
-          <div><strong>Target Users:</strong> <span style="color: var(--color-secondary);">${proj.product.users}</span></div>
-          <div><strong>Solution Launched:</strong> <span style="color: var(--color-secondary);">${proj.product.solution}</span></div>
-          <div><strong>Key Decision:</strong> <span style="color: var(--color-secondary);">${proj.product.decisions}</span></div>
-          <div><strong>KPI Measured:</strong> <span style="color: var(--accent-blue); font-weight: 600;">${proj.product.kpi}</span></div>
-        </div>
-
-        <div class="strategic-outcome-widget" style="margin-top: auto;">
-          <div class="outcome-label">Business Impact / Outcome</div>
-          <div class="outcome-text">${proj.product.outcome}</div>
-        </div>
-        
-        ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}">🔎 Systems Deep-Dive Case Study &rarr;</button>` : ''}
-      `;
-      grid.appendChild(card);
-    });
-  } 
-  else if (mode === 'academic') {
-    const themesData = {
-      "AI-Augmented Decision Making": ["MOD_01", "MOD_02"],
-      "Operations Research": ["MOD_04", "MOD_20"],
-      "Organizational Systems": ["MOD_07", "MOD_08", "MOD_13"],
-      "Predictive Analytics": ["MOD_15", "MOD_22"],
-      "Information Systems": ["MOD_03", "MOD_14"]
-    };
-
-    for (const [themeName, projIds] of Object.entries(themesData)) {
-      const themeSection = document.createElement('div');
-      themeSection.style.gridColumn = '1 / -1';
-      themeSection.style.marginTop = '2rem';
-      themeSection.innerHTML = `
-        <h4 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-blue); border-bottom: 2px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem;">${themeName}</h4>
-      `;
-      grid.appendChild(themeSection);
-
-      const themeProjects = projectData.filter(proj => projIds.includes(proj.id));
-      themeProjects.forEach(proj => {
-        const card = document.createElement('div');
-        card.className = 'glass-card analytics-card';
-        card.innerHTML = `
-          <div class="analytics-card-header">
-            <span class="mono-tag">${proj.research.badge}</span>
-            <span class="card-num">${proj.id}</span>
-          </div>
-          <h3 style="font-size: 1.05rem; font-style: italic; line-height: 1.45;">${proj.research.title}</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.82rem; line-height: 1.45;">
-            <div><strong>Research Question:</strong> <span style="color: var(--color-secondary);">${proj.research.question}</span></div>
-            <div><strong>Methodology:</strong> <span style="color: var(--color-secondary);">${proj.research.methodology}</span></div>
-          </div>
-
-          <div class="strategic-outcome-widget" style="margin-top: auto;">
-            <div class="outcome-label">Key Empirical Contribution</div>
-            <div class="outcome-text">${proj.research.contribution}</div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
+    if (type === 'title') return modeData.title || defaultData.title;
+    
+    if (type === 'problem') {
+      return proj.product?.problem || proj.transformation?.before || defaultData.desc;
     }
-  } 
-  else if (mode === 'transformation') {
-    const streamsData = {
-      "AI Transformation": ["MOD_01", "MOD_02"],
-      "Process Automation": ["MOD_18", "MOD_16", "MOD_11"],
-      "Operational Digitization": ["MOD_03", "MOD_07", "MOD_13"],
-      "Decision Intelligence": ["MOD_04", "MOD_15", "MOD_22"],
-      "Governance & Control": ["MOD_09", "MOD_17", "MOD_21"]
-    };
-
-    for (const [streamName, projIds] of Object.entries(streamsData)) {
-      const streamSection = document.createElement('div');
-      streamSection.style.gridColumn = '1 / -1';
-      streamSection.style.marginTop = '2rem';
-      streamSection.innerHTML = `
-        <h4 style="font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-blue); border-bottom: 2px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem;">${streamName}</h4>
-      `;
-      grid.appendChild(streamSection);
-
-      const streamProjects = projectData.filter(proj => projIds.includes(proj.id));
-      streamProjects.forEach(proj => {
-        const card = document.createElement('div');
-        card.className = 'glass-card analytics-card';
-        card.innerHTML = `
-          <div class="analytics-card-header">
-            <span class="mono-tag">${proj.transformation.badge}</span>
-            <span class="card-num">${proj.id}</span>
-          </div>
-          <h3>${proj.transformation.title}</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 0.65rem; margin: 1rem 0; font-size: 0.85rem; line-height: 1.45;">
-            <div><strong>Before Redesign:</strong> <span style="color: var(--color-secondary); font-style: italic;">${proj.transformation.before}</span></div>
-            <div><strong>After Redesign:</strong> <span style="color: var(--color-secondary); font-weight: 500;">${proj.transformation.after}</span></div>
-            <div><strong>Change Management:</strong> <span style="color: var(--color-secondary);">${proj.transformation.change}</span></div>
-          </div>
-
-          <div class="strategic-outcome-widget" style="margin-top: auto;">
-            <div class="outcome-label">Value Created</div>
-            <div class="outcome-text">${proj.transformation.value}</div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
+    if (type === 'context') {
+      return defaultData.desc || "Operational system design in SME structure.";
     }
+    if (type === 'approach') {
+      return proj.product?.decisions || proj.transformation?.change || proj.research?.methodology || "Architected custom software automation layers.";
+    }
+    if (type === 'solution') {
+      return proj.product?.solution || proj.transformation?.after || "Interactive dashboard and automated script validation.";
+    }
+    if (type === 'outcome') {
+      return proj.product?.outcome || proj.transformation?.value || proj.research?.contribution || defaultData.outcomeText;
+    }
+    if (type === 'takeaway') {
+      return proj.product?.decisions || proj.transformation?.change || "Validate data schemas and normalize contact indices before script deployment.";
+    }
+    return "";
   }
 
-  // Bind click events on dynamic card deep dives
-  const caseStudyTriggers = grid.querySelectorAll('.case-study-trigger-btn');
+  // 1. Render Featured Flagships
+  const featuredProjects = projectData.filter(p => featuredIds.includes(p.id));
+  featuredProjects.forEach(proj => {
+    const card = document.createElement('div');
+    card.className = 'glass-card featured-card';
+    card.setAttribute('data-category', proj.category);
+    
+    const links = getSemanticLinks(proj.id);
+    const techStack = proj.strategy.tech || [];
+    
+    card.innerHTML = `
+      <div class="featured-card-header">
+        <span class="mono-tag" style="background: rgba(59, 130, 246, 0.05); color: var(--accent-blue); border-color: rgba(59,130,246,0.15);">Flagship Project</span>
+        <span class="card-num">${proj.id}</span>
+      </div>
+      <h3>${getModeText(proj, 'title')}</h3>
+      
+      <div class="featured-scannable-grid">
+        <div class="scannable-block">
+          <h4>Problem Statement</h4>
+          <p>${getModeText(proj, 'problem')}</p>
+        </div>
+        <div class="scannable-block">
+          <h4>Context &amp; Operational Need</h4>
+          <p>${getModeText(proj, 'context')}</p>
+        </div>
+        <div class="scannable-block">
+          <h4>Approach &amp; Method</h4>
+          <p>${getModeText(proj, 'approach')}</p>
+        </div>
+        <div class="scannable-block">
+          <h4>Solution &amp; Ingested Tools</h4>
+          <p>${getModeText(proj, 'solution')}</p>
+        </div>
+      </div>
+
+      <div class="strategic-outcome-widget" style="margin-bottom: 1.5rem;">
+        <div class="outcome-label">Direct Business Outcome &amp; Impact</div>
+        <div class="outcome-text">${getModeText(proj, 'outcome')}</div>
+      </div>
+
+      <div style="font-size: 0.82rem; color: var(--color-secondary); line-height: 1.55; margin-bottom: 1.25rem; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px dashed var(--border-light); background: rgba(255, 255, 255, 0.55);">
+        <strong>LEO Lessons Learned:</strong> ${getModeText(proj, 'takeaway')}
+      </div>
+
+      <div class="analytics-card-tech" style="border-top: 1px solid var(--border-light); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          ${techStack.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted);">
+          🔗 Links: <span class="archive-action-link" onclick="highlightProject('${links.project}')">${links.project}</span> | Theme: <em>${links.theme}</em>
+        </div>
+      </div>
+      
+      ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}" style="margin-top: 1.25rem; width: fit-content; padding: 0.55rem 1.15rem; font-size: 0.78rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">🔎 Systems Deep-Dive &rarr;</button>` : ''}
+    `;
+    featuredGrid.appendChild(card);
+  });
+
+  // 2. Render Supporting Projects
+  const supportingProjects = projectData.filter(p => supportingIds.includes(p.id));
+  supportingProjects.forEach(proj => {
+    const card = document.createElement('div');
+    card.className = 'glass-card analytics-card';
+    card.setAttribute('data-category', proj.category);
+    
+    const links = getSemanticLinks(proj.id);
+    const techStack = proj.strategy.tech || [];
+    
+    card.innerHTML = `
+      <div class="analytics-card-header">
+        <span class="mono-tag">${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</span>
+        <span class="card-num">${proj.id}</span>
+      </div>
+      <h3>${getModeText(proj, 'title')}</h3>
+      <p class="analytics-card-desc" style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem;">${proj.strategy.desc}</p>
+      
+      <div class="strategic-outcome-widget">
+        <div class="outcome-label">Direct Business Outcome</div>
+        <div class="outcome-text">${getModeText(proj, 'outcome')}</div>
+      </div>
+
+      <div class="analytics-card-tech" style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; margin-top: auto; border-top: 1px solid var(--border-light);">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
+          ${techStack.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--color-muted);">
+          🔗 Links: <span class="archive-action-link" onclick="highlightProject('${links.project}')">${links.project}</span>
+        </div>
+      </div>
+      
+      ${proj.strategy.cta ? `<button class="case-study-trigger-btn" data-project="${proj.strategy.cta.key}" style="margin-top: 1rem; width: fit-content; padding: 0.45rem 0.9rem; font-size: 0.72rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">🔎 Systems Deep-Dive</button>` : ''}
+    `;
+    supportingGrid.appendChild(card);
+  });
+
+  // 3. Populate Full Table Registry
+  projectData.forEach(proj => {
+    const row = document.createElement('tr');
+    row.className = 'archive-row';
+    row.id = `archive-row-${proj.id}`;
+    row.setAttribute('data-category', proj.category);
+    
+    const techStack = proj.strategy.tech || [];
+    
+    row.innerHTML = `
+      <td style="font-family: var(--font-mono); font-weight: 700; color: var(--color-primary);">${proj.id}</td>
+      <td>
+        <strong style="color: var(--color-primary); font-size: 0.9rem;">${getModeText(proj, 'title')}</strong>
+        <div style="font-size: 0.75rem; color: var(--color-muted); margin-top: 0.25rem;">Type: ${proj.category === 'ai-systems' ? 'AI Systems' : proj.category === 'fullstack' ? 'Web App' : proj.category === 'supply-ops' ? 'Supply & Ops' : 'Extension'}</div>
+      </td>
+      <td><span style="font-size: 0.8rem; line-height: 1.4; display: block;">${proj.strategy.desc}</span></td>
+      <td>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.2rem;">
+          ${techStack.map(t => `<span class="archive-tech-tag">${t}</span>`).join('')}
+        </div>
+      </td>
+      <td>
+        <div style="font-size: 0.8rem; font-weight: 500; color: var(--color-secondary);">${getModeText(proj, 'outcome')}</div>
+      </td>
+    `;
+    archiveTableBody.appendChild(row);
+  });
+
+  // Re-bind click events on dynamic card deep dives
+  const caseStudyTriggers = document.querySelectorAll('.case-study-trigger-btn');
   caseStudyTriggers.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1796,21 +2101,21 @@ function renderProjectGrid() {
       if (caseStudyDrawer && drawerProjectTitle && drawerBodyContent) {
         drawerProjectTitle.textContent = data.title;
         drawerBodyContent.innerHTML = `
-          <div class="case-study-section">
-            <h5>1. Problem Statement</h5>
-            <p>${data.problem}</p>
+          <div class="case-study-section" style="margin-bottom: 1.5rem;">
+            <h5 style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 0.45rem;">1. Problem Statement</h5>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: var(--color-secondary);">${data.problem}</p>
+          </div>
+          <div class="case-study-section" style="margin-bottom: 1.5rem;">
+            <h5 style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 0.45rem;">2. Systems Architecture</h5>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: var(--color-secondary);">${data.architecture}</p>
+          </div>
+          <div class="case-study-section" style="margin-bottom: 1.5rem;">
+            <h5 style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 0.45rem;">3. Technical Challenges Solved</h5>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: var(--color-secondary);">${data.challenge}</p>
           </div>
           <div class="case-study-section">
-            <h5>2. Systems Architecture</h5>
-            <p>${data.architecture}</p>
-          </div>
-          <div class="case-study-section">
-            <h5>3. Technical Challenges Solved</h5>
-            <p>${data.challenge}</p>
-          </div>
-          <div class="case-study-section">
-            <h5>4. Direct Business Impact</h5>
-            <p>${data.impact}</p>
+            <h5 style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 0.45rem;">4. Direct Business Impact</h5>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: var(--color-secondary);">${data.impact}</p>
           </div>
         `;
         caseStudyDrawer.classList.add('open');
@@ -1818,15 +2123,14 @@ function renderProjectGrid() {
     });
   });
 
-  // Update total count labels
   const activeCountLabel = document.getElementById('projectActiveCount');
   if (activeCountLabel) {
-    const visibleCards = grid.querySelectorAll('.analytics-card');
-    activeCountLabel.textContent = visibleCards.length;
+    const visibleCards = featuredProjects.length + supportingProjects.length;
+    activeCountLabel.textContent = visibleCards;
   }
 }
 
-// Update Three.js environmental colors on mode change
+// Update Three.js background colors
 function updateThreeVariables(isAcademic) {
   if (!scene) return;
   const duration = 0.8;
@@ -1881,3 +2185,4 @@ function updateThreeVariables(isAcademic) {
     });
   }
 }
+

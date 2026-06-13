@@ -2056,14 +2056,8 @@ a:hover {
 
 /* GSAP timeline entrance class helper */
 .spatial-reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.spatial-reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* ==========================================================================
@@ -3312,7 +3306,7 @@ body.academic-mode .section-head-main {
 }
 
 /* Responsive single-row navigation optimization on medium viewports */
-@media (max-width: 1250px) {
+@media (max-width: 1380px) {
   .theme-toggle-btn .toggle-text {
     display: none !important;
   }

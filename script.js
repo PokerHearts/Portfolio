@@ -1767,22 +1767,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 9. Intersection Observer for elements with .spatial-reveal class
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.05,
-    rootMargin: '0px 0px -20px 0px'
-  });
-
-  document.querySelectorAll('.spatial-reveal').forEach(el => {
-    revealObserver.observe(el);
-  });
 });
 
 // Semantic interlinking mappings

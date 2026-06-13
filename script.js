@@ -1,65 +1,10 @@
 /* ==========================================================================
-   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — ORGANIZATIONAL KNOWLEDGE GRAPH
+   THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT PARTICLES
    ========================================================================== */
 let scene, camera, renderer, dirLight;
-let nodeGroup, edgeGroup;
-let nodes = []; // 22 node meshes
-let edges = []; // 22 line meshes
-let hoveredNodeIndex = -1;
-let lastHoveredNodeIndex = -2;
-
-// Base 3D Coordinates for 22 project nodes arranged by structural clusters
-const nodeBaseCoordinates = [
-  { x: -8, y: 4, z: 0 },      // MOD_01 (AI)
-  { x: -7, y: 2, z: 2 },      // MOD_02 (AI)
-  { x: -5, y: -2, z: 1 },     // MOD_03 (B2B)
-  { x: 2, y: 3, z: -1 },      // MOD_04 (Supply/Ops)
-  { x: 6, y: -1, z: 2 },      // MOD_05 (Analytics)
-  { x: -7, y: -4, z: -1 },    // MOD_06 (B2B)
-  { x: 0, y: 1, z: 2 },       // MOD_07 (Supply/Ops)
-  { x: -2, y: -5, z: 2 },     // MOD_08 (People/Org)
-  { x: 1, y: -7, z: -1 },     // MOD_09 (People/Org)
-  { x: 1, y: 4, z: 0 },       // MOD_10 (Supply/Ops)
-  { x: -4, y: -1, z: 3 },     // MOD_11 (B2B)
-  { x: 4, y: 4, z: -3 },      // MOD_12 (Supply/Ops)
-  { x: -1, y: 2, z: 3 },      // MOD_13 (Supply/Ops)
-  { x: 3, y: 2, z: 1 },       // MOD_14 (Supply/Ops)
-  { x: 5, y: -3, z: 0 },      // MOD_15 (Analytics)
-  { x: -9, y: 3, z: -2 },     // MOD_16 (AI)
-  { x: 2, y: 5, z: -2 },      // MOD_17 (Supply/Ops)
-  { x: -6, y: -2, z: 2 },     // MOD_18 (B2B)
-  { x: -1, y: -8, z: 0 },     // MOD_19 (People/Org)
-  { x: 1, y: 0, z: -3 },      // MOD_20 (Supply/Ops)
-  { x: 3, y: -1, z: -2 },     // MOD_21 (Supply/Ops)
-  { x: 7, y: -4, z: 1 }       // MOD_22 (Analytics)
-];
-
-// Structural relationships (edges) in our operational pipeline
-const graphEdges = [
-  { from: 3, to: 14 },   // MOD_04 Inventory Optimizer -> MOD_15 Purchase Pattern Dashboard
-  { from: 14, to: 21 },  // MOD_15 Purchase Pattern -> MOD_22 Client Health Analytics
-  { from: 21, to: 6 },   // MOD_22 Client Health -> MOD_07 Sales Control System
-  { from: 6, to: 2 },    // MOD_07 Sales Control -> MOD_03 Order Booking Workspace
-  { from: 1, to: 7 },    // MOD_02 AI Call QA -> MOD_08 Task Performance Matrix
-  { from: 12, to: 21 },  // MOD_13 Complaint Engine -> MOD_22 Client Health
-  { from: 0, to: 7 },    // MOD_01 -> MOD_08
-  { from: 4, to: 14 },   // MOD_05 -> MOD_15
-  { from: 4, to: 21 },   // MOD_05 -> MOD_22
-  { from: 5, to: 0 },    // MOD_06 -> MOD_01
-  { from: 9, to: 3 },    // MOD_10 -> MOD_04
-  { from: 9, to: 2 },    // MOD_10 -> MOD_03
-  { from: 10, to: 6 },   // MOD_11 -> MOD_07
-  { from: 11, to: 3 },   // MOD_12 -> MOD_04
-  { from: 13, to: 3 },   // MOD_14 -> MOD_04
-  { from: 13, to: 21 },  // MOD_14 -> MOD_22
-  { from: 15, to: 1 },   // MOD_16 -> MOD_02
-  { from: 16, to: 13 },  // MOD_17 -> MOD_14
-  { from: 17, to: 2 },   // MOD_18 -> MOD_03
-  { from: 18, to: 6 },   // MOD_19 -> MOD_07
-  { from: 19, to: 6 },   // MOD_20 -> MOD_07
-  { from: 20, to: 6 },   // MOD_21 -> MOD_07
-  { from: 20, to: 11 }   // MOD_21 -> MOD_12
-];
+let particleGroup;
+let ambientParticles;
+let particleMaterial;
 
 const themes = ['strategy', 'product', 'academic', 'transformation'];
 let currentThemeIndex = 0;
@@ -69,11 +14,6 @@ let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
 const windowHalfX = window.innerWidth / 2;
 const windowHalfY = window.innerHeight / 2;
-
-// Raycasting parameters
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2(-10, -10);
-let rawMouseX = 0, rawMouseY = 0;
 
 function initThree() {
   const canvas = document.getElementById('webgl-canvas');
@@ -102,55 +42,30 @@ function initThree() {
   dirLight.position.set(10, 20, 15);
   scene.add(dirLight);
 
-  nodeGroup = new THREE.Group();
-  edgeGroup = new THREE.Group();
-  scene.add(nodeGroup);
-  scene.add(edgeGroup);
+  particleGroup = new THREE.Group();
+  scene.add(particleGroup);
 
-  // 1. Instantiate 22 nodes
-  const nodeGeometry = new THREE.SphereGeometry(0.22, 16, 16);
-  nodes = [];
-  nodeBaseCoordinates.forEach((coord, idx) => {
-    const nodeMaterial = new THREE.MeshPhongMaterial({
-      color: getNodeColorForMode(idx),
-      transparent: true,
-      opacity: 0.85,
-      shininess: 90
-    });
-    const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
-    mesh.position.set(coord.x, coord.y, coord.z);
-    mesh.userData = {
-      velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01
-      )
-    };
-    nodeGroup.add(mesh);
-    nodes.push(mesh);
+  // Subtle fluid particle motion cloud (dust/star particles)
+  const particleGeo = new THREE.BufferGeometry();
+  const particleCount = 150;
+  const posArray = new Float32Array(particleCount * 3);
+
+  for (let i = 0; i < particleCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 45;
+  }
+
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+  particleMaterial = new THREE.PointsMaterial({
+    size: 0.2,
+    color: 0x3b82f6, // Default Strategy Blue
+    transparent: true,
+    opacity: 0.35,
+    blending: THREE.NormalBlending
   });
 
-  // 2. Instantiate pre-built edge lines once
-  edges = [];
-  graphEdges.forEach(edge => {
-    const nodeA = nodes[edge.from];
-    const nodeB = nodes[edge.to];
-    const geoPoints = [nodeA.position.clone(), nodeB.position.clone()];
-    const lineGeo = new THREE.BufferGeometry().setFromPoints(geoPoints);
-    const lineMat = new THREE.LineBasicMaterial({
-      color: getEdgeColorForMode(edge.from, edge.to),
-      transparent: true,
-      opacity: getEdgeOpacityForMode(edge.from, edge.to),
-      linewidth: 1.5
-    });
-    const line = new THREE.Line(lineGeo, lineMat);
-    edgeGroup.add(line);
-    edges.push({
-      lineMesh: line,
-      from: edge.from,
-      to: edge.to
-    });
-  });
+  ambientParticles = new THREE.Points(particleGeo, particleMaterial);
+  particleGroup.add(ambientParticles);
 
   // Register Event Handlers
   window.addEventListener('resize', onWindowResize);
@@ -172,14 +87,6 @@ function onWindowResize() {
 function onMouseMove(event) {
   targetMouseX = (event.clientX - windowHalfX) * 0.01;
   targetMouseY = (event.clientY - windowHalfY) * 0.01;
-  
-  // Normalized coordinates for Raycasting
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-  // Raw screen coordinates for Tooltip positioning
-  rawMouseX = event.clientX;
-  rawMouseY = event.clientY;
 }
 
 // GSAP ScrollTrigger 3D Camera Flight Pathways
@@ -187,7 +94,7 @@ function setupCameraScrollChoreography() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero (Station 1) -> Projects Grid (Station 2)
+  // Hero -> Projects Grid
   gsap.timeline({
     scrollTrigger: {
       trigger: "#projects",
@@ -199,7 +106,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 8, y: -2, z: 18 })
   .to(camera.rotation, { x: 0.1, y: -0.3, z: 0 }, "<");
 
-  // Projects Grid (Station 2) -> Leadership Flow (Station 3)
+  // Projects Grid -> Timeline
   gsap.timeline({
     scrollTrigger: {
       trigger: "#experience",
@@ -211,7 +118,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -6, y: -8, z: 15 })
   .to(camera.rotation, { x: -0.15, y: 0.25, z: 0 }, "<");
 
-  // Leadership Flow (Station 3) -> Knowledge Repository (Station 4)
+  // Timeline -> Knowledge Repository
   gsap.timeline({
     scrollTrigger: {
       trigger: "#research",
@@ -223,7 +130,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: 5, y: -14, z: 20 })
   .to(camera.rotation, { x: 0.05, y: -0.15, z: 0 }, "<");
 
-  // Knowledge Repository (Station 4) -> Capability Matrix (Station 5)
+  // Knowledge Repository -> Capability Matrix
   gsap.timeline({
     scrollTrigger: {
       trigger: "#skills",
@@ -235,7 +142,7 @@ function setupCameraScrollChoreography() {
   .to(camera.position, { x: -3, y: -20, z: 16 })
   .to(camera.rotation, { x: -0.1, y: 0.1, z: 0 }, "<");
 
-  // Capability Matrix (Station 5) -> Connect Portal (Station 6)
+  // Capability Matrix -> Connect Portal
   gsap.timeline({
     scrollTrigger: {
       trigger: "#connect",
@@ -248,177 +155,12 @@ function setupCameraScrollChoreography() {
   .to(camera.rotation, { x: 0, y: 0, z: 0 }, "<");
 }
 
-// Node coloring logic depending on current identity theme
-function getNodeColorForMode(idx) {
-  const mode = themes[currentThemeIndex];
-  
-  if (mode === 'strategy') {
-    const featured = [1, 3, 6, 8, 14, 21, 11, 20]; // MOD_02, 04, 07, 09, 15, 22, 12, 21 (0-indexed: 1, 3, 6, 8, 14, 21, 11, 20)
-    return featured.includes(idx) ? 0x3b82f6 : 0x475569;
-  }
-  
-  if (mode === 'product') {
-    const featured = [1, 2, 3, 6, 9, 12, 14, 18, 21]; // MOD_02, 03, 04, 07, 10, 13, 15, 19, 22
-    return featured.includes(idx) ? 0x4f46e5 : 0x334155;
-  }
-  
-  if (mode === 'academic') {
-    // Grouped by research themes
-    if ([0, 1, 15].includes(idx)) return 0x8b5cf6; // AI-Augmented (MOD_01, 02, 16)
-    if ([3, 11, 16, 19, 20].includes(idx)) return 0xb45309; // OR (MOD_04, 12, 17, 20, 21)
-    if ([6, 7, 12].includes(idx)) return 0xea580c; // Org Systems (MOD_07, 08, 13)
-    if ([4, 14, 21].includes(idx)) return 0x0ea5e9; // Predictive (MOD_05, 15, 22)
-    return 0x475569; // Information Systems (MOD_03, 06, 11, 14, 18, 09, 19)
-  }
-  
-  if (mode === 'transformation') {
-    // Grouped by transformation streams
-    if ([4, 7, 10, 15, 17, 18].includes(idx)) return 0xea580c; // Process Automation (MOD_05, 08, 11, 16, 18, 19)
-    if ([0, 1].includes(idx)) return 0x8b5cf6; // AI (MOD_01, 02)
-    if ([2, 5, 6, 9, 12, 13].includes(idx)) return 0x3b82f6; // Digitization (MOD_03, 06, 07, 10, 13, 14)
-    if ([3, 14, 21].includes(idx)) return 0x0ea5e9; // Decision Intel (MOD_04, 15, 22)
-    return 0x475569; // Governance (MOD_09, 12, 17, 20, 21)
-  }
-  
-  return 0x3b82f6;
-}
-
-// Edge opacities
-function getEdgeOpacityForMode(from, to) {
-  const mode = themes[currentThemeIndex];
-  
-  if (mode === 'strategy') {
-    const featured = [1, 3, 6, 8, 14, 21, 11, 20];
-    return (featured.includes(from) && featured.includes(to)) ? 0.45 : 0.05;
-  }
-  
-  if (mode === 'product') {
-    const featured = [1, 2, 3, 6, 9, 12, 14, 18, 21];
-    return (featured.includes(from) && featured.includes(to)) ? 0.5 : 0.05;
-  }
-  
-  if (mode === 'academic') {
-    // Same theme group checks
-    const inSameGroup = (
-      ([0, 1, 15].includes(from) && [0, 1, 15].includes(to)) || // AI
-      ([3, 11, 16, 19, 20].includes(from) && [3, 11, 16, 19, 20].includes(to)) || // OR
-      ([6, 7, 12].includes(from) && [6, 7, 12].includes(to)) || // Org
-      ([4, 14, 21].includes(from) && [4, 14, 21].includes(to)) || // Predictive
-      ([2, 5, 8, 10, 13, 17, 18].includes(from) && [2, 5, 8, 10, 13, 17, 18].includes(to)) // Info
-    );
-    return inSameGroup ? 0.35 : 0.05;
-  }
-  
-  if (mode === 'transformation') {
-    const inSameGroup = (
-      ([4, 7, 10, 15, 17, 18].includes(from) && [4, 7, 10, 15, 17, 18].includes(to)) || // Automation
-      ([0, 1].includes(from) && [0, 1].includes(to)) || // AI
-      ([2, 5, 6, 9, 12, 13].includes(from) && [2, 5, 6, 9, 12, 13].includes(to)) || // Digitization
-      ([3, 14, 21].includes(from) && [3, 14, 21].includes(to)) || // Decision
-      ([8, 11, 16, 19, 20].includes(from) && [8, 11, 16, 19, 20].includes(to)) // Governance
-    );
-    return inSameGroup ? 0.4 : 0.05;
-  }
-  
-  return 0.15;
-}
-
-// Edge colors
-function getEdgeColorForMode(from, to) {
-  const mode = themes[currentThemeIndex];
-  if (mode === 'academic') return 0x78350f;
-  if (mode === 'transformation') return 0x0ea5e9;
-  return 0x6366f1;
-}
-
-// Core WebGL Frame Animation Render Loop
 function animate() {
   requestAnimationFrame(animate);
-  const mode = themes[currentThemeIndex];
-
-  const time = Date.now() * 0.0008;
-
-  // 1. Dynamic float drift (suspended in Academic mode to maintain clean publishing look)
-  if (mode !== 'academic') {
-    nodes.forEach((node, idx) => {
-      const base = nodeBaseCoordinates[idx];
-      node.position.x = base.x + Math.sin(time + idx) * 0.25;
-      node.position.y = base.y + Math.cos(time * 0.8 + idx) * 0.25;
-      node.position.z = base.z + Math.sin(time * 0.5 + idx) * 0.25;
-    });
-  } else {
-    nodes.forEach((node, idx) => {
-      const base = nodeBaseCoordinates[idx];
-      node.position.x = base.x;
-      node.position.y = base.y;
-      node.position.z = base.z;
-    });
-  }
-
-  // 2. Update line positions to connect nodes dynamically
-  edges.forEach(edge => {
-    const nodeA = nodes[edge.from];
-    const nodeB = nodes[edge.to];
-    const positions = edge.lineMesh.geometry.attributes.position.array;
-    positions[0] = nodeA.position.x;
-    positions[1] = nodeA.position.y;
-    positions[2] = nodeA.position.z;
-    positions[3] = nodeB.position.x;
-    positions[4] = nodeB.position.y;
-    positions[5] = nodeB.position.z;
-    edge.lineMesh.geometry.attributes.position.needsUpdate = true;
-  });
-
-  // 3. Raycast Hit Testing for Tooltip and Highlights
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(nodes);
   
-  if (intersects.length > 0) {
-    const hoveredObj = intersects[0].object;
-    hoveredNodeIndex = nodes.indexOf(hoveredObj);
-  } else {
-    hoveredNodeIndex = -1;
-  }
-
-  // Only update node colors, scales, and edge highlights when the hovered state changes
-  if (hoveredNodeIndex !== lastHoveredNodeIndex) {
-    // Apply visual highlights based on hover state
-    nodes.forEach((node, idx) => {
-      let targetScale = 1.0;
-      if (idx === hoveredNodeIndex) {
-        targetScale = 1.7;
-        node.material.color.setHex(0xffaa00); // Highlight in Gold
-      } else {
-        node.material.color.setHex(getNodeColorForMode(idx));
-      }
-      node.scale.set(targetScale, targetScale, targetScale);
-    });
-
-    edges.forEach(edge => {
-      const isHighlighted = (hoveredNodeIndex === edge.from || hoveredNodeIndex === edge.to);
-      edge.lineMesh.material.opacity = isHighlighted ? 0.75 : getEdgeOpacityForMode(edge.from, edge.to);
-      edge.lineMesh.material.color.setHex(isHighlighted ? 0xffaa00 : getEdgeColorForMode(edge.from, edge.to));
-    });
-
-    lastHoveredNodeIndex = hoveredNodeIndex;
-  }
-
-  // 4. Update graph tooltip
-  const tooltip = document.getElementById('graph-tooltip');
-  if (tooltip) {
-    if (hoveredNodeIndex !== -1) {
-      const proj = projectData[hoveredNodeIndex];
-      tooltip.innerHTML = `
-        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-blue); margin-bottom: 2px; text-transform: uppercase;">MOD_${(hoveredNodeIndex + 1).toString().padStart(2, '0')}</div>
-        <div style="font-weight: 700; color: #fff;">${proj.strategy.title}</div>
-      `;
-      tooltip.style.display = 'block';
-      tooltip.style.left = (rawMouseX + 15) + 'px';
-      tooltip.style.top = (rawMouseY + 15) + 'px';
-    } else {
-      tooltip.style.display = 'none';
-    }
-  }
+  // Ambient particle drift
+  particleGroup.rotation.y += 0.0003;
+  particleGroup.rotation.x += 0.0001;
 
   // Camera mouse parallax drift
   mouseX += (targetMouseX - mouseX) * 0.05;
@@ -2089,27 +1831,32 @@ function updateThreeVariables(isAcademic) {
   if (!scene) return;
   const duration = 0.8;
 
-  // Strategy (Dark blue), Product (Light grey), Academic (Cream), Transformation (Very dark blue)
   const mode = themes[currentThemeIndex];
   let bgColorHex = 0xf6f8fc;
   let lightColorHex = 0xeef2ff;
+  let partColorHex = 0x8b5cf6;
 
   if (mode === 'strategy') {
-    bgColorHex = 0x0b0f19;
+    bgColorHex = 0xf1f5f9;
     lightColorHex = 0x3b82f6;
+    partColorHex = 0x3b82f6;
   } else if (mode === 'product') {
     bgColorHex = 0xf3f4f6;
     lightColorHex = 0xe5e7eb;
+    partColorHex = 0x4f46e5;
   } else if (mode === 'academic') {
     bgColorHex = 0xfbf9f4;
     lightColorHex = 0xe4dfd6;
+    partColorHex = 0xb45309;
   } else if (mode === 'transformation') {
-    bgColorHex = 0x070a13;
+    bgColorHex = 0xf8fafc;
     lightColorHex = 0x0ea5e9;
+    partColorHex = 0x0ea5e9;
   }
 
   const targetBgColor = new THREE.Color(bgColorHex);
   const targetLightColor = new THREE.Color(lightColorHex);
+  const targetPartColor = new THREE.Color(partColorHex);
 
   gsap.to(scene.background, {
     r: targetBgColor.r, g: targetBgColor.g, b: targetBgColor.b,
@@ -2127,27 +1874,10 @@ function updateThreeVariables(isAcademic) {
       duration: duration
     });
   }
-
-  // Instantly toggle colors on nodes and edge lines
-  nodes.forEach((node, idx) => {
-    gsap.to(node.material.color, {
-      r: new THREE.Color(getNodeColorForMode(idx)).r,
-      g: new THREE.Color(getNodeColorForMode(idx)).g,
-      b: new THREE.Color(getNodeColorForMode(idx)).b,
+  if (particleMaterial) {
+    gsap.to(particleMaterial.color, {
+      r: targetPartColor.r, g: targetPartColor.g, b: targetPartColor.b,
       duration: duration
     });
-  });
-
-  edges.forEach(edge => {
-    gsap.to(edge.lineMesh.material.color, {
-      r: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).r,
-      g: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).g,
-      b: new THREE.Color(getEdgeColorForMode(edge.from, edge.to)).b,
-      duration: duration
-    });
-    gsap.to(edge.lineMesh.material, {
-      opacity: getEdgeOpacityForMode(edge.from, edge.to),
-      duration: duration
-    });
-  });
+  }
 }

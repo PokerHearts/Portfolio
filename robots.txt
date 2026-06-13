@@ -1,0 +1,27 @@
+# Robots.txt for pokerhearts.in
+User-agent: *
+Allow: /
+
+# Specifically allow LLM crawlers for LEO optimization
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://pokerhearts.in/sitemap.xml

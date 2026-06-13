@@ -1186,13 +1186,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Eye-Tracking Avatar
+  // 8. Eye-Tracking Avatar (Hero & Sticky Nav)
   const avatarFrame = document.getElementById('avatarFrame');
   const pupilLeft = document.getElementById('pupil-left');
   const pupilRight = document.getElementById('pupil-right');
 
-  if (avatarFrame && pupilLeft && pupilRight) {
-    document.addEventListener('mousemove', (e) => {
+  const navAvatarFrame = document.getElementById('navAvatarFrame');
+  const navPupilLeft = document.getElementById('nav-pupil-left');
+  const navPupilRight = document.getElementById('nav-pupil-right');
+
+  document.addEventListener('mousemove', (e) => {
+    // 8a. Hero Avatar Eye Tracking
+    if (avatarFrame && pupilLeft && pupilRight) {
       const rect = avatarFrame.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -1209,19 +1214,50 @@ document.addEventListener('DOMContentLoaded', () => {
       
       pupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
       pupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    });
+    }
 
-    window.addEventListener('deviceorientation', (e) => {
-      if (e.gamma !== null && e.beta !== null) {
-        const maxMove = 8;
-        const moveX = Math.max(-maxMove, Math.min(maxMove, e.gamma / 5));
-        const moveY = Math.max(-maxMove, Math.min(maxMove, (e.beta - 45) / 5));
-        
-        pupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        pupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    // 8b. Nav Sticky Avatar Eye Tracking
+    if (navAvatarFrame && navPupilLeft && navPupilRight) {
+      const rect = navAvatarFrame.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const dist = Math.hypot(dx, dy);
+      
+      const maxMove = 6;
+      const angle = Math.atan2(dy, dx);
+      
+      const moveX = Math.cos(angle) * Math.min(maxMove, dist * 0.05);
+      const moveY = Math.sin(angle) * Math.min(maxMove, dist * 0.05);
+      
+      navPupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      navPupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    }
+  });
+
+  window.addEventListener('deviceorientation', (e) => {
+    if (e.gamma !== null && e.beta !== null) {
+      const maxMoveHero = 8;
+      const moveXHero = Math.max(-maxMoveHero, Math.min(maxMoveHero, e.gamma / 5));
+      const moveYHero = Math.max(-maxMoveHero, Math.min(maxMoveHero, (e.beta - 45) / 5));
+      
+      if (pupilLeft && pupilRight) {
+        pupilLeft.style.transform = `translate(${moveXHero}px, ${moveYHero}px)`;
+        pupilRight.style.transform = `translate(${moveXHero}px, ${moveYHero}px)`;
       }
-    });
-  }
+
+      const maxMoveNav = 6;
+      const moveXNav = Math.max(-maxMoveNav, Math.min(maxMoveNav, e.gamma / 5));
+      const moveYNav = Math.max(-maxMoveNav, Math.min(maxMoveNav, (e.beta - 45) / 5));
+
+      if (navPupilLeft && navPupilRight) {
+        navPupilLeft.style.transform = `translate(${moveXNav}px, ${moveYNav}px)`;
+        navPupilRight.style.transform = `translate(${moveXNav}px, ${moveYNav}px)`;
+      }
+    }
+  });
 });
 
 // Toast System

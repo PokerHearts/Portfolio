@@ -66,8 +66,17 @@
 
   <nav class="main-nav" id="mainNav">
     <div class="nav-container">
-      <a href="#about" class="nav-brand">
-        Pratap Jindal<span class="dot"></span>
+      <a href="#about" class="nav-brand" style="display: flex; align-items: center; gap: 0.55rem; text-decoration: none;">
+        <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--accent-blue); overflow: hidden; background: var(--bg-spatial); flex-shrink: 0;">
+          <img src="profile.png" alt="Pratap Profile Icon" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          <div class="nav-eye-tracker" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
+            <svg viewBox="0 0 400 400" style="width: 100%; height: 100%; display: block; position: absolute; top: 0; left: 0;">
+              <circle id="nav-pupil-left" cx="160" cy="155" r="18" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
+              <circle id="nav-pupil-right" cx="218" cy="155" r="18" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
+            </svg>
+          </div>
+        </div>
+        Pratap Jindal
       </a>
       <ul class="nav-links-list" id="navLinks">
         <li class="nav-link-item"><a href="#about" class="active">About</a></li>
@@ -752,8 +761,9 @@
               Expanding dynamic decision scoring to multi-agent operations models, investigating organizational learning curves in voice-first AI systems, and testing reinforcement learning boundaries for supplier reorder allocations under volatile macro markets.
             </p>
           </div>
-        </div>
       </div>
+    </div>
+  </section>
 
   <!-- ==========================================================================
        WRITING - PSYCHOLOGICAL NARRATIVES & ESSAYS

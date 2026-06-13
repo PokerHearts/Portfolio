@@ -418,11 +418,8 @@ a:hover {
    HERO - STRATEGIC VISION INTERFACE
    ========================================================================== */
 .hero-section {
-  min-height: 100vh;
-  padding-top: 130px;
-  padding-bottom: 60px;
-  display: flex;
-  align-items: center;
+  padding-top: 110px;
+  padding-bottom: 50px;
   position: relative;
   overflow: hidden;
 }
@@ -601,15 +598,17 @@ a:hover {
 .hero-photo-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 0.9;
+  max-width: 360px;
+  aspect-ratio: 0.88;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .photo-glass-frame {
-  width: 85%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
@@ -3187,7 +3186,7 @@ body.academic-mode .section-head-main {
   z-index: 5;
 }
 
-#pupil-left, #pupil-right {
+#pupil-left, #pupil-right, #nav-pupil-left, #nav-pupil-right {
   transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-box: fill-box;
   transform-origin: center;

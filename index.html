@@ -69,23 +69,18 @@
       <a href="#about" class="nav-brand" style="display: flex; align-items: center; gap: 0.55rem; text-decoration: none;">
         <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--accent-blue); overflow: hidden; background: var(--bg-spatial); flex-shrink: 0;">
           <img src="profile.png" alt="Pratap Profile Icon" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-          <div class="nav-eye-tracker" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
-            <svg viewBox="0 0 400 400" style="width: 100%; height: 100%; display: block; position: absolute; top: 0; left: 0;">
-              <circle id="nav-pupil-left" cx="160" cy="155" r="18" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
-              <circle id="nav-pupil-right" cx="218" cy="155" r="18" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
-            </svg>
-          </div>
+          
         </div>
         Pratap Jindal
       </a>
       <ul class="nav-links-list" id="navLinks">
-        <li class="nav-link-item"><a href="#about" class="active">About</a></li>
+        <li class="nav-link-item"><a href="#hero" class="active">About</a></li>
         <li class="nav-link-item"><a href="#projects">Projects</a></li>
-        <li class="nav-link-item"><a href="#skills">Skills</a></li>
         <li class="nav-link-item"><a href="#experience">Experience</a></li>
+        <li class="nav-link-item"><a href="#skills">Skills</a></li>
         <li class="nav-link-item"><a href="#research">Research</a></li>
         <li class="nav-link-item"><a href="#writing">Writing</a></li>
-        <li class="nav-link-item"><a href="#contact">Contact</a></li>
+        <li class="nav-link-item"><a href="#connect">Contact</a></li>
       </ul>
       <button class="nav-toggle-btn" id="navToggle" aria-label="Toggle Navigation Menu">
         <span></span><span></span><span></span>
@@ -96,16 +91,16 @@
   <!-- ==========================================================================
        HERO - STRATEGIC VISION INTERFACE
        ========================================================================== -->
-  <section class="hero-section" id="about">
+  <section class="hero-section" id="hero">
     <div class="section-wrapper">
       <div class="hero-grid">
         <div class="hero-strategy-box spatial-reveal">
           <div class="hero-badge">
-            <span class="pulse-indicator"></span><span id="heroBadgeText">Systems Intelligence Matrix v2.8</span>
+            <span class="pulse-indicator"></span><span id="heroBadgeText" style="display:none;"></span>
           </div>
           <div class="hero-title-group">
             <h1 class="hero-name">Pratap Jindal</h1>
-            <h2 class="hero-role">Management Analyst &middot; Chief of Staff &middot; Operations &amp; Systems</h2>
+            <p class="hero-roles">Management Analyst &nbsp;&middot;&nbsp; Chief of Staff &nbsp;&middot;&nbsp; Operations & Systems</p>
             <div id="heroSpiritualSubtitle" class="hero-spiritual-subtitle" style="display: none; font-size: 1.15rem; font-weight: 700; color: var(--accent-blue); margin-top: 0.5rem; letter-spacing: 0.05em; font-family: var(--font-display);">Dedicated in Loving Devotion to Sri Krishna</div>
           </div>
 
@@ -132,22 +127,22 @@
             <div class="counter-item">
               <div class="counter-num" id="statTeam">22</div>
               <div class="counter-label">Operational Systems Built</div>
-              <div class="counter-context" style="font-size: 0.65rem; color: var(--color-muted); font-family: var(--font-mono); font-weight: 600; margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.02em;">2020–2026</div>
+              <span class="stat-context">across 3 years · Group Biopolis</span>
             </div>
             <div class="counter-item">
               <div class="counter-num" id="statEffort">₹75 Cr+</div>
               <div class="counter-label">Operations Supported</div>
-              <div class="counter-context" style="font-size: 0.65rem; color: var(--color-muted); font-family: var(--font-mono); font-weight: 600; margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.02em;">Annual Turnover</div>
+              <span class="stat-context">FY2024–25 sales ops</span>
             </div>
             <div class="counter-item">
               <div class="counter-num" id="statSales">360 Hrs</div>
               <div class="counter-label">QA Automated Monthly</div>
-              <div class="counter-context" style="font-size: 0.65rem; color: var(--color-muted); font-family: var(--font-mono); font-weight: 600; margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.02em;">FY 2024–25</div>
+              <span class="stat-context">per month · automated vs manual</span>
             </div>
             <div class="counter-item">
               <div class="counter-num" id="statShortages">17 → 2</div>
               <div class="counter-label">Stock Shortages Resolved</div>
-              <div class="counter-context" style="font-size: 0.65rem; color: var(--color-muted); font-family: var(--font-mono); font-weight: 600; margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.02em;">In 6 Months</div>
+              <span class="stat-context">stock shortages · 2023 → 2024</span>
             </div>
           </div>
           
@@ -174,23 +169,10 @@
 
         <!-- Hero Portrait Column -->
         <div class="hero-photo-wrapper spatial-reveal">
-          <div class="photo-glass-frame" id="avatarFrame" style="position: relative;">
-            <span class="photo-diag-label label-top-left">SYS_REF_01</span>
-            <span class="photo-diag-label label-bottom-right">ACTIVE_EXEC</span>
-            <div class="avatar-container" style="position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: inherit;">
-              <img src="profile.png" alt="Pratap Jindal Profile" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-              <!-- Eye tracking SVG overlay -->
-              <div class="eye-tracker-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
-                <svg viewBox="0 0 400 400" style="width: 100%; height: 100%; display: block; position: absolute; top: 0; left: 0;">
-                  <!-- Left Eye Pupil Reticle (Coordinates mapped to eyes) -->
-                  <circle id="pupil-left" cx="160" cy="155" r="4.5" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
-                  <circle cx="160" cy="155" r="9" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1" fill="none" />
-                  
-                  <!-- Right Eye Pupil Reticle (Coordinates mapped to eyes) -->
-                  <circle id="pupil-right" cx="218" cy="155" r="4.5" fill="#6366f1" style="filter: drop-shadow(0 0 3px #6366f1); transform-box: fill-box; transform-origin: center;" />
-                  <circle cx="218" cy="155" r="9" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1" fill="none" />
-                </svg>
-              </div>
+          <div class="photo-glass-frame" style="position: relative; padding: 2rem; background: transparent; border: none; box-shadow: none;">
+            <div class="avatar-wrapper" id="avatarWrapper" style="width: 100%; height: 100%; max-width: 300px; margin: 0 auto;">
+              <img src="profile.png" alt="Pratap Jindal Profile" class="avatar-photo" id="avatarPhoto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              <div class="avatar-glow" id="avatarGlow"></div>
             </div>
           </div>
         </div>
@@ -532,39 +514,12 @@
           </div>
         </div>
 
-        <!-- MBA Gap Entry -->
-        <div class="timeline-card glass-card spatial-reveal academic-timeline-card">
-          <div class="timeline-card-header">
-            <span class="timeline-card-period">Jun 2021 — Sep 2022</span>
-            <h3 class="timeline-card-title">MBA Candidate (Full-Time)</h3>
-            <span class="timeline-card-org">Mittal School of Business (AACSB Accredited) &amp; NSE Academy</span>
-          </div>
-          <div class="timeline-card-body">
-            <ul class="pipeline-bullets-list">
-              <li>Completed advanced MBA coursework focusing on Financial Modelling, Portfolio Analytics, and Research Methodology, graduating with a high CGPA of 8.83.</li>
-              <li>Conducted empirical operations research modeling customer payment lag patterns and safety stock replenishment coefficients in SME regional distribution networks.</li>
-              <li>Prepared and qualified for the National Eligibility Test (UGC NET) in Management, demonstrating command over advanced organizational design, corporate finance, and operations research.</li>
-            </ul>
-            <div class="systems-flow-visual">
-              <div class="flow-visual-title">Academic &amp; Analytical Framework</div>
-              <div class="flow-nodes-wrapper">
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📈</div>
-                  <span class="node-lbl">Financial Markets</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">🔬</div>
-                  <span class="node-lbl">Operations Research</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">🎓</div>
-                  <span class="node-lbl">Graduated (8.83)</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                <!-- MBA Gap Entry from User Prompt -->
+        <div class="timeline-entry">
+          <span class="timeline-date">Jul 2021 — Jun 2023</span>
+          <h3>MBA — Financial Markets (Full-Time)</h3>
+          <p>Mittal School of Business (LPU) · AACSB Accredited · CGPA 8.83</p>
+          <p>Concurrent: 9+ NCFM/NISM certifications, NSE Academy coursework, research methodology, financial modelling.</p>
         </div>
 
         <!-- Summer Gap Entry -->
@@ -736,12 +691,12 @@
           <div class="editorial-col-content">
             <div class="papers-list">
               <div class="paper-item">
-                <span class="mono-tag-draft">Working Paper — Under Development</span>
+                <span class="paper-status">Working Paper — Under Development</span>
                 <h4>"Empirical Safety Buffer Formulations for SME Inventory Management under High Supplier Lead-Time Variance."</h4>
                 <div class="paper-meta">Pratap Jindal, 2026. Formulates math models based on regional distributor ledger datasets.</div>
               </div>
               <div class="paper-item">
-                <span class="mono-tag-draft">Concept Note — Literature Synthesis</span>
+                <span class="paper-status">Concept Note — Literature Synthesis</span>
                 <h4>"Assessing LLM-Assisted Speech Evaluation Frameworks in High-Volume Operations: A Comparative Case Study."</h4>
                 <div class="paper-meta">Pratap Jindal, 2026. Evaluates Spearman correlation coefficients between human QA and LLM graders.</div>
               </div>
@@ -781,11 +736,9 @@
       </div>
 
       <!-- Dual Identity Bridge Callout -->
-      <div class="dual-identity-callout glass-card spatial-reveal" style="margin-bottom: 2.5rem; padding: 1.5rem 2rem; border-left: 4px solid var(--accent-purple); background: rgba(255, 255, 255, 0.45);">
-        <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-primary); margin: 0; font-family: var(--font-body);">
-          I write psychological fiction under the pen name <strong>Poker Hearts</strong> — a separate creative identity that runs alongside the professional work. The blog (<a href="https://pokerdeeds.blogspot.com" target="_blank" style="color: var(--accent-purple); font-weight: 600; text-decoration: underline;">pokerdeeds.blogspot.com</a>) has been active since 2019 with <strong>197+ published stories</strong> and <strong>~3,000 monthly readers</strong>.
-        </p>
-      </div>
+      <p class="writing-bridge">
+        I write psychological fiction under the pen name <strong>Poker Hearts</strong> — a separate creative identity running alongside the professional work. Active since 2019, with 197+ published stories and ~3,000 monthly readers on the blog.
+      </p>
 
       <!-- Search & Filters Control Panel -->
       <div class="knowledge-control-panel spatial-reveal" style="margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
@@ -807,7 +760,7 @@
         <!-- Light Enough -->
         <div class="glass-card archive-card" data-category="books" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Book</span>
+            <span class="writing-tag">Book</span>
             <span class="mono-tag">ISBN Registered</span>
           </div>
           <h3>Light Enough</h3>
@@ -825,8 +778,7 @@
         <!-- Sessions -->
         <div class="glass-card archive-card" data-category="fiction" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Fiction</span>
-            <span class="mono-tag">Psych Thriller</span>
+            <span class="writing-tag">Novel — WIP</span>
           </div>
           <h3>Sessions</h3>
           <p>
@@ -843,8 +795,7 @@
         <!-- Life of Poker Hearts -->
         <div class="glass-card archive-card" data-category="fiction" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Blog</span>
-            <span class="mono-tag">197+ Published Stories</span>
+            <span class="writing-tag">Blog</span>
           </div>
           <h3>Life of Poker Hearts</h3>
           <p>
@@ -861,7 +812,7 @@
         <!-- The Kintsugi Principle -->
         <div class="glass-card archive-card" data-category="essays" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Essay</span>
+            <span class="writing-tag">Essay</span>
             <span class="mono-tag">LinkedIn Article</span>
           </div>
           <h3>The Kintsugi Principle</h3>
@@ -879,8 +830,7 @@
         <!-- Hi Heart I Read -->
         <div class="glass-card archive-card" data-category="books" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Blog</span>
-            <span class="mono-tag">Completed</span>
+            <span class="writing-tag">Collection</span>
           </div>
           <h3>Hi Heart I Read</h3>
           <p>
@@ -897,8 +847,7 @@
         <!-- Chapters -->
         <div class="glass-card archive-card" data-category="fiction" tabindex="0">
           <div class="archive-type-header">
-            <span class="archive-badge">Fiction</span>
-            <span class="mono-tag">Alternate History</span>
+            <span class="writing-tag">Fiction — WIP</span>
           </div>
           <h3>Chapters</h3>
           <p>
@@ -1014,7 +963,7 @@
   <!-- ==========================================================================
        CONTACT - PRECISION CONNECTION PORTAL
        ========================================================================== -->
-  <section class="contact-section" id="contact" style="margin-top: 4.5rem; padding-top: 2rem;">
+  <section class="contact-section" id="connect" style="margin-top: 4.5rem; padding-top: 2rem;">
     <div class="section-wrapper">
       <div class="section-head spatial-reveal" style="margin-bottom: 2.5rem; text-align: center;">
         <div class="section-head-title">
@@ -1032,9 +981,7 @@
           Seeking senior roles in <strong>Product Management</strong>, <strong>Chief of Staff</strong>, or <strong>Strategic Analytics Operations</strong>. Open to high-impact corporate consulting briefs.
         </p>
         
-        <div style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 2rem; font-family: var(--font-display);">
-          Prefer direct contact — reach out via any channel below.
-        </div>
+        <p class="contact-note">Prefer direct conversations over forms — reach out on any channel below.</p>
 
         <!-- Direct Connections Grid Matrix (Centered and prominent) -->
         <div class="direct-connect-matrix" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 3rem;">

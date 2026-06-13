@@ -1186,57 +1186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Eye-Tracking Avatar (Hero & Sticky Nav)
-  const avatarFrame = document.getElementById('avatarFrame');
-  const pupilLeft = document.getElementById('pupil-left');
-  const pupilRight = document.getElementById('pupil-right');
-
-  const navAvatarFrame = document.getElementById('navAvatarFrame');
-  const navPupilLeft = document.getElementById('nav-pupil-left');
-  const navPupilRight = document.getElementById('nav-pupil-right');
-
-  document.addEventListener('mousemove', (e) => {
-    // 8a. Hero Avatar Eye Tracking
-    if (avatarFrame && pupilLeft && pupilRight) {
-      const rect = avatarFrame.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const dx = e.clientX - centerX;
-      const dy = e.clientY - centerY;
-      const dist = Math.hypot(dx, dy);
-      
-      const maxMove = 8;
-      const angle = Math.atan2(dy, dx);
-      
-      const moveX = Math.cos(angle) * Math.min(maxMove, dist * 0.05);
-      const moveY = Math.sin(angle) * Math.min(maxMove, dist * 0.05);
-      
-      pupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      pupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    }
-
-    // 8b. Nav Sticky Avatar Eye Tracking
-    if (navAvatarFrame && navPupilLeft && navPupilRight) {
-      const rect = navAvatarFrame.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const dx = e.clientX - centerX;
-      const dy = e.clientY - centerY;
-      const dist = Math.hypot(dx, dy);
-      
-      const maxMove = 6;
-      const angle = Math.atan2(dy, dx);
-      
-      const moveX = Math.cos(angle) * Math.min(maxMove, dist * 0.05);
-      const moveY = Math.sin(angle) * Math.min(maxMove, dist * 0.05);
-      
-      navPupilLeft.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      navPupilRight.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    }
-  });
-
+  
   window.addEventListener('deviceorientation', (e) => {
     if (e.gamma !== null && e.beta !== null) {
       const maxMoveHero = 8;
@@ -1495,3 +1445,58 @@ function renderProjectGrid() {
   });
 }
 
+
+(function() {
+  const wrapper = document.getElementById('avatarWrapper');
+  const photo   = document.getElementById('avatarPhoto');
+  const glow    = document.getElementById('avatarGlow');
+  if (!wrapper || !photo) return;
+
+  const MAX_TILT = 8;   // degrees max tilt
+  const MAX_SHIFT = 6;  // px max translate
+
+  function applyTilt(cx, cy) {
+    const rect = wrapper.getBoundingClientRect();
+    const imgCX = rect.left + rect.width / 2;
+    const imgCY = rect.top  + rect.height / 2;
+    const dx = cx - imgCX;
+    const dy = cy - imgCY;
+    const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+    const maxDist = Math.max(window.innerWidth, window.innerHeight) / 2;
+    const strength = Math.min(dist / maxDist, 1);
+
+    const tiltX =  (dy / dist) * MAX_TILT * strength;
+    const tiltY = -(dx / dist) * MAX_TILT * strength;
+    const shiftX = (dx / dist) * MAX_SHIFT * strength;
+    const shiftY = (dy / dist) * MAX_SHIFT * strength;
+
+    photo.style.transform =
+      `perspective(600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translate(${shiftX}px,${shiftY}px)`;
+
+    const glowX = 50 + (dx / maxDist) * 40;
+    const glowY = 50 + (dy / maxDist) * 40;
+    glow.style.background =
+      `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(120,180,255,0.22), transparent 65%)`;
+  }
+
+  // Mouse tracking
+  document.addEventListener('mousemove', function(e) {
+    applyTilt(e.clientX, e.clientY);
+  });
+
+  // Mobile: gyroscope fallback
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', function(e) {
+      if (e.gamma == null || e.beta == null) return;
+      const cx = window.innerWidth  / 2 + (e.gamma / 45) * window.innerWidth  / 2;
+      const cy = window.innerHeight / 2 + (e.beta  / 45) * window.innerHeight / 2;
+      applyTilt(cx, cy);
+    });
+  }
+
+  // Reset on mouse leave
+  document.addEventListener('mouseleave', function() {
+    photo.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translate(0,0)';
+    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(120,180,255,0.18), transparent 70%)';
+  });
+})();

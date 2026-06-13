@@ -1453,7 +1453,6 @@ function renderProjectGrid() {
   const eyes = document.querySelectorAll('.eye');
   const pupils = document.querySelectorAll('.pupil');
   const stateLabel = document.getElementById('eye-state-label');
-  const passwordField = document.getElementById('passwordField');
   const tearStream = document.getElementById('tearStream');
 
   // 1. Eye Tracking (Pupils only)
@@ -1479,28 +1478,13 @@ function renderProjectGrid() {
 
   // 2. Automatic Blinking
   function blink() {
-    if (!passwordField || !passwordField.matches(':focus')) {
-      eyes.forEach(eye => eye.classList.add('blink'));
-      setTimeout(() => {
-        eyes.forEach(eye => eye.classList.remove('blink'));
-      }, 150);
-    }
+    eyes.forEach(eye => eye.classList.add('blink'));
+    setTimeout(() => {
+      eyes.forEach(eye => eye.classList.remove('blink'));
+    }, 150);
     setTimeout(blink, 3000 + Math.random() * 3000);
   }
   blink();
-
-  // 3. Password Squint
-  if (passwordField) {
-    passwordField.addEventListener('focus', () => {
-      eyes.forEach(eye => eye.classList.add('squint'));
-      if (stateLabel) stateLabel.textContent = "SECURE_SQUINT_MODE";
-    });
-
-    passwordField.addEventListener('blur', () => {
-      eyes.forEach(eye => eye.classList.remove('squint'));
-      if (stateLabel) stateLabel.textContent = "SYSTEM_ACTIVE";
-    });
-  }
 
   // 4. Emotional Distress (Page Exit Only)
   let tearInterval;

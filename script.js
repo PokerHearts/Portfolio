@@ -708,29 +708,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Navigation Active Tab Highlighting (Bounding Rect based to fix Scroll bugs)
   const navLinks = document.querySelectorAll('.nav-link-item a');
   const sections = document.querySelectorAll('section');
+  const isHomepage = document.querySelector('.hero-section') !== null;
 
   window.addEventListener('scroll', () => {
     const mainNav = document.getElementById('mainNav');
-    if (window.scrollY > 40) {
-      mainNav.classList.add('scrolled');
-    } else {
-      mainNav.classList.remove('scrolled');
+    if (!mainNav) return;
+    if (isHomepage) {
+      if (window.scrollY > 40) {
+        mainNav.classList.add('scrolled');
+      } else {
+        mainNav.classList.remove('scrolled');
+      }
+
+      let currentActive = "";
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 200 && rect.bottom >= 200) {
+          currentActive = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentActive}`) {
+          link.classList.add('active');
+        }
+      });
     }
-
-    let currentActive = "";
-    sections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= 200 && rect.bottom >= 200) {
-        currentActive = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${currentActive}`) {
-        link.classList.add('active');
-      }
-    });
   });
 
   // Mobile Nav Drawer Toggle
@@ -754,15 +758,44 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProjectGrid();
 
   // 4. Projects Filter Grid Event Wiring
+  function filterRegistry() {
+    const registrySearchInput = document.getElementById('registrySearch');
+    const query = registrySearchInput ? registrySearchInput.value.toLowerCase().trim() : '';
+    const activeFilterBtn = document.querySelector('.projects-filter-bar .filter-pill.active');
+    const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+    const rows = document.querySelectorAll('#projectsGrid .project-row');
+    
+    rows.forEach(row => {
+      const title = row.querySelector('h3').textContent.toLowerCase();
+      const desc = row.querySelector('.row-desc').textContent.toLowerCase();
+      const id = row.querySelector('.row-num').textContent.toLowerCase();
+      const techTags = Array.from(row.querySelectorAll('.tech-tag')).map(t => t.textContent.toLowerCase()).join(' ');
+      const category = row.getAttribute('data-category');
+      
+      const matchesSearch = title.includes(query) || desc.includes(query) || id.includes(query) || techTags.includes(query);
+      const matchesCategory = filterCat === 'all' || category === filterCat;
+      
+      if (matchesSearch && matchesCategory) {
+        row.style.display = 'grid';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
   const filterPills = document.querySelectorAll('.projects-filter-bar .filter-pill');
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      const filter = pill.getAttribute('data-filter');
-      filterProjects(filter);
+      filterRegistry();
     });
   });
+
+  const registrySearchInput = document.getElementById('registrySearch');
+  if (registrySearchInput) {
+    registrySearchInput.addEventListener('input', filterRegistry);
+  }
 
   // 5. Searchable Writing Archive Logic
   const creativeSearchInput = document.getElementById('creativeSearch');
@@ -770,6 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const creativeCards = document.querySelectorAll('#creativeGrid .archive-card');
 
   function filterCreativeGrid() {
+    if (!creativeSearchInput) return;
     const query = creativeSearchInput.value.toLowerCase().trim();
     const activeFilterBtn = document.querySelector('#creativeFilters .archive-filter-btn.active');
     const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-cat') : 'all';

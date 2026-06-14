@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strategic Systems Registry — Pratap Jindal</title>
+  
+  <meta name="description" content="Verifiable 22-module Product Requirements Document (PRD) and Proof of Concept (PoC) registry for Pratap Jindal.">
+  
+  <!-- Preconnect & Load Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Grid -->
+  <div class="system-grid-overlay"></div>
+  
+  <!-- Three.js Background Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="main-nav scrolled" id="mainNav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" style="display: flex; align-items: center; gap: 0.55rem; text-decoration: none;">
+        <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          <svg class="robot-avatar-svg nav-avatar-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+            <defs>
+              <linearGradient id="nav-head-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#f8fafc"/>
+              </linearGradient>
+              <linearGradient id="nav-visor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0f172a"/>
+                <stop offset="100%" stop-color="#020617"/>
+              </linearGradient>
+              <filter id="nav-eye-glow">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <g class="robot-head-group">
+              <circle cx="50" cy="50" r="45" fill="url(#nav-head-grad)" stroke="#cbd5e1" stroke-width="1.5"/>
+              <rect x="15" y="32" width="70" height="34" rx="17" ry="17" fill="url(#nav-visor-grad)"/>
+              <path d="M 18 43 Q 50 35 82 43" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+              <g class="robot-eyes">
+                <circle class="robot-pupil nav-pupil" id="navPupilLeft" cx="35" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
+                <circle class="robot-pupil nav-pupil" id="navPupilRight" cx="65" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
+              </g>
+              <path class="robot-tear nav-tear" id="navTearLeft" d="M 35,54 C 34,64, 36,68, 35,70 C 34,68, 34,64, 35,54" fill="#38bdf8" opacity="0"/>
+              <path class="robot-tear nav-tear" id="navTearRight" d="M 65,54 C 64,64, 66,68, 65,70 C 64,68, 64,64, 65,54" fill="#38bdf8" opacity="0"/>
+            </g>
+          </svg>
+        </div>
+        Pratap Jindal
+      </a>
+
+      <div class="nav-character-eyes">
+        <div class="state-tracker-box">
+          <span id="live-clock" class="state-label" style="border-right: 1px solid var(--border-thin); padding-right: 0.6rem; margin-right: 0.1rem; color: var(--color-muted);">CHANDIGARH: --:--:-- --</span>
+          <span id="eye-state-label" class="state-label">REGISTRY_ACTIVE</span>
+        </div>
+      </div>
+
+      <ul class="nav-links-list" id="navLinks">
+        <li class="nav-link-item"><a href="index.html#projects">Work</a></li>
+        <li class="nav-link-item"><a href="index.html#writing">Writing</a></li>
+        <li class="nav-link-item"><a href="index.html#hero">About</a></li>
+        <li class="nav-link-item"><a href="index.html#connect">Contact</a></li>
+      </ul>
+      <button class="nav-toggle-btn" id="navToggle" aria-label="Toggle Navigation Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Core Content -->
+  <main class="section-wrapper" style="padding-top: 140px; padding-bottom: 100px;">
+    <header class="section-head" style="border-bottom: 1px solid var(--border-thin); padding-bottom: 2rem;">
+      <div class="section-head-title">
+        <span class="section-head-num">SYSTEMS REGISTRY</span>
+        <h1 class="section-head-main" style="font-size: 3.5rem;">22-Module PM PRD &amp; PoC Database</h1>
+      </div>
+      <p class="section-head-desc">
+        A full catalog of automated data pipelines, rules engines, and AI workflow MVPs built to eliminate operational bottleneck loops. Click arrow trigger to access deep-dive product specifications.
+      </p>
+    </header>
+
+    <!-- Search & Filters Control Panel -->
+    <div class="projects-filter-bar" style="margin-top: 2rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+      <div class="projects-category-pills" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="filter-pill active" data-filter="all">All Systems</button>
+        <button class="filter-pill" data-filter="ai-systems">AI Systems</button>
+        <button class="filter-pill" data-filter="fullstack">Web Apps</button>
+        <button class="filter-pill" data-filter="supply-ops">Supply &amp; Ops</button>
+        <button class="filter-pill" data-filter="extensions">Chrome Extensions</button>
+      </div>
+      <div class="search-input-wrapper" style="position: relative; width: 320px;">
+        <span class="search-icon-marker" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--color-muted); font-size: 0.8rem;">🔍</span>
+        <input type="text" id="registrySearch" placeholder="Search systems database..." aria-label="Search systems database" style="width: 100%; padding: 0.5rem 1rem 0.5rem 2.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border-thin); background: var(--bg-surface); font-family: var(--font-body); font-size: 0.8rem; color: var(--color-primary); outline: none;">
+      </div>
+    </div>
+
+    <!-- Registry Grid (Populated by script.js) -->
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Injected by script.js dynamically -->
+    </div>
+  </main>
+
+  <!-- Sliding Case Drawer -->
+  <div id="caseStudyDrawer" class="sliding-case-study-drawer">
+    <div class="drawer-header-bar">
+      <div>
+        <span class="mono-tag" style="font-size: 0.6rem; background: rgba(99,102,241,0.05); border-color: rgba(99,102,241,0.15); color: var(--accent-purple);">Strategic Intelligence Deep-Dive</span>
+        <h4 id="drawerProjectTitle" style="font-size: 1.35rem; font-weight: 800; color: var(--color-primary); margin-top: 0.25rem;">Project Title</h4>
+      </div>
+      <button id="closeDrawerBtn" class="close-drawer-icon" aria-label="Close Case Study Dashboard">&times;</button>
+    </div>
+    <div class="drawer-body-scrollable" id="drawerBodyContent">
+      <!-- Injected by script.js dynamically -->
+    </div>
+  </div>
+
+  <!-- Include Core Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <!-- Custom Logic Script -->
+  <script src="script.js"></script>
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-ring" id="customCursorRing"></div>
+</body>
+</html>

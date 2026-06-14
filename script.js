@@ -2,6 +2,11 @@
    THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT CANVAS
    ========================================================================== */
 let scene, camera, renderer, dirLight;
+let robotHeadGroup;
+let headSolidMat, headWireMat, earMat, eyeMat, antennaTipMat;
+let leftEye, rightEye;
+let leftTear3D, rightTear3D;
+let tearMat;
 
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
@@ -14,27 +19,128 @@ function initThree() {
   if (!canvas) return;
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf1f5f9);
-  scene.fog = new THREE.FogExp2(0xf1f5f9, 0.025);
+  scene.fog = new THREE.FogExp2(0x0b0d10, 0.025);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 5, 25);
+  camera.position.set(0, 2, 23); // Framed slightly lower and closer
 
   renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    alpha: false,
+    alpha: true,
     antialias: true,
     powerPreference: "high-performance"
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambientLight);
 
-  dirLight = new THREE.DirectionalLight(0xeef2ff, 1.2);
-  dirLight.position.set(10, 20, 15);
+  dirLight = new THREE.DirectionalLight(0xeef2ff, 1.4);
+  dirLight.position.set(15, 25, 20);
   scene.add(dirLight);
+
+  // 3. Construct 3D Low-Poly Mascot Robot Head (Aesthetics matching Yuta Abe cat head)
+  robotHeadGroup = new THREE.Group();
+  scene.add(robotHeadGroup);
+
+  // Head Base Mesh (Low detail icosahedron for clean facets)
+  const headGeom = new THREE.IcosahedronGeometry(5, 1);
+  headSolidMat = new THREE.MeshPhongMaterial({
+    color: 0x161a22,
+    flatShading: true,
+    shininess: 30,
+    specular: 0x222a36
+  });
+  const headSolid = new THREE.Mesh(headGeom, headSolidMat);
+  robotHeadGroup.add(headSolid);
+
+  // Head Wireframe Overlay (Antique gold lines)
+  headWireMat = new THREE.MeshBasicMaterial({
+    color: 0xC9A24B,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.18
+  });
+  const headWire = new THREE.Mesh(headGeom, headWireMat);
+  robotHeadGroup.add(headWire);
+
+  // Visor (Dark glass bar across eyes)
+  const visorGeom = new THREE.BoxGeometry(6.5, 1.8, 1.8);
+  const visorMat = new THREE.MeshPhongMaterial({
+    color: 0x090b0e,
+    flatShading: true,
+    shininess: 80
+  });
+  const visor = new THREE.Mesh(visorGeom, visorMat);
+  visor.position.set(0, 0.4, 3.8);
+  robotHeadGroup.add(visor);
+
+  // Glowing Eyes (Cyan Spheres)
+  const eyeGeom = new THREE.SphereGeometry(0.35, 6, 6);
+  eyeMat = new THREE.MeshBasicMaterial({
+    color: 0x38bdf8
+  });
+  leftEye = new THREE.Mesh(eyeGeom, eyeMat);
+  leftEye.position.set(-1.6, 0.4, 4.6);
+  robotHeadGroup.add(leftEye);
+
+  rightEye = new THREE.Mesh(eyeGeom, eyeMat);
+  rightEye.position.set(1.6, 0.4, 4.6);
+  robotHeadGroup.add(rightEye);
+
+  // 3D Tears (glowing blue/cyan drops, initially scale 0)
+  const tearGeom = new THREE.CylinderGeometry(0.05, 0.15, 0.8, 6);
+  tearMat = new THREE.MeshBasicMaterial({
+    color: 0x38bdf8,
+    transparent: true,
+    opacity: 0
+  });
+  
+  leftTear3D = new THREE.Mesh(tearGeom, tearMat);
+  leftTear3D.position.set(-1.6, -0.4, 4.6);
+  leftTear3D.scale.set(0.001, 0.001, 0.001);
+  robotHeadGroup.add(leftTear3D);
+
+  rightTear3D = new THREE.Mesh(tearGeom, tearMat);
+  rightTear3D.position.set(1.6, -0.4, 4.6);
+  rightTear3D.scale.set(0.001, 0.001, 0.001);
+  robotHeadGroup.add(rightTear3D);
+
+  // Ears / Side Bolts
+  const earGeom = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 6);
+  earMat = new THREE.MeshPhongMaterial({
+    color: 0x242d3d,
+    flatShading: true,
+    shininess: 30
+  });
+  const leftEar = new THREE.Mesh(earGeom, earMat);
+  leftEar.rotation.z = Math.PI / 2;
+  leftEar.position.set(-4.8, 0, 0);
+  robotHeadGroup.add(leftEar);
+
+  const rightEar = new THREE.Mesh(earGeom, earMat);
+  rightEar.rotation.z = -Math.PI / 2;
+  rightEar.position.set(4.8, 0, 0);
+  robotHeadGroup.add(rightEar);
+
+  // Antenna
+  const antennaMastGeom = new THREE.CylinderGeometry(0.08, 0.15, 2.2, 4);
+  const antennaMastMat = new THREE.MeshPhongMaterial({
+    color: 0x334155,
+    flatShading: true
+  });
+  const antennaMast = new THREE.Mesh(antennaMastGeom, antennaMastMat);
+  antennaMast.position.set(0, 5.8, 0);
+  robotHeadGroup.add(antennaMast);
+
+  const antennaTipGeom = new THREE.SphereGeometry(0.35, 6, 6);
+  antennaTipMat = new THREE.MeshBasicMaterial({
+    color: 0xC9A24B
+  });
+  const antennaTip = new THREE.Mesh(antennaTipGeom, antennaTipMat);
+  antennaTip.position.set(0, 6.9, 0);
+  robotHeadGroup.add(antennaTip);
 
   // Register Event Handlers
   window.addEventListener('resize', onWindowResize);
@@ -157,6 +263,39 @@ function animate() {
     
     camera.position.x += (mouseX - camera.position.x) * 0.05;
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
+  }
+
+  // Mascot idle auto-sway & cursor tracking
+  if (robotHeadGroup) {
+    const time = Date.now() * 0.001;
+    
+    // Idle floating y-movement
+    robotHeadGroup.position.y = Math.sin(time * 1.5) * 0.25;
+    
+    // Idle rotation sways
+    const swayY = Math.sin(time * 0.8) * 0.08;
+    const swayX = Math.cos(time * 0.8) * 0.04;
+    const swayZ = Math.sin(time * 1.2) * 0.04;
+    
+    // Check if passwordField is currently focused to let focus rotation take precedence
+    const isPasswordFocused = document.activeElement && document.activeElement.id === 'passwordField';
+    
+    if (!isPasswordFocused) {
+      if (!isReduced) {
+        // Rotate head group to face mouse position + add idle sway
+        const targetRotY = swayY + mouseX * 0.08;
+        const targetRotX = swayX + mouseY * 0.06;
+        const targetRotZ = swayZ + mouseX * 0.02;
+        
+        robotHeadGroup.rotation.y += (targetRotY - robotHeadGroup.rotation.y) * 0.1;
+        robotHeadGroup.rotation.x += (targetRotX - robotHeadGroup.rotation.x) * 0.1;
+        robotHeadGroup.rotation.z += (targetRotZ - robotHeadGroup.rotation.z) * 0.1;
+      } else {
+        robotHeadGroup.rotation.y += (swayY - robotHeadGroup.rotation.y) * 0.1;
+        robotHeadGroup.rotation.x += (swayX - robotHeadGroup.rotation.x) * 0.1;
+        robotHeadGroup.rotation.z += (swayZ - robotHeadGroup.rotation.z) * 0.1;
+      }
+    }
   }
 
   if (renderer && scene && camera) {
@@ -674,54 +813,126 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize WebGL Knowledge Graph
   initThree();
 
-  // 2. Navigation Active Tab Highlighting (Bounding Rect based to fix Scroll bugs)
-  const navLinks = document.querySelectorAll('.nav-link-item a');
+  // 2. IntersectionObserver for Snapped Sections & HUD Updates
   const sections = document.querySelectorAll('section');
+  const hudCounter = document.getElementById('hud-counter');
+  const hudCounterMeta = document.getElementById('hud-counter-meta');
+  const hudNavLinks = document.querySelectorAll('.hud-nav-link');
   const isHomepage = document.querySelector('.hero-section') !== null;
 
+  if (isHomepage && sections.length > 0) {
+    const sectionObserverOptions = {
+      root: null,
+      rootMargin: '-30% 0px -30% 0px',
+      threshold: 0.1
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.getAttribute('id');
+          
+          // Add revealed class for horizontal clip-path wipe animation
+          entry.target.classList.add('revealed');
+          
+          // Get section index
+          let index = -1;
+          sections.forEach((sec, idx) => {
+            if (sec.getAttribute('id') === sectionId) {
+              index = idx;
+            }
+          });
+
+          if (index !== -1) {
+            // Update counter in bottom-left HUD
+            if (hudCounter) {
+              hudCounter.textContent = `0${index + 1} / 07`;
+            }
+
+            // Update bottom-left HUD meta labels
+            if (hudCounterMeta) {
+              if (sectionId === 'skills') {
+                hudCounterMeta.textContent = '9+ NISM / NSE certifications qualified';
+              } else if (sectionId === 'writing') {
+                hudCounterMeta.textContent = 'Published as Poker Hearts';
+              } else if (sectionId === 'connect') {
+                hudCounterMeta.textContent = 'Chandigarh, India';
+              } else {
+                hudCounterMeta.textContent = '';
+              }
+            }
+
+            // Highlight corresponding HUD navigation link
+            hudNavLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${sectionId}`) {
+                link.classList.add('active');
+              }
+            });
+
+            // Special Section Theme flips (Writing Cream Page theme)
+            if (sectionId === 'writing') {
+              document.body.classList.add('theme-paper');
+              // Interpolate WebGL canvas fog to cream paper color
+              if (scene && scene.fog) {
+                gsap.to(scene.fog.color, { r: 243/255, g: 238/255, b: 228/255, duration: 0.8 });
+              }
+              // Interpolate Mascot Materials to sketch/manuscript style
+              if (headSolidMat) gsap.to(headSolidMat.color, { r: 0xE6/255, g: 0xDF/255, b: 0xD3/255, duration: 0.8 });
+              if (headWireMat) {
+                gsap.to(headWireMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+                gsap.to(headWireMat, { opacity: 0.3, duration: 0.8 });
+              }
+              if (eyeMat) gsap.to(eyeMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+              if (earMat) gsap.to(earMat.color, { r: 0xD6/255, g: 0xCF/255, b: 0xBF/255, duration: 0.8 });
+              if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+            } else {
+              document.body.classList.remove('theme-paper');
+              // Interpolate WebGL canvas fog back to dark color
+              if (scene && scene.fog) {
+                gsap.to(scene.fog.color, { r: 11/255, g: 13/255, b: 16/255, duration: 0.8 });
+              }
+              // Interpolate Mascot Materials back to futuristic dark style
+              if (headSolidMat) gsap.to(headSolidMat.color, { r: 0x16/255, g: 0x1a/255, b: 0x22/255, duration: 0.8 });
+              if (headWireMat) {
+                gsap.to(headWireMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
+                gsap.to(headWireMat, { opacity: 0.18, duration: 0.8 });
+              }
+              if (eyeMat) gsap.to(eyeMat.color, { r: 0x38/255, g: 0xbd/255, b: 0xf8/255, duration: 0.8 });
+              if (earMat) gsap.to(earMat.color, { r: 0x24/255, g: 0x2d/255, b: 0x3d/255, duration: 0.8 });
+              if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
+            }
+          }
+        }
+      });
+    }, sectionObserverOptions);
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+  }
+
+  // HUD Scroll Progress Line calc
   window.addEventListener('scroll', () => {
-    const mainNav = document.getElementById('mainNav');
-    if (!mainNav) return;
-    if (isHomepage) {
-      if (window.scrollY > 40) {
-        mainNav.classList.add('scrolled');
-      } else {
-        mainNav.classList.remove('scrolled');
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight > 0) {
+      const progress = (window.scrollY / totalHeight) * 100;
+      const bar = document.getElementById('hudProgressBar');
+      if (bar) {
+        bar.style.height = `${progress}%`;
       }
-
-      let currentActive = "";
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 200 && rect.bottom >= 200) {
-          currentActive = section.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentActive}`) {
-          link.classList.add('active');
-        }
-      });
     }
   });
 
-  // Mobile Nav Drawer Toggle
-  const navToggle = document.getElementById('navToggle');
-  const navLinksList = document.getElementById('navLinks');
-  if (navToggle && navLinksList) {
-    navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('active');
-      navLinksList.classList.toggle('open');
+  // HUD Navigation Links Smooth Scroll
+  hudNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href');
+      const targetSec = document.querySelector(targetId);
+      if (targetSec) {
+        targetSec.scrollIntoView({ behavior: 'smooth' });
+      }
     });
-    
-    navLinksList.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navToggle.classList.remove('active');
-        navLinksList.classList.remove('open');
-      });
-    });
-  }
+  });
 
   // 3. Render Projects Grid
   renderProjectGrid();
@@ -950,6 +1161,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(triggerMascotBlink, 3000);
       return;
     }
+    // Scale 2D HUD pupils
     gsap.to(robotPupils, {
       scaleY: 0.05,
       duration: 0.08,
@@ -960,6 +1172,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(triggerMascotBlink, 3000 + Math.random() * 4000);
       }
     });
+    // Scale 3D WebGL eyes in sync
+    if (leftEye && rightEye) {
+      gsap.to([leftEye.scale, rightEye.scale], {
+        y: 0.05,
+        duration: 0.08,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut"
+      });
+    }
   };
   setTimeout(triggerMascotBlink, 3000);
 
@@ -967,6 +1189,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (passwordField) {
     passwordField.addEventListener('focus', () => {
       gsap.to(robotPupils, { scaleY: 0.05, duration: 0.25, ease: "power1.out" });
+      if (leftEye && rightEye) {
+        gsap.to([leftEye.scale, rightEye.scale], { y: 0.05, duration: 0.25, ease: "power1.out" });
+      }
+      if (robotHeadGroup) {
+        gsap.to(robotHeadGroup.rotation, { x: 0.5, y: 0, z: 0, duration: 0.4, ease: "power2.out" });
+      }
       if (eyeStateLabel) {
         eyeStateLabel.textContent = "PEEK_A_BOO";
         eyeStateLabel.style.color = "var(--accent-purple)";
@@ -978,9 +1206,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passwordField.addEventListener('blur', () => {
       gsap.to(robotPupils, { scaleY: 1.0, duration: 0.25, ease: "power1.inOut" });
+      if (leftEye && rightEye) {
+        gsap.to([leftEye.scale, rightEye.scale], { y: 1.0, duration: 0.25, ease: "power1.inOut" });
+      }
+      if (robotHeadGroup) {
+        gsap.to(robotHeadGroup.rotation, { x: 0, y: 0, z: 0, duration: 0.4, ease: "power2.out" });
+      }
       if (eyeStateLabel) {
         eyeStateLabel.textContent = "SYSTEM_ACTIVE";
         eyeStateLabel.style.color = "";
+      }
+    });
+
+    passwordField.addEventListener('input', (e) => {
+      const msg = document.getElementById('vault-msg');
+      if (msg) {
+        const val = e.target.value.toLowerCase().trim();
+        if (val === 'poker') {
+          msg.textContent = "DECRYPTED: ACCESS GRANTED. 108-PERSON TEAM LED.";
+          msg.style.color = "var(--accent)";
+          showToast("Secret Vault Unlocked!");
+        } else if (val.length > 0) {
+          msg.textContent = "ENCRYPTED. WRONG PASSCODE.";
+          msg.style.color = "#ef4444";
+        } else {
+          msg.textContent = "System locked. Standing by.";
+          msg.style.color = "var(--color-muted)";
+        }
       }
     });
   }
@@ -995,6 +1247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       eyeStateLabel.textContent = "DONT_LEAVE_ME";
       eyeStateLabel.style.color = "#ef4444";
     }
+    // 2D SVG tears
     robotTears.forEach(tear => {
       gsap.killTweensOf(tear);
       gsap.set(tear, { y: 0, scaleY: 0.3, opacity: 0 });
@@ -1007,6 +1260,29 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     gsap.to(robotPupils, { y: 3, duration: 0.3 });
+
+    // 3D WebGL tears
+    if (leftTear3D && rightTear3D) {
+      gsap.killTweensOf([leftTear3D.position, leftTear3D.scale, rightTear3D.position, rightTear3D.scale]);
+      leftTear3D.position.y = -0.4;
+      rightTear3D.position.y = -0.4;
+      leftTear3D.scale.set(1, 0.3, 1);
+      rightTear3D.scale.set(1, 0.3, 1);
+      if (tearMat) tearMat.opacity = 0.9;
+      
+      gsap.to([leftTear3D.position, rightTear3D.position], {
+        y: -2.0,
+        duration: 0.8,
+        ease: "power1.out"
+      });
+      gsap.to([leftTear3D.scale, rightTear3D.scale], {
+        y: 1.8,
+        x: 0.6,
+        z: 0.6,
+        duration: 0.8,
+        ease: "power1.out"
+      });
+    }
   };
 
   const stopCrying = () => {
@@ -1016,6 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
       eyeStateLabel.textContent = "SYSTEM_ACTIVE";
       eyeStateLabel.style.color = "";
     }
+    // 2D SVG tears
     robotTears.forEach(tear => {
       gsap.to(tear, {
         opacity: 0,
@@ -1028,6 +1305,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     gsap.to(robotPupils, { y: 0, duration: 0.3 });
+
+    // 3D WebGL tears
+    if (leftTear3D && rightTear3D) {
+      gsap.killTweensOf([leftTear3D.position, leftTear3D.scale, rightTear3D.position, rightTear3D.scale]);
+      gsap.to([leftTear3D.scale, rightTear3D.scale], {
+        x: 0.001,
+        y: 0.001,
+        z: 0.001,
+        duration: 0.3,
+        ease: "power1.in",
+        onComplete: () => {
+          if (tearMat) tearMat.opacity = 0;
+        }
+      });
+    }
   };
 
   document.addEventListener('mousemove', (e) => {
@@ -1055,17 +1347,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Chandigarh Live clock
   function updateLiveClock() {
-    const clockEl = document.getElementById('live-clock');
-    if (!clockEl) return;
-    const options = {
+    const hudClockEl = document.getElementById('hud-clock');
+    const subpageClockEl = document.getElementById('live-clock');
+    
+    const timeOptions24 = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    };
+    
+    const timeOptions12 = {
       timeZone: 'Asia/Kolkata',
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hour12: true
     };
-    const formatter = new Intl.DateTimeFormat('en-US', options);
-    clockEl.textContent = `CHANDIGARH: ${formatter.format(new Date())}`;
+
+    if (hudClockEl) {
+      const formatter24 = new Intl.DateTimeFormat('en-US', timeOptions24);
+      hudClockEl.textContent = `${formatter24.format(new Date())} — CHANDIGARH`;
+    }
+    
+    if (subpageClockEl) {
+      const formatter12 = new Intl.DateTimeFormat('en-US', timeOptions12);
+      subpageClockEl.textContent = `CHANDIGARH: ${formatter12.format(new Date())}`;
+    }
   }
   updateLiveClock();
   setInterval(updateLiveClock, 1000);

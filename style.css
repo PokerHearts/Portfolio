@@ -1033,6 +1033,7 @@ section {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-primary);
+  word-break: break-all;
 }
 
 @media (max-width: 900px) {

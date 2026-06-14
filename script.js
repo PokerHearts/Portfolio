@@ -532,35 +532,6 @@ function renderProjectGrid() {
     row.id = `project-row-${proj.id}`;
  
     const isFlagship = ["MOD_01", "MOD_02", "MOD_03", "MOD_04"].includes(proj.id);
-    
-    let flagshipVisualHtml = '';
-    if (isFlagship) {
-      let imgUrl = '';
-      let caption = '';
-      if (proj.id === 'MOD_01') {
-        imgUrl = 'media__1779962828387.png';
-        caption = 'Anonymized AI Mock Interview Interface — Data Redacted for Client Confidentiality';
-      } else if (proj.id === 'MOD_02') {
-        imgUrl = 'media__1779963258084.png';
-        caption = 'AI QA Audit Pipeline Dashboard View — Internal Analytics Data Masked';
-      } else if (proj.id === 'MOD_03') {
-        imgUrl = 'media__1781341256406.png';
-        caption = 'B2B Sales Portal Order Registry — Anonymized Client Transaction View';
-      } else if (proj.id === 'MOD_04') {
-        imgUrl = 'media__1781341573518.png';
-        caption = 'Inventory Safety Buffer Optimization Model — Suppressed Stock Quantities';
-      }
- 
-      flagshipVisualHtml = `
-        <div class="project-visual-wrapper">
-          <img src="${imgUrl}" alt="${proj.title} Visual Proof">
-          <div class="project-visual-caption">
-            ${caption}
-          </div>
-        </div>
-      `;
-    }
- 
     const links = getSemanticLinks(proj.id);
  
     row.innerHTML = `
@@ -587,8 +558,6 @@ function renderProjectGrid() {
           →
         </button>
       </div>
- 
-      ${flagshipVisualHtml}
     `;
     grid.appendChild(row);
   });

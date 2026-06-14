@@ -702,11 +702,11 @@ function renderProjectGrid() {
   });
  
   // Dynamic card PRD deep-dives trigger
-  const caseStudyTriggers = document.querySelectorAll('.case-study-trigger-btn');
-  caseStudyTriggers.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  const projectRows = document.querySelectorAll('.project-row');
+  projectRows.forEach(row => {
+    row.addEventListener('click', (e) => {
       e.stopPropagation();
-      const projectId = btn.getAttribute('data-project');
+      const projectId = row.getAttribute('data-id');
       const proj = projectData.find(p => p.id === projectId);
       if (!proj) return;
       
@@ -1054,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   document.addEventListener('click', (e) => {
-    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.closest('.case-study-trigger-btn')) {
+    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.closest('.project-row')) {
       caseStudyDrawer.classList.remove('open');
     }
   });

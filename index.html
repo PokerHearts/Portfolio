@@ -29,6 +29,11 @@
   <!-- Modern Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%233b82f6' rx='20'/%3E%3Ctext x='50' y='68' font-family='Georgia, serif' font-size='56' font-weight='bold' fill='%23ffffff' text-anchor='middle'%3EPJ%3C/text%3E%3C/svg%3E">
   
+  <!-- Preconnect & Load Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
 
@@ -67,20 +72,49 @@
   <nav class="main-nav" id="mainNav">
     <div class="nav-container">
       <a href="#about" class="nav-brand" style="display: flex; align-items: center; gap: 0.55rem; text-decoration: none;">
-        <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--accent-blue); overflow: hidden; background: #1e293b; flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 4px;">
-          <div class="nav-eye" style="width: 6px; height: 6px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 5px #38bdf8;"></div>
-          <div class="nav-eye" style="width: 6px; height: 6px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 5px #38bdf8;"></div>
+        <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          <svg class="robot-avatar-svg nav-avatar-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
+            <defs>
+              <linearGradient id="nav-head-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#f8fafc"/>
+              </linearGradient>
+              <linearGradient id="nav-visor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0f172a"/>
+                <stop offset="100%" stop-color="#020617"/>
+              </linearGradient>
+              <filter id="nav-eye-glow">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <g class="robot-head-group">
+              <!-- Head Circle -->
+              <circle cx="50" cy="50" r="45" fill="url(#nav-head-grad)" stroke="#cbd5e1" stroke-width="1.5"/>
+              <!-- Visor (Capsule) -->
+              <rect x="15" y="32" width="70" height="34" rx="17" ry="17" fill="url(#nav-visor-grad)"/>
+              <!-- Gloss Line -->
+              <path d="M 18 43 Q 50 35 82 43" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+              <!-- Pupils -->
+              <g class="robot-eyes">
+                <circle class="robot-pupil nav-pupil" id="navPupilLeft" cx="35" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
+                <circle class="robot-pupil nav-pupil" id="navPupilRight" cx="65" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
+              </g>
+              <!-- Tears -->
+              <path class="robot-tear nav-tear" id="navTearLeft" d="M 35,54 C 34,64, 36,68, 35,70 C 34,68, 34,64, 35,54" fill="#38bdf8" opacity="0"/>
+              <path class="robot-tear nav-tear" id="navTearRight" d="M 65,54 C 64,64, 66,68, 65,70 C 64,68, 64,64, 65,54" fill="#38bdf8" opacity="0"/>
+            </g>
+          </svg>
         </div>
         Pratap Jindal
       </a>
 
       <div class="nav-character-eyes">
-        <div class="visor">
-          <div class="eye eye-left"><div class="pupil"></div></div>
-          <div class="eye eye-right"><div class="pupil"></div></div>
-          <div class="tear-stream" id="tearStream"></div>
-        </div>
         <div class="state-tracker-box">
+          <span id="live-clock" class="state-label" style="border-right: 1px solid var(--border-thin); padding-right: 0.6rem; margin-right: 0.1rem; color: var(--color-muted);">CHANDIGARH: --:--:-- --</span>
           <span id="eye-state-label" class="state-label">SYSTEM_ACTIVE</span>
         </div>
       </div>
@@ -111,7 +145,7 @@
             <span class="pulse-indicator"></span><span id="heroBadgeText" style="display:none;"></span>
           </div>
           <div class="hero-title-group">
-            <h1 class="hero-name">Pratap Jindal</h1>
+            <h1 class="hero-greeting">Pratap <em>Jindal</em>.<br>I build systems where <em>logic meets memory</em>.</h1>
             <p class="hero-roles">Management Analyst &nbsp;&middot;&nbsp; Chief of Staff &nbsp;&middot;&nbsp; Operations & Systems</p>
             <div id="heroSpiritualSubtitle" class="hero-spiritual-subtitle" style="display: none; font-size: 1.15rem; font-weight: 700; color: var(--accent-blue); margin-top: 0.5rem; letter-spacing: 0.05em; font-family: var(--font-display);">Dedicated in Loving Devotion to Sri Krishna</div>
           </div>
@@ -125,13 +159,13 @@
             <span class="expertise-tag">Applied Research</span>
           </div>
 
-          <p class="pane-text" id="heroIntroText" style="max-width: 720px; font-size: 1rem; line-height: 1.6; color: var(--color-primary); margin-top: 1.5rem; margin-bottom: 1.5rem;">
+          <p class="pane-text" id="heroIntroText">
             I build operational systems, write psychological narratives, and explore the precise space where <strong>logic meets memory</strong>. Managing a team of 108 across a multi-company group, I translate senior executive intent into highly-automated digital instruments — transforming scattered workflows into clean, strategic corporate interfaces.
           </p>
 
-          <div class="input-group secure-group" style="margin-bottom: 2.2rem; background: rgba(255,255,255,0.45); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); max-width: 400px;">
-            <label style="display: block; font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--color-muted); margin-bottom: 0.5rem;">Secure Access Mode</label>
-            <input type="password" id="passwordField" placeholder="Enter password to squint..." style="width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-light); outline: none; font-size: 1rem;">
+          <div class="secure-group">
+            <label>Secure Access Mode</label>
+            <input type="password" id="passwordField" placeholder="Enter password to squint...">
           </div>
           
           <!-- Telemetry Stats (4 Columns Single Row) -->
@@ -182,9 +216,52 @@
         <!-- Hero Portrait Column -->
         <div class="hero-photo-wrapper spatial-reveal">
           <div class="photo-glass-frame">
-            <span class="photo-diag-label label-top-left">SYSTEM_PORTRAIT_01</span>
-            <img src="profile.png" alt="Pratap Jindal">
-            <span class="photo-diag-label label-bottom-right">PRATAP_JINDAL_LOG</span>
+            <span class="photo-diag-label label-top-left">SYSTEM_MASCOT_01</span>
+            <div class="robot-avatar-container" id="heroRobotAvatar">
+              <svg class="robot-avatar-svg hero-avatar-svg" viewBox="0 0 100 100" style="width: 200px; height: 200px; overflow: visible;">
+                <defs>
+                  <linearGradient id="hero-head-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="100%" stop-color="#f8fafc"/>
+                  </linearGradient>
+                  <linearGradient id="hero-visor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0f172a"/>
+                    <stop offset="100%" stop-color="#020617"/>
+                  </linearGradient>
+                  <filter id="hero-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.12"/>
+                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.04"/>
+                  </filter>
+                  <filter id="hero-visor-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.6"/>
+                  </filter>
+                  <filter id="hero-eye-glow">
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <g class="robot-head-group" id="heroRobotHead" style="transform-origin: 50px 50px;">
+                  <!-- White Head Sphere -->
+                  <circle cx="50" cy="50" r="44" fill="url(#hero-head-grad)" stroke="#cbd5e1" stroke-width="1.5" filter="url(#hero-shadow)"/>
+                  <!-- Visor (Capsule) -->
+                  <rect x="13" y="32" width="74" height="34" rx="17" ry="17" fill="url(#hero-visor-grad)" filter="url(#hero-visor-shadow)"/>
+                  <!-- Gloss Line -->
+                  <path d="M 16 43 Q 50 35 84 43" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+                  <!-- Pupils -->
+                  <g class="robot-eyes">
+                    <circle class="robot-pupil hero-pupil" id="heroPupilLeft" cx="33" cy="48" r="6.5" fill="#38bdf8" filter="url(#hero-eye-glow)"/>
+                    <circle class="robot-pupil hero-pupil" id="heroPupilRight" cx="67" cy="48" r="6.5" fill="#38bdf8" filter="url(#hero-eye-glow)"/>
+                  </g>
+                  <!-- Tears -->
+                  <path class="robot-tear hero-tear" id="heroTearLeft" d="M 33,54 C 31,66, 35,74, 33,78 C 31,74, 31,66, 33,54" fill="#38bdf8" opacity="0"/>
+                  <path class="robot-tear hero-tear" id="heroTearRight" d="M 67,54 C 65,66, 69,74, 67,78 C 65,74, 65,66, 67,54" fill="#38bdf8" opacity="0"/>
+                </g>
+              </svg>
+            </div>
+            <span class="photo-diag-label label-bottom-right">PRATAP_JINDAL_BOT</span>
           </div>
         </div>
 
@@ -196,7 +273,34 @@
        PROJECTS - INTERACTIVE ANALYTICS GRID
        ========================================================================== -->
   <section class="projects-section" id="projects">
-    <div class="section-wrapper">
+    <!-- AI Telemetry Scrolling Ticker -->
+    <div class="ticker-wrap spatial-reveal">
+      <div class="ticker">
+        <div class="ticker__item">System Status: <span>ACTIVE</span></div>
+        <div class="ticker__item">Model: <span>GEMINI-1.5-FLASH</span></div>
+        <div class="ticker__item">Latency: <span>1.2s avg</span></div>
+        <div class="ticker__item">Cost/Interview: <span>$0.05</span></div>
+        <div class="ticker__item">QA Automated: <span>360 hrs/mo</span></div>
+        <div class="ticker__item">Audit Coverage: <span>100% calls</span></div>
+        <div class="ticker__item">Inventory stockouts: <span>2 active</span></div>
+        <div class="ticker__item">Sales supported: <span>₹75 Cr+</span></div>
+        <div class="ticker__item">Looker Telemetry: <span>REAL-TIME</span></div>
+        <div class="ticker__item">Team Monitored: <span>108 Operators</span></div>
+        <!-- Duplicate for loop -->
+        <div class="ticker__item">System Status: <span>ACTIVE</span></div>
+        <div class="ticker__item">Model: <span>GEMINI-1.5-FLASH</span></div>
+        <div class="ticker__item">Latency: <span>1.2s avg</span></div>
+        <div class="ticker__item">Cost/Interview: <span>$0.05</span></div>
+        <div class="ticker__item">QA Automated: <span>360 hrs/mo</span></div>
+        <div class="ticker__item">Audit Coverage: <span>100% calls</span></div>
+        <div class="ticker__item">Inventory stockouts: <span>2 active</span></div>
+        <div class="ticker__item">Sales supported: <span>₹75 Cr+</span></div>
+        <div class="ticker__item">Looker Telemetry: <span>REAL-TIME</span></div>
+        <div class="ticker__item">Team Monitored: <span>108 Operators</span></div>
+      </div>
+    </div>
+    
+    <div class="section-wrapper" style="margin-top: 3rem;">
       <div class="section-head spatial-reveal">
         <div class="section-head-title">
           <span class="section-head-num">01 / SYSTEMS ARCHITECTURE</span>
@@ -239,196 +343,102 @@
       </div>
 
       <!-- Skills Matrix Grid -->
-      <div class="capability-matrix-grid spatial-reveal">
+      <div class="skills-grid spatial-reveal">
         
         <!-- Analytics & BI -->
-        <div class="glass-card capability-group" tabindex="0">
-          <div class="capability-group-header">
-            <span class="group-indicator-square"></span>
-            <h3>Analytics &amp; Business Intelligence</h3>
-          </div>
-          <div class="capability-pills">
-            <span class="capability-pill">Looker Studio</span>
-            <span class="capability-pill">Google Sheets</span>
-            <span class="capability-pill">Google Apps Script</span>
-            <span class="capability-pill">MIS Reporting</span>
-            <span class="capability-pill">Tableau</span>
-            <span class="capability-pill">Advanced Excel</span>
-            <span class="capability-pill">Data Visualizations</span>
-            <span class="capability-pill">Workflow Logging</span>
-          </div>
+        <div class="skills-col">
+          <h3>Analytics &amp; Business Intelligence</h3>
+          <ul>
+            <li>Looker Studio</li>
+            <li>Google Sheets</li>
+            <li>Google Apps Script</li>
+            <li>MIS Reporting</li>
+            <li>Tableau</li>
+            <li>Advanced Excel</li>
+            <li>Data Visualizations</li>
+            <li>Workflow Logging</li>
+          </ul>
         </div>
 
         <!-- Finance & Markets -->
-        <div class="glass-card capability-group" tabindex="0">
-          <div class="capability-group-header">
-            <span class="group-indicator-square"></span>
-            <h3>Financial Markets &amp; Valuation</h3>
-          </div>
-          <div class="capability-pills">
-            <span class="capability-pill">Financial Modelling</span>
-            <span class="capability-pill">Options Strategies</span>
-            <span class="capability-pill">Equity Derivatives</span>
-            <span class="capability-pill">Technical Analysis</span>
-            <span class="capability-pill">Portfolio Management</span>
-            <span class="capability-pill">Fundamental Valuation</span>
-            <span class="capability-pill">Mutual Funds</span>
-            <span class="capability-pill">NCIAP Certified</span>
-          </div>
+        <div class="skills-col">
+          <h3>Financial Markets &amp; Valuation</h3>
+          <ul>
+            <li>Financial Modelling</li>
+            <li>Options Strategies</li>
+            <li>Equity Derivatives</li>
+            <li>Technical Analysis</li>
+            <li>Portfolio Management</li>
+            <li>Fundamental Valuation</li>
+            <li>Mutual Funds</li>
+            <li>NCIAP Certified</li>
+          </ul>
         </div>
 
         <!-- AI Engineering & Workflows -->
-        <div class="glass-card capability-group" tabindex="0">
-          <div class="capability-group-header">
-            <span class="group-indicator-square"></span>
-            <h3>AI Workflows &amp; Toolchains</h3>
-          </div>
-          <div class="capability-pills">
-            <span class="capability-pill">Gemini API</span>
-            <span class="capability-pill">Prompt Design</span>
-            <span class="capability-pill">Google Antigravity SDK</span>
-            <span class="capability-pill">Claude 3.5</span>
-            <span class="capability-pill">DeepSeek R1</span>
-            <span class="capability-pill">Voice AI Agents</span>
-            <span class="capability-pill">NotebookLM</span>
-            <span class="capability-pill">Perplexity AI</span>
-          </div>
+        <div class="skills-col">
+          <h3>AI Workflows &amp; Toolchains</h3>
+          <ul>
+            <li>Gemini API</li>
+            <li>Prompt Design</li>
+            <li>Google Antigravity SDK</li>
+            <li>Claude 3.5</li>
+            <li>DeepSeek R1</li>
+            <li>Voice AI Agents</li>
+            <li>NotebookLM</li>
+            <li>Perplexity AI</li>
+          </ul>
         </div>
 
         <!-- Operations & Strategy -->
-        <div class="glass-card capability-group" tabindex="0">
-          <div class="capability-group-header">
-            <span class="group-indicator-square"></span>
-            <h3>Operations &amp; Corporate Governance</h3>
-          </div>
-          <div class="capability-pills">
-            <span class="capability-pill">Team Governance (108)</span>
-            <span class="capability-pill">B2B SOP Systems</span>
-            <span class="capability-pill">Process Automation</span>
-            <span class="capability-pill">MARG ERP</span>
-            <span class="capability-pill">OMEGA CRM</span>
-            <span class="capability-pill">Maslow Restructures</span>
-            <span class="capability-pill">Digital Integration</span>
-            <span class="capability-pill">SLA Enforcement</span>
-          </div>
+        <div class="skills-col">
+          <h3>Operations &amp; Corporate Governance</h3>
+          <ul>
+            <li>Team Governance (108)</li>
+            <li>B2B SOP Systems</li>
+            <li>Process Automation</li>
+            <li>MARG ERP</li>
+            <li>OMEGA CRM</li>
+            <li>Maslow Restructures</li>
+            <li>Digital Integration</li>
+            <li>SLA Enforcement</li>
+          </ul>
         </div>
 
       </div>
 
-      <!-- Credentials & Academic Grid -->
-      <div class="credentials-subgrid">
+      <div class="credentials-grid spatial-reveal">
         
-        <!-- NCFM / NSE Ledger -->
-        <div class="glass-card finance-credentials-list spatial-reveal" tabindex="0">
-          <div class="credentials-header">NSE Academy Certified Investment Analyst Pro (9+ NCFM)</div>
-          <div class="credentials-flow-group">
-            
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Financial Modelling &amp; Valuation</span>
-                <span class="cred-source-lbl">NSE NCFM Certification</span>
-              </div>
-            </div>
-
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Technical Analysis Module</span>
-                <span class="cred-source-lbl">NSE NCFM Certification</span>
-              </div>
-            </div>
-
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Fundamental Analysis</span>
-                <span class="cred-source-lbl">NSE NCFM Certification</span>
-              </div>
-            </div>
-
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Options Trading Strategies</span>
-                <span class="cred-source-lbl">NSE NCFM Certification</span>
-              </div>
-            </div>
-
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Equity Derivatives &amp; Interest Rate Derivatives</span>
-                <span class="cred-source-lbl">NISM &middot; NSE Academy</span>
-              </div>
-            </div>
-
-            <div class="credential-flow-row">
-              <span class="cred-icon-indicator"></span>
-              <div class="cred-text-details">
-                <span class="cred-title-label">Mutual Funds (Advanced) &amp; Depository Operations</span>
-                <span class="cred-source-lbl">NSE Academy &middot; NSDL</span>
-              </div>
-            </div>
-
-          </div>
-          <p style="margin-top: 1.5rem; text-align: center;">
-            <a href="https://github.com/PokerHearts/Certificates" target="_blank" class="card-cta-link">View all verifiable certificates on GitHub →</a>
-          </p>
+        <!-- Academic Board -->
+        <div class="credentials-col">
+          <h3>Academic Degrees</h3>
+          <ul class="credentials-list">
+            <li>
+              <strong>UGC NET Qualified (Management)</strong>
+              <span class="cred-meta">June 2024 · Assistant Professor &amp; Dec 2024 · PhD Eligible</span>
+            </li>
+            <li>
+              <strong>MBA — Financial Markets (Post Graduate)</strong>
+              <span class="cred-meta">Mittal School of Business (AACSB Accredited) &amp; NSE Academy &middot; CGPA: 8.83 · 2021-2023</span>
+            </li>
+            <li>
+              <strong>BBA (Hons) Foundation (Under Graduate)</strong>
+              <span class="cred-meta">Lovely Professional University &middot; CGPA: 8.36 · 2018-2021</span>
+            </li>
+          </ul>
         </div>
 
-        <!-- Academic & Qualifications Block -->
-        <div class="education-academic-card spatial-reveal">
-          
-          <!-- UGC NET -->
-          <div class="glass-card academic-block" style="border-left-color: var(--accent-purple);" tabindex="0">
-            <div class="academic-block-header">
-              <span class="mono-tag">National Qualification</span>
-              <h3 class="academic-degree" style="margin-top: 0.5rem;">UGC NET Qualified</h3>
-              <span class="academic-school">Management Field &middot; Government of India</span>
-              <span class="academic-meta-lbl">June 2024 (Assistant Professor) &middot; Dec 2024 (PhD Eligible)</span>
-            </div>
-          </div>
-
-          <!-- MBA -->
-          <div class="glass-card academic-block" style="border-left-color: var(--accent-blue);" tabindex="0">
-            <div class="academic-block-header">
-              <span class="mono-tag">Post Graduate Degree</span>
-              <h3 class="academic-degree" style="margin-top: 0.5rem;">MBA — Financial Markets</h3>
-              <span class="academic-school">Mittal School of Business (AACSB Accredited) &amp; NSE Academy</span>
-              <span class="academic-meta-lbl">CGPA: 8.83 &middot; Batch 2021 – 2023</span>
-            </div>
-            <div class="academic-coursework-group">
-              <div class="academic-coursework-title">Targeted Coursework</div>
-              <div class="academic-tags">
-                <span class="academic-tag">Financial Modelling</span>
-                <span class="academic-tag">Portfolio Analytics</span>
-                <span class="academic-tag">Research Methodology</span>
-                <span class="academic-tag">Strategic Management</span>
-                <span class="academic-tag">Corporate Finance</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- BBA -->
-          <div class="glass-card academic-block" style="border-left-color: var(--accent-teal);" tabindex="0">
-            <div class="academic-block-header">
-              <span class="mono-tag">Under Graduate Degree</span>
-              <h3 class="academic-degree" style="margin-top: 0.5rem;">BBA (Hons) Foundation</h3>
-              <span class="academic-school">Lovely Professional University</span>
-              <span class="academic-meta-lbl">CGPA: 8.36 &middot; Batch 2018 – 2021</span>
-            </div>
-            <div class="academic-coursework-group">
-              <div class="academic-coursework-title">Targeted Coursework</div>
-              <div class="academic-tags">
-                <span class="academic-tag">Management Principles</span>
-                <span class="academic-tag">Business Statistics</span>
-                <span class="academic-tag">Supply Chain</span>
-                <span class="academic-tag">Cost Accounting</span>
-              </div>
-            </div>
-          </div>
-
+        <!-- NSE Board -->
+        <div class="credentials-col">
+          <h3>NSE Academy Certifications (Investment Analyst Pro)</h3>
+          <ul class="credentials-list">
+            <li>Financial Modelling &amp; Valuation (NSE NCFM)</li>
+            <li>Technical Analysis Module (NSE NCFM)</li>
+            <li>Fundamental Analysis Module (NSE NCFM)</li>
+            <li>Options Trading Strategies (NSE NCFM)</li>
+            <li>Equity Derivatives &amp; Interest Rate Derivatives (NISM &middot; NSE Academy)</li>
+            <li>Mutual Funds (Advanced) &amp; Depository Operations (NSE Academy &middot; NSDL)</li>
+          </ul>
         </div>
 
       </div>
@@ -451,38 +461,39 @@
         </p>
       </div>
 
-      <div class="vertical-timeline-flow">
+      <div class="timeline-flow">
         
         <!-- Job 1 -->
-        <div class="timeline-card glass-card spatial-reveal">
-          <div class="timeline-card-header">
-            <span class="timeline-card-period">Sep 2023 — Present</span>
-            <h3 class="timeline-card-title">Management Analyst (Senior Management Team)</h3>
-            <span class="timeline-card-org">Group Biopolis (Biopolis + Ultrapolis) &middot; Panchkula</span>
+        <div class="timeline-card spatial-reveal">
+          <div class="time-meta">
+            <span class="time-range">Sep 2023 — Present</span>
+            <span class="time-duration">3 years</span>
           </div>
-          <div class="timeline-card-body">
-            <ul class="pipeline-bullets-list">
+          <div class="timeline-info">
+            <h3>Management Analyst (Senior Management Team)</h3>
+            <h4>Group Biopolis (Biopolis + Ultrapolis) &middot; Panchkula</h4>
+            <ul class="timeline-bullets">
               <li>Designed and engineered a centralized internal operations analytics platform with 18+ live interactive dashboard modules (Sales, Stocks, Pipeline, SCOT) serving the entire 108-member group.</li>
               <li>Architected a mobile-first, serverless B2B order booking web application with custom secure session authentication and zero-latency automated PDF generation, reducing client order timelines by over 60%.</li>
               <li>Built a scalable call analysis system utilizing AI to digest and score 1,200 voice recordings (800 audio minutes) daily, providing structured feedback metrics on customer intent and agent scripts.</li>
               <li>Engineered an automated end-to-end inventory management and PO tracking pipeline featuring custom predictive reorder algorithms; reduced shortage alerts from 17 to 2 and fueled 20% growth.</li>
               <li>Developed a custom Looker Studio Chrome Refresher extension to bypass native 15-minute delays, unlocking instantaneous, zero-delay operational database telemetry.</li>
             </ul>
-            <div class="systems-flow-visual">
-              <div class="flow-visual-title">Operational Data Pipeline</div>
-              <div class="flow-nodes-wrapper">
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">💾</div>
+            <div class="systems-flow-visual" style="margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); background: var(--bg-surface);">
+              <div class="flow-visual-title" style="font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem;">Operational Data Pipeline</div>
+              <div class="flow-nodes-wrapper" style="display: flex; align-items: center; gap: 1rem;">
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>💾</span>
                   <span class="node-lbl">Raw Database</span>
                 </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">⚙️</div>
+                <span class="flow-connector-arrow" style="color: var(--color-muted); font-size: 0.8rem;">➔</span>
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>⚙️</span>
                   <span class="node-lbl">AI &amp; Apps Script</span>
                 </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📊</div>
+                <span class="flow-connector-arrow" style="color: var(--color-muted); font-size: 0.8rem;">➔</span>
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>📊</span>
                   <span class="node-lbl">18+ Live MIS Panels</span>
                 </div>
               </div>
@@ -491,33 +502,34 @@
         </div>
 
         <!-- Job 2 -->
-        <div class="timeline-card glass-card spatial-reveal">
-          <div class="timeline-card-header">
-            <span class="timeline-card-period">Sep 2022 — Feb 2023</span>
-            <h3 class="timeline-card-title">Divisional Manager (MBA Assignment)</h3>
-            <span class="timeline-card-org">Bharat Financial Inclusion Ltd. (IndusInd Bank)</span>
+        <div class="timeline-card spatial-reveal">
+          <div class="time-meta">
+            <span class="time-range">Sep 2022 — Feb 2023</span>
+            <span class="time-duration">6 months</span>
           </div>
-          <div class="timeline-card-body">
-            <ul class="pipeline-bullets-list">
+          <div class="timeline-info">
+            <h3>Divisional Manager (MBA Assignment)</h3>
+            <h4>Bharat Financial Inclusion Ltd. (IndusInd Bank)</h4>
+            <ul class="timeline-bullets">
               <li>Directed a 72-member regional division controlling a portfolio of 7,500+ micro-banking clients across 10 distinct districts; consistently cleared target collections within 48 hours of cycle launch.</li>
               <li>Diagnosed local field operation bottlenecks utilizing Maslow's organizational framework, restructuring field officer scripts to secure 40% of targets within a single operational weekend.</li>
               <li>Replaced traditional punitive metrics with a high-engagement gamified reward framework, accelerating lead generation and conversions by 25% within one fiscal quarter.</li>
             </ul>
-            <div class="systems-flow-visual">
-              <div class="flow-visual-title">Field Ingestion Pipeline</div>
-              <div class="flow-nodes-wrapper">
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">👥</div>
+            <div class="systems-flow-visual" style="margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); background: var(--bg-surface);">
+              <div class="flow-visual-title" style="font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem;">Field Ingestion Pipeline</div>
+              <div class="flow-nodes-wrapper" style="display: flex; align-items: center; gap: 1rem;">
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>👥</span>
                   <span class="node-lbl">7,500 Clients</span>
                 </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">🗺️</div>
+                <span class="flow-connector-arrow" style="color: var(--color-muted); font-size: 0.8rem;">➔</span>
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>🗺️</span>
                   <span class="node-lbl">Field Redesign</span>
                 </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📈</div>
+                <span class="flow-connector-arrow" style="color: var(--color-muted); font-size: 0.8rem;">➔</span>
+                <div class="flow-node-item" style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--color-primary); font-weight: 500;">
+                  <span>📈</span>
                   <span class="node-lbl">+25% Growth</span>
                 </div>
               </div>
@@ -525,79 +537,52 @@
           </div>
         </div>
 
-                <!-- MBA Gap Entry from User Prompt -->
-        <div class="timeline-entry">
-          <span class="timeline-date">Jul 2021 — Jun 2023</span>
-          <h3>MBA — Financial Markets (Full-Time)</h3>
-          <p>Mittal School of Business (LPU) · AACSB Accredited · CGPA 8.83</p>
-          <p>Concurrent: 9+ NCFM/NISM certifications, NSE Academy coursework, research methodology, financial modelling.</p>
+        <!-- Academic MBA Entry -->
+        <div class="timeline-card spatial-reveal">
+          <div class="time-meta">
+            <span class="time-range">Jul 2021 — Jun 2023</span>
+            <span class="time-duration">2 years</span>
+          </div>
+          <div class="timeline-info">
+            <h3>MBA — Financial Markets (Full-Time)</h3>
+            <h4>Mittal School of Business (AACSB Accredited) &amp; NSE Academy</h4>
+            <ul class="timeline-bullets">
+              <li>Completed intensive post-graduate studies, graduating with a cumulative CGPA of 8.83.</li>
+              <li>Completed 9+ NCFM/NISM certifications, specializing in options trading strategies, financial modelling, and valuation metrics.</li>
+              <li>Conducted academic research under the Research Methodology wing, focusing on operational systems and distribution chains.</li>
+            </ul>
+          </div>
         </div>
 
-        <!-- Summer Gap Entry -->
-        <div class="timeline-card glass-card spatial-reveal academic-timeline-card">
-          <div class="timeline-card-header">
-            <span class="timeline-card-period">Jun 2021 — Aug 2021</span>
-            <h3 class="timeline-card-title">Summer Research Intern &amp; Pre-Term Analyst</h3>
-            <span class="timeline-card-org">Mittal School of Business &middot; Academic Inquiry</span>
+        <!-- Summer Research Intern -->
+        <div class="timeline-card spatial-reveal">
+          <div class="time-meta">
+            <span class="time-range">Jun 2021 — Aug 2021</span>
+            <span class="time-duration">3 months</span>
           </div>
-          <div class="timeline-card-body">
-            <ul class="pipeline-bullets-list">
+          <div class="timeline-info">
+            <h3>Summer Research Intern &amp; Pre-Term Analyst</h3>
+            <h4>Mittal School of Business &middot; Academic Inquiry</h4>
+            <ul class="timeline-bullets">
               <li>Synthesized academic literature on supply chain bullwhip effects and inventory safety stocks under volatile lead-time variance in localized distribution systems.</li>
-              <li>Formulated mathematical safety stock optimization scripts, subsequently tested and deployed in field project MOD_04 (PO Optimizer).</li>
+              <li>Formulated mathematical safety stock optimization models, subsequently tested and deployed in field project PO Optimizer.</li>
             </ul>
-            <div class="systems-flow-visual">
-              <div class="flow-visual-title">Research Ingestion</div>
-              <div class="flow-nodes-wrapper">
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📖</div>
-                  <span class="node-lbl">Lit Review</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">➗</div>
-                  <span class="node-lbl">Heuristic Modeling</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">⚡</div>
-                  <span class="node-lbl">Project Ingestion</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
         <!-- Job 3 -->
-        <div class="timeline-card glass-card spatial-reveal">
-          <div class="timeline-card-header">
-            <span class="timeline-card-period">Feb 2021 — May 2021</span>
-            <h3 class="timeline-card-title">Customer Delight Intern</h3>
-            <span class="timeline-card-org">Zolostays Property Solutions Ltd. &middot; Operations</span>
+        <div class="timeline-card spatial-reveal">
+          <div class="time-meta">
+            <span class="time-range">Feb 2021 — May 2021</span>
+            <span class="time-duration">4 months</span>
           </div>
-          <div class="timeline-card-body">
-            <ul class="pipeline-bullets-list">
-              <li>Orchestrated direct customer support operations, processing over 2,000 inquiries with 99.95% verification accuracy, resolving 100+ complex tickets daily at 95% SLA compliance.</li>
-              <li>Mapped and standardized internal property refund workflows, slashing resolution delay times and related customer complaints by 60% via structured SOP manuals.</li>
+          <div class="timeline-info">
+            <h3>Customer Delight Intern</h3>
+            <h4>Zolostays Property Solutions Ltd. &middot; Operations</h4>
+            <ul class="timeline-bullets">
+              <li>Orchestrated support operations, processing over 2,000 inquiries with 99.95% verification accuracy, resolving 100+ complex tickets daily at 95% SLA compliance.</li>
+              <li>Mapped and standardized internal property refund workflows, slashing resolution delay times and complaints by 60% via structured SOP manuals.</li>
             </ul>
-            <div class="systems-flow-visual">
-              <div class="flow-visual-title">Customer Experience Workflow</div>
-              <div class="flow-nodes-wrapper">
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📥</div>
-                  <span class="node-lbl">Support Input</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">📝</div>
-                  <span class="node-lbl">SOP Restructure</span>
-                </div>
-                <span class="flow-connector-arrow">➔</span>
-                <div class="flow-node-item">
-                  <div class="node-icon-circle">⚡</div>
-                  <span class="node-lbl">60% SLA Speedup</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -620,115 +605,64 @@
         </p>
       </div>
 
-      <!-- Academic Board (Visible in Academic Mode, Styled elegantly) -->
-      <div class="academic-editorial-container" id="academicEditorialBoard">
-        <!-- 1. Research Interests -->
-        <div class="editorial-row">
-          <div class="editorial-col-sidebar">
-            <h3 class="editorial-section-title">Research Interests</h3>
+      <!-- Academic Board (Sleek List matching projects) -->
+      <div class="research-list" id="academicEditorialBoard">
+        
+        <!-- Paper 1 -->
+        <div class="research-card spatial-reveal">
+          <div class="res-meta">
+            <span class="res-status">Working Paper</span>
+            <span class="res-pub">Pratap Jindal, 2026</span>
           </div>
-          <div class="editorial-col-content">
-            <div class="interest-grid">
-              <div class="interest-item">
-                <h4>Human-AI Collaborative Workflows</h4>
-                <p>Investigating cognitive fatigue, feedback delay thresholds, and task delegation boundaries between human operators and LLM grading systems in decentralized operations.</p>
-              </div>
-              <div class="interest-item">
-                <h4>Heuristic Inventory Governance in SMEs</h4>
-                <p>Formulating mathematical reorder rules under severe supplier lead-time variance, inventory backpressures, and capital efficiency constraints without heavy ERP software.</p>
-              </div>
-              <div class="interest-item">
-                <h4>Scale-Free Information Systems</h4>
-                <p>Analyzing latency, client-side caching dynamics (IndexedDB, edge networks), and secure token authentication models for off-grid operations.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr class="editorial-divider">
-
-        <!-- 2. Core Research Questions -->
-        <div class="editorial-row">
-          <div class="editorial-col-sidebar">
-            <h3 class="editorial-section-title">Research Questions</h3>
-          </div>
-          <div class="editorial-col-content">
-            <ul class="editorial-list">
-              <li>
-                <strong>RQ_01</strong>: How does the automation of quality assurance processes in decentralized organizations impact team accountability, error rates, and feedback lag?
-              </li>
-              <li>
-                <strong>RQ_02</strong>: Under what operational constraints do rolling-average safety replenishment models outperform traditional static buffer stock rules in small-scale distribution links?
-              </li>
-              <li>
-                <strong>RQ_03</strong>: Can browser-side document indexing, semantic outlines, and local storage overrides eliminate database transaction costs for collaborative workspaces?
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <hr class="editorial-divider">
-
-        <!-- 3. Applied Experiments & Evidence -->
-        <div class="editorial-row">
-          <div class="editorial-col-sidebar">
-            <h3 class="editorial-section-title">Applied Experiments</h3>
-          </div>
-          <div class="editorial-col-content">
-            <div class="experiments-grid">
-              <div class="experiment-card">
-                <span class="mono-tag-amber">EXP_01</span>
-                <h4>Voice Interruption & Latency Thresholds</h4>
-                <p>Evaluating conversational latency bounds and echo feedback loops in browser Web Audio channels under rate-limiting and noise floor spikes.</p>
-                <div class="experiment-evidence">Linked Field System: [MOD_01] and [MOD_02]</div>
-              </div>
-              <div class="experiment-card">
-                <span class="mono-tag-amber">EXP_02</span>
-                <h4>Heuristic Reorder Volatility Coefficients</h4>
-                <p>Measuring inventory stockout risks and reorder bullwhip amplification under rolling-average stocking rules compared to static limits.</p>
-                <div class="experiment-evidence">Linked Field System: [MOD_04] and [MOD_10]</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr class="editorial-divider">
-
-        <!-- 4. Working Papers -->
-        <div class="editorial-row">
-          <div class="editorial-col-sidebar">
-            <h3 class="editorial-section-title">Working Papers &amp; Drafts</h3>
-          </div>
-          <div class="editorial-col-content">
-            <div class="papers-list">
-              <div class="paper-item">
-                <span class="paper-status">Working Paper — Under Development</span>
-                <h4>"Empirical Safety Buffer Formulations for SME Inventory Management under High Supplier Lead-Time Variance."</h4>
-                <div class="paper-meta">Pratap Jindal, 2026. Formulates math models based on regional distributor ledger datasets.</div>
-              </div>
-              <div class="paper-item">
-                <span class="paper-status">Concept Note — Literature Synthesis</span>
-                <h4>"Assessing LLM-Assisted Speech Evaluation Frameworks in High-Volume Operations: A Comparative Case Study."</h4>
-                <div class="paper-meta">Pratap Jindal, 2026. Evaluates Spearman correlation coefficients between human QA and LLM graders.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr class="editorial-divider">
-
-        <!-- 5. Future Research Directions -->
-        <div class="editorial-row">
-          <div class="editorial-col-sidebar">
-            <h3 class="editorial-section-title">Future Research</h3>
-          </div>
-          <div class="editorial-col-content">
-            <p class="future-research-text">
-              Expanding dynamic decision scoring to multi-agent operations models, investigating organizational learning curves in voice-first AI systems, and testing reinforcement learning boundaries for supplier reorder allocations under volatile macro markets.
+          <div class="res-content">
+            <h3>"Empirical Safety Buffer Formulations for SME Inventory Management under High Supplier Lead-Time Variance."</h3>
+            <p class="res-desc">
+              Formulates mathematical safety stock models based on regional distributor ledger datasets to stabilize supply chains under volatile lead times.
             </p>
           </div>
+          <div class="res-impact">
+            <strong>Linked Field System:</strong><br>
+            [MOD_04] Predictive Inventory &amp; [MOD_10] PO Optimizer
+          </div>
+        </div>
+
+        <!-- Paper 2 -->
+        <div class="research-card spatial-reveal">
+          <div class="res-meta">
+            <span class="res-status">Concept Note</span>
+            <span class="res-pub">Pratap Jindal, 2026</span>
+          </div>
+          <div class="res-content">
+            <h3>"Assessing LLM-Assisted Speech Evaluation Frameworks in High-Volume Operations: A Comparative Case Study."</h3>
+            <p class="res-desc">
+              Evaluates Spearman correlation coefficients and feedback delays between human quality assurance auditors and voice-first automated LLM graders.
+            </p>
+          </div>
+          <div class="res-impact">
+            <strong>Linked Field System:</strong><br>
+            [MOD_01] Voice Simulator &amp; [MOD_02] Call QA Analyzer
+          </div>
+        </div>
+
+        <!-- Paper 3 -->
+        <div class="research-card spatial-reveal">
+          <div class="res-meta">
+            <span class="res-status">Applied Experiment</span>
+            <span class="res-pub">Decision Science Research</span>
+          </div>
+          <div class="res-content">
+            <h3>Voice Interruption &amp; Latency Thresholds in Browser Audio Channels</h3>
+            <p class="res-desc">
+              Evaluating conversational latency bounds and echo feedback loops in browser Web Audio channels under rate-limiting and noise floor spikes.
+            </p>
+          </div>
+          <div class="res-impact">
+            <strong>Linked Field System:</strong><br>
+            [MOD_01] Voice Simulator VAD engine
+          </div>
+        </div>
+
       </div>
-    </div>
   </section>
 
   <!-- ==========================================================================
@@ -766,126 +700,111 @@
       </div>
 
       <!-- Knowledge Grid -->
-      <div class="knowledge-grid" id="creativeGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+      <div class="writing-grid" id="creativeGrid">
         
         <!-- Light Enough -->
-        <div class="glass-card archive-card" data-category="books" tabindex="0">
-          <div class="archive-type-header">
+        <div class="archive-card" data-category="books">
+          <div class="writing-meta">
             <span class="writing-tag">Book</span>
             <span class="mono-tag">ISBN Registered</span>
           </div>
-          <h3>Light Enough</h3>
-          <p>
-            An introspective work of literary fiction exploring quiet emotional landscapes, internal monologues, and the delicate textures of personal memories. Investigates the spatial dimensions of memory retrieval.
-          </p>
-          <div class="archive-card-meta">
-            <span class="mono-tag">Narrative Psychology</span>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">📖 1 Vol</span>
-            </div>
+          <div class="archive-content">
+            <h3>Light Enough</h3>
+            <p>
+              An introspective work of literary fiction exploring quiet emotional landscapes, internal monologues, and the delicate textures of personal memories.
+            </p>
+          </div>
+          <div class="writing-outcome">
+            Narrative Psychology &middot; 1 Volume Published
           </div>
         </div>
 
         <!-- Sessions -->
-        <div class="glass-card archive-card" data-category="fiction" tabindex="0">
-          <div class="archive-type-header">
+        <div class="archive-card" data-category="fiction">
+          <div class="writing-meta">
             <span class="writing-tag">Novel — WIP</span>
           </div>
-          <h3>Sessions</h3>
-          <p>
-            A complex psychological suspense novel structured as 10 backstory entries mapped to 10 active therapeutic deconstruction cycles. Dissects memory distortion loops, nostalgic rumination, and clinical avoidance scripts.
-          </p>
-          <div class="archive-card-meta">
-            <span class="mono-tag">Memory Loops</span>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">🖊️ 20 Chapters</span>
-            </div>
+          <div class="archive-content">
+            <h3>Sessions</h3>
+            <p>
+              A complex psychological suspense novel structured as 10 backstory entries mapped to 10 active therapeutic deconstruction cycles. Dissects memory distortion loops.
+            </p>
+          </div>
+          <div class="writing-outcome">
+            Memory Loops &middot; 20 Chapters Completed
           </div>
         </div>
 
         <!-- Life of Poker Hearts -->
-        <div class="glass-card archive-card" data-category="fiction" tabindex="0">
-          <div class="archive-type-header">
-            <span class="writing-tag">Blog</span>
+        <div class="archive-card" data-category="fiction">
+          <div class="writing-meta">
+            <span class="writing-tag">Blog Archive</span>
           </div>
-          <h3>Life of Poker Hearts</h3>
-          <p>
-            Active digital workspace containing psychological sketches, introvert logs, and experimental prose. Commands a highly loyal repeating audience, generating introspective data points since 2019.
-          </p>
-          <div class="archive-card-meta">
-            <a href="https://pokerdeeds.blogspot.com" target="_blank" class="card-cta-link">Open Blog Archive (pokerdeeds.blogspot.com) →</a>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">👤 3k / mo</span>
-            </div>
+          <div class="archive-content">
+            <h3>Life of Poker Hearts</h3>
+            <p>
+              Active digital workspace containing psychological sketches, introvert logs, and experimental prose sketches. Active since 2019.
+            </p>
+            <a href="https://pokerdeeds.blogspot.com" target="_blank" class="card-cta-link" style="color: var(--accent-blue); font-family: var(--font-mono); font-size: 0.72rem; text-decoration: underline; margin-top: 0.5rem; display: inline-block;">Open Blog Archive →</a>
+          </div>
+          <div class="writing-outcome">
+            Introspective Sketches &middot; 3k readers / mo
           </div>
         </div>
 
         <!-- The Kintsugi Principle -->
-        <div class="glass-card archive-card" data-category="essays" tabindex="0">
-          <div class="archive-type-header">
+        <div class="archive-card" data-category="essays">
+          <div class="writing-meta">
             <span class="writing-tag">Essay</span>
             <span class="mono-tag">LinkedIn Article</span>
           </div>
-          <h3>The Kintsugi Principle</h3>
-          <p>
-            An analytical piece applying the traditional Japanese philosophy of repairing broken ceramics with liquid gold to organizational architecture — modeling systems that emerge stronger through operational breakdowns.
-          </p>
-          <div class="archive-card-meta">
-            <a href="https://www.linkedin.com/pulse/kintsugi-principle-pratap-jindal-hoenc/?trackingId=MoFLqpfyScWoOY2IQ8z4uQ%3D%3D" target="_blank" class="card-cta-link">View Publication →</a>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">🌐 Public</span>
-            </div>
+          <div class="archive-content">
+            <h3>The Kintsugi Principle</h3>
+            <p>
+              An analytical piece applying the traditional Japanese philosophy of repairing broken ceramics with liquid gold to organizational architecture.
+            </p>
+            <a href="https://www.linkedin.com/pulse/kintsugi-principle-pratap-jindal-hoenc/?trackingId=MoFLqpfyScWoOY2IQ8z4uQ%3D%3D" target="_blank" class="card-cta-link" style="color: var(--accent-blue); font-family: var(--font-mono); font-size: 0.72rem; text-decoration: underline; margin-top: 0.5rem; display: inline-block;">View Publication →</a>
+          </div>
+          <div class="writing-outcome">
+            Systems Design &middot; Public Release
           </div>
         </div>
 
         <!-- Hi Heart I Read -->
-        <div class="glass-card archive-card" data-category="books" tabindex="0">
-          <div class="archive-type-header">
+        <div class="archive-card" data-category="books">
+          <div class="writing-meta">
             <span class="writing-tag">Collection</span>
           </div>
-          <h3>Hi Heart I Read</h3>
-          <p>
-            A curated compendium investigating the tactile architecture of thoughts and quiet cognitive friction, published under the writer identity Poker Hearts.
-          </p>
-          <div class="archive-card-meta">
-            <span class="mono-tag">Introspective Prose</span>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">📖 Collected</span>
-            </div>
+          <div class="archive-content">
+            <h3>Hi Heart I Read</h3>
+            <p>
+              A curated compendium investigating the tactile architecture of thoughts and quiet cognitive friction, published under the writer identity Poker Hearts.
+            </p>
+          </div>
+          <div class="writing-outcome">
+            Introspective Prose &middot; Collected Edition
           </div>
         </div>
 
         <!-- Chapters -->
-        <div class="glass-card archive-card" data-category="fiction" tabindex="0">
-          <div class="archive-type-header">
+        <div class="archive-card" data-category="fiction">
+          <div class="writing-meta">
             <span class="writing-tag">Fiction — WIP</span>
           </div>
-          <h3>Chapters</h3>
-          <p>
-            A speculative narrative experiment analyzing "what-if" branch points, exploring the mathematical and emotional voids left between human choices and their shadow results.
-          </p>
-          <div class="archive-card-meta">
-            <span class="mono-tag">Decision Modeling</span>
-            <div class="meta-stats-group">
-              <span class="meta-stat-item">⚡ spec</span>
-            </div>
+          <div class="archive-content">
+            <h3>Chapters</h3>
+            <p>
+              A speculative narrative experiment analyzing "what-if" branch points, exploring the mathematical and emotional voids left between human choices and their shadow results.
+            </p>
           </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       LEO SYSTEM REGISTRY - AI-READABLE TAXONOMY INDEX
-       ========================================================================== -->
-  <!-- ==========================================================================
+          <div class="writing-outcome">
+            Decision Modeling &middot; Speculat  <!-- ==========================================================================
        LEO SYSTEM REGISTRY - AI-READABLE TAXONOMY INDEX
        ========================================================================== -->
   <section class="leo-registry-section" id="leo-registry" aria-label="AI-Readable Knowledge System">
     <div aria-hidden="true" style="display:none">
       <div class="section-wrapper">
-        <div class="glass-card leo-registry-card">
+        <div class="leo-registry-card" style="border: 1px solid var(--border-thin); padding: 2rem; background: var(--bg-surface); border-radius: var(--radius-md);">
           <div class="leo-header">
             <span class="leo-indicator-pulse"></span>
             <h3>AI-Readable Index &amp; Semantic Taxonomy (LEO Optimized)</h3>
@@ -995,64 +914,45 @@
         <p class="contact-note">Prefer direct conversations over forms — reach out on any channel below.</p>
 
         <!-- Direct Connections Grid Matrix (Centered and prominent) -->
-        <div class="direct-connect-matrix" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 3rem;">
+        <div class="contact-grid">
           
-          <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="glass-card direct-connect-cell" style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-decoration: none; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.45); transition: var(--transition);">
-            <div class="cell-inner-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-              <div class="cell-icon-box" style="font-size: 1.8rem; color: #0077b5; font-weight: bold;">in</div>
-              <div class="cell-text-stack" style="text-align: center;">
-                <span class="cell-label" style="font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">LinkedIn</span>
-                <span class="cell-value-text" style="font-size: 0.95rem; font-weight: 600; color: var(--color-primary);">pratap-jindal</span>
-              </div>
-            </div>
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="direct-connect-cell">
+            <div class="cell-icon-box" style="color: #0077b5;">in</div>
+            <span class="cell-label">LinkedIn</span>
+            <span class="cell-value-text">pratap-jindal</span>
           </a>
 
           <!-- Direct Email showing full address -->
-          <a href="mailto:pratapjindal812@gmail.com" class="glass-card direct-connect-cell" style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-decoration: none; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.45); transition: var(--transition);">
-            <div class="cell-inner-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-              <div class="cell-icon-box" style="font-size: 1.8rem; color: var(--accent-purple);">✉</div>
-              <div class="cell-text-stack" style="text-align: center;">
-                <span class="cell-label" style="font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">Corporate Email</span>
-                <span class="cell-value-text" style="font-size: 0.95rem; font-weight: 600; color: var(--color-primary);">pratapjindal812@gmail.com</span>
-              </div>
-            </div>
+          <a href="mailto:pratapjindal812@gmail.com" class="direct-connect-cell">
+            <div class="cell-icon-box" style="color: var(--accent-purple);">✉</div>
+            <span class="cell-label">Corporate Email</span>
+            <span class="cell-value-text">pratapjindal812@gmail.com</span>
           </a>
 
-          <a href="tel:+917009019719" class="glass-card direct-connect-cell" style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-decoration: none; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.45); transition: var(--transition);">
-            <div class="cell-inner-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-              <div class="cell-icon-box" style="font-size: 1.8rem; color: var(--accent-blue);">☎</div>
-              <div class="cell-text-stack" style="text-align: center;">
-                <span class="cell-label" style="font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">Direct Voice</span>
-                <span class="cell-value-text" style="font-size: 0.95rem; font-weight: 600; color: var(--color-primary);">+91 70090 19719</span>
-              </div>
-            </div>
+          <a href="tel:+917009019719" class="direct-connect-cell">
+            <div class="cell-icon-box" style="color: var(--accent-blue);">☎</div>
+            <span class="cell-label">Direct Voice</span>
+            <span class="cell-value-text">+91 70090 19719</span>
           </a>
 
           <!-- Direct WhatsApp Cell -->
-          <a href="https://wa.me/917009019719?text=Hi%20Pratap,%20I'm%20interested%20in%20discussing%20a%20strategic%20role/project%20with%20you." target="_blank" class="glass-card direct-connect-cell" style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-decoration: none; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.45); transition: var(--transition);">
-            <div class="cell-inner-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-              <div class="cell-icon-box" style="font-size: 1.8rem; color: #25d366;">💬</div>
-              <div class="cell-text-stack" style="text-align: center;">
-                <span class="cell-label" style="font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">WhatsApp</span>
-                <span class="cell-value-text" style="font-size: 0.95rem; font-weight: 600; color: var(--color-primary);">+91 70090 19719</span>
-              </div>
-            </div>
+          <a href="https://wa.me/917009019719?text=Hi%20Pratap,%20I'm%20interested%20in%20discussing%20a%20strategic%20role/project%20with%20you." target="_blank" class="direct-connect-cell">
+            <div class="cell-icon-box" style="color: #25d366;">💬</div>
+            <span class="cell-label">WhatsApp</span>
+            <span class="cell-value-text">+91 70090 19719</span>
           </a>
 
           <!-- Direct Instagram Cell -->
-          <a href="https://www.instagram.com/poker_hearts/" target="_blank" class="glass-card direct-connect-cell" style="display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-decoration: none; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.45); transition: var(--transition);">
-            <div class="cell-inner-layout" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-              <div class="cell-icon-box" style="font-size: 1.8rem; color: #e1306c;">📷</div>
-              <div class="cell-text-stack" style="text-align: center;">
-                <span class="cell-label" style="font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block;">Instagram</span>
-                <span class="cell-value-text" style="font-size: 0.95rem; font-weight: 600; color: var(--color-primary);">@poker_hearts</span>
-              </div>
-            </div>
+          <a href="https://www.instagram.com/poker_hearts/" target="_blank" class="direct-connect-cell">
+            <div class="cell-icon-box" style="color: #e1306c;">📷</div>
+            <span class="cell-label">Instagram</span>
+            <span class="cell-value-text">@poker_hearts</span>
           </a>
 
         </div>
 
-        <div style="text-align: center;">
+        <div style="text-align: center; margin-top: 3rem;">
           <a href="resume.pdf" download class="sidebar-cta-btn" style="display: inline-block; padding: 0.85rem 1.75rem; border-radius: var(--radius-sm); background: var(--accent-blue); color: white; font-weight: 700; text-decoration: none; font-size: 0.9rem; transition: var(--transition); box-shadow: var(--shadow-card);">
             📂 Download Executive Brief (PDF)
           </a>
@@ -1111,5 +1011,9 @@
   
   <!-- Custom Logic Script -->
   <script src="script.js"></script>
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-ring" id="customCursorRing"></div>
 </body>
 </html>

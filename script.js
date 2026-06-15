@@ -305,7 +305,7 @@ function animate() {
 
 
 /* ==========================================================================
-   DYNAMIC PROJECT DATABASE (22 Modules Structured as PRDs / PoCs)
+   DYNAMIC PROJECT DATABASE (23 Modules Structured as PRDs / PoCs)
    ========================================================================== */
 const projectData = [
   {
@@ -615,6 +615,20 @@ const projectData = [
       strategy: "Created a payment-delay alerting system that automatically flags client accounts when payment lags exceed credit limits by 7 days.",
       metrics: "Bad debt write-offs reduced by 45%; average accounts receivable collection cycle shortened by 12 days; automated risk alerting coverage at 100%."
     }
+  },
+  {
+    id: "MOD_23",
+    category: "ai-systems",
+    title: "PrepMaster AI — Adaptive Mock Exam Engine",
+    desc: "A single-page web app that converts any question paper — PDF, scanned image, or plain text — into a fully interactive mock exam. Uses PDF.js and Tesseract.js for on-device text extraction and OCR, with support for 7+ AI providers for question generation and auto-solving.",
+    outcome: "Fully client-side exam platform with zero backend, supporting multi-format input, gamified KBC mode, and detailed analytics export.",
+    tech: ["PDF.js", "Tesseract.js OCR", "Multi-Provider LLM", "Client-Side Architecture"],
+    prd: {
+      bottleneck: "Students and professionals preparing for competitive exams had no fast way to turn existing question papers into interactive, timed practice tests. Manual rekeying was tedious, and existing platforms required subscriptions and server uploads for basic mock-test functionality.",
+      userGoal: "Exam candidates and educators. The goal is to instantly convert any exam paper into an adaptive, timed mock test — entirely in the browser, with zero data leaving the device.",
+      strategy: "Chose a fully client-side architecture using PDF.js for text extraction and Tesseract.js for OCR on scanned papers, eliminating server costs and privacy concerns. Integrated 7+ LLM providers (OpenAI, Gemini, Claude, Groq, DeepSeek, OpenRouter, NVIDIA NIM) via REST with API keys stored only in sessionStorage. Added a gamified KBC mode with lifelines (50-50, Ask Expert, Flip Question) to boost engagement and retention.",
+      metrics: "Zero infrastructure cost; supports PDF, image (OCR), and text input with bilingual merging; autosave with session resume; CSV/JSON export of detailed results analytics; 3 visual themes (dark, light, KBC)."
+    }
   }
 ];
 
@@ -800,7 +814,8 @@ function getSemanticLinks(id) {
     MOD_19: { project: "MOD_12", theme: "Operations Research", area: "Operational Analytics" },
     MOD_20: { project: "MOD_04", theme: "Operations Research", area: "Process Improvement" },
     MOD_21: { project: "MOD_17", theme: "Operations Research", area: "Process Improvement" },
-    MOD_22: { project: "MOD_15", theme: "Predictive Analytics", area: "Operational Analytics" }
+    MOD_22: { project: "MOD_15", theme: "Predictive Analytics", area: "Operational Analytics" },
+    MOD_23: { project: "MOD_01", theme: "AI-Augmented Decision Making", area: "AI Automation" }
   };
   return links[id] || { project: "MOD_02", theme: "General Systems", area: "Business Systems" };
 }

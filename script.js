@@ -11,8 +11,8 @@ let tearMat;
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
-const windowHalfX = window.innerWidth / 2;
-const windowHalfY = window.innerHeight / 2;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
 
 function initThree() {
   const canvas = document.getElementById('webgl-canvas');
@@ -157,6 +157,8 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  windowHalfX = window.innerWidth / 2;
+  windowHalfY = window.innerHeight / 2;
 }
 
 function onMouseMove(event) {
@@ -431,7 +433,7 @@ const projectData = [
       bottleneck: "Overlapping regional territory boundaries in distributor channels caused channel conflict, pricing erosion, and dealer disputes due to lack of a central geofencing record.",
       userGoal: "Territory sales managers and legal compliance teams. The goal is to map dealership allocations and enforce territorial compliance.",
       strategy: "Implemented a territory mapping database with automated warning triggers for underperforming zones. Bypassed heavy GIS server setups by using basic boundary check rules.",
-      metrics: "Channel overlapping disputes reduced to zero; automatic SLA alerts triggered for dealer underperformance; contract audit times reduced by 70."
+      metrics: "Channel overlapping disputes reduced to zero; automatic SLA alerts triggered for dealer underperformance; contract audit times reduced by 70%."
     }
   },
   {
@@ -657,20 +659,9 @@ function highlightProject(id) {
   }
 }
 
-// Filter projects in the projectsGrid
-function filterProjects(category) {
-  const rows = document.querySelectorAll('#projectsGrid .project-row');
-  rows.forEach(row => {
-    const rowCat = row.getAttribute('data-category');
-    if (category === 'all' || rowCat === category) {
-      row.style.display = 'grid';
-    } else {
-      row.style.display = 'none';
-    }
-  });
-}
 
-// Render all 22 projects in a single clean grid
+
+// Render all 23 projects in a single clean grid
 function renderProjectGrid() {
   const grid = document.getElementById('projectsGrid');
   if (!grid) return;
@@ -685,7 +676,7 @@ function renderProjectGrid() {
     row.id = `project-row-${proj.id}`;
  
     const isFlagship = ["MOD_01", "MOD_02", "MOD_03", "MOD_04"].includes(proj.id);
-    const links = getSemanticLinks(proj.id);
+
  
     row.innerHTML = `
       <div class="row-meta">
@@ -749,6 +740,7 @@ function renderProjectGrid() {
           </div>
         `;
         caseStudyDrawer.classList.add('open');
+        caseStudyDrawer.setAttribute('aria-expanded', 'true');
       }
     });
   });
@@ -1066,11 +1058,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeDrawerBtn && caseStudyDrawer) {
     closeDrawerBtn.addEventListener('click', () => {
       caseStudyDrawer.classList.remove('open');
+      caseStudyDrawer.setAttribute('aria-expanded', 'false');
     });
   }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && caseStudyDrawer && caseStudyDrawer.classList.contains('open')) {
+      caseStudyDrawer.classList.remove('open');
+      caseStudyDrawer.setAttribute('aria-expanded', 'false');
+    }
+  });
   document.addEventListener('click', (e) => {
     if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.closest('.project-row')) {
       caseStudyDrawer.classList.remove('open');
+      caseStudyDrawer.setAttribute('aria-expanded', 'false');
     }
   });
 

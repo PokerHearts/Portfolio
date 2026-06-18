@@ -35,6 +35,10 @@
   
   --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   --radius-sm: 4px;
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --max-width: 1400px;
+  --radius-md: 8px;
 }
 
 body.theme-paper {
@@ -47,6 +51,8 @@ body.theme-paper {
   --border-dark: var(--ink);
   --accent: #8a6d3b;
   --bg-nav-scrolled: rgba(243, 238, 228, 0.85);
+  --accent-purple: #7c3aed;
+  --accent-blue: #2563eb;
 }
 
 /* ==========================================================================
@@ -58,13 +64,22 @@ body.theme-paper {
   padding: 0;
 }
 
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
 html {
-  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   height: 100%;
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html:has(.hero-section) {
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -205,13 +220,16 @@ body {
 
 /* Section transitions & layouts */
 section {
-  min-height: 100vh;
   width: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+html:has(.hero-section) section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   justify-content: center;
   padding: clamp(6rem, 8vw, 8rem) var(--gutter);
   background-color: var(--bg-canvas);
@@ -234,6 +252,33 @@ section {
   .wipe-reveal {
     clip-path: none !important;
   }
+  .ticker-track { animation: none !important; }
+  .custom-cursor, .custom-cursor-ring { display: none !important; }
+  .case-study-drawer { transition: none !important; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+section .section-head-title,
+section .work-list,
+section .capability-grid,
+section .exp-row,
+section .research-center-content,
+section .writing-list,
+section .contact-center-content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+section.revealed .section-head-title,
+section.revealed .work-list,
+section.revealed .capability-grid,
+section.revealed .exp-row,
+section.revealed .research-center-content,
+section.revealed .writing-list,
+section.revealed .contact-center-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Subpage Scrolled Navigation Header (Adaptive theme override) */
@@ -594,8 +639,7 @@ section {
 
 .project-row:hover {
   background: rgba(15, 23, 42, 0.012);
-  padding-left: 1rem;
-  padding-right: 1rem;
+  transform: translateX(8px);
 }
 
 .row-meta {
@@ -613,7 +657,7 @@ section {
 
 .row-badge {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--accent-purple);
@@ -673,7 +717,7 @@ section {
 
 .row-outcome-lbl {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   color: var(--accent-blue);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -914,7 +958,7 @@ section {
 
 .res-status, .writing-tag {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   color: var(--accent-blue);
   letter-spacing: 0.05em;
@@ -1022,7 +1066,7 @@ section {
 
 .cell-label {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   color: var(--color-muted);
   letter-spacing: 0.08em;
@@ -1109,7 +1153,7 @@ section {
 
 .footer-tech-chip {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   background: var(--bg-canvas);
   padding: 2px 6px;
   border-radius: var(--radius-sm);

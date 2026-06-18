@@ -927,6 +927,15 @@ document.addEventListener('DOMContentLoaded', () => {
         bar.style.height = `${progress}%`;
       }
     }
+
+    const mainNav = document.querySelector('.main-nav');
+    if (mainNav) {
+      if (window.scrollY > 30) {
+        mainNav.classList.add('scrolled');
+      } else {
+        mainNav.classList.remove('scrolled');
+      }
+    }
   });
 
   // HUD Navigation Links Smooth Scroll
@@ -1241,6 +1250,14 @@ document.addEventListener('DOMContentLoaded', () => {
           msg.textContent = "DECRYPTED: ACCESS GRANTED. 108-PERSON TEAM LED.";
           msg.style.color = "var(--accent)";
           showToast("Secret Vault Unlocked!");
+          
+          // Show Vault Modal after small delay
+          setTimeout(() => {
+            const vaultModal = document.getElementById('vaultModal');
+            if (vaultModal) {
+              vaultModal.classList.add('open');
+            }
+          }, 800);
         } else if (val.length > 0) {
           msg.textContent = "ENCRYPTED. WRONG PASSCODE.";
           msg.style.color = "#ef4444";
@@ -1250,6 +1267,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+
+    // Vault Modal Close actions
+    const closeVaultBtn = document.getElementById('closeVaultBtn');
+    const vaultModal = document.getElementById('vaultModal');
+    if (closeVaultBtn && vaultModal) {
+      closeVaultBtn.addEventListener('click', () => {
+        vaultModal.classList.remove('open');
+      });
+      vaultModal.addEventListener('click', (e) => {
+        if (e.target === vaultModal) {
+          vaultModal.classList.remove('open');
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && vaultModal.classList.contains('open')) {
+          vaultModal.classList.remove('open');
+        }
+      });
+    }
   }
 
   // Exit Intent / Close Button Crying Proximity

@@ -441,7 +441,7 @@
       <div class="contact-secure-vault">
         <span class="hud-mono" style="font-size: 0.65rem; color: var(--color-muted); display: block; margin-bottom: 0.75rem; letter-spacing: 0.12em;">[ SECURE VAULT ACCESS ]</span>
         <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-          <input type="password" id="passwordField" placeholder="Enter decrypt passcode..." autocomplete="current-password">
+          <input type="password" id="passwordField" placeholder="Enter decrypt passcode (try: 'poker')..." autocomplete="current-password">
           <span id="vault-msg" style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted); letter-spacing: 0.05em; transition: var(--transition);">System locked. Standing by.</span>
         </div>
       </div>
@@ -450,6 +450,56 @@
       &copy; 2026 Pratap Jindal &middot; Chandigarh
     </div>
   </section>
+
+  <!-- Confidential Executive Vault Modal (Unlocked by entering passcode 'poker') -->
+  <div id="vaultModal" class="vault-modal-overlay">
+    <div class="vault-modal-content">
+      <div class="vault-modal-header">
+        <div>
+          <span class="mono-tag" style="font-size: 0.65rem; background: rgba(201, 162, 75, 0.1); border-color: var(--accent); color: var(--accent); padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid var(--accent); font-family: var(--font-mono); text-transform: uppercase;">CLASSIFIED DECRYPTION LEVEL 1</span>
+          <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 400; color: var(--accent); margin-top: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Confidential Executive Briefing</h2>
+        </div>
+        <button id="closeVaultBtn" class="close-vault-btn" aria-label="Close Executive Briefing">&times;</button>
+      </div>
+      <div class="vault-modal-body">
+        <p class="vault-intro" style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-secondary); margin-bottom: 2rem; border-left: 2px solid var(--accent); padding-left: 1rem; line-height: 1.6;">
+          SECURITY VERIFICATION: Pratap Jindal &mdash; AI PM &amp; Operations Lead. Decrypted session logs detail the strategic architecture behind automating ₹75Cr+ in internal operations.
+        </p>
+        
+        <div class="vault-stats-grid">
+          <div class="vault-stat-card">
+            <span class="vault-stat-num">108</span>
+            <span class="vault-stat-label">Agents Governed</span>
+            <p class="vault-stat-desc">Designed regional SOPs, SLA alerts, and workflow governance frameworks across a 108-person field operations team.</p>
+          </div>
+          <div class="vault-stat-card">
+            <span class="vault-stat-num">₹75Cr+</span>
+            <span class="vault-stat-label">Operations Audited</span>
+            <p class="vault-stat-desc">Designed automated warning triggers and rules engines for regional distributors, eliminating pricing erosion and leakage loops.</p>
+          </div>
+          <div class="vault-stat-card">
+            <span class="vault-stat-num">23</span>
+            <span class="vault-stat-label">Systems Shipped</span>
+            <p class="vault-stat-desc">Product managed and developed 3 AI systems, 14 supply chain dashboards, 3 Chrome extensions, and 3 automated scripting modules.</p>
+          </div>
+        </div>
+
+        <div class="vault-deepdive-section" style="margin-top: 2.5rem;">
+          <h3 style="font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase; color: var(--color-primary); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-thin); padding-bottom: 0.5rem; letter-spacing: 0.05em;">The B2B Automation Strategy</h3>
+          <p style="font-size: 0.9rem; color: var(--color-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            At Group Biopolis, the core challenge was scaling distributor operations without linear headcount growth. By implementing custom-built local workflows, geofencing rule models, and local browser-based AI architectures, we achieved zero-infrastructure server costs.
+          </p>
+          <p style="font-size: 0.9rem; color: var(--color-secondary); line-height: 1.7;">
+            The implementation of <strong>PrepMaster AI</strong> (using client-side PDF.js/Tesseract.js OCR and session-stored API keys) is a testament to this philosophy: premium, zero-cost scaling that guarantees 100% data privacy for candidates.
+          </p>
+        </div>
+
+        <div class="vault-cta-bar" style="margin-top: 3rem; text-align: center; margin-bottom: 1rem;">
+          <a href="mailto:pratapjindal812@gmail.com?subject=Strategic PM Inquiry" class="vault-cta-btn">Initiate Strategy Synch</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Include Core Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

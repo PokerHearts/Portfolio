@@ -19,7 +19,7 @@ function initThree() {
   if (!canvas) return;
 
   scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0b0d10, 0.025);
+  scene.fog = new THREE.FogExp2(0xf3eee4, 0.025);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 2, 23); // Framed slightly lower and closer
@@ -47,7 +47,7 @@ function initThree() {
   // Head Base Mesh (Low detail icosahedron for clean facets)
   const headGeom = new THREE.IcosahedronGeometry(5, 1);
   headSolidMat = new THREE.MeshPhongMaterial({
-    color: 0x161a22,
+    color: 0xE6DFD3,
     flatShading: true,
     shininess: 30,
     specular: 0x222a36
@@ -55,12 +55,12 @@ function initThree() {
   const headSolid = new THREE.Mesh(headGeom, headSolidMat);
   robotHeadGroup.add(headSolid);
 
-  // Head Wireframe Overlay (Antique gold lines)
+  // Head Wireframe Overlay (Dark ink lines)
   headWireMat = new THREE.MeshBasicMaterial({
-    color: 0xC9A24B,
+    color: 0x181410,
     wireframe: true,
     transparent: true,
-    opacity: 0.18
+    opacity: 0.3
   });
   const headWire = new THREE.Mesh(headGeom, headWireMat);
   robotHeadGroup.add(headWire);
@@ -76,10 +76,10 @@ function initThree() {
   visor.position.set(0, 0.4, 3.8);
   robotHeadGroup.add(visor);
 
-  // Glowing Eyes (Cyan Spheres)
+  // Glowing Eyes (Dark ink default)
   const eyeGeom = new THREE.SphereGeometry(0.35, 6, 6);
   eyeMat = new THREE.MeshBasicMaterial({
-    color: 0x38bdf8
+    color: 0x181410
   });
   leftEye = new THREE.Mesh(eyeGeom, eyeMat);
   leftEye.position.set(-1.6, 0.4, 4.6);
@@ -110,7 +110,7 @@ function initThree() {
   // Ears / Side Bolts
   const earGeom = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 6);
   earMat = new THREE.MeshPhongMaterial({
-    color: 0x242d3d,
+    color: 0xD6CFBF,
     flatShading: true,
     shininess: 30
   });
@@ -136,7 +136,7 @@ function initThree() {
 
   const antennaTipGeom = new THREE.SphereGeometry(0.35, 6, 6);
   antennaTipMat = new THREE.MeshBasicMaterial({
-    color: 0xC9A24B
+    color: 0x181410
   });
   const antennaTip = new THREE.Mesh(antennaTipGeom, antennaTipMat);
   antennaTip.position.set(0, 6.9, 0);
@@ -877,38 +877,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             });
 
-            // Special Section Theme flips (Writing Cream Page theme)
-            if (sectionId === 'writing') {
-              document.body.classList.add('theme-paper');
-              // Interpolate WebGL canvas fog to cream paper color
-              if (scene && scene.fog) {
-                gsap.to(scene.fog.color, { r: 243/255, g: 238/255, b: 228/255, duration: 0.8 });
-              }
-              // Interpolate Mascot Materials to sketch/manuscript style
-              if (headSolidMat) gsap.to(headSolidMat.color, { r: 0xE6/255, g: 0xDF/255, b: 0xD3/255, duration: 0.8 });
-              if (headWireMat) {
-                gsap.to(headWireMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-                gsap.to(headWireMat, { opacity: 0.3, duration: 0.8 });
-              }
-              if (eyeMat) gsap.to(eyeMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-              if (earMat) gsap.to(earMat.color, { r: 0xD6/255, g: 0xCF/255, b: 0xBF/255, duration: 0.8 });
-              if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-            } else {
-              document.body.classList.remove('theme-paper');
-              // Interpolate WebGL canvas fog back to dark color
-              if (scene && scene.fog) {
-                gsap.to(scene.fog.color, { r: 11/255, g: 13/255, b: 16/255, duration: 0.8 });
-              }
-              // Interpolate Mascot Materials back to futuristic dark style
-              if (headSolidMat) gsap.to(headSolidMat.color, { r: 0x16/255, g: 0x1a/255, b: 0x22/255, duration: 0.8 });
-              if (headWireMat) {
-                gsap.to(headWireMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
-                gsap.to(headWireMat, { opacity: 0.18, duration: 0.8 });
-              }
-              if (eyeMat) gsap.to(eyeMat.color, { r: 0x38/255, g: 0xbd/255, b: 0xf8/255, duration: 0.8 });
-              if (earMat) gsap.to(earMat.color, { r: 0x24/255, g: 0x2d/255, b: 0x3d/255, duration: 0.8 });
-              if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
-            }
+            // Handled by global theme toggler
           }
         }
       });
@@ -1428,4 +1397,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateLiveClock();
   setInterval(updateLiveClock, 1000);
+
+  // Global Theme Toggler (defaults to light mode)
+  let currentTheme = 'light';
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    const isDark = theme === 'dark';
+    
+    if (isDark) {
+      document.body.classList.add('theme-dark');
+      
+      // Interpolate WebGL canvas fog to dark color
+      if (scene && scene.fog) {
+        gsap.to(scene.fog.color, { r: 11/255, g: 13/255, b: 16/255, duration: 0.8 });
+      }
+      // Interpolate Mascot Materials to dark mode
+      if (headSolidMat) gsap.to(headSolidMat.color, { r: 0x16/255, g: 0x1a/255, b: 0x22/255, duration: 0.8 });
+      if (headWireMat) {
+        gsap.to(headWireMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
+        gsap.to(headWireMat, { opacity: 0.18, duration: 0.8 });
+      }
+      if (eyeMat) gsap.to(eyeMat.color, { r: 0x38/255, g: 0xbd/255, b: 0xf8/255, duration: 0.8 });
+      if (earMat) gsap.to(earMat.color, { r: 0x24/255, g: 0x2d/255, b: 0x3d/255, duration: 0.8 });
+      if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
+      
+      // Update 2D SVG HUD robot head colors
+      const pupils = document.querySelectorAll('.robot-pupil');
+      pupils.forEach(p => p.setAttribute('fill', '#38bdf8'));
+      const visor = document.querySelector('.robot-head-group rect');
+      if (visor) visor.setAttribute('fill', 'url(#nav-visor-grad)');
+    } else {
+      document.body.classList.remove('theme-dark');
+      
+      // Interpolate WebGL canvas fog to light color
+      if (scene && scene.fog) {
+        gsap.to(scene.fog.color, { r: 243/255, g: 238/255, b: 228/255, duration: 0.8 });
+      }
+      // Interpolate Mascot Materials to light mode
+      if (headSolidMat) gsap.to(headSolidMat.color, { r: 0xE6/255, g: 0xDF/255, b: 0xD3/255, duration: 0.8 });
+      if (headWireMat) {
+        gsap.to(headWireMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+        gsap.to(headWireMat, { opacity: 0.3, duration: 0.8 });
+      }
+      if (eyeMat) gsap.to(eyeMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+      if (earMat) gsap.to(earMat.color, { r: 0xD6/255, g: 0xCF/255, b: 0xBF/255, duration: 0.8 });
+      if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
+      
+      // Update 2D SVG HUD robot head colors to dark ink theme
+      const pupils = document.querySelectorAll('.robot-pupil');
+      pupils.forEach(p => p.setAttribute('fill', '#181410'));
+      const visor = document.querySelector('.robot-head-group rect');
+      if (visor) visor.setAttribute('fill', 'rgba(24, 20, 16, 0.05)');
+    }
+
+    // Update theme toggle icons
+    const themeToggleBtns = document.querySelectorAll('.hud-theme-toggle');
+    themeToggleBtns.forEach(btn => {
+      btn.textContent = isDark ? '☀️' : '🌙';
+    });
+    
+    // Store preference
+    localStorage.setItem('portfolio-theme', theme);
+  }
+
+  // Initialize saved theme or default to light
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+  setTimeout(() => {
+    applyTheme(savedTheme);
+  }, 100);
+
+  // Wire up theme toggles
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.hud-theme-toggle');
+    if (btn) {
+      applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+    }
+  });
 });

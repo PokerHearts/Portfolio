@@ -4,21 +4,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital,wght@0,400;0,900;1,400&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
 :root {
-  /* Dark Default Theme */
-  --bg: #0B0D10;
-  --text: #ECE8E0;
-  --text-dim: #8A8F98;
-  --accent: #C9A24B;
-  --line: rgba(236,232,224,0.08);
-  
-  --paper: #F3EEE4;
-  --ink: #181410;
-  --line-paper: rgba(24,20,16,0.12);
+  /* Light Default Theme (Paper) */
+  --bg: #F3EEE4;
+  --text: #181410;
+  --text-dim: rgba(24, 20, 16, 0.7);
+  --accent: #8a6d3b;
+  --line: rgba(24,20,16,0.12);
 
   /* Layout Variables */
   --gutter: clamp(1.25rem, 4vw, 4rem);
 
   /* Mapping to existing tokens in style.css */
+  --bg-canvas: var(--bg);
+  --bg-surface: #FAF7F0;
+  --color-primary: var(--text);
+  --color-secondary: var(--text-dim);
+  --color-muted: rgba(24, 20, 16, 0.45);
+  --border-thin: var(--line);
+  --border-dark: var(--text);
+  
+  --bg-nav-scrolled: rgba(243, 238, 228, 0.85);
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-sm: 4px;
+  --accent-purple: #7c3aed;
+  --accent-blue: #2563eb;
+  --max-width: 1400px;
+  --radius-md: 8px;
+}
+
+body.theme-dark {
+  --bg: #0B0D10;
+  --text: #ECE8E0;
+  --text-dim: #8A8F98;
+  --accent: #C9A24B;
+  --line: rgba(236,232,224,0.08);
+
   --bg-canvas: var(--bg);
   --bg-surface: #0e1115;
   --color-primary: var(--text);
@@ -29,30 +54,8 @@
   
   --bg-nav-scrolled: rgba(11, 13, 16, 0.85);
 
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  
-  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --radius-sm: 4px;
   --accent-purple: #8b5cf6;
   --accent-blue: #3b82f6;
-  --max-width: 1400px;
-  --radius-md: 8px;
-}
-
-body.theme-paper {
-  --bg-canvas: var(--paper);
-  --bg-surface: #FAF7F0;
-  --color-primary: var(--ink);
-  --color-secondary: rgba(24, 20, 16, 0.7);
-  --color-muted: rgba(24, 20, 16, 0.45);
-  --border-thin: var(--line-paper);
-  --border-dark: var(--ink);
-  --accent: #8a6d3b;
-  --bg-nav-scrolled: rgba(243, 238, 228, 0.85);
-  --accent-purple: #7c3aed;
-  --accent-blue: #2563eb;
 }
 
 /* ==========================================================================
@@ -1535,11 +1538,11 @@ section.revealed .contact-center-content {
 }
 
 .work-row:hover {
-  background-color: rgba(236, 232, 224, 0.02);
+  background-color: rgba(24, 20, 16, 0.02);
 }
 
-body.theme-paper .work-row:hover {
-  background-color: rgba(24, 20, 16, 0.02);
+body.theme-dark .work-row:hover {
+  background-color: rgba(236, 232, 224, 0.02);
 }
 
 .work-row-title-container {

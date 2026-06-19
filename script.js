@@ -2,145 +2,39 @@
    THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT CANVAS
    ========================================================================== */
 let scene, camera, renderer, dirLight;
-let robotHeadGroup;
-let headSolidMat, headWireMat, earMat, eyeMat, antennaTipMat;
-let leftEye, rightEye;
-let leftTear3D, rightTear3D;
-let tearMat;
 
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
+const windowHalfX = window.innerWidth / 2;
+const windowHalfY = window.innerHeight / 2;
 
 function initThree() {
   const canvas = document.getElementById('webgl-canvas');
   if (!canvas) return;
 
   scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0xf3eee4, 0.025);
+  scene.background = new THREE.Color(0xf1f5f9);
+  scene.fog = new THREE.FogExp2(0xf1f5f9, 0.025);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 2, 23); // Framed slightly lower and closer
+  camera.position.set(0, 5, 25);
 
   renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    alpha: true,
+    alpha: false,
     antialias: true,
     powerPreference: "high-performance"
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
   scene.add(ambientLight);
 
-  dirLight = new THREE.DirectionalLight(0xeef2ff, 1.4);
-  dirLight.position.set(15, 25, 20);
+  dirLight = new THREE.DirectionalLight(0xeef2ff, 1.2);
+  dirLight.position.set(10, 20, 15);
   scene.add(dirLight);
-
-  // 3. Construct 3D Low-Poly Mascot Robot Head (Aesthetics matching Yuta Abe cat head)
-  robotHeadGroup = new THREE.Group();
-  scene.add(robotHeadGroup);
-
-  // Head Base Mesh (Low detail icosahedron for clean facets)
-  const headGeom = new THREE.IcosahedronGeometry(5, 1);
-  headSolidMat = new THREE.MeshPhongMaterial({
-    color: 0xE6DFD3,
-    flatShading: true,
-    shininess: 30,
-    specular: 0x222a36
-  });
-  const headSolid = new THREE.Mesh(headGeom, headSolidMat);
-  robotHeadGroup.add(headSolid);
-
-  // Head Wireframe Overlay (Dark ink lines)
-  headWireMat = new THREE.MeshBasicMaterial({
-    color: 0x181410,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.3
-  });
-  const headWire = new THREE.Mesh(headGeom, headWireMat);
-  robotHeadGroup.add(headWire);
-
-  // Visor (Dark glass bar across eyes)
-  const visorGeom = new THREE.BoxGeometry(6.5, 1.8, 1.8);
-  const visorMat = new THREE.MeshPhongMaterial({
-    color: 0x090b0e,
-    flatShading: true,
-    shininess: 80
-  });
-  const visor = new THREE.Mesh(visorGeom, visorMat);
-  visor.position.set(0, 0.4, 3.8);
-  robotHeadGroup.add(visor);
-
-  // Glowing Eyes (Dark ink default)
-  const eyeGeom = new THREE.SphereGeometry(0.35, 6, 6);
-  eyeMat = new THREE.MeshBasicMaterial({
-    color: 0x181410
-  });
-  leftEye = new THREE.Mesh(eyeGeom, eyeMat);
-  leftEye.position.set(-1.6, 0.4, 4.6);
-  robotHeadGroup.add(leftEye);
-
-  rightEye = new THREE.Mesh(eyeGeom, eyeMat);
-  rightEye.position.set(1.6, 0.4, 4.6);
-  robotHeadGroup.add(rightEye);
-
-  // 3D Tears (glowing blue/cyan drops, initially scale 0)
-  const tearGeom = new THREE.CylinderGeometry(0.05, 0.15, 0.8, 6);
-  tearMat = new THREE.MeshBasicMaterial({
-    color: 0x38bdf8,
-    transparent: true,
-    opacity: 0
-  });
-  
-  leftTear3D = new THREE.Mesh(tearGeom, tearMat);
-  leftTear3D.position.set(-1.6, -0.4, 4.6);
-  leftTear3D.scale.set(0.001, 0.001, 0.001);
-  robotHeadGroup.add(leftTear3D);
-
-  rightTear3D = new THREE.Mesh(tearGeom, tearMat);
-  rightTear3D.position.set(1.6, -0.4, 4.6);
-  rightTear3D.scale.set(0.001, 0.001, 0.001);
-  robotHeadGroup.add(rightTear3D);
-
-  // Ears / Side Bolts
-  const earGeom = new THREE.CylinderGeometry(0.8, 1.2, 0.8, 6);
-  earMat = new THREE.MeshPhongMaterial({
-    color: 0xD6CFBF,
-    flatShading: true,
-    shininess: 30
-  });
-  const leftEar = new THREE.Mesh(earGeom, earMat);
-  leftEar.rotation.z = Math.PI / 2;
-  leftEar.position.set(-4.8, 0, 0);
-  robotHeadGroup.add(leftEar);
-
-  const rightEar = new THREE.Mesh(earGeom, earMat);
-  rightEar.rotation.z = -Math.PI / 2;
-  rightEar.position.set(4.8, 0, 0);
-  robotHeadGroup.add(rightEar);
-
-  // Antenna
-  const antennaMastGeom = new THREE.CylinderGeometry(0.08, 0.15, 2.2, 4);
-  const antennaMastMat = new THREE.MeshPhongMaterial({
-    color: 0x334155,
-    flatShading: true
-  });
-  const antennaMast = new THREE.Mesh(antennaMastGeom, antennaMastMat);
-  antennaMast.position.set(0, 5.8, 0);
-  robotHeadGroup.add(antennaMast);
-
-  const antennaTipGeom = new THREE.SphereGeometry(0.35, 6, 6);
-  antennaTipMat = new THREE.MeshBasicMaterial({
-    color: 0x181410
-  });
-  const antennaTip = new THREE.Mesh(antennaTipGeom, antennaTipMat);
-  antennaTip.position.set(0, 6.9, 0);
-  robotHeadGroup.add(antennaTip);
 
   // Register Event Handlers
   window.addEventListener('resize', onWindowResize);
@@ -157,8 +51,6 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  windowHalfX = window.innerWidth / 2;
-  windowHalfY = window.innerHeight / 2;
 }
 
 function onMouseMove(event) {
@@ -267,39 +159,6 @@ function animate() {
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
   }
 
-  // Mascot idle auto-sway & cursor tracking
-  if (robotHeadGroup) {
-    const time = Date.now() * 0.001;
-    
-    // Idle floating y-movement
-    robotHeadGroup.position.y = Math.sin(time * 1.5) * 0.25;
-    
-    // Idle rotation sways
-    const swayY = Math.sin(time * 0.8) * 0.08;
-    const swayX = Math.cos(time * 0.8) * 0.04;
-    const swayZ = Math.sin(time * 1.2) * 0.04;
-    
-    // Check if passwordField is currently focused to let focus rotation take precedence
-    const isPasswordFocused = document.activeElement && document.activeElement.id === 'passwordField';
-    
-    if (!isPasswordFocused) {
-      if (!isReduced) {
-        // Rotate head group to face mouse position + add idle sway
-        const targetRotY = swayY + mouseX * 0.08;
-        const targetRotX = swayX + mouseY * 0.06;
-        const targetRotZ = swayZ + mouseX * 0.02;
-        
-        robotHeadGroup.rotation.y += (targetRotY - robotHeadGroup.rotation.y) * 0.1;
-        robotHeadGroup.rotation.x += (targetRotX - robotHeadGroup.rotation.x) * 0.1;
-        robotHeadGroup.rotation.z += (targetRotZ - robotHeadGroup.rotation.z) * 0.1;
-      } else {
-        robotHeadGroup.rotation.y += (swayY - robotHeadGroup.rotation.y) * 0.1;
-        robotHeadGroup.rotation.x += (swayX - robotHeadGroup.rotation.x) * 0.1;
-        robotHeadGroup.rotation.z += (swayZ - robotHeadGroup.rotation.z) * 0.1;
-      }
-    }
-  }
-
   if (renderer && scene && camera) {
     renderer.render(scene, camera);
   }
@@ -307,77 +166,77 @@ function animate() {
 
 
 /* ==========================================================================
-   DYNAMIC PROJECT DATABASE (23 Modules Structured as PRDs / PoCs)
+   DYNAMIC PROJECT DATABASE (18 Modules Structured as PRDs / PoCs)
    ========================================================================== */
 const projectData = [
   {
     id: "MOD_01",
     category: "ai-systems",
-    title: "AI Voice Mock Interview Simulator & Portal",
-    desc: "A conversational AI mock interview portal built as a rapid MVP to evaluate candidate speaking confidence under pressure. Handles verbal delivery, noise thresholds, and dynamic conversation flow.",
-    outcome: "Lowered costs to ~$0.05 per interview, capturing 100% of verbal performance feedback markers.",
-    tech: ["Conversational AI", "Speech-to-Text", "API Optimization", "Local Storage"],
+    title: "AI Voice Mock Interview Portal",
+    desc: "Product Owner—Architected conversational AI interview portal, optimized Speech-to-Text latency, designed adoption strategy across operations.",
+    outcome: "Conducted digital-literacy training for 30+ non-technical staff—achieved 100% tool adoption rate.",
+    tech: ["Conversational AI", "Speech-to-Text", "Latency Optimization", "Operations Adoption"],
     prd: {
-      bottleneck: "Recruiters spend ~15-20 minutes per candidate on initial phone screening, yet 70% of candidates fail basic communication or confidence markers, creating a massive scheduling and manual interviewing overhead.",
-      userGoal: "Corporate candidates and recruiters. The goal is to provide a low-cost, automated verbal evaluation sandbox that filters low-confidence candidates before manual loops.",
-      strategy: "Chose Gemini Flash API coupled with browser-side voice activity detection (VAD). This trade-off prioritized latency (~1.2s response time) and cost (~$0.05 per interview) over a heavier, highly-customized Whisper/LLM system which would cost ~$1.20 per run and add 3-4s lag.",
-      metrics: "70% reduction in manual screening hours; candidate preparation score variance <5% compared to human grading; API operating cost maintained below $0.10/session."
+      bottleneck: "Unoptimized interview routing pipelines caused candidate evaluation latency loops of up to 48 hours, causing candidate drop-offs during high-volume recruiting.",
+      userGoal: "Recruiting teams and applicants. The goal is to provide a zero-latency conversational evaluation channel.",
+      strategy: "Designed conversational state pipelines using local Web Audio caching and custom interrupt thresholds, reducing transcription wait loops.",
+      metrics: "Conducted training sessions for 30+ non-technical staff, resulting in a 100% adoption rate of the portal."
     }
   },
   {
     id: "MOD_02",
     category: "ai-systems",
-    title: "AI-Powered Call QA Analysis System",
-    desc: "An automated quality evaluation engine processing daily telecalling recordings. Analyzes transcripts to provide structured feedback on compliance, script alignment, and objection handling.",
-    outcome: "Eliminated manual QA sampling, driving 100% evaluation coverage and automated feedback loops for team leads.",
-    tech: ["Speech Analytics", "Natural Language Processing", "Task Queuing", "Operations Dashboard"],
+    title: "AI Call QA Analysis System",
+    desc: "Product Owner—Designed speech analytics pipeline for field team QA, managed SOP documentation and team training.",
+    outcome: "Created and maintained SOPs, training guides, and systems directory; established weekly structured training cadence.",
+    tech: ["Speech Analytics", "NLP Audits", "SOP Automation", "Team Training"],
     prd: {
-      bottleneck: "Manual audits by QA leads were capped at <2% of daily sales calls due to sheer volume (1,200+ calls daily), leaving script compliance violations and lost sales objections completely unmonitored.",
-      userGoal: "Quality assurance supervisors and sales team leads. The goal is to audit 100% of daily call recordings and generate automated performance dashboards.",
-      strategy: "Utilized an automated audio ingestion pipeline and batch-processed LLM analysis. Relied on lightweight semantic evaluation models to filter script adherence and customer intent, optimizing rate-limit thresholds rather than deploying expensive, real-time transcription engines.",
-      metrics: "100% call audit coverage (from 2%); 360 manual auditor hours saved monthly; Looker coaching dashboard utilization rate >90% by team leads."
+      bottleneck: "Field sales teams lacked transparent performance evaluation parameters, resulting in subjective audits and compliance gaps.",
+      userGoal: "Operations managers and quality controllers. The goal is to establish transparent compliance logging.",
+      strategy: "Engineered a transcript validation script cross-referencing call audio with SOP keywords, generating real-time quality alerts.",
+      metrics: "Standardized SOP documentation across 18 operational nodes, establishing a weekly training cadence with 100% compliance."
     }
   },
   {
     id: "MOD_03",
     category: "fullstack",
     title: "B2B Order Booking Workspace",
-    desc: "A serverless, mobile-optimized B2B order portal designed to replace scattered communication channels. Features client-side state caching, custom token authentication, and instant invoicing.",
-    outcome: "Slashed recurring booking loops by >60% while running at absolute zero operating cost via serverless hosting.",
-    tech: ["Serverless Architecture", "State Caching", "Token Authentication", "Edge Computing"],
+    desc: "Designed serverless B2B order workspace, optimized state caching and edge computing for real-time operations.",
+    outcome: "80% manual reporting effort reduction via Google Apps Script automation.",
+    tech: ["Serverless Architecture", "State Caching", "Edge Computing", "Real-time sync"],
     prd: {
-      bottleneck: "Field agents and distributors placed orders via unstructured channels (SMS, WhatsApp, Email), resulting in manual SKU transcription errors, invoicing delay loops, and an average order latency of 8 minutes.",
-      userGoal: "Field sales agents and warehouse dispatchers. The goal is to establish a fast, zero-friction ordering portal that guarantees order accuracy.",
-      strategy: "Framed as a rapid MVP using zero-serverless-cost browser-side state management (IndexedDB/caching) and static edge endpoints. Bypassed complex database hosting and dedicated servers to prove model adoption and minimize operational overhead to absolute zero.",
-      metrics: "Order booking latency reduced from 8 minutes to 45 seconds; order transcription accuracy raised to 100%; platform infrastructure operating cost remains at $0.00."
+      bottleneck: "Fragmented dealer ordering formats (WhatsApp/Sheets) caused SKU processing lag and duplicate dispatch inputs.",
+      userGoal: "Logistics agents and channel distributors. The goal is to provide a single booking canvas with real-time stock sync.",
+      strategy: "Optimized browser-side state caching using IndexedDB and edge synchronization routines to prevent offline data loss.",
+      metrics: "Replaced manual invoice compilation loops, achieving an 80% manual reporting effort reduction."
     }
   },
   {
     id: "MOD_04",
     category: "supply-ops",
     title: "Predictive Inventory & PO Optimizer",
-    desc: "A strategic stock governance dashboard tracking absolute inventories, batch histories, safety margins, and active backlogs. Integrates a predictive reordering engine driven by supplier lead-time buffers.",
-    outcome: "Reduced chronic shortages from 17 to 2, optimizing stock rotation and driving 20% sales expansion.",
-    tech: ["Predictive Analytics", "Inventory Control", "Demand Modeling", "Working Capital Optimization"],
+    desc: "Led inventory rationalization project: 500 SKUs → 400 SKUs, reduced shortage complaints from 17 to 2 per cycle, achieved 20% sales lift on rationalized lines.",
+    outcome: "Maintained 98% stock accuracy while managing inventory visibility across both companies.",
+    tech: ["Predictive Analytics", "Safety Buffer Stock", "SKU Rationalization", "Operations Research"],
     prd: {
-      bottleneck: "Stockouts of high-velocity SKUs and overstocking of low-demand inventory tied up working capital and led to frequent sales loss (17 chronic regional stockouts).",
-      userGoal: "Procurement managers and warehouse planners. The goal is to automate reorder suggestions based on rolling demand waves and supplier lead-time variance.",
-      strategy: "Deployed a lightweight predictive heuristic engine using rolling averages and lead-time variance buffers. Avoided over-engineered deep learning models that require continuous GPU server training, proving business value first with basic mathematical logic.",
-      metrics: "Chronic SKU shortages dropped from 17 to 2; average stock rotation cycle accelerated by 25%; regional sales expanded by 20% due to stock availability."
+      bottleneck: "Supplier lead-time volatility caused stock imbalances, where high-velocity lines saw constant out-of-stocks while slow-moving SKUs locked up cash.",
+      userGoal: "Warehouse managers and procurement coordinators. The goal is to stabilize inventory levels.",
+      strategy: "Calculated empirical safety stock buffers and pruned the catalog (500 SKUs to 400 SKUs) based on sales velocity.",
+      metrics: "Shortage complaints dropped from 17 to 2 per cycle; achieved a 20% sales lift on rationalized lines; maintained 98% stock accuracy."
     }
   },
   {
     id: "MOD_05",
     category: "extensions",
-    title: "Looker Studio Real-Time Refresher",
-    desc: "A custom Chrome extension engineered to bypass Looker Studio's 15-minute data caching limits. Injects background event loops to trigger real-time, non-invasive database queries.",
-    outcome: "Enabled real-time, live operational telemetry monitoring for senior executives during key cycles.",
-    tech: ["Chrome Extension API", "DOM Injection", "State Synchronization", "Telemetry Optimization"],
+    title: "Looker Studio Cache Refresher",
+    desc: "Built custom Chrome extension to bypass 15-minute Looker Studio cache delay, enabling real-time dashboard refresh for daily operations.",
+    outcome: "13 Looker Studio dashboards built across 4 functions—used daily by 80-member team.",
+    tech: ["Chrome Extension API", "DOM Injection", "Cache Refresher", "Telemetry Sync"],
     prd: {
-      bottleneck: "Native Looker Studio reports enforce a strict 15-minute caching boundary, preventing operations managers from tracking live dispatch and sales movements during time-sensitive end-of-day cycles.",
-      userGoal: "Executives and warehouse dispatch supervisors. The goal is to enable real-time telemetry monitoring of critical metrics.",
-      strategy: "Built a lightweight Chrome extension that injects background event loops to force data refreshes without reloading the browser. This avoided building a custom, expensive real-time websocket reporting platform.",
-      metrics: "Live dashboard telemetry lag reduced from 15 minutes to instantaneous; 100% filter and viewport preservation rate; zero disruption to active supervisor workflows."
+      bottleneck: "Native Looker Studio reports enforce a strict 15-minute caching boundary, preventing managers from viewing live sales and dispatch movements.",
+      userGoal: "Field supervisors and management analyst. The goal is to enable real-time telemetry updates.",
+      strategy: "Injected background execution threads to force query refreshes, bypassing Looker cache limits without reloading widgets.",
+      metrics: "Built 13 dashboards across Sales, Analytics, Inventory, and Finance, utilized daily by an 80-member cross-functional team."
     }
   },
   {
@@ -433,7 +292,7 @@ const projectData = [
       bottleneck: "Overlapping regional territory boundaries in distributor channels caused channel conflict, pricing erosion, and dealer disputes due to lack of a central geofencing record.",
       userGoal: "Territory sales managers and legal compliance teams. The goal is to map dealership allocations and enforce territorial compliance.",
       strategy: "Implemented a territory mapping database with automated warning triggers for underperforming zones. Bypassed heavy GIS server setups by using basic boundary check rules.",
-      metrics: "Channel overlapping disputes reduced to zero; automatic SLA alerts triggered for dealer underperformance; contract audit times reduced by 70%."
+      metrics: "Channel overlapping disputes reduced to zero; automatic SLA alerts triggered for dealer underperformance; contract audit times reduced by 70."
     }
   },
   {
@@ -621,15 +480,15 @@ const projectData = [
   {
     id: "MOD_23",
     category: "ai-systems",
-    title: "PrepMaster AI — Adaptive Mock Exam Engine",
-    desc: "A single-page web app that converts any question paper — PDF, scanned image, or plain text — into a fully interactive mock exam. Uses PDF.js and Tesseract.js for on-device text extraction and OCR, with support for 7+ AI providers for question generation and auto-solving.",
-    outcome: "Fully client-side exam platform with zero backend, supporting multi-format input, gamified KBC mode, and detailed analytics export.",
-    tech: ["PDF.js", "Tesseract.js OCR", "Multi-Provider LLM", "Client-Side Architecture"],
+    title: "PrepMaster AI",
+    desc: "Product Owner—Designed client-side PDF processing architecture, multi-LLM integration, and zero-server deployment ensuring 100% candidate data privacy.",
+    outcome: "Zero-server document processing architecture keeping sessions fully private and localized inside client sandboxes.",
+    tech: ["PDF.js", "Tesseract.js OCR", "Multi-Provider LLM", "Client-Side Privacy"],
     prd: {
-      bottleneck: "Students and professionals preparing for competitive exams had no fast way to turn existing question papers into interactive, timed practice tests. Manual rekeying was tedious, and existing platforms required subscriptions and server uploads for basic mock-test functionality.",
-      userGoal: "Exam candidates and educators. The goal is to instantly convert any exam paper into an adaptive, timed mock test — entirely in the browser, with zero data leaving the device.",
-      strategy: "Chose a fully client-side architecture using PDF.js for text extraction and Tesseract.js for OCR on scanned papers, eliminating server costs and privacy concerns. Integrated 7+ LLM providers (OpenAI, Gemini, Claude, Groq, DeepSeek, OpenRouter, NVIDIA NIM) via REST with API keys stored only in sessionStorage. Added a gamified KBC mode with lifelines (50-50, Ask Expert, Flip Question) to boost engagement and retention.",
-      metrics: "Zero infrastructure cost; supports PDF, image (OCR), and text input with bilingual merging; autosave with session resume; CSV/JSON export of detailed results analytics; 3 visual themes (dark, light, KBC)."
+      bottleneck: "Candidates had no private, timed mock exam sandbox to practice on-device without uploading personal documents to external servers.",
+      userGoal: "Exam candidates and administrators. The goal is to convert paper documents into mock tests without server-side leaks.",
+      strategy: "Chose PDF.js and on-device Tesseract.js OCR to process text and answer keys client-side, with API keys saved in session memory.",
+      metrics: "100% data privacy compliance verified; zero server compute costs; supported seven AI models."
     }
   }
 ];
@@ -649,76 +508,129 @@ function highlightProject(id) {
     
     setTimeout(() => {
       targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      targetCard.style.background = 'rgba(37, 99, 235, 0.05)';
+      targetCard.style.outline = '2px solid var(--accent-blue)';
+      targetCard.style.outlineOffset = '4px';
+      targetCard.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.2)';
       
       setTimeout(() => {
-        targetCard.style.background = '';
+        targetCard.style.outline = '';
+        targetCard.style.outlineOffset = '';
+        targetCard.style.boxShadow = '';
       }, 2500);
       showToast(`Navigated to System Registry Profile: [${id}]`);
     }, 350);
   }
 }
 
+// Filter projects in the projectsGrid
+function filterProjects(category) {
+  const cards = document.querySelectorAll('#projectsGrid .project-card');
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-category');
+    if (category === 'all' || cardCat === category) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
 
-
-// Render all 23 projects in a single clean grid
+// Render all 22 projects in a single clean grid
 function renderProjectGrid() {
   const grid = document.getElementById('projectsGrid');
   if (!grid) return;
   
   grid.innerHTML = '';
- 
-  projectData.forEach(proj => {
-    const row = document.createElement('div');
-    row.className = 'project-row';
-    row.setAttribute('data-category', proj.category);
-    row.setAttribute('data-id', proj.id);
-    row.id = `project-row-${proj.id}`;
- 
-    const isFlagship = ["MOD_01", "MOD_02", "MOD_03", "MOD_04"].includes(proj.id);
 
- 
-    row.innerHTML = `
-      <div class="row-meta">
-        <span class="row-num">${proj.id}</span>
-        <span class="row-badge">${isFlagship ? '★ Flagship' : (proj.category === 'ai-systems' ? 'AI PRD' : proj.category === 'fullstack' ? 'Web MVP' : proj.category === 'supply-ops' ? 'Ops MVP' : 'Chrome Tool')}</span>
+  projectData.forEach(proj => {
+    const card = document.createElement('div');
+    card.className = 'glass-card project-card';
+    card.setAttribute('data-category', proj.category);
+    card.setAttribute('data-id', proj.id);
+    card.id = `project-row-${proj.id}`;
+
+    const isFlagship = ["MOD_01", "MOD_02", "MOD_03", "MOD_04"].includes(proj.id);
+    
+    let flagshipVisualHtml = '';
+    if (isFlagship) {
+      card.classList.add('flagship-card');
+      let imgUrl = '';
+      let caption = '';
+      if (proj.id === 'MOD_01') {
+        imgUrl = 'media__1779962828387.png';
+        caption = 'Anonymized AI Mock Interview Interface — Data Redacted for Client Confidentiality';
+      } else if (proj.id === 'MOD_02') {
+        imgUrl = 'media__1779963258084.png';
+        caption = 'AI QA Audit Pipeline Dashboard View — Internal Analytics Data Masked';
+      } else if (proj.id === 'MOD_03') {
+        imgUrl = 'media__1781341256406.png';
+        caption = 'B2B Sales Portal Order Registry — Anonymized Client Transaction View';
+      } else if (proj.id === 'MOD_04') {
+        imgUrl = 'media__1781341573518.png';
+        caption = 'Inventory Safety Buffer Optimization Model — Suppressed Stock Quantities';
+      }
+
+      flagshipVisualHtml = `
+        <div class="project-visual-wrapper" style="margin: 1rem 0; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-light);">
+          <img src="${imgUrl}" alt="${proj.title} Visual Proof" style="width: 100%; height: auto; display: block; filter: contrast(1.01) saturate(0.95);">
+          <div class="project-visual-caption" style="padding: 0.5rem; background: rgba(15, 23, 42, 0.03); border-top: 1px solid var(--border-light); font-size: 0.72rem; color: var(--color-muted); font-family: var(--font-body); font-style: italic; text-align: center;">
+            ${caption}
+          </div>
+        </div>
+      `;
+    }
+
+    const links = getSemanticLinks(proj.id);
+
+    card.innerHTML = `
+      <div class="project-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span class="mono-tag" style="background: ${isFlagship ? 'rgba(99, 102, 241, 0.08)' : 'rgba(15, 23, 42, 0.05)'}; color: ${isFlagship ? 'var(--accent-purple)' : 'var(--color-secondary)'}; border-color: ${isFlagship ? 'rgba(99,102,241,0.2)' : 'var(--border-light)'};">
+          ${isFlagship ? '★ Flagship PRD' : (proj.category === 'ai-systems' ? 'AI Product PRD' : proj.category === 'fullstack' ? 'Web App MVP' : proj.category === 'supply-ops' ? 'Operations MVP' : 'Chrome Tool MVP')}
+        </span>
+        <span class="card-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-muted); font-weight: 700;">${proj.id}</span>
       </div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">${proj.title}</h3>
       
-      <div class="row-content">
-        <h3>${proj.title}</h3>
-        <p class="row-desc">${proj.desc}</p>
-        <div class="row-tech-tags">
+      <p class="project-card-desc" style="font-size: 0.88rem; line-height: 1.55; color: var(--color-secondary); margin-bottom: 1rem;">
+        ${proj.desc}
+      </p>
+
+      ${flagshipVisualHtml}
+
+      <div class="strategic-outcome-widget" style="margin: 1.25rem 0; padding: 0.85rem; border-radius: var(--radius-sm); background: rgba(99, 102, 241, 0.03); border-left: 3px solid var(--accent-blue);">
+        <div class="outcome-label" style="font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem;">Direct Business Outcome</div>
+        <div class="outcome-text" style="font-size: 0.82rem; font-weight: 600; color: var(--color-primary); line-height: 1.4;">${proj.outcome}</div>
+      </div>
+
+      <div class="project-card-footer" style="display: flex; flex-direction: column; gap: 0.75rem; border-top: 1px solid var(--border-light); padding-top: 0.85rem; margin-top: auto;">
+        <div class="project-tech-tags" style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
           ${proj.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
         </div>
-      </div>
-      
-      <div class="row-outcome">
-        <div class="row-outcome-lbl">Business Outcome</div>
-        <div class="row-outcome-val">${proj.outcome}</div>
-      </div>
-      
-      <div class="row-action">
-        <button class="case-study-trigger-btn" data-project="${proj.id}" aria-label="Open project ${proj.id} PRD">
-          →
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--color-muted); font-family: var(--font-mono);">
+          <span>Related: <span class="archive-action-link" style="color: var(--accent-blue); text-decoration: underline; cursor: pointer;" onclick="highlightProject('${links.project}')">${links.project}</span></span>
+          <span>Theme: <em>${links.theme}</em></span>
+        </div>
+        <button class="case-study-trigger-btn" data-project="${proj.id}" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: transparent; cursor: pointer; transition: all 0.2s ease;">
+          🔎 View Product PRD / PoC &rarr;
         </button>
       </div>
     `;
-    grid.appendChild(row);
+    grid.appendChild(card);
   });
- 
+
   // Dynamic card PRD deep-dives trigger
-  const projectRows = document.querySelectorAll('.project-row');
-  projectRows.forEach(row => {
-    row.addEventListener('click', (e) => {
+  const caseStudyTriggers = document.querySelectorAll('.case-study-trigger-btn');
+  caseStudyTriggers.forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const projectId = row.getAttribute('data-id');
+      const projectId = btn.getAttribute('data-project');
       const proj = projectData.find(p => p.id === projectId);
       if (!proj) return;
       
       const drawerProjectTitle = document.getElementById('drawerProjectTitle');
       const drawerBodyContent = document.getElementById('drawerBodyContent');
       const caseStudyDrawer = document.getElementById('caseStudyDrawer');
- 
+
       if (caseStudyDrawer && drawerProjectTitle && drawerBodyContent) {
         drawerProjectTitle.textContent = proj.title + " (PRD)";
         drawerBodyContent.innerHTML = `
@@ -740,7 +652,6 @@ function renderProjectGrid() {
           </div>
         `;
         caseStudyDrawer.classList.add('open');
-        caseStudyDrawer.setAttribute('aria-expanded', 'true');
       }
     });
   });
@@ -820,147 +731,75 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize WebGL Knowledge Graph
   initThree();
 
-  // 2. IntersectionObserver for Snapped Sections & HUD Updates
+  // 2. Navigation Active Tab Highlighting (Bounding Rect based to fix Scroll bugs)
+  const navLinks = document.querySelectorAll('.nav-link-item a');
   const sections = document.querySelectorAll('section');
-  const hudCounter = document.getElementById('hud-counter');
-  const hudCounterMeta = document.getElementById('hud-counter-meta');
-  const hudNavLinks = document.querySelectorAll('.hud-nav-link');
-  const isHomepage = document.querySelector('.hero-section') !== null;
 
-  if (isHomepage && sections.length > 0) {
-    const sectionObserverOptions = {
-      root: null,
-      rootMargin: '-30% 0px -30% 0px',
-      threshold: 0.1
-    };
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.getAttribute('id');
-          
-          // Add revealed class for horizontal clip-path wipe animation
-          entry.target.classList.add('revealed');
-          
-          // Get section index
-          let index = -1;
-          sections.forEach((sec, idx) => {
-            if (sec.getAttribute('id') === sectionId) {
-              index = idx;
-            }
-          });
-
-          if (index !== -1) {
-            // Update counter in bottom-left HUD
-            if (hudCounter) {
-              hudCounter.textContent = `0${index + 1} / 07`;
-            }
-
-            // Update bottom-left HUD meta labels
-            if (hudCounterMeta) {
-              if (sectionId === 'skills') {
-                hudCounterMeta.textContent = '9+ NISM / NSE certifications qualified';
-              } else if (sectionId === 'writing') {
-                hudCounterMeta.textContent = 'Published as Poker Hearts';
-              } else if (sectionId === 'connect') {
-                hudCounterMeta.textContent = 'Chandigarh, India';
-              } else {
-                hudCounterMeta.textContent = '';
-              }
-            }
-
-            // Highlight corresponding HUD navigation link
-            hudNavLinks.forEach(link => {
-              link.classList.remove('active');
-              if (link.getAttribute('href') === `#${sectionId}`) {
-                link.classList.add('active');
-              }
-            });
-
-            // Handled by global theme toggler
-          }
-        }
-      });
-    }, sectionObserverOptions);
-
-    sections.forEach(sec => sectionObserver.observe(sec));
-  }
-
-  // HUD Scroll Progress Line calc
   window.addEventListener('scroll', () => {
-    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (totalHeight > 0) {
-      const progress = (window.scrollY / totalHeight) * 100;
-      const bar = document.getElementById('hudProgressBar');
-      if (bar) {
-        bar.style.height = `${progress}%`;
-      }
+    const mainNav = document.getElementById('mainNav');
+    if (window.scrollY > 40) {
+      mainNav.classList.add('scrolled');
+    } else {
+      mainNav.classList.remove('scrolled');
     }
 
-    const mainNav = document.querySelector('.main-nav');
-    if (mainNav) {
-      if (window.scrollY > 30) {
-        mainNav.classList.add('scrolled');
-      } else {
-        mainNav.classList.remove('scrolled');
+    let currentActive = "";
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 200 && rect.bottom >= 200) {
+        currentActive = section.getAttribute('id');
       }
-    }
-  });
+    });
 
-  // HUD Navigation Links Smooth Scroll
-  hudNavLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      const targetSec = document.querySelector(targetId);
-      if (targetSec) {
-        targetSec.scrollIntoView({ behavior: 'smooth' });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${currentActive}`) {
+        link.classList.add('active');
       }
     });
   });
+
+  // Mobile Nav Drawer Toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinksList = document.getElementById('navLinks');
+  if (navToggle && navLinksList) {
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinksList.classList.toggle('open');
+    });
+    
+    navLinksList.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinksList.classList.remove('open');
+      });
+    });
+  }
 
   // 3. Render Projects Grid
   renderProjectGrid();
 
-  // 4. Projects Filter Grid Event Wiring
-  function filterRegistry() {
-    const registrySearchInput = document.getElementById('registrySearch');
-    const query = registrySearchInput ? registrySearchInput.value.toLowerCase().trim() : '';
-    const activeFilterBtn = document.querySelector('.projects-filter-bar .filter-pill.active');
-    const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
-    const rows = document.querySelectorAll('#projectsGrid .project-row');
-    
-    rows.forEach(row => {
-      const title = row.querySelector('h3').textContent.toLowerCase();
-      const desc = row.querySelector('.row-desc').textContent.toLowerCase();
-      const id = row.querySelector('.row-num').textContent.toLowerCase();
-      const techTags = Array.from(row.querySelectorAll('.tech-tag')).map(t => t.textContent.toLowerCase()).join(' ');
-      const category = row.getAttribute('data-category');
-      
-      const matchesSearch = title.includes(query) || desc.includes(query) || id.includes(query) || techTags.includes(query);
-      const matchesCategory = filterCat === 'all' || category === filterCat;
-      
-      if (matchesSearch && matchesCategory) {
-        row.style.display = 'grid';
-      } else {
-        row.style.display = 'none';
-      }
-    });
+  // Hash link routing for system registry profiles
+  if (window.location.hash) {
+    const hash = window.location.hash.substring(1);
+    if (hash.startsWith('project-row-')) {
+      const id = hash.replace('project-row-', '');
+      setTimeout(() => {
+        highlightProject(id);
+      }, 500);
+    }
   }
 
+  // 4. Projects Filter Grid Event Wiring
   const filterPills = document.querySelectorAll('.projects-filter-bar .filter-pill');
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      filterRegistry();
+      const filter = pill.getAttribute('data-filter');
+      filterProjects(filter);
     });
   });
-
-  const registrySearchInput = document.getElementById('registrySearch');
-  if (registrySearchInput) {
-    registrySearchInput.addEventListener('input', filterRegistry);
-  }
 
   // 5. Searchable Writing Archive Logic
   const creativeSearchInput = document.getElementById('creativeSearch');
@@ -968,7 +807,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const creativeCards = document.querySelectorAll('#creativeGrid .archive-card');
 
   function filterCreativeGrid() {
-    if (!creativeSearchInput) return;
     const query = creativeSearchInput.value.toLowerCase().trim();
     const activeFilterBtn = document.querySelector('#creativeFilters .archive-filter-btn.active');
     const filterCat = activeFilterBtn ? activeFilterBtn.getAttribute('data-cat') : 'all';
@@ -1036,19 +874,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeDrawerBtn && caseStudyDrawer) {
     closeDrawerBtn.addEventListener('click', () => {
       caseStudyDrawer.classList.remove('open');
-      caseStudyDrawer.setAttribute('aria-expanded', 'false');
     });
   }
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && caseStudyDrawer && caseStudyDrawer.classList.contains('open')) {
-      caseStudyDrawer.classList.remove('open');
-      caseStudyDrawer.setAttribute('aria-expanded', 'false');
-    }
-  });
   document.addEventListener('click', (e) => {
-    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.closest('.project-row')) {
+    if (caseStudyDrawer && caseStudyDrawer.classList.contains('open') && !caseStudyDrawer.contains(e.target) && !e.target.closest('.case-study-trigger-btn')) {
       caseStudyDrawer.classList.remove('open');
-      caseStudyDrawer.setAttribute('aria-expanded', 'false');
     }
   });
 
@@ -1079,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bind hovers to expand cursor
     const bindCursorHovers = () => {
-      const hoverables = document.querySelectorAll('a, button, .filter-pill, .project-row, .direct-connect-cell, .archive-filter-btn');
+      const hoverables = document.querySelectorAll('a, button, .filter-pill, .project-card, .direct-connect-cell, .archive-filter-btn');
       hoverables.forEach(el => {
         el.addEventListener('mouseenter', () => {
           cursorDot.classList.add('hovered');
@@ -1129,13 +959,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const moveX = Math.cos(angle) * Math.min(dist / 12, maxMove);
       const moveY = Math.sin(angle) * Math.min(dist / 12, maxMove);
       
-      if (document.activeElement !== passwordField) {
+      if (true) {
         pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
       }
     });
 
     // 3D Parallax Head Tilt for Hero
-    if (heroRobotHead && document.activeElement !== passwordField) {
+    if (heroRobotHead) {
       const rx = -((clientY - window.innerHeight / 2) / (window.innerHeight / 2)) * 12; // pitch
       const ry = ((clientX - window.innerWidth / 2) / (window.innerWidth / 2)) * 12;   // yaw
       gsap.to(heroRobotHead, {
@@ -1150,11 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Blinking loop
   const triggerMascotBlink = () => {
-    if (document.activeElement === passwordField) {
-      setTimeout(triggerMascotBlink, 3000);
-      return;
-    }
-    // Scale 2D HUD pupils
+    // Blinking continuous
     gsap.to(robotPupils, {
       scaleY: 0.05,
       duration: 0.08,
@@ -1165,97 +991,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(triggerMascotBlink, 3000 + Math.random() * 4000);
       }
     });
-    // Scale 3D WebGL eyes in sync
-    if (leftEye && rightEye) {
-      gsap.to([leftEye.scale, rightEye.scale], {
-        y: 0.05,
-        duration: 0.08,
-        yoyo: true,
-        repeat: 1,
-        ease: "power1.inOut"
-      });
-    }
   };
   setTimeout(triggerMascotBlink, 3000);
 
-  // Password Input Interactions
-  if (passwordField) {
-    passwordField.addEventListener('focus', () => {
-      gsap.to(robotPupils, { scaleY: 0.05, duration: 0.25, ease: "power1.out" });
-      if (leftEye && rightEye) {
-        gsap.to([leftEye.scale, rightEye.scale], { y: 0.05, duration: 0.25, ease: "power1.out" });
-      }
-      if (robotHeadGroup) {
-        gsap.to(robotHeadGroup.rotation, { x: 0.5, y: 0, z: 0, duration: 0.4, ease: "power2.out" });
-      }
-      if (eyeStateLabel) {
-        eyeStateLabel.textContent = "PEEK_A_BOO";
-        eyeStateLabel.style.color = "var(--accent-purple)";
-      }
-      if (heroRobotHead) {
-        gsap.to(heroRobotHead, { rotateX: 10, rotateY: 0, duration: 0.4, ease: "power2.out" });
-      }
-    });
-
-    passwordField.addEventListener('blur', () => {
-      gsap.to(robotPupils, { scaleY: 1.0, duration: 0.25, ease: "power1.inOut" });
-      if (leftEye && rightEye) {
-        gsap.to([leftEye.scale, rightEye.scale], { y: 1.0, duration: 0.25, ease: "power1.inOut" });
-      }
-      if (robotHeadGroup) {
-        gsap.to(robotHeadGroup.rotation, { x: 0, y: 0, z: 0, duration: 0.4, ease: "power2.out" });
-      }
-      if (eyeStateLabel) {
-        eyeStateLabel.textContent = "SYSTEM_ACTIVE";
-        eyeStateLabel.style.color = "";
-      }
-    });
-
-    passwordField.addEventListener('input', (e) => {
-      const msg = document.getElementById('vault-msg');
-      if (msg) {
-        const val = e.target.value.toLowerCase().trim();
-        if (val === 'poker') {
-          msg.textContent = "DECRYPTED: ACCESS GRANTED. 108-PERSON TEAM LED.";
-          msg.style.color = "var(--accent)";
-          showToast("Secret Vault Unlocked!");
-          
-          // Show Vault Modal after small delay
-          setTimeout(() => {
-            const vaultModal = document.getElementById('vaultModal');
-            if (vaultModal) {
-              vaultModal.classList.add('open');
-            }
-          }, 800);
-        } else if (val.length > 0) {
-          msg.textContent = "ENCRYPTED. WRONG PASSCODE.";
-          msg.style.color = "#ef4444";
-        } else {
-          msg.textContent = "System locked. Standing by.";
-          msg.style.color = "var(--color-muted)";
-        }
-      }
-    });
-
-    // Vault Modal Close actions
-    const closeVaultBtn = document.getElementById('closeVaultBtn');
-    const vaultModal = document.getElementById('vaultModal');
-    if (closeVaultBtn && vaultModal) {
-      closeVaultBtn.addEventListener('click', () => {
-        vaultModal.classList.remove('open');
-      });
-      vaultModal.addEventListener('click', (e) => {
-        if (e.target === vaultModal) {
-          vaultModal.classList.remove('open');
-        }
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && vaultModal.classList.contains('open')) {
-          vaultModal.classList.remove('open');
-        }
-      });
-    }
-  }
+  // Password Input Interactions removed - Secure Vault offline
 
   // Exit Intent / Close Button Crying Proximity
   let isCrying = false;
@@ -1267,7 +1006,6 @@ document.addEventListener('DOMContentLoaded', () => {
       eyeStateLabel.textContent = "DONT_LEAVE_ME";
       eyeStateLabel.style.color = "#ef4444";
     }
-    // 2D SVG tears
     robotTears.forEach(tear => {
       gsap.killTweensOf(tear);
       gsap.set(tear, { y: 0, scaleY: 0.3, opacity: 0 });
@@ -1280,29 +1018,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     gsap.to(robotPupils, { y: 3, duration: 0.3 });
-
-    // 3D WebGL tears
-    if (leftTear3D && rightTear3D) {
-      gsap.killTweensOf([leftTear3D.position, leftTear3D.scale, rightTear3D.position, rightTear3D.scale]);
-      leftTear3D.position.y = -0.4;
-      rightTear3D.position.y = -0.4;
-      leftTear3D.scale.set(1, 0.3, 1);
-      rightTear3D.scale.set(1, 0.3, 1);
-      if (tearMat) tearMat.opacity = 0.9;
-      
-      gsap.to([leftTear3D.position, rightTear3D.position], {
-        y: -2.0,
-        duration: 0.8,
-        ease: "power1.out"
-      });
-      gsap.to([leftTear3D.scale, rightTear3D.scale], {
-        y: 1.8,
-        x: 0.6,
-        z: 0.6,
-        duration: 0.8,
-        ease: "power1.out"
-      });
-    }
   };
 
   const stopCrying = () => {
@@ -1312,7 +1027,6 @@ document.addEventListener('DOMContentLoaded', () => {
       eyeStateLabel.textContent = "SYSTEM_ACTIVE";
       eyeStateLabel.style.color = "";
     }
-    // 2D SVG tears
     robotTears.forEach(tear => {
       gsap.to(tear, {
         opacity: 0,
@@ -1325,21 +1039,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     gsap.to(robotPupils, { y: 0, duration: 0.3 });
-
-    // 3D WebGL tears
-    if (leftTear3D && rightTear3D) {
-      gsap.killTweensOf([leftTear3D.position, leftTear3D.scale, rightTear3D.position, rightTear3D.scale]);
-      gsap.to([leftTear3D.scale, rightTear3D.scale], {
-        x: 0.001,
-        y: 0.001,
-        z: 0.001,
-        duration: 0.3,
-        ease: "power1.in",
-        onComplete: () => {
-          if (tearMat) tearMat.opacity = 0;
-        }
-      });
-    }
   };
 
   document.addEventListener('mousemove', (e) => {
@@ -1365,113 +1064,30 @@ document.addEventListener('DOMContentLoaded', () => {
     closeBtn.addEventListener('mouseleave', stopCrying);
   }
 
-  // Chandigarh Live clock
-  function updateLiveClock() {
-    const hudClockEl = document.getElementById('hud-clock');
-    const subpageClockEl = document.getElementById('live-clock');
-    
-    const timeOptions24 = {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    };
-    
-    const timeOptions12 = {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    };
-
-    if (hudClockEl) {
-      const formatter24 = new Intl.DateTimeFormat('en-US', timeOptions24);
-      hudClockEl.textContent = `${formatter24.format(new Date())} — CHANDIGARH`;
-    }
-    
-    if (subpageClockEl) {
-      const formatter12 = new Intl.DateTimeFormat('en-US', timeOptions12);
-      subpageClockEl.textContent = `CHANDIGARH: ${formatter12.format(new Date())}`;
-    }
-  }
-  updateLiveClock();
-  setInterval(updateLiveClock, 1000);
-
-  // Global Theme Toggler (defaults to light mode)
-  let currentTheme = 'light';
-
-  function applyTheme(theme) {
-    currentTheme = theme;
-    const isDark = theme === 'dark';
-    
-    if (isDark) {
-      document.body.classList.add('theme-dark');
-      
-      // Interpolate WebGL canvas fog to dark color
-      if (scene && scene.fog) {
-        gsap.to(scene.fog.color, { r: 11/255, g: 13/255, b: 16/255, duration: 0.8 });
-      }
-      // Interpolate Mascot Materials to dark mode
-      if (headSolidMat) gsap.to(headSolidMat.color, { r: 0x16/255, g: 0x1a/255, b: 0x22/255, duration: 0.8 });
-      if (headWireMat) {
-        gsap.to(headWireMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
-        gsap.to(headWireMat, { opacity: 0.18, duration: 0.8 });
-      }
-      if (eyeMat) gsap.to(eyeMat.color, { r: 0x38/255, g: 0xbd/255, b: 0xf8/255, duration: 0.8 });
-      if (earMat) gsap.to(earMat.color, { r: 0x24/255, g: 0x2d/255, b: 0x3d/255, duration: 0.8 });
-      if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0xC9/255, g: 0xA2/255, b: 0x4B/255, duration: 0.8 });
-      
-      // Update 2D SVG HUD robot head colors
-      const pupils = document.querySelectorAll('.robot-pupil');
-      pupils.forEach(p => p.setAttribute('fill', '#38bdf8'));
-      const visor = document.querySelector('.robot-head-group rect');
-      if (visor) visor.setAttribute('fill', 'url(#nav-visor-grad)');
+  // Theme Toggle Logic
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  if (themeToggleBtn) {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggleBtn.textContent = '☀️';
     } else {
-      document.body.classList.remove('theme-dark');
-      
-      // Interpolate WebGL canvas fog to light color
-      if (scene && scene.fog) {
-        gsap.to(scene.fog.color, { r: 243/255, g: 238/255, b: 228/255, duration: 0.8 });
-      }
-      // Interpolate Mascot Materials to light mode
-      if (headSolidMat) gsap.to(headSolidMat.color, { r: 0xE6/255, g: 0xDF/255, b: 0xD3/255, duration: 0.8 });
-      if (headWireMat) {
-        gsap.to(headWireMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-        gsap.to(headWireMat, { opacity: 0.3, duration: 0.8 });
-      }
-      if (eyeMat) gsap.to(eyeMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-      if (earMat) gsap.to(earMat.color, { r: 0xD6/255, g: 0xCF/255, b: 0xBF/255, duration: 0.8 });
-      if (antennaTipMat) gsap.to(antennaTipMat.color, { r: 0x18/255, g: 0x14/255, b: 0x10/255, duration: 0.8 });
-      
-      // Update 2D SVG HUD robot head colors to dark ink theme
-      const pupils = document.querySelectorAll('.robot-pupil');
-      pupils.forEach(p => p.setAttribute('fill', '#181410'));
-      const visor = document.querySelector('.robot-head-group rect');
-      if (visor) visor.setAttribute('fill', 'rgba(24, 20, 16, 0.05)');
+      document.body.classList.remove('dark-mode');
+      themeToggleBtn.textContent = '🌙';
     }
 
-    // Update theme toggle icons
-    const themeToggleBtns = document.querySelectorAll('.hud-theme-toggle');
-    themeToggleBtns.forEach(btn => {
-      btn.textContent = isDark ? '☀️' : '🌙';
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      if (isDark) {
+        themeToggleBtn.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+        showToast("Switched to Carbon Dark Mode");
+      } else {
+        themeToggleBtn.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+        showToast("Switched to Alabaster Light Mode");
+      }
     });
-    
-    // Store preference
-    localStorage.setItem('portfolio-theme', theme);
   }
-
-  // Initialize saved theme or default to light
-  const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
-  setTimeout(() => {
-    applyTheme(savedTheme);
-  }, 100);
-
-  // Wire up theme toggles
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.hud-theme-toggle');
-    if (btn) {
-      applyTheme(currentTheme === 'light' ? 'dark' : 'light');
-    }
-  });
 });

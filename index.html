@@ -3,526 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pratap Jindal — Management Analyst &amp; MIS Specialist | UGC NET</title>
-  
-  <meta name="description" content="Management Analyst &amp; MIS specialist with 3+ years in operations. Built 18 live MIS modules, 13 Looker Studio dashboards, reduced manual reporting by 80%. MBA, UGC NET Qualified. Chandigarh, India.">
-  <meta name="keywords" content="Pratap Jindal, Management Analyst India, MIS specialist Chandigarh, Looker Studio expert, Google Sheets automation, Operations analyst, Product Manager India, Business systems analyst, UGC NET, MBA">
+  <title>Pratap Jindal — Systems Thinker. Storyteller.</title>
+
+  <meta name="description" content="Management Analyst & MIS specialist. Built an 18-module analytics platform for an 80-member organisation. Writes as Poker Hearts. Panchkula, India.">
   <meta name="author" content="Pratap Jindal">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://pokerhearts.in">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://pokerhearts.in">
-  <meta property="og:title" content="Pratap Jindal — Management Analyst &amp; MIS Specialist">
-  <meta property="og:description" content="Management Analyst &amp; MIS specialist with 3+ years in operations. Built 18 live MIS modules, 13 Looker Studio dashboards, reduced manual reporting by 80%. MBA, UGC NET Qualified.">
-  <meta property="og:image" content="https://pokerhearts.in/og-preview.png">
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary">
-  <meta property="twitter:url" content="https://pokerhearts.in">
-  <meta property="twitter:title" content="Pratap Jindal — Management Analyst &amp; MIS Specialist">
-  <meta property="twitter:description" content="Management Analyst &amp; MIS specialist with 3+ years in operations. Built 18 live MIS modules, 13 Looker Studio dashboards, reduced manual reporting by 80%. MBA, UGC NET Qualified.">
-  <meta property="twitter:image" content="https://pokerhearts.in/og-preview.png">
-  
-  <!-- Modern Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232563eb' rx='20'/%3E%3Ctext x='50' y='68' font-family='Georgia, serif' font-size='56' font-weight='bold' fill='%23ffffff' text-anchor='middle'%3EPJ%3C/text%3E%3C/svg%3E">
-  
-  <!-- Preconnect & Load Google Fonts -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231C1C1C' rx='16'/%3E%3Ctext x='50' y='66' font-family='serif' font-size='48' font-weight='bold' fill='%23C5A880' text-anchor='middle'%3EPJ%3C/text%3E%3C/svg%3E">
+
+  <!-- Preload fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=3">
-
-  <script id="seo-schema" type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "mainEntity": {
-      "@type": "Person",
-      "name": "Pratap Jindal",
-      "jobTitle": "Management Analyst",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Group Biopolis"
-      },
-      "alumniOf": [
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "Mittal School of Business, Lovely Professional University",
-          "description": "MBA (Mittal School of Business, NSE Academy, 2021-2023, CGPA 8.83)"
-        }
-      ],
-      "hasCredential": [
-        {
-          "@type": "EducationalOccupationalCredential",
-          "credentialCategory": "National Eligibility Test",
-          "name": "UGC NET Qualified — Management (June 2024 & December 2024)"
-        }
-      ],
-      "knowsAbout": ["AI Product Management", "Operational Automation", "Conversational AI", "Predictive Analytics", "Supply Chain Optimization", "Financial Markets", "Speech Analytics", "B2B SaaS"],
-      "description": "Management Analyst &amp; MIS specialist with 3+ years in operations. Built 18 live MIS modules, 13 Looker Studio dashboards, reduced manual reporting by 80%. MBA, UGC NET Qualified.",
-      "url": "https://pokerhearts.in",
-      "sameAs": [
-        "https://www.linkedin.com/in/pratap-jindal/",
-        "https://www.instagram.com/poker_hearts/",
-        "https://pokerdeeds.blogspot.com"
-      ]
-    }
-  }
-  </script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Background Grid overlay -->
-  <div class="system-grid-overlay"></div>
-  
-  <!-- Three.js Background Canvas -->
-  <canvas id="webgl-canvas"></canvas>
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- Fixed HUD Grid Layer -->
-  <header class="hud-top-left">
-    <a href="#hero" style="display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: inherit;">
-      <div class="nav-avatar-frame" id="navAvatarFrame" style="position: relative; width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-        <svg class="robot-avatar-svg nav-avatar-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; overflow: visible;">
-          <defs>
-            <linearGradient id="nav-head-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff"/>
-              <stop offset="100%" stop-color="#f8fafc"/>
-            </linearGradient>
-            <linearGradient id="nav-visor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0f172a"/>
-              <stop offset="100%" stop-color="#020617"/>
-            </linearGradient>
-            <filter id="nav-eye-glow">
-              <feGaussianBlur stdDeviation="1.5" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          <g class="robot-head-group">
-            <circle cx="50" cy="50" r="45" fill="url(#nav-head-grad)" stroke="#cbd5e1" stroke-width="1.5"/>
-            <rect x="15" y="32" width="70" height="34" rx="17" ry="17" fill="url(#nav-visor-grad)"/>
-            <path d="M 18 43 Q 50 35 82 43" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
-            <g class="robot-eyes">
-              <circle class="robot-pupil nav-pupil" id="navPupilLeft" cx="35" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
-              <circle class="robot-pupil nav-pupil" id="navPupilRight" cx="65" cy="48" r="5" fill="#38bdf8" filter="url(#nav-eye-glow)"/>
-            </g>
-            <path class="robot-tear nav-tear" id="navTearLeft" d="M 35,54 C 34,64, 36,68, 35,70 C 34,68, 34,64, 35,54" fill="#38bdf8" opacity="0"/>
-            <path class="robot-tear nav-tear" id="navTearRight" d="M 65,54 C 64,64, 66,68, 65,70 C 64,68, 64,64, 65,54" fill="#38bdf8" opacity="0"/>
-          </g>
-        </svg>
+  <!-- ═══════════════════════════════════════
+       01 · HERO
+       ═══════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <nav class="hero-nav">
+      <div class="hero-monogram">PJ</div>
+      <div class="hero-links">
+        <a href="#work">Work</a>
+        <a href="#writing">Writing</a>
+        <a href="#contact">Contact</a>
       </div>
-      <span class="hud-mono">PRATAP JINDAL</span>
-    </a>
-  </header>
-  
-  <header class="hud-top-right">
-    <nav class="hud-nav">
-      <a href="#projects" class="hud-nav-link">Work</a>
-      <a href="#skills" class="hud-nav-link">Capability</a>
-      <a href="#writing" class="hud-nav-link">Writing</a>
-      <a href="#connect" class="hud-nav-link">Contact</a>
-      <button id="themeToggleBtn" class="hud-theme-toggle" aria-label="Toggle Dark/Light Mode" style="background: none; border: none; color: var(--color-primary); cursor: pointer; font-size: 0.95rem; padding: 0 0.5rem; transition: var(--transition); margin-left: 0.5rem;">🌙</button>
     </nav>
-    <div class="hud-clock-box">
-      <span id="hud-clock" class="hud-mono">--:-- &mdash; CHANDIGARH</span>
+
+    <div class="hero-center">
+      <h1 class="hero-headline">
+        <span class="hero-line reveal-line">Systems thinker.</span>
+        <span class="hero-line reveal-line">Storyteller.</span>
+      </h1>
+      <p class="hero-sub reveal-fade">Strategy &amp; Operations · Poker Hearts · Panchkula</p>
     </div>
-  </header>
-  
-  <footer class="hud-bottom-left">
-    <span id="hud-counter" class="hud-mono">01 / 07</span>
-    <span class="hud-counter-meta" id="hud-counter-meta"></span>
+
+    <div class="hero-circle-badge" aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="rotating-text">
+        <defs>
+          <path id="circlePath" d="M 100, 100 m -80, 0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0"/>
+        </defs>
+        <text>
+          <textPath href="#circlePath" startOffset="0%">Available for opportunities · Open to Australia · </textPath>
+        </text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       02 · NUMBERS
+       ═══════════════════════════════════════ -->
+  <section class="numbers" id="numbers">
+    <div class="numbers-grid">
+      <div class="number-item">
+        <span class="number-value" data-target="18">0</span>
+        <span class="number-label">MIS Modules Built</span>
+      </div>
+      <div class="number-item">
+        <span class="number-value" data-target="80">0</span>
+        <span class="number-label">Team Members Served</span>
+      </div>
+      <div class="number-item">
+        <span class="number-value" data-target="75" data-suffix="Cr">0</span>
+        <span class="number-label">Monthly Revenue Managed (INR)</span>
+      </div>
+      <div class="number-item">
+        <span class="number-value" data-target="3" data-suffix="+">0</span>
+        <span class="number-label">Years on Senior Management Team</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       03 · WORK — Horizontal scroll
+       ═══════════════════════════════════════ -->
+  <section class="work-section" id="work">
+    <div class="work-track">
+      <article class="work-panel">
+        <div class="panel-inner">
+          <span class="panel-num">01</span>
+          <h2 class="panel-headline">18 Modules.<br>Zero Consultants.<br>One Analyst.</h2>
+          <p class="panel-body">Built the entire decision-support layer for a multi-company pharmaceutical distribution group. Sales, Inventory, CRM, Finance, Attendance — all live. All owned by me.</p>
+          <div class="panel-tags">Analytics Platform · Looker Studio · Apps Script</div>
+        </div>
+      </article>
+      <div class="panel-divider"></div>
+      <article class="work-panel">
+        <div class="panel-inner">
+          <span class="panel-num">02</span>
+          <h2 class="panel-headline">500 SKUs.<br>2 Complaints.<br>20% Uplift.</h2>
+          <p class="panel-body">Rationalised a bloated SKU catalogue, cut shortage complaints from 17 to 2, and drove a 20% sales increase on rationalised lines. Analysis, vendor coordination, cross-team execution — solo.</p>
+          <div class="panel-tags">Inventory · Operations · Data Analysis</div>
+        </div>
+      </article>
+      <div class="panel-divider"></div>
+      <article class="work-panel">
+        <div class="panel-inner">
+          <span class="panel-num">03</span>
+          <h2 class="panel-headline">72 People.<br>75 Crore.<br>One Weekend Pivot.</h2>
+          <p class="panel-body">Led a 72-member microfinance field division. Diagnosed chronic underperformance using Maslow's hierarchy. Rebuilt the incentive model. Hit 40% of monthly target in a single weekend post-intervention.</p>
+          <div class="panel-tags">Team Leadership · Performance Management · BFIL</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       04 · ABOUT
+       ═══════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-text reveal-fade">
+        <p>I build systems that organisations run on. MIS platforms, dashboards, automation — the infrastructure behind decisions. I also write, under a different name, about the things infrastructure can't explain.</p>
+      </div>
+      <div class="about-facts reveal-fade">
+        <ul>
+          <li>MBA · LPU (CGPA 8.83)</li>
+          <li>UGC NET · Assistant Professor Qualified</li>
+          <li>Prompt Engineering · Financial Modelling</li>
+          <li>Google Sheets · Looker Studio · Apps Script</li>
+          <li>Also writes as: Poker Hearts</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       05 · TOOLS / PROJECTS
+       ═══════════════════════════════════════ -->
+  <section class="projects" id="projects">
+    <h2 class="section-label reveal-fade">Selected Projects</h2>
+
+    <div class="project-entry reveal-fade">
+      <h3 class="project-name">PrepMaster AI</h3>
+      <p class="project-desc">Single-page AI exam prep tool. Multi-LLM. Vanilla JS.</p>
+      <a href="https://pokerhearts.github.io/prepmaster-ai/" target="_blank" rel="noopener" class="project-link">pokerhearts.github.io/prepmaster-ai/</a>
+    </div>
+
+    <div class="project-entry reveal-fade">
+      <h3 class="project-name">Chrome Cache Extension</h3>
+      <p class="project-desc">Eliminated Google's 15-minute dashboard delay. Built for daily operational use. Internal tool.</p>
+    </div>
+
+    <div class="project-entry reveal-fade">
+      <h3 class="project-name">AI Interview Portal</h3>
+      <p class="project-desc">Voice recognition. Transcript display. Google Sheets integration. Built for structured hiring workflows.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       06 · WRITING — Poker Hearts
+       ═══════════════════════════════════════ -->
+  <section class="writing" id="writing">
+    <div class="writing-content">
+      <h2 class="writing-headline reveal-fade">Also writes as Poker Hearts</h2>
+      <p class="writing-sub reveal-fade"><em>Semi-autobiographical. Hindi-English. First-person. Restrained.</em></p>
+      <div class="writing-quotes reveal-fade">
+        <blockquote>"Some people keep journals. I keep characters."</blockquote>
+        <blockquote>"The best systems I've built are the ones I write about breaking."</blockquote>
+      </div>
+      <a href="https://pokerdeeds.blogspot.com" target="_blank" rel="noopener" class="writing-link reveal-fade">pokerdeeds.blogspot.com</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       07 · CONTACT
+       ═══════════════════════════════════════ -->
+  <section class="contact" id="contact">
+    <div class="contact-center">
+      <h2 class="contact-headline reveal-fade">Let's work together.</h2>
+      <a href="mailto:pratapjindal812@gmail.com" class="contact-email reveal-fade">pratapjindal812@gmail.com</a>
+      <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" rel="noopener" class="contact-link reveal-fade">linkedin.com/in/pratap-jindal/</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       08 · FOOTER
+       ═══════════════════════════════════════ -->
+  <footer class="site-footer">
+    <span>© Pratap Jindal · Poker Hearts · 2026</span>
+    <span>Built without a template.</span>
   </footer>
 
-  <div class="hud-scroll-progress-container">
-    <div class="hud-scroll-progress-bar" id="hudProgressBar"></div>
-  </div>
-
-  <!-- ==========================================================================
-       HERO - MINIMAL Snapped Viewport Intro
-       ========================================================================== -->
-  <section class="hero-section" id="hero">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <span class="hero-eyebrow">MANAGEMENT ANALYST &middot; UGC NET &middot; MBA</span>
-        <h1 class="hero-greeting wipe-reveal">Management Analyst &amp; MIS specialist.</h1>
-        <p style="font-size: 1.15rem; line-height: 1.6; color: var(--color-secondary); margin-bottom: 2rem; max-width: 680px; font-family: var(--font-body);">
-          Built 18 live modules across operations, inventory, and sales. Reduced manual reporting by 80% via Google Apps Script automation. UGC NET Qualified, MBA.
-        </p>
-
-        <!-- Interactive MIS Live Dashboard Widget -->
-        <div class="hero-dashboard-widget glass-card" style="margin-top: 1.5rem; padding: 1.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-thin); background: var(--bg-surface); position: relative; overflow: hidden; box-shadow: var(--shadow-ambient);">
-          <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-thin); padding-bottom: 0.75rem;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <span class="pulse-indicator" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981;"></span>
-              <span class="hud-mono" style="font-size: 0.7rem; font-weight: 700; color: var(--color-primary); letter-spacing: 0.05em;">SYSTEM MONITOR // LIVE METRICS</span>
-            </div>
-            <span class="hud-mono" style="font-size: 0.65rem; color: var(--color-muted);" id="widget-status-text">STATUS: ACTIVE</span>
-          </div>
-
-          <div class="metrics-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.25rem;">
-            <div class="metric-card" style="padding: 0.75rem; background: rgba(15, 23, 42, 0.02); border: 1px solid var(--border-thin); border-radius: 4px; text-align: center;">
-              <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);" id="metric-reporting-hours">45h</div>
-              <div style="font-size: 0.65rem; color: var(--color-muted); margin-top: 0.25rem; text-transform: uppercase;">Weekly Saved</div>
-            </div>
-            <div class="metric-card" style="padding: 0.75rem; background: rgba(15, 23, 42, 0.02); border: 1px solid var(--border-thin); border-radius: 4px; text-align: center;">
-              <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">18</div>
-              <div style="font-size: 0.65rem; color: var(--color-muted); margin-top: 0.25rem; text-transform: uppercase;">Live Modules</div>
-            </div>
-            <div class="metric-card" style="padding: 0.75rem; background: rgba(15, 23, 42, 0.02); border: 1px solid var(--border-thin); border-radius: 4px; text-align: center;">
-              <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: #10b981;" id="metric-accuracy">98%</div>
-              <div style="font-size: 0.65rem; color: var(--color-muted); margin-top: 0.25rem; text-transform: uppercase;">Stock Accuracy</div>
-            </div>
-          </div>
-
-
-
-          <div style="display: flex; gap: 0.75rem; align-items: center;">
-            <button id="trigger-script-btn" class="case-study-trigger-btn" style="flex: 1; padding: 0.65rem; font-size: 0.75rem; border-radius: 4px; border: 1px solid var(--accent-blue); background: rgba(59, 130, 246, 0.03); color: var(--accent-blue); font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
-              ⚡ Trigger Apps Script Optimizer
-            </button>
-            <div id="script-log-terminal" class="hud-mono" style="font-size: 0.6rem; color: var(--color-muted); white-space: nowrap; max-width: 120px; text-overflow: ellipsis; overflow: hidden;">
-              Ready to run...
-            </div>
-          </div>
-        </div>
-
-
-        <div class="hero-bottom-row" style="margin-top: 2rem;">
-          <div class="hero-stats">18 live MIS modules &middot; 80% manual reporting reduction &middot; 80-member team at Biopolis</div>
-          <a href="#projects" class="hero-scroll-cue">Scroll Down &darr;</a>
-        </div>
-      </div>
-            <div class="hero-image-wrapper">
-        <div class="profile-image-card">
-          <img src="profile.png" alt="Pratap Jindal Profile" class="profile-img">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       01 -- SELECTED WORK Snapped Viewport
-       ========================================================================== -->
-  <section class="projects-section" id="projects">
-    <div class="section-head-title">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">01 / SELECTED WORK</span>
-      <h2 class="wipe-reveal" style="font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(2.5rem, 8vw, 6.5rem);">What I've built.</h2>
-    </div>
-    <div class="work-list">
-      <a href="registry.html#project-row-MOD_23" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">PrepMaster AI &mdash; Zero-Server PDF Processing Workspace</span>
-          <span class="work-row-tech">Product Owner &middot; PDF.js &middot; Tesseract.js OCR &middot; Client-side Data Privacy</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2026</span>
-        </div>
-      </a>
-      <a href="registry.html#project-row-MOD_01" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">AI Voice Mock Interview Simulator &amp; Portal</span>
-          <span class="work-row-tech">Product Owner &middot; Voice AI Architecture &middot; Latency Optimization</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2026</span>
-        </div>
-      </a>
-      <a href="registry.html#project-row-MOD_02" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">AI-Powered Call QA Analysis System</span>
-          <span class="work-row-tech">Product Owner &middot; Speech Analytics Pipeline &middot; SOP Compliance</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2026</span>
-        </div>
-      </a>
-      <a href="registry.html#project-row-MOD_03" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">B2B Order Booking Workspace</span>
-          <span class="work-row-tech">Product Owner &middot; Serverless B2B Order Booking &middot; Real-time Operations</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2025</span>
-        </div>
-      </a>
-      <a href="registry.html#project-row-MOD_04" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">Predictive Inventory &amp; PO Optimizer</span>
-          <span class="work-row-tech">Led inventory rationalization project: 500 SKUs &rarr; 400 SKUs, 20% sales lift</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2024</span>
-        </div>
-      </a>
-      <a href="registry.html#project-row-MOD_05" class="work-row">
-        <div class="work-row-title-container">
-          <span class="work-row-title">Looker Studio Real-Time Refresher Extension</span>
-          <span class="work-row-tech">Built custom Chrome extension to bypass 15-minute Looker cache delay</span>
-        </div>
-        <div class="work-row-right">
-          <span class="work-row-arrow">&rarr;</span>
-          <span class="work-row-year">2025</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       02 -- CAPABILITY Snapped Viewport
-       ========================================================================== -->
-  <section class="skills-section" id="skills">
-    <div class="section-head-title">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">02 / EXPERTISE</span>
-      <h2 class="wipe-reveal" style="font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(2.5rem, 8vw, 6.5rem);">Capability Matrix.</h2>
-    </div>
-    <div class="capability-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; width: 100%;">
-      <div class="capability-col" style="padding: 1.5rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); background: var(--bg-surface);">
-        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-primary);">MIS &amp; Reporting</h3>
-        <ul style="list-style: square; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--color-secondary);">
-          <li>Google Sheets (QUERY, ARRAYFORMULA, IMPORTRANGE)</li>
-          <li>Looker Studio (13 dashboards across 4 functions)</li>
-          <li>Google Apps Script (80% manual reporting effort reduction)</li>
-          <li>Excel (Pivot, VLOOKUP, Financial Modeling)</li>
-        </ul>
-      </div>
-      <div class="capability-col" style="padding: 1.5rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); background: var(--bg-surface);">
-        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-primary);">Operations &amp; Systems Design</h3>
-        <ul style="list-style: square; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--color-secondary);">
-          <li>Process mapping &amp; root-cause analysis</li>
-          <li>MIS platform architecture (18 live modules)</li>
-          <li>Team digital-literacy training (30+ staff, 100% adoption)</li>
-          <li>80-member cross-functional team governance</li>
-          <li>SOP documentation &amp; weekly training cadence</li>
-        </ul>
-      </div>
-      <div class="capability-col" style="padding: 1.5rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); background: var(--bg-surface);">
-        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-primary);">AI &amp; Modern Tools</h3>
-        <ul style="list-style: square; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--color-secondary);">
-          <li>Hands-on with ChatGPT, Claude, Gemini, Grok, DeepSeek</li>
-          <li>Prompt engineering for operational workflows</li>
-          <li>Voice AI architecture &amp; conversational latency optimization</li>
-          <li>Research analysis with NotebookLM &amp; Perplexity</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       03 -- EXPERIENCE Snapped Viewport
-       ========================================================================== -->
-  <section class="experience-section" id="experience">
-    <div class="section-head-title">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">03 / EXPERIENCE</span>
-      <h2 class="wipe-reveal" style="font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(2.5rem, 8vw, 6.5rem);">Intelligent Timeline Flow.</h2>
-    </div>
-    <div class="exp-list">
-      <div class="exp-row">
-        <div class="exp-row-date">SEP 2023 &mdash; PRESENT</div>
-        <div class="exp-row-detail">
-           <div class="exp-row-title-org">
-             <span class="exp-row-title">Management Analyst</span>
-             <span class="exp-row-org">Group Biopolis</span>
-           </div>
-           <p class="exp-row-desc">Governed an 80-member cross-functional team. Shipped 18 live MIS modules across Sales, Inventory, HR, CRM, and Finance (used daily by 80 active users). Built 13 Looker Studio dashboards across 4 operational functions and deployed Google Apps Script automation resulting in an 80% manual reporting effort reduction.</p>
-        </div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-row-date">SEP 2022 &mdash; FEB 2023</div>
-        <div class="exp-row-detail">
-           <div class="exp-row-title-org">
-             <span class="exp-row-title">Divisional Manager</span>
-             <span class="exp-row-org">BFIL (IndusInd Bank Subsidiary)</span>
-           </div>
-           <p class="exp-row-desc">Directed 72-member division managing 7,500+ clients across 10 regions. Achieved ₹75Cr monthly sales target consistently within 2 days of each cycle. Restructured engagement model achieving 40% of monthly target in a single weekend. Replaced punitive incentives with Challenge &amp; Reward model, lifting lead conversion by 25% in one quarter.</p>
-        </div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-row-date">FEB 2021 &mdash; MAY 2021</div>
-        <div class="exp-row-detail">
-           <div class="exp-row-title-org">
-             <span class="exp-row-title">Operations Intern</span>
-             <span class="exp-row-org">Zolostays Property Solutions</span>
-           </div>
-           <p class="exp-row-desc">Operations Intern. Handled 2,000+ support tickets with 99.95% accuracy and 95% SLA compliance. Streamlined refund workflows, reducing delay tickets by 60%.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       04 -- RESEARCH Snapped Viewport
-       ========================================================================== -->
-  <section class="research-section" id="research">
-    <div class="section-head-title" style="margin-bottom: 2rem;">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">04 / RESEARCH</span>
-      <h2 class="wipe-reveal" style="font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(2.5rem, 8vw, 6.5rem);">Academic &amp; Research Focus.</h2>
-    </div>
-    <div class="research-center-content">
-      <p class="research-big-text wipe-reveal" style="font-size: 1.2rem; line-height: 1.7; max-width: 800px; margin: 0 auto 2.5rem auto; font-family: var(--font-body);">
-        Currently investigating empirical safety stock buffers for SME distribution logistics (applied in real inventory rationalization project of 500 SKUs &rarr; 400 SKUs). Research into conversational latency bounds in Web Audio channels (informed Voice AI architecture design). Interest in quantitative options strategies. UGC NET Assistant Professor eligible (Management).
-      </p>
-      <a href="research.html" class="research-cta-btn">Explore Research &amp; Credentials &rarr;</a>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       05 -- WRITING Snapped Viewport
-       ========================================================================== -->
-  <section class="writing-section" id="writing">
-    <div class="section-head-title">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">05 / CREATIVE WRITING</span>
-      <h2 class="wipe-reveal" style="font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(2.5rem, 8vw, 6.5rem);">The quiet stories in between.</h2>
-      <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-secondary); max-width: 680px; margin-bottom: 2.5rem; font-family: var(--font-body);">
-        Creative practice in semi-autobiographical literary fiction (Hindi-English voice, published as 'Poker Hearts'). The same rigor I bring to system design &mdash; clarity under constraint, empathy for edge cases, ruthless editing &mdash; applies to prose.
-      </p>
-    </div>
-    <div class="writing-list">
-      <a href="https://pokerdeeds.blogspot.com" target="_blank" class="writing-row">
-        <div class="writing-row-title-container">
-          <span class="writing-row-title">Light Enough</span>
-          <span class="writing-row-meta">Fictional Novel</span>
-        </div>
-        <div class="writing-row-right">
-          <span class="writing-row-arrow">&rarr;</span>
-          <span class="writing-row-year">2024</span>
-        </div>
-      </a>
-      <a href="https://pokerdeeds.blogspot.com" target="_blank" class="writing-row">
-        <div class="writing-row-title-container">
-          <span class="writing-row-title">Sessions</span>
-          <span class="writing-row-meta">Mental Logs</span>
-        </div>
-        <div class="writing-row-right">
-          <span class="writing-row-arrow">&rarr;</span>
-          <span class="writing-row-year">WIP</span>
-        </div>
-      </a>
-      <a href="https://pokerdeeds.blogspot.com" target="_blank" class="writing-row">
-        <div class="writing-row-title-container">
-          <span class="writing-row-title">Hi Heart I Read</span>
-          <span class="writing-row-meta">Curated Essays</span>
-        </div>
-        <div class="writing-row-right">
-          <span class="writing-row-arrow">&rarr;</span>
-          <span class="writing-row-year">2023</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       06 -- CONTACT Snapped Viewport
-       ========================================================================== -->
-  <section class="contact-section" id="connect">
-    <div class="section-head-title">
-      <span class="hud-mono" style="color: var(--color-muted); display: block; margin-bottom: 0.5rem;">06 / CONTACT</span>
-    </div>
-    <div class="contact-center-content" style="width: 100%; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; margin-top: 2rem;">
-      <h2 class="contact-talk-heading wipe-reveal" style="margin-bottom: 3rem; font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 6.5rem); font-weight: 400;">Let's talk.</h2>
-      
-      <!-- Connect Grid (Grouped Layout) -->
-      <div class="contact-grid" style="margin-bottom: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; width: 100%;">
-        <div class="contact-group">
-          <h3 class="hud-mono" style="font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">[ Primary Channels ]</h3>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="mailto:pratapjindal812@gmail.com" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">📧</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">Email</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">pratapjindal812@gmail.com</span>
-              </div>
-            </a>
-            <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">🔗</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">LinkedIn</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">linkedin.com/in/pratap-jindal</span>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-group">
-          <h3 class="hud-mono" style="font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">[ Quick Connect ]</h3>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="https://wa.me/917009019719" target="_blank" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">💬</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">WhatsApp</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">+91 70090 19719</span>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-group">
-          <h3 class="hud-mono" style="font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">[ Resources ]</h3>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="resume.pdf" download class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; padding: 0.75rem; border: 1px solid var(--accent); border-radius: var(--radius-sm); transition: var(--transition); background: rgba(201, 162, 75, 0.05); color: var(--accent);">
-              <div class="cell-icon-box" style="color: var(--accent);">📄</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--accent);">Download</span>
-                <span class="cell-value-text" style="font-weight: 700; font-size: 0.85rem;">RESUME (PDF)</span>
-              </div>
-            </a>
-            <a href="registry.html" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">📊</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">Product Database</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">Systems Registry</span>
-              </div>
-            </a>
-            <a href="https://drive.google.com/drive/folders/14bmiZWAyVzBQJKof8UXk9PHqt--6bNmZ?usp=sharing" target="_blank" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">🎓</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">Credentials</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">Certificates (Google Drive)</span>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-group">
-          <h3 class="hud-mono" style="font-size: 0.8rem; color: var(--color-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">[ Creative ]</h3>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="https://pokerdeeds.blogspot.com" target="_blank" class="direct-connect-cell" style="display: flex; align-items: center; gap: 0.75rem; min-height: 48px; text-decoration: none; color: inherit; padding: 0.75rem; border: 1px solid var(--border-thin); border-radius: var(--radius-sm); transition: var(--transition); background: var(--bg-surface);">
-              <div class="cell-icon-box">✍️</div>
-              <div>
-                <span class="cell-label" style="display: block; font-size: 0.7rem; color: var(--color-muted);">Creative Blog</span>
-                <span class="cell-value-text" style="font-weight: 600; font-size: 0.85rem;">pokerdeeds.blogspot.com</span>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="contact-copyright" style="margin-top: 4rem; border-top: 1px solid var(--border-thin); padding-top: 2rem; font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; display: flex; justify-content: space-between; width: 100%;">
-      <span>&copy; 2026 Pratap Jindal &middot; Chandigarh</span>
-      <span>Portfolio View</span>
-    </div>
-  </section>
-
-  <!-- Include Core Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <!-- Custom Logic Script -->
-  <script src="script.js?v=3"></script>
-
-  <!-- Custom Premium Cursor -->
-  <div class="custom-cursor" id="customCursor"></div>
-  <div class="custom-cursor-ring" id="customCursorRing"></div>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

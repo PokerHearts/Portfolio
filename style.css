@@ -1452,24 +1452,47 @@ section {
 }
 
 /* ==========================================================================
-   HERO VIDEO PLAYER STYLING
+   HERO DASHBOARD WIDGET STYLING
    ========================================================================== */
-.hero-video-container {
+.hero-dashboard-widget {
   margin: 2.5rem 0;
   width: 100%;
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
+  transition: all 0.3s ease;
 }
 
-.hero-video {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-  box-shadow: var(--shadow-ambient);
-  border: 1px solid var(--border-thin);
-  background: #000;
+@keyframes pulse {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+.pulse-indicator {
+  animation: pulse 1.8s infinite ease-in-out;
+}
+
+.metric-card {
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-blue) !important;
+  background: rgba(59, 130, 246, 0.02) !important;
+}
+
+.animated-path {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawLine 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* ==========================================================================
@@ -1568,9 +1591,9 @@ section {
     margin-bottom: 0.5rem;
   }
 
-  /* Video player sizing */
-  .hero-video-container {
-    max-width: 90%;
+  /* Dashboard widget sizing */
+  .hero-dashboard-widget {
+    max-width: 95%;
   }
 }
 
@@ -1619,10 +1642,10 @@ section {
     gap: 1.25rem !important;
   }
 
-  /* Video mobile padding */
-  .hero-video-container {
+  /* Dashboard mobile padding */
+  .hero-dashboard-widget {
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 1rem;
   }
 }
 

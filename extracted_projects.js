@@ -158,8 +158,8 @@ const projectData = [
     id: "MOD_05",
     category: "extensions",
     strategy: {
-      title: "Data Studio Real-Time Refresher",
-      desc: "A custom Chrome extension engineered to bypass the native 15-minute Data Studio data caching limits. Injects background event runners to trigger real-time, non-invasive dashboard database queries while completely preserving user-selected filters, pivots, and screen scroll coordinates.",
+      title: "Looker Studio Real-Time Refresher",
+      desc: "A custom Chrome extension engineered to bypass the native 15-minute Looker Studio data caching limits. Injects background event runners to trigger real-time, non-invasive dashboard database queries while completely preserving user-selected filters, pivots, and screen scroll coordinates.",
       outcomeLabel: "Operational Outcome",
       outcomeText: "Enabled real-time, live operational telemetry monitoring for senior executives during key cycles.",
       tech: ["Chrome Extension API", "DOM Injection", "Session Sync"]
@@ -543,7 +543,7 @@ const projectData = [
       desc: "A behavior-driven predictive dashboard analyzing historical B2B purchase frequencies to calculate and forecast future reorder timelines per client.",
       outcomeLabel: "Operational Outcome",
       outcomeText: "Enabled predictive sales calling across 500+ SKUs by anticipating client restocking cycles.",
-      tech: ["Data Modeling", "Data Studio", "Predictive Demand"]
+      tech: ["Data Modeling", "Looker Studio", "Predictive Demand"]
     },
     product: {
       title: "SCOT Purchase Predictor",
@@ -809,7 +809,7 @@ const projectData = [
       desc: "A comprehensive B2B client analysis system tracking historical purchasing logs, rotation speed, aging accounts receivables, and credit risk factors.",
       outcomeLabel: "Operational Outcome",
       outcomeText: "Provides high-value management alerts on top-performing client accounts and early payment delays.",
-      tech: ["Data Studio", "Health Scoring", "AR Analytics"]
+      tech: ["Looker Studio", "Health Scoring", "AR Analytics"]
     },
     product: {
       title: "Client Health Dashboard",

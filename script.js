@@ -2,6 +2,7 @@
    THREE.JS STRATEGIC SPATIAL UNIVERSE BACKGROUND — SUBTLE AMBIENT CANVAS
    ========================================================================== */
 let scene, camera, renderer, dirLight;
+const cameraBasePos = { x: 0, y: 5, z: 25 };
 
 // Parallax tracking mouse
 let mouseX = 0, mouseY = 0;
@@ -18,7 +19,7 @@ function initThree() {
   scene.fog = new THREE.FogExp2(0xf1f5f9, 0.025);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 5, 25);
+  camera.position.set(cameraBasePos.x, cameraBasePos.y, cameraBasePos.z);
 
   renderer = new THREE.WebGLRenderer({
     canvas: canvas,
@@ -72,7 +73,7 @@ function setupCameraScrollChoreography() {
       scrub: 1.2
     }
   })
-  .to(camera.position, { x: 8, y: -2, z: 18 })
+  .to(cameraBasePos, { x: 8, y: -2, z: 18 })
   .to(camera.rotation, { x: 0.1, y: -0.3, z: 0 }, "<");
 
   // Projects Grid -> Experience
@@ -84,7 +85,7 @@ function setupCameraScrollChoreography() {
       scrub: 1.2
     }
   })
-  .to(camera.position, { x: -6, y: -8, z: 15 })
+  .to(cameraBasePos, { x: -6, y: -8, z: 15 })
   .to(camera.rotation, { x: -0.15, y: 0.25, z: 0 }, "<");
 
   // Experience -> Research
@@ -96,7 +97,7 @@ function setupCameraScrollChoreography() {
       scrub: 1.2
     }
   })
-  .to(camera.position, { x: 5, y: -14, z: 20 })
+  .to(cameraBasePos, { x: 5, y: -14, z: 20 })
   .to(camera.rotation, { x: 0.05, y: -0.15, z: 0 }, "<");
 
   // Research -> Writing
@@ -108,7 +109,7 @@ function setupCameraScrollChoreography() {
       scrub: 1.2
     }
   })
-  .to(camera.position, { x: -3, y: -20, z: 16 })
+  .to(cameraBasePos, { x: -3, y: -20, z: 16 })
   .to(camera.rotation, { x: -0.1, y: 0.1, z: 0 }, "<");
 
   // Writing -> Contact (Corrected to target #connect instead of #contact)
@@ -120,7 +121,7 @@ function setupCameraScrollChoreography() {
       scrub: 1.2
     }
   })
-  .to(camera.position, { x: 0, y: -26, z: 22 })
+  .to(cameraBasePos, { x: 0, y: -26, z: 22 })
   .to(camera.rotation, { x: 0, y: 0, z: 0 }, "<");
 }
 
@@ -150,19 +151,27 @@ function animate() {
   
   const isReduced = prefersReducedMotion.matches;
   
-  // Camera mouse parallax drift
-  if (!isReduced && camera) {
-    mouseX += (targetMouseX - mouseX) * 0.05;
-    mouseY += (targetMouseY - mouseY) * 0.05;
-    
-    camera.position.x += (mouseX - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY - camera.position.y) * 0.05;
+  // Camera mouse parallax drift applied on top of the GSAP base position
+  if (camera) {
+    if (!isReduced) {
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+      
+      camera.position.x = cameraBasePos.x + mouseX;
+      camera.position.y = cameraBasePos.y - mouseY;
+      camera.position.z = cameraBasePos.z;
+    } else {
+      camera.position.x = cameraBasePos.x;
+      camera.position.y = cameraBasePos.y;
+      camera.position.z = cameraBasePos.z;
+    }
   }
 
   if (renderer && scene && camera) {
     renderer.render(scene, camera);
   }
 }
+
 
 
 /* ==========================================================================
@@ -731,33 +740,90 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize WebGL Knowledge Graph
   initThree();
 
-  // 2. Navigation Active Tab Highlighting (Bounding Rect based to fix Scroll bugs)
+  // 2. Navigation Active Tab Highlighting & Scroll HUD Counter
   const navLinks = document.querySelectorAll('.nav-link-item a');
   const sections = document.querySelectorAll('section');
+  const sectionMeta = {
+    'hero': 'HERO // INTRO',
+    'projects': 'SELECTED WORK',
+    'skills': 'CAPABILITY MATRIX',
+    'experience': 'EXPERIENCE TIMELINE',
+    'research': 'RESEARCH FOCUS',
+    'writing': 'CREATIVE WRITING',
+    'connect': 'CONTACT // CONNECT'
+  };
 
-  window.addEventListener('scroll', () => {
+  function updateScrollHUD() {
     const mainNav = document.getElementById('mainNav');
-    if (window.scrollY > 40) {
-      mainNav.classList.add('scrolled');
-    } else {
-      mainNav.classList.remove('scrolled');
+    if (mainNav) {
+      if (window.scrollY > 40) {
+        mainNav.classList.add('scrolled');
+      } else {
+        mainNav.classList.remove('scrolled');
+      }
     }
 
-    let currentActive = "";
-    sections.forEach(section => {
+    let currentActive = "hero";
+    let activeIndex = 0;
+    sections.forEach((section, idx) => {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= 200 && rect.bottom >= 200) {
+      // Use middle of the screen as trigger point
+      if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.45) {
         currentActive = section.getAttribute('id');
+        activeIndex = idx;
       }
     });
 
+    // Update active nav links
     navLinks.forEach(link => {
       link.classList.remove('active');
       if (link.getAttribute('href') === `#${currentActive}`) {
         link.classList.add('active');
       }
     });
-  });
+
+    // Update HUD counters
+    const counterEl = document.getElementById('hud-counter');
+    const counterMetaEl = document.getElementById('hud-counter-meta');
+    if (counterEl) {
+      const displayIndex = String(activeIndex + 1).padStart(2, '0');
+      counterEl.textContent = `${displayIndex} / 07`;
+    }
+    if (counterMetaEl) {
+      counterMetaEl.textContent = sectionMeta[currentActive] || '';
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollHUD);
+  updateScrollHUD();
+
+  // 2b. Chandigarh HUD Clock Update Loop
+  function updateHudClock() {
+    const clockEl = document.getElementById('hud-clock');
+    if (!clockEl) return;
+    const now = new Date();
+    // Convert to Chandigarh (IST / Asia/Kolkata)
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+    try {
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      clockEl.textContent = `${formatter.format(now)} — CHANDIGARH`;
+    } catch (e) {
+      // Fallback
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      clockEl.textContent = `${hh}:${mm}:${ss} — CHANDIGARH`;
+    }
+  }
+  updateHudClock();
+  setInterval(updateHudClock, 1000);
+
 
   // Mobile Nav Drawer Toggle
   const navToggle = document.getElementById('navToggle');
@@ -1090,4 +1156,86 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================================================
+  // INTERACTIVE MIS MOCK DASHBOARD SIMULATION
+  // ==========================================================================
+  const triggerScriptBtn = document.getElementById('trigger-script-btn');
+  const terminalLog = document.getElementById('script-log-terminal');
+  const metricHours = document.getElementById('metric-reporting-hours');
+  const statusText = document.getElementById('widget-status-text');
+  const chartPath = document.getElementById('chart-path');
+  const chartArea = document.getElementById('chart-area');
+
+  if (triggerScriptBtn) {
+    let isRunning = false;
+    triggerScriptBtn.addEventListener('click', () => {
+      if (isRunning) return;
+      isRunning = true;
+      triggerScriptBtn.style.opacity = '0.6';
+      triggerScriptBtn.textContent = 'Running Automation...';
+      
+      const logs = [
+        'Connecting sheets...',
+        'Parsing 500+ SKUs...',
+        'Validating leadtimes...',
+        'Sanitizing duplicates...',
+        'Pushed to Looker!',
+        'Optimal buffers set.'
+      ];
+      
+      let logIndex = 0;
+      terminalLog.style.color = 'var(--accent-purple)';
+      
+      const interval = setInterval(() => {
+        if (logIndex < logs.length) {
+          terminalLog.textContent = logs[logIndex];
+          logIndex++;
+        } else {
+          clearInterval(interval);
+          terminalLog.textContent = 'Execution Success!';
+          terminalLog.style.color = '#10b981';
+          triggerScriptBtn.style.opacity = '1';
+          triggerScriptBtn.textContent = '⚡ Run Optimizer Again';
+          if (statusText) {
+            statusText.textContent = 'STATUS: RE-OPTIMIZED';
+            statusText.style.color = '#10b981';
+          }
+          
+          // Animate metrics
+          if (metricHours && typeof gsap !== 'undefined') {
+            gsap.to(metricHours, {
+              textContent: 58,
+              snap: { textContent: 1 },
+              duration: 1,
+              ease: 'power2.out',
+              onComplete: () => {
+                metricHours.textContent = '58h';
+              }
+            });
+          } else if (metricHours) {
+            metricHours.textContent = '58h';
+          }
+          
+          // Smoothly animate the SVG chart path to reflect optimization!
+          if (chartPath && chartArea && typeof gsap !== 'undefined') {
+            gsap.to(chartPath, {
+              attr: { d: "M 0,80 Q 50,40 100,20 T 200,10 T 300,2" },
+              duration: 1.2,
+              ease: "power2.out"
+            });
+            gsap.to(chartArea, {
+              attr: { d: "M 0,100 L 0,80 Q 50,40 100,20 T 200,10 T 300,2 L 300,100 Z" },
+              duration: 1.2,
+              ease: "power2.out"
+            });
+          }
+
+          showToast("Google Apps Script Optimization Loop Completed");
+          isRunning = false;
+        }
+      }, 350);
+    });
+  }
 });
+

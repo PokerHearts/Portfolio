@@ -206,7 +206,7 @@ body:has(button:hover) .cursor-ring {
    02 · NUMBERS
    ═══════════════════════════════════════ */
 .numbers {
-  padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 8rem);
+  padding: clamp(2.5rem, 5vh, 4rem) clamp(2rem, 6vw, 8rem);
   border-top: 1px solid var(--rule);
 }
 
@@ -256,11 +256,11 @@ body:has(button:hover) .cursor-ring {
 
 .work-panel {
   width: 100vw;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(3rem, 8vw, 8rem);
+  padding: clamp(2rem, 5vw, 5rem);
   flex-shrink: 0;
 }
 
@@ -318,7 +318,7 @@ body:has(button:hover) .cursor-ring {
    04 · ABOUT
    ═══════════════════════════════════════ */
 .about {
-  padding: clamp(6rem, 12vh, 10rem) clamp(2rem, 6vw, 8rem);
+  padding: clamp(3rem, 6vh, 5rem) clamp(2rem, 6vw, 8rem);
   border-top: 1px solid var(--rule);
 }
 
@@ -360,7 +360,7 @@ body:has(button:hover) .cursor-ring {
    05 · PROJECTS
    ═══════════════════════════════════════ */
 .projects {
-  padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 8rem);
+  padding: clamp(3rem, 5vh, 4rem) clamp(2rem, 6vw, 8rem);
   border-top: 1px solid var(--rule);
   max-width: 900px;
   margin: 0 auto;
@@ -373,11 +373,11 @@ body:has(button:hover) .cursor-ring {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .project-entry {
-  padding: 2rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -420,11 +420,22 @@ body:has(button:hover) .cursor-ring {
   border-color: var(--gold);
 }
 
+.project-tag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
 /* ═══════════════════════════════════════
    06 · WRITING
    ═══════════════════════════════════════ */
 .writing {
-  padding: clamp(6rem, 14vh, 12rem) clamp(2rem, 6vw, 8rem);
+  padding: clamp(3.5rem, 7vh, 6rem) clamp(2rem, 6vw, 8rem);
   border-top: 1px solid var(--rule);
   background: var(--green);
   color: var(--bg);
@@ -451,7 +462,7 @@ body:has(button:hover) .cursor-ring {
 }
 
 .writing-quotes {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 
 .writing-quotes blockquote {
@@ -485,7 +496,7 @@ body:has(button:hover) .cursor-ring {
    07 · CONTACT
    ═══════════════════════════════════════ */
 .contact {
-  padding: clamp(6rem, 14vh, 12rem) clamp(2rem, 6vw, 8rem);
+  padding: clamp(3.5rem, 7vh, 6rem) clamp(2rem, 6vw, 8rem);
   border-top: 1px solid var(--rule);
   text-align: center;
 }

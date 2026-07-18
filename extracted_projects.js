@@ -81,38 +81,38 @@ const projectData = [
     id: "MOD_03",
     category: "fullstack",
     strategy: {
-      title: "B2B Order Booking Workspace",
-      desc: "A serverless, mobile-optimized B2B order portal designed to replace scattered communication channels. Features client-side state caching, custom token authentication, catalog search engines, and real-time client-side PDF invoicing.",
-      outcomeLabel: "Operational Outcome",
-      outcomeText: "Slashed recurring booking loops by >60% while running at absolute zero operating cost via serverless hosting.",
-      tech: ["Vanilla JS", "jsPDF", "Edge Cache", "Token Auth"],
+      title: "B2B Order Book (Apps Script & Sheets Ordering System)",
+      desc: "A lightweight, responsive B2B ordering web app built on Google Apps Script and Sheets, serving as a digital order-pad for field sales, distributors, and direct customers. Features role-based scoping (Customer, Salesperson, Admin), localStorage draft recovery, dynamic stock filters, and client-side jsPDF receipt compilers with automatic CDN failovers.",
+      outcomeLabel: "Operational Impact",
+      outcomeText: "Slashed booking loops by >60% at absolute zero infrastructure cost, utilizing server-side data scoping and GAS CacheService to stay within quotas.",
+      tech: ["Google Apps Script", "Google Sheets", "Vanilla JS", "jsPDF"],
       cta: { text: "Deep-Dive Case Study", key: "b2bOrder" }
     },
     product: {
-      title: "B2B Sales Portal",
-      badge: "Core Workspace",
+      title: "B2B Order Book Workspace",
+      badge: "B2B Ordering System",
       problem: "Scattered order collections via text/emails caused invoice errors and delayed booking (avg. 8 mins/order).",
-      users: "Field sales agents and distributor reps.",
-      solution: "Serverless web workspace with Edge caching, custom SKU filtering, and instant PDF invoice compilation.",
-      decisions: "Bypassed heavy database costs by building secure client-side caching linked to serverless Apps Script endpoints.",
+      users: "Field sales agents, distributors, direct customers, and system administrators.",
+      solution: "A responsive single-page ordering portal with a four-tab order pad (Taking, Not Taking with rejection logging, TOP, and Divisions) and a real-time admin session controller.",
+      decisions: "Bypassed database costs by using Google Sheets with a dynamic chunked CacheService pipeline to fit stock databases under 100KB limits, and implemented client-side local storage auto-saving.",
       kpi: "Average Booking Time",
-      outcome: "Reduced booking time from 8 minutes to 45 seconds, with 100% ordering accuracy."
+      outcome: "Reduced order booking time from 8 minutes to 45 seconds, with 100% ordering accuracy."
     },
     research: {
       title: "Low-Cost Mobile Workspaces: Caching and Authentication in Serverless B2B Frameworks",
       badge: "Research Investigation",
       theme: "Information Systems",
-      question: "How can enterprise field-sales platforms establish transactional integrity at zero infrastructure cost?",
-      methodology: "Built and evaluated a client-side Edge cached token-auth model over stateless HTTP endpoints.",
+      question: "How can enterprise field-sales platforms establish transactional integrity and session persistence at zero infrastructure cost using static sheet DBs?",
+      methodology: "Implemented a client-side localStorage auto-save draft cache linked to compressed, chunked server-side GAS CacheService buffers.",
       contribution: "Establishes a zero-cost infrastructure framework for field agents, maintaining data consistency without database sessions."
     },
     transformation: {
       title: "B2B Sales Digitization Project",
       badge: "Operational Digitization",
       stream: "Operational Digitization",
-      before: "Field agents wrote orders on paper or sent messages, leading to manual transcription errors.",
-      after: "Integrated mobile order portal with instant invoice generation.",
-      change: "Equipped agents with the mobile workspace and created real-time sync with dispatch.",
+      before: "Field agents wrote orders on paper or sent messages, leading to manual transcription errors and lack of stock tracking.",
+      after: "Responsive B2B web ordering system with automatic stock hiding, priority pins, and direct PDF invoice generation.",
+      change: "Deployed the Apps Script web app to field forces, enforcing role-based category visibility and real-time order logs.",
       value: "Slashed transaction booking loop by 60% with zero hardware/operating server costs."
     }
   },

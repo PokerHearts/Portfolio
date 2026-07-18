@@ -28,15 +28,15 @@
   {
     "id": "MOD_03",
     "category": "fullstack",
-    "title": "B2B Order Booking Workspace",
-    "desc": "A serverless, mobile-optimized B2B order portal designed to replace scattered communication channels. Features client-side state caching, custom token authentication, catalog search engines, and real-time client-side PDF invoicing.",
-    "outcome": "Slashed recurring booking loops by >60% while running at absolute zero operating cost via serverless hosting.",
-    "product_problem": "Scattered order collections via text/emails caused invoice errors and delayed booking (avg. 8 mins/order).",
-    "product_users": "Field sales agents and distributor reps.",
-    "product_sol": "Serverless web workspace with Edge caching, custom SKU filtering, and instant PDF invoice compilation.",
-    "product_dec": "Bypassed heavy database costs by building secure client-side caching linked to serverless Apps Script endpoints.",
-    "product_kpi": "Average Booking Time",
-    "product_out": "Reduced booking time from 8 minutes to 45 seconds, with 100% ordering accuracy."
+    "title": "B2B Order Book (Apps Script & Sheets Ordering System)",
+    "desc": "A lightweight, responsive B2B ordering web app built on Google Apps Script and Sheets, serving as a digital order-pad for field sales, distributors, and direct customers. Features role-based scoping (Customer, Salesperson, Admin), localStorage draft recovery, dynamic stock filters, and client-side jsPDF receipt compilers with automatic CDN failovers.",
+    "outcome": "Slashed booking loops by >60% at absolute zero infrastructure cost, utilizing server-side data scoping and GAS CacheService to stay within quotas.",
+    "product_problem": "Scattered order collections via text and email led to manual entry errors and slow booking times (avg 8 mins/order).",
+    "product_users": "Field sales agents, distributors, direct customers, and system administrators.",
+    "product_sol": "A responsive single-page ordering portal with a four-tab order pad (Taking, Not Taking with rejection logging, TOP, and Divisions) and a real-time admin session controller.",
+    "product_dec": "Bypassed heavy database costs by using Google Sheets with a dynamic chunked CacheService pipeline to fit stock databases under 100KB limits, and implemented client-side local storage auto-saving.",
+    "product_kpi": "Order Booking Time",
+    "product_out": "Reduced order booking time from 8 minutes to 45 seconds while maintaining 100% order logging accuracy."
   },
   {
     "id": "MOD_04",

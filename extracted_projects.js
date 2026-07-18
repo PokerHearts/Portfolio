@@ -196,15 +196,15 @@ const projectData = [
     id: "MOD_06",
     category: "fullstack",
     strategy: {
-      title: "OmniReader — Spatial Reader Workspace",
-      desc: "A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built with local storage state management, dynamic semantic outlines, text-to-speech rendering, full-text instant index indexing, and adaptive layout themes.",
+      title: "Poker Hearts Reader (OmniReader)",
+      desc: "A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built for privacy-centric localized reading sandboxes with zero server operating cost. Features IndexedDB state preservation, dynamic semantic outlines, text-to-speech rendering, and instant full-text local search.",
       outcomeLabel: "Operational Outcome",
       outcomeText: "Zero server-load cost architecture keeping reading sessions fully private and localized inside client sandboxes.",
       tech: ["EPUB.js", "Scale-Free", "Local Indexing"],
       cta: { text: "Deploy Reader Portal", url: "https://reader.pokerhearts.in" }
     },
     product: {
-      title: "OmniReader Document Workspace",
+      title: "Poker Hearts Reader Document Workspace",
       badge: "Scale-Free Product",
       problem: "Standard document readers require heavy servers for parsing, creating privacy concerns and server overhead.",
       users: "Readers processing EPUB, PDF, and DOCX files.",
@@ -837,6 +837,45 @@ const projectData = [
       after: "Live credit risk dashboard tracking payment logs and aging collections.",
       change: "Trained credit controllers to monitor dashboard flags and follow up on early warning alerts.",
       value: "Improved cash flow visibility and reduced credit collections lag."
+    }
+  },
+  {
+    id: "MOD_23",
+    category: "fullstack",
+    strategy: {
+      title: "Custom Blogger Reading Product & Audio Engine",
+      desc: "A static Blogger template engineered into a continuous audio-reading platform. Implements six stone-slab themed design profiles, a continuous-listening audiobook player with localStorage resume, an ambient music player pulling live from a GitHub repository with auto-ducking, a client-side full-text search engine over the Blogger JSON feed with snippet highlighting, and selective pinch-to-zoom Jewel carousels.",
+      outcomeLabel: "User Experience Impact",
+      outcomeText: "Created a seamless continuous-listening and reading experience on a static host, optimizing load weight and API queries.",
+      tech: ["Blogger API", "Web Audio API", "localStorage", "GitHub API"],
+      cta: { text: "Visit Blog", url: "https://pokerdeeds.blogspot.com" }
+    },
+    product: {
+      title: "Blogger Custom Reading Product & Audio Engine",
+      badge: "Media Web App",
+      problem: "Static blog templates lack continuous media playback and robust client-side search, leading to fragmented reader experiences.",
+      users: "Readers of Poker Hearts fiction blog (pokerdeeds.blogspot.com).",
+      solution: "A custom Blogger theme integrating localStorage state tracking, Web Audio API event synchronization, and client-side Blogger JSON feed parsing.",
+      decisions: "Coded six custom theme profiles named after stone slabs (e.g. Calacatta Viola) and decoupled the background music player volume from the audiobook player to avoid overlay clashes.",
+      kpi: "Audio Playback Continuity",
+      outcome: "Enabled 100% audio playback resume and uninterrupted ambient music transitions across page navigation."
+    },
+    research: {
+      title: "State Persistence and Audio Synchronization in Static Site Architectures",
+      badge: "Technical Case Analysis",
+      theme: "Web Engineering",
+      question: "How can continuous media playback and state synchronization be maintained across page loads in standard static template environments without a single-page app (SPA) router?",
+      methodology: "Analyzed local storage state caching and asynchronous audio engine instantiation thresholds during standard page transitions.",
+      contribution: "Demonstrates a robust client-side solution for media state persistence in rigid legacy architectures."
+    },
+    transformation: {
+      title: "Blogger Platform Customization",
+      badge: "Platform Refactoring",
+      stream: "Platform Refactoring",
+      before: "Standard template design with disjointed audio widgets and lack of global search features.",
+      after: "Integrated audio-reading platform themed like a premium book product.",
+      change: "Engineered client-side feed readers, responsive audio player templates, and local storage state managers directly into a single XML template.",
+      value: "Transformed a simple blog into a unified, immersive, and premium client-side reading product."
     }
   }
 ]

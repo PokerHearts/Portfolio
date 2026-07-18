@@ -67,8 +67,8 @@
   {
     "id": "MOD_06",
     "category": "fullstack",
-    "title": "OmniReader \u2014 Spatial Reader Workspace",
-    "desc": "A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built with local storage state management, dynamic semantic outlines, text-to-speech rendering, full-text instant index indexing, and adaptive layout themes.",
+    "title": "Poker Hearts Reader (OmniReader)",
+    "desc": "A premium, ultra-fast client-side document reading environment processing EPUB, PDF, and DOCX extensions. Built for privacy-centric localized reading sandboxes with zero server operating cost. Features IndexedDB state preservation, dynamic semantic outlines, text-to-speech rendering, and instant full-text local search.",
     "outcome": "Zero server-load cost architecture keeping reading sessions fully private and localized inside client sandboxes.",
     "product_problem": "Standard document readers require heavy servers for parsing, creating privacy concerns and server overhead.",
     "product_users": "Readers processing EPUB, PDF, and DOCX files.",
@@ -284,5 +284,18 @@
     "product_dec": "Built an alert loop that flags clients when their payment lag exceeds credit terms by 7 days.",
     "product_kpi": "Late Payments Flagged",
     "product_out": "Optimized payment collection times, giving directors early warning of credit issues."
+  },
+  {
+    "id": "MOD_23",
+    "category": "fullstack",
+    "title": "Blogger Custom Reading Product & Audio Engine",
+    "desc": "A static Blogger template engineered into a continuous audio-reading platform. Implements six stone-slab themed design profiles, a continuous-listening audiobook player with localStorage resume, an ambient music player pulling live from a GitHub repository with auto-ducking, a client-side full-text search engine over the Blogger JSON feed with snippet highlighting, and selective pinch-to-zoom Jewel carousels.",
+    "outcome": "Created a seamless continuous-listening and reading experience on a static host, optimizing load weight and API queries.",
+    "product_problem": "Static blog templates lack continuous media playback and robust client-side search, leading to fragmented reader experiences.",
+    "product_users": "Readers of Poker Hearts fiction blog (pokerdeeds.blogspot.com).",
+    "product_sol": "A custom Blogger theme integrating localStorage state tracking, Web Audio API event synchronization, and client-side Blogger JSON feed parsing.",
+    "product_dec": "Coded six custom theme profiles named after stone slabs (e.g. Calacatta Viola) and decoupled the background music player volume from the audiobook player to avoid overlay clashes.",
+    "product_kpi": "Audio Playback Continuity",
+    "product_out": "Enabled 100% audio playback resume and uninterrupted ambient music transitions across page navigation."
   }
 ]

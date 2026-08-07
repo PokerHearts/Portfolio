@@ -877,5 +877,44 @@ const projectData = [
       change: "Engineered client-side feed readers, responsive audio player templates, and local storage state managers directly into a single XML template.",
       value: "Transformed a simple blog into a unified, immersive, and premium client-side reading product."
     }
+  },
+  {
+    id: "MOD_24",
+    category: "fullstack",
+    strategy: {
+      title: "Workforce Allocation Board — Real-Time Logistics & Operations Hub",
+      desc: "A modern, full-stack real-time logistics workforce allocation and SLA tracking platform built with Vanilla JavaScript (ES6+), Firebase (Firestore & Auth), and Google Apps Script. Connects physical warehouse operations with real-time cloud data and enterprise Google Sheets reporting.",
+      outcomeLabel: "Operational Impact",
+      outcomeText: "Slashed communication overhead by 80%, provided sub-second real-time SLA delay visibility, and fully automated cloud-to-sheet telemetry archiving.",
+      tech: ["Vanilla JS", "Firebase Firestore", "Firebase Auth", "Google Apps Script", "Google Sheets API"],
+      cta: { text: "View Details", key: "workforceAlloc" }
+    },
+    product: {
+      title: "Workforce Allocation & SLA Management System",
+      badge: "Real-Time Logistics SPA",
+      problem: "Coordinating warehouse worker assignments, tracking vehicle loading/unloading, and maintaining SLAs using legacy spreadsheets or physical whiteboards led to bottlenecks, communication lag, and unrecorded operational delays.",
+      users: "Warehouse managers, dispatch supervisors, and frontline mobile workers.",
+      solution: "A dual-view Single Page Application featuring a real-time drag-and-drop manager Kanban board, mobile passcode worker portal, live SLA delay calculation, and bi-directional Google Sheets integration engine.",
+      decisions: "Leveraged Firestore onSnapshot subscriptions for zero-latency UI sync, and engineered custom headless REST OAuth in Google Apps Script using Google Identity Toolkit APIs for sheet telemetry sync without third-party servers.",
+      kpi: "Communication Overhead & SLA Delay Visibility",
+      outcome: "Slashed communication overhead by 80%, enabled immediate visibility into job completion delays, and automated operational record archiving."
+    },
+    research: {
+      title: "Sub-Second State Synchronization and Headless ETL in Serverless Logistics Workflows",
+      badge: "Architecture Analysis",
+      theme: "Real-Time Systems & Serverless ETL",
+      question: "How can low-latency real-time client state synchronization and serverless spreadsheet reporting be unified in high-velocity logistics environments without persistent server infrastructure?",
+      methodology: "Implemented Firestore real-time snapshot listeners combined with Google Apps Script REST API payload formatting and memory-mapped deduplication pipelines.",
+      contribution: "Provides a zero-server-cost reference model for connecting physical operations with cloud databases and enterprise spreadsheets."
+    },
+    transformation: {
+      title: "Warehouse Task Allocation & Telemetry Automation",
+      badge: "Operational Transformation",
+      stream: "Operations & Systems Transformation",
+      before: "Manual whiteboard tracking and phone calls causing communication lag, untracked SLA overruns, and manual spreadsheet logging.",
+      after: "Real-time Kanban allocation board, mobile worker portal, and automated Google Sheets sync engine.",
+      change: "Deployed real-time drag-and-drop worker dispatch for shift managers and passcode mobile task management for frontline warehouse teams.",
+      value: "80% reduction in operational communication lag, instant SLA delay detection, and 100% automated telemetry archiving."
+    }
   }
 ]

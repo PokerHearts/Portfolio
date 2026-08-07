@@ -297,5 +297,18 @@
     "product_dec": "Coded six custom theme profiles named after stone slabs (e.g. Calacatta Viola) and decoupled the background music player volume from the audiobook player to avoid overlay clashes.",
     "product_kpi": "Audio Playback Continuity",
     "product_out": "Enabled 100% audio playback resume and uninterrupted ambient music transitions across page navigation."
+  },
+  {
+    "id": "MOD_24",
+    "category": "fullstack",
+    "title": "Workforce Allocation Board — Real-Time Logistics & Operations Hub",
+    "desc": "A modern, full-stack real-time logistics workforce allocation and SLA tracking platform built with Vanilla JavaScript (ES6+), Firebase (Firestore & Auth), and Google Apps Script. Connects physical warehouse operations with real-time cloud data and enterprise Google Sheets reporting.",
+    "outcome": "Achieved an 80% reduction in communication overhead, sub-second real-time SLA delay detection, and automated bi-directional cloud-to-sheet telemetry sync.",
+    "product_problem": "Coordinating warehouse worker assignments, tracking vehicle loading/unloading, and maintaining SLAs using legacy spreadsheets or physical whiteboards led to bottlenecks, communication lag, and unrecorded operational delays.",
+    "product_users": "Warehouse managers, dispatch supervisors, and frontline mobile workers.",
+    "product_sol": "A dual-view Single Page Application featuring a real-time drag-and-drop manager Kanban board, mobile passcode worker portal, live SLA delay calculation, and bi-directional Google Sheets integration engine.",
+    "product_dec": "Leveraged Firestore onSnapshot subscriptions for zero-latency UI sync, and engineered custom headless REST OAuth in Google Apps Script using Google Identity Toolkit APIs for sheet telemetry sync without third-party servers.",
+    "product_kpi": "Communication Overhead & SLA Delay Visibility",
+    "product_out": "Slashed communication overhead by 80%, enabled immediate visibility into job completion delays, and automated operational record archiving."
   }
 ]

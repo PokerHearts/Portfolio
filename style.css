@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    HELIX PORTFOLIO — PRATAP JINDAL (2026 AWWWARDS & LINEAR REVAMP)
-   Bento Grid, Architecture Graph & Interactive ROI Simulator System
+   Bento Grid, Architecture Graph & 24-Module Engine
    ═══════════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════
@@ -617,127 +617,7 @@ body.dark-theme .theme-toggle-btn {
   .hero-buttons .btn { width: 100%; }
 }
 
-/* ═══════════════════════════════════════
-   04 · INTERACTIVE ROI SIMULATOR WIDGET
-   ═══════════════════════════════════════ */
-.simulator-section {
-  max-width: 1320px;
-  margin: 4rem auto 0;
-  padding: 0 1.5rem;
-}
 
-.simulator-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  border-radius: var(--radius-lg);
-  padding: 2.25rem;
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(16px);
-}
-
-.simulator-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 2.5rem;
-  margin-top: 1.5rem;
-  align-items: center;
-}
-
-.sim-slider-group {
-  margin-bottom: 1.5rem;
-}
-
-.slider-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.slider-val {
-  font-family: var(--font-mono);
-  color: var(--accent-cyan);
-  font-weight: 700;
-}
-
-.sim-controls-panel input[type="range"] {
-  width: 100%;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: var(--bg-input);
-  outline: none;
-  -webkit-appearance: none;
-}
-
-.sim-controls-panel input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent-cyan);
-  cursor: pointer;
-  box-shadow: 0 0 10px var(--accent-cyan);
-}
-
-.sim-output-panel {
-  background: var(--bg-input);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.sim-output-title {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  color: var(--accent-gold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.sim-big-num {
-  font-family: var(--font-hero);
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--accent-cyan);
-  line-height: 1.1;
-  margin-bottom: 0.35rem;
-}
-
-.sim-result-lbl {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 1.25rem;
-}
-
-.sim-mini-results {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.sim-mini-val {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text-main);
-}
-
-.sim-mini-lbl {
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-
-@media (max-width: 992px) {
-  .simulator-grid { grid-template-columns: 1fr; }
-}
 
 /* ═══════════════════════════════════════
    05 · PERSONA & RESUME FOCUS SECTION

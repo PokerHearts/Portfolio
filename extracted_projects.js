@@ -771,7 +771,7 @@ const projectData = [
       desc: "An allocation dashboard modeling marketing sample distributions, regional promotional expenses, and material allocations against net sales returns.",
       outcomeLabel: "Operational Outcome",
       outcomeText: "Enforced strict budgetary limits on sales promo allocations and boosted material spending efficiency.",
-      tech: ["Allocation Logic", "Marketing ROI", "Budget Ledgers"]
+      tech: ["Allocation Logic", "Marketing Impact", "Budget Ledgers"]
     },
     product: {
       title: "Promo Input Allocator",

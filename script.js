@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   HELIX PORTFOLIO — CONTROLLER (2026 REVAMP)
-   Bento Grid, Architecture Graph, ROI Simulator & 24-Module Engine
+   HELIX PORTFOLIO — PRATAP JINDAL (2026 AWWWARDS & LINEAR REVAMP)
+   Bento Grid, Architecture Graph & 24-Module Engine
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPersona(currentPersona);
     renderModules();
     setupEventListeners();
-    setupRoiSimulator();
     initMascotAndCursor();
     setupNumberCounters();
   }
@@ -298,51 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ═══════════════════════════════════════
-  // 03 · ROI SIMULATOR CONTROLLER
-  // ═══════════════════════════════════════
-  function setupRoiSimulator() {
-    const teamSizeSlider = document.getElementById('teamSizeSlider');
-    const revenueSlider = document.getElementById('revenueSlider');
-    const skuSlider = document.getElementById('skuSlider');
 
-    if (!teamSizeSlider || !revenueSlider || !skuSlider) return;
-
-    const teamSizeVal = document.getElementById('teamSizeVal');
-    const revenueVal = document.getElementById('revenueVal');
-    const skuVal = document.getElementById('skuVal');
-
-    const simHoursSaved = document.getElementById('simHoursSaved');
-    const simCostSaved = document.getElementById('simCostSaved');
-    const simAccuracy = document.getElementById('simAccuracy');
-
-    function updateSimCalculations() {
-      if (!teamSizeSlider || !revenueSlider || !skuSlider) return;
-
-      const team = parseInt(teamSizeSlider.value, 10);
-      const rev = parseInt(revenueSlider.value, 10);
-      const skus = parseInt(skuSlider.value, 10);
-
-      if (teamSizeVal) teamSizeVal.textContent = `${team} Members`;
-      if (revenueVal) revenueVal.textContent = `₹${rev} Crore`;
-      if (skuVal) skuVal.textContent = `${skus} SKUs`;
-
-      // 80% automation savings formula benchmark
-      const hoursSaved = Math.round(team * 4);
-      const costSavedLakhs = (team * 0.06).toFixed(1);
-      const accuracyPct = Math.min(99.5, 95 + (skus / 200)).toFixed(1);
-
-      if (simHoursSaved) simHoursSaved.textContent = `${hoursSaved} Hours / Mo`;
-      if (simCostSaved) simCostSaved.textContent = `₹${costSavedLakhs} Lakhs`;
-      if (simAccuracy) simAccuracy.textContent = `${accuracyPct}%`;
-    }
-
-    [teamSizeSlider, revenueSlider, skuSlider].forEach(slider => {
-      slider?.addEventListener('input', updateSimCalculations);
-    });
-
-    updateSimCalculations();
-  }
 
   // ═══════════════════════════════════════
   // 04 · PERSONA RENDER ENGINE

@@ -306,6 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const revenueSlider = document.getElementById('revenueSlider');
     const skuSlider = document.getElementById('skuSlider');
 
+    if (!teamSizeSlider || !revenueSlider || !skuSlider) return;
+
     const teamSizeVal = document.getElementById('teamSizeVal');
     const revenueVal = document.getElementById('revenueVal');
     const skuVal = document.getElementById('skuVal');

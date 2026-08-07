@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    HELIX PORTFOLIO — CONTROLLER (2026 REVAMP)
-   Full 24-Module Engine, Persona Switcher, Lens Matrix, Theme & Mascot
+   Bento Grid, Architecture Graph, ROI Simulator & 24-Module Engine
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentCategory = 'all';
   let currentLens = 'strategy';
-  let currentView = 'grid';
+  let currentView = 'grid'; // 'grid' | 'graph' | 'table'
   let currentPersona = 'leadership';
   let searchQuery = '';
   let activeModuleForDrawer = null;
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const activeLensText = document.getElementById('activeLensText');
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeIcon');
+  const progressBar = document.getElementById('progressBar');
   
   // Drawer Elements
   const drawerBackdrop = document.getElementById('drawerBackdrop');
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPersona(currentPersona);
     renderModules();
     setupEventListeners();
+    setupRoiSimulator();
     initMascotAndCursor();
     setupNumberCounters();
   }
@@ -116,6 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentView === 'grid') {
       renderGridView(filtered);
+    } else if (currentView === 'graph') {
+      renderGraphView(filtered);
     } else {
       renderTableView(filtered);
     }
@@ -162,6 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
     container.querySelectorAll('.module-card').forEach(card => {
       card.addEventListener('click', () => {
         const id = card.getAttribute('data-id');
+        const mod = modulesData.find(m => m.id === id);
+        if (mod) openDrawer(mod);
+      });
+    });
+  }
+
+  function renderGraphView(modules) {
+    container.className = 'architecture-graph-container';
+
+    container.innerHTML = `
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;">System Architecture Flow Map</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Visualizing how operational data flows across Sales, Inventory, AI Speech QA, and Executive MIS Analytics.</p>
+      </div>
+
+      <div class="graph-flow-grid">
+        ${modules.map((mod, idx) => `
+          <div class="graph-node-card" data-id="${mod.id}">
+            <span class="node-flow-num">NODE ${String(idx + 1).padStart(2, '0')}</span>
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.25rem;">${mod.id} · ${mod.category.toUpperCase()}</div>
+            <h4 style="font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem;">${mod.strategy?.title || ''}</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">${mod.product?.solution || mod.strategy?.desc || ''}</p>
+            <div style="margin-top: 0.75rem; font-size: 0.75rem; font-weight: 700; color: var(--accent-gold);">Click to Inspect Node &rarr;</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    container.querySelectorAll('.graph-node-card').forEach(node => {
+      node.addEventListener('click', () => {
+        const id = node.getAttribute('data-id');
         const mod = modulesData.find(m => m.id === id);
         if (mod) openDrawer(mod);
       });
@@ -264,7 +299,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 03 · PERSONA RENDER ENGINE
+  // 03 · ROI SIMULATOR CONTROLLER
+  // ═══════════════════════════════════════
+  function setupRoiSimulator() {
+    const teamSizeSlider = document.getElementById('teamSizeSlider');
+    const revenueSlider = document.getElementById('revenueSlider');
+    const skuSlider = document.getElementById('skuSlider');
+
+    const teamSizeVal = document.getElementById('teamSizeVal');
+    const revenueVal = document.getElementById('revenueVal');
+    const skuVal = document.getElementById('skuVal');
+
+    const simHoursSaved = document.getElementById('simHoursSaved');
+    const simCostSaved = document.getElementById('simCostSaved');
+    const simAccuracy = document.getElementById('simAccuracy');
+
+    function updateSimCalculations() {
+      if (!teamSizeSlider || !revenueSlider || !skuSlider) return;
+
+      const team = parseInt(teamSizeSlider.value, 10);
+      const rev = parseInt(revenueSlider.value, 10);
+      const skus = parseInt(skuSlider.value, 10);
+
+      if (teamSizeVal) teamSizeVal.textContent = `${team} Members`;
+      if (revenueVal) revenueVal.textContent = `₹${rev} Crore`;
+      if (skuVal) skuVal.textContent = `${skus} SKUs`;
+
+      // 80% automation savings formula benchmark
+      const hoursSaved = Math.round(team * 4);
+      const costSavedLakhs = (team * 0.06).toFixed(1);
+      const accuracyPct = Math.min(99.5, 95 + (skus / 200)).toFixed(1);
+
+      if (simHoursSaved) simHoursSaved.textContent = `${hoursSaved} Hours / Mo`;
+      if (simCostSaved) simCostSaved.textContent = `₹${costSavedLakhs} Lakhs`;
+      if (simAccuracy) simAccuracy.textContent = `${accuracyPct}%`;
+    }
+
+    [teamSizeSlider, revenueSlider, skuSlider].forEach(slider => {
+      slider?.addEventListener('input', updateSimCalculations);
+    });
+
+    updateSimCalculations();
+  }
+
+  // ═══════════════════════════════════════
+  // 04 · PERSONA RENDER ENGINE
   // ═══════════════════════════════════════
   function renderPersona(personaKey) {
     const data = resumes[personaKey];
@@ -309,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 04 · CASE STUDY DRAWER MODAL
+  // 05 · CASE STUDY DRAWER MODAL
   // ═══════════════════════════════════════
   function openDrawer(mod) {
     activeModuleForDrawer = mod;
@@ -442,13 +521,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 05 · EVENT LISTENERS
+  // 06 · EVENT LISTENERS
   // ═══════════════════════════════════════
   function setupEventListeners() {
     // Theme Toggle Listener
     themeToggleBtn?.addEventListener('click', () => {
       const isDark = document.body.classList.contains('dark-theme');
       setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Scroll Reading Progress Bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / (docHeight || 1)) * 100;
+      if (progressBar) progressBar.style.width = `${progress}%`;
+    });
+
+    // Bento Card Clicks
+    document.querySelectorAll('.bento-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.getAttribute('data-id');
+        const mod = modulesData.find(m => m.id === id);
+        if (mod) openDrawer(mod);
+      });
     });
 
     // Search Input
@@ -505,14 +601,24 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // View Switcher (Grid vs Table)
+    // View Switcher (Grid vs Graph vs Table)
     const btnGridView = document.getElementById('btnGridView');
+    const btnGraphView = document.getElementById('btnGraphView');
     const btnTableView = document.getElementById('btnTableView');
 
-    if (btnGridView && btnTableView) {
+    if (btnGridView && btnTableView && btnGraphView) {
       btnGridView.addEventListener('click', () => {
         currentView = 'grid';
         btnGridView.classList.add('active');
+        btnGraphView.classList.remove('active');
+        btnTableView.classList.remove('active');
+        renderModules();
+      });
+
+      btnGraphView.addEventListener('click', () => {
+        currentView = 'graph';
+        btnGraphView.classList.add('active');
+        btnGridView.classList.remove('active');
         btnTableView.classList.remove('active');
         renderModules();
       });
@@ -521,20 +627,19 @@ document.addEventListener('DOMContentLoaded', () => {
         currentView = 'table';
         btnTableView.classList.add('active');
         btnGridView.classList.remove('active');
+        btnGraphView.classList.remove('active');
         renderModules();
       });
     }
 
-    // Persona Selector Buttons (Section & Nav)
+    // Persona Selector Buttons
     document.querySelectorAll('.persona-tab-btn, .persona-nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         currentPersona = btn.getAttribute('data-persona');
         
-        // Update Section Tab UI
         document.querySelectorAll('.persona-tab-btn').forEach(b => {
           b.classList.toggle('active', b.getAttribute('data-persona') === currentPersona);
         });
-        // Update Nav Buttons UI
         document.querySelectorAll('.persona-nav-btn').forEach(b => {
           b.classList.toggle('active', b.getAttribute('data-persona') === currentPersona);
         });
@@ -564,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 06 · MASCOT & CUSTOM CURSOR INTERACTION
+  // 07 · MASCOT & CURSOR INTERACTION
   // ═══════════════════════════════════════
   function initMascotAndCursor() {
     const leftPupil = document.getElementById('leftPupil');
@@ -581,7 +686,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let ringX = mouseX;
     let ringY = mouseY;
 
-    // Mousemove Listener for Cursor & Eyeball Tracking
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -590,7 +694,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       }
 
-      // Mascot Cursor Tracking
       if (mascotFrame && leftPupil && rightPupil) {
         const rect = mascotFrame.getBoundingClientRect();
         const mascotCenterX = rect.left + rect.width / 2;
@@ -600,7 +703,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const deltaY = mouseY - mascotCenterY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        // Limit pupil movement within eye socket
         const maxOffset = 6;
         const offsetX = (deltaX / (distance || 1)) * Math.min(distance / 20, maxOffset);
         const offsetY = (deltaY / (distance || 1)) * Math.min(distance / 20, maxOffset);
@@ -610,7 +712,6 @@ document.addEventListener('DOMContentLoaded', () => {
         rightPupil.setAttribute('cx', 125 + offsetX);
         rightPupil.setAttribute('cy', 85 + offsetY);
 
-        // Slight 3D head rotation
         if (mascotHeadGroup) {
           const rotX = Math.min(Math.max(-deltaY / 30, -8), 8);
           const rotY = Math.min(Math.max(deltaX / 30, -8), 8);
@@ -619,13 +720,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Exit Intent Detection (Y <= 30)
       if (e.clientY <= 30 && mascotStatusText) {
         mascotStatusText.textContent = "Don't leave yet! Explore all 24 Modules below 🚀";
       }
     });
 
-    // Smooth Cursor Ring Animation
     function animateCursorRing() {
       ringX += (mouseX - ringX) * 0.15;
       ringY += (mouseY - ringY) * 0.15;
@@ -637,16 +736,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateCursorRing();
 
-    // Hover Magnet FX
     document.addEventListener('mouseover', (e) => {
-      if (e.target.closest('a, button, .module-card, .persona-tab-btn')) {
+      if (e.target.closest('a, button, .module-card, .bento-card, .graph-node-card, .persona-tab-btn')) {
         cursorRing?.classList.add('active-hover');
       } else {
         cursorRing?.classList.remove('active-hover');
       }
     });
 
-    // Random Mascot Blinking Loop
     function blinkMascot() {
       if (leftPupil && rightPupil) {
         leftPupil.style.transform = 'scaleY(0.1)';
@@ -664,7 +761,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 07 · NUMBER COUNTERS ANIMATION
+  // 08 · NUMBER COUNTERS ANIMATION
   // ═══════════════════════════════════════
   function setupNumberCounters() {
     const counters = document.querySelectorAll('.counter-value');

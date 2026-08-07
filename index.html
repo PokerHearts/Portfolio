@@ -3,243 +3,546 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pratap Jindal — Systems Thinker. Storyteller.</title>
+  <title>Pratap Jindal — Operations Architect & MIS Specialist | 24 Modules Portfolio</title>
 
-  <meta name="description" content="Management Analyst & MIS specialist. Built an 18-module analytics platform for an 80-member organisation. Writes as Poker Hearts. Panchkula, India.">
+  <meta name="description" content="Portfolio of Pratap Jindal — Operations Architect & MIS Specialist. Built an 18+ module analytics platform, automated 80% of reporting effort, managed 80+ team members and ₹75 Cr monthly revenue. Explore all 24 operational modules.">
   <meta name="author" content="Pratap Jindal">
   <meta name="robots" content="index, follow">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231C1C1C' rx='16'/%3E%3Ctext x='50' y='66' font-family='serif' font-size='48' font-weight='bold' fill='%23C5A880' text-anchor='middle'%3EPJ%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f8fafc' rx='20'/%3E%3Ctext x='50' y='66' font-family='sans-serif' font-size='48' font-weight='900' fill='%230284c7' text-anchor='middle'%3EPJ%3C/text%3E%3C/svg%3E">
 
   <!-- Preload fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" as="style">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light-theme">
 
-  <!-- Custom cursor -->
+  <!-- Custom Magnetic Cursor -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- ═══════════════════════════════════════
-       01 · HERO
-       ═══════════════════════════════════════ -->
-  <section class="hero" id="hero">
-    <nav class="hero-nav">
-      <div class="hero-monogram">PJ</div>
-      <div class="hero-links">
-        <a href="#work">Work</a>
-        <a href="#writing">Writing</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-
-    <div class="hero-center">
-      <h1 class="hero-headline">
-        <span class="hero-line reveal-line">Systems thinker.</span>
-        <span class="hero-line reveal-line">Storyteller.</span>
-      </h1>
-      <p class="hero-sub reveal-fade">Strategy &amp; Operations · Poker Hearts · Panchkula</p>
-    </div>
-
-    <div class="hero-circle-badge" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="rotating-text">
-        <defs>
-          <path id="circlePath" d="M 100, 100 m -80, 0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0"/>
-        </defs>
-        <text>
-          <textPath href="#circlePath" startOffset="0%">Available for opportunities · Open to Australia · </textPath>
-        </text>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       02 · NUMBERS
-       ═══════════════════════════════════════ -->
-  <section class="numbers" id="numbers">
-    <div class="numbers-grid">
-      <div class="number-item">
-        <span class="number-value" data-target="18">0</span>
-        <span class="number-label">MIS Modules Built</span>
-      </div>
-      <div class="number-item">
-        <span class="number-value" data-target="80">0</span>
-        <span class="number-label">Team Members Served</span>
-      </div>
-      <div class="number-item">
-        <span class="number-value" data-target="75" data-suffix="Cr">0</span>
-        <span class="number-label">Monthly Revenue Managed (INR)</span>
-      </div>
-      <div class="number-item">
-        <span class="number-value" data-target="3" data-suffix="+">0</span>
-        <span class="number-label">Years on Senior Management Team</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       03 · WORK — Horizontal scroll
-       ═══════════════════════════════════════ -->
-  <section class="work-section" id="work">
-    <div class="work-track">
-      <article class="work-panel">
-        <div class="panel-inner">
-          <span class="panel-num">01</span>
-          <h2 class="panel-headline">18 Modules.<br>Zero Consultants.<br>One Analyst.</h2>
-          <p class="panel-body">Built the entire decision-support layer for a multi-company pharmaceutical distribution group. Sales, Inventory, CRM, Finance, Attendance — all live. All owned by me.</p>
-          <div class="panel-tags">Analytics Platform · Looker Studio · Apps Script</div>
+  <!-- Sticky Glass Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-brand">
+        <div class="monogram-badge">PJ</div>
+        <div class="brand-text">
+          <span class="brand-name">Pratap Jindal</span>
+          <span class="brand-status"><span class="status-dot"></span> Open to Opportunities</span>
         </div>
-      </article>
-      <div class="panel-divider"></div>
-      <article class="work-panel">
-        <div class="panel-inner">
-          <span class="panel-num">02</span>
-          <h2 class="panel-headline">500 SKUs.<br>2 Complaints.<br>20% Uplift.</h2>
-          <p class="panel-body">Rationalised a bloated SKU catalogue, cut shortage complaints from 17 to 2, and drove a 20% sales increase on rationalised lines. Analysis, vendor coordination, cross-team execution — solo.</p>
-          <div class="panel-tags">Inventory · Operations · Data Analysis</div>
+      </a>
+
+      <!-- Persona Quick Selector in Nav -->
+      <div class="nav-persona-selector">
+        <span class="persona-label">Profile:</span>
+        <button class="persona-nav-btn active" data-persona="leadership">Leader</button>
+        <button class="persona-nav-btn" data-persona="analytics">Specialist</button>
+        <button class="persona-nav-btn" data-persona="operations">Analyst</button>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#persona" class="nav-link">Persona</a>
+        <a href="#modules" class="nav-link active">24 Modules</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#writing" class="nav-link">Products</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light / Dark Theme" aria-label="Toggle Theme">
+          <span class="theme-icon" id="themeIcon">🌙</span>
+        </button>
+
+        <a href="Pratap_Jindal_Resume.pdf" target="_blank" download class="btn btn-outline btn-sm" id="navResumeBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Resume
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ═══════════════════════════════════════
+         01 · HERO SECTION
+         ═══════════════════════════════════════ -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-glow"></div>
+      <div class="hero-container">
+        
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <span class="pill-sparkle">✨</span> Strategy, Operations &amp; MIS Infrastructure
+          </div>
+          
+          <h1 class="hero-title">
+            Systems Architect.<br>
+            <span class="gradient-text">Storyteller &amp; Builder.</span>
+          </h1>
+
+          <p class="hero-description">
+            I turn operational chaos into automated systems. Designed &amp; deployed an 18+ module internal analytics platform for an 80-member organization, managed ₹75 Cr monthly sales operations, and reduced manual reporting effort by 80%.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#modules" class="btn btn-primary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Explore All 24 Modules
+            </a>
+            <a href="#contact" class="btn btn-secondary btn-lg">
+              Get In Touch
+            </a>
+          </div>
         </div>
-      </article>
-      <div class="panel-divider"></div>
-      <article class="work-panel">
-        <div class="panel-inner">
-          <span class="panel-num">03</span>
-          <h2 class="panel-headline">72 People.<br>75 Crore.<br>One Weekend Pivot.</h2>
-          <p class="panel-body">Led a 72-member microfinance field division. Diagnosed chronic underperformance using Maslow's hierarchy. Rebuilt the incentive model. Hit 40% of monthly target in a single weekend post-intervention.</p>
-          <div class="panel-tags">Team Leadership · Performance Management · BFIL</div>
+
+        <!-- Hero Mascot & Interactive Card -->
+        <div class="hero-visual">
+          <div class="hero-mascot-card">
+            <!-- Vector Mascot Avatar -->
+            <div class="mascot-frame" id="heroMascotFrame">
+              <svg class="mascot-svg" id="mascotSvg" viewBox="0 0 200 200">
+                <defs>
+                  <linearGradient id="headGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#334155"/>
+                    <stop offset="100%" stop-color="#0f172a"/>
+                  </linearGradient>
+                  <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#0284c7"/>
+                    <stop offset="100%" stop-color="#38bdf8"/>
+                  </linearGradient>
+                  <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="100%" stop-color="#38bdf8"/>
+                  </radialGradient>
+                </defs>
+
+                <!-- Robot Body Base -->
+                <rect x="50" y="150" width="100" height="40" rx="12" fill="url(#headGrad)" stroke="rgba(2,132,199,0.3)" stroke-width="2"/>
+                <!-- Neck -->
+                <rect x="85" y="135" width="30" height="20" rx="4" fill="#475569"/>
+                
+                <!-- Head Group (Rotates with Cursor) -->
+                <g id="mascotHeadGroup">
+                  <!-- Head Container -->
+                  <rect x="30" y="35" width="140" height="105" rx="32" fill="url(#headGrad)" stroke="rgba(2,132,199,0.4)" stroke-width="2.5"/>
+                  
+                  <!-- Ears / Antenna Mounts -->
+                  <rect x="18" y="70" width="14" height="35" rx="6" fill="#475569"/>
+                  <rect x="168" y="70" width="14" height="35" rx="6" fill="#475569"/>
+                  <line x1="100" y1="35" x2="100" y2="15" stroke="#0284c7" stroke-width="3"/>
+                  <circle cx="100" cy="12" r="6" fill="#0284c7" id="antennaLed">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+
+                  <!-- Visor Screen -->
+                  <rect x="42" y="52" width="116" height="70" rx="20" fill="#090d16" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+                  <!-- Pupil Eyes Group (Tracks Cursor) -->
+                  <g id="mascotEyesGroup">
+                    <!-- Left Eye Socket & Pupil -->
+                    <circle cx="75" cy="85" r="16" fill="rgba(56,189,248,0.2)"/>
+                    <circle id="leftPupil" cx="75" cy="85" r="9" fill="url(#eyeGlow)"/>
+                    
+                    <!-- Right Eye Socket & Pupil -->
+                    <circle cx="125" cy="85" r="16" fill="rgba(56,189,248,0.2)"/>
+                    <circle id="rightPupil" cx="125" cy="85" r="9" fill="url(#eyeGlow)"/>
+                  </g>
+
+                  <!-- Cute Mouth Display -->
+                  <path id="mascotMouth" d="M 85 106 Q 100 114 115 106" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="mascot-status-badge">
+              <span class="status-indicator"></span>
+              <span id="mascotStatusText">System Active · Ready to Explore</span>
+            </div>
+          </div>
         </div>
-      </article>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════
-       04 · ABOUT
-       ═══════════════════════════════════════ -->
-  <section class="about" id="about">
-    <div class="about-grid">
-      <div class="about-text reveal-fade">
-        <p>I build systems that organisations run on. MIS platforms, dashboards, automation — the infrastructure behind decisions. I also write, under a different name, about the things infrastructure can't explain.</p>
       </div>
-      <div class="about-facts reveal-fade">
-        <ul>
-          <li>MBA · LPU (CGPA 8.83)</li>
-          <li>UGC NET · Assistant Professor Qualified</li>
-          <li>Prompt Engineering · Financial Modelling</li>
-          <li>Google Sheets · Looker Studio · Apps Script</li>
-          <li>Also writes as: Poker Hearts</li>
-        </ul>
+
+      <!-- High Density Metrics Grid (Zero Waste Space) -->
+      <div class="hero-metrics-bar">
+        <div class="metric-card">
+          <div class="metric-number"><span class="counter-value" data-target="24">24</span></div>
+          <div class="metric-label">Operational Modules Built</div>
+          <div class="metric-sub">Across AI, Analytics, Web &amp; Ops</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-number"><span class="counter-value" data-target="80">80</span><span class="metric-plus">+</span></div>
+          <div class="metric-label">Team Members Served</div>
+          <div class="metric-sub">80-member org decision layer</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-number">₹<span class="counter-value" data-target="75">75</span><span class="metric-unit">Cr</span></div>
+          <div class="metric-label">Monthly Sales Managed</div>
+          <div class="metric-sub">BFIL divisional revenue target</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-number"><span class="counter-value" data-target="80">80</span><span class="metric-unit">%</span></div>
+          <div class="metric-label">Manual Effort Saved</div>
+          <div class="metric-sub">Google Apps Script automation</div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════════════════
-       05 · TOOLS / PROJECTS
-       ═══════════════════════════════════════ -->
-  <section class="projects" id="projects">
-    <h2 class="section-label reveal-fade">Selected Projects</h2>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">18-Module MIS Analytics Platform</h3>
-      <p class="project-desc">Full decision-support layer for an 80-member organisation. Sales, Inventory, CRM, HR, Finance — 18+ live modules. Apps Script automation. Zero consultants.</p>
-      <span class="project-tag">Internal · Google Sheets · Looker Studio · Apps Script</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">B2B Order Book (Apps Script Ordering System)</h3>
-      <p class="project-desc">A lightweight, responsive B2B ordering web app built on Google Apps Script and Sheets, serving as a digital order-pad for field sales, distributors, and direct customers. Features role-based scoping, localStorage draft autosaving, dynamic stock filters, and client-side jsPDF receipt compilers with automatic CDN failovers.</p>
-      <span class="project-tag">Internal · Google Apps Script · Sheets API · LocalStorage</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">Workforce Allocation Board — Real-Time Logistics &amp; Operations Hub</h3>
-      <p class="project-desc">A modern, full-stack real-time logistics workforce allocation and SLA tracking SPA built with Vanilla JS, Firebase (Firestore &amp; Auth), and Google Apps Script. Features drag-and-drop worker dispatch, mobile passcode portal, sub-second SLA delay detection, and automated bi-directional cloud-to-sheet reporting.</p>
-      <span class="project-tag">Full-Stack · Vanilla JS · Firebase Firestore · Apps Script · SLA Telemetry</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">13 Looker Studio Dashboards</h3>
-      <p class="project-desc">Built from scratch across 4 operational functions. Daily sales, lead verification, vendor performance, MR tracking. Used by leadership every morning.</p>
-      <span class="project-tag">Internal · Looker Studio · BigQuery</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">PrepMaster AI</h3>
-      <p class="project-desc">Single-page AI exam prep tool. Multi-LLM support. Vanilla JS. No framework, no build step.</p>
-      <a href="https://pokerhearts.github.io/PrepMaster/" target="_blank" rel="noopener" class="project-link">pokerhearts.github.io/PrepMaster</a>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">Poker Hearts Reader</h3>
-      <p class="project-desc">A premium, client-side document reading workspace for EPUB, PDF, and DOCX extensions. Built for privacy-centric localized reading sandboxes with zero server operating cost. Features IndexedDB state preservation, dynamic semantic outlines, text-to-speech rendering, and local full-text search.</p>
-      <a href="http://reader.pokerhearts.in/" target="_blank" rel="noopener" class="project-link">reader.pokerhearts.in</a>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">Blogger Custom Reading Product &amp; Audio Engine</h3>
-      <p class="project-desc">A static Blogger template engineered into a continuous audio-reading platform. Implements six stone-slab themed design profiles, a continuous-listening audiobook player with localStorage resume, an ambient music player pulling live from a GitHub repository with auto-ducking, a client-side full-text search engine over the Blogger JSON feed with snippet highlighting, and selective pinch-to-zoom Jewel carousels.</p>
-      <a href="https://pokerdeeds.blogspot.com" target="_blank" rel="noopener" class="project-link">pokerdeeds.blogspot.com</a>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">Chrome Cache Bypass Extension</h3>
-      <p class="project-desc">Force-refreshes Looker Studio data on demand. Eliminated the 15-minute cache delay that blocked real-time ops decisions.</p>
-      <span class="project-tag">Internal · Chrome Extension API · Manifest V3</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">AI Interview Portal</h3>
-      <p class="project-desc">Voice recognition. Live transcript display. Auto-logs to Google Sheets. Built for structured hiring at scale.</p>
-      <span class="project-tag">Internal · Web Speech API · Google Sheets</span>
-    </div>
-
-    <div class="project-entry reveal-fade">
-      <h3 class="project-name">Automated Attendance & Payroll System</h3>
-      <p class="project-desc">End-to-end automation for attendance tracking, leave management, and payroll computation. Replaced manual spreadsheet workflows across both companies.</p>
-      <span class="project-tag">Internal · Apps Script · Google Sheets</span>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       06 · WRITING — Poker Hearts
-       ═══════════════════════════════════════ -->
-  <section class="writing" id="writing">
-    <div class="writing-content">
-      <h2 class="writing-headline reveal-fade">Also writes as Poker Hearts</h2>
-      <p class="writing-sub reveal-fade"><em>Semi-autobiographical. Hindi-English. First-person. Restrained.</em></p>
-      <div class="writing-quotes reveal-fade">
-        <blockquote>"Some people keep journals. I keep characters."</blockquote>
-        <blockquote>"The best systems I've built are the ones I write about breaking."</blockquote>
+    <!-- ═══════════════════════════════════════
+         02 · PERSONA & RESUME FOCUS SELECTOR
+         ═══════════════════════════════════════ -->
+    <section class="persona-section" id="persona">
+      <div class="section-header">
+        <span class="section-tag">Role Switcher</span>
+        <h2 class="section-title">Select Perspective Profile</h2>
+        <p class="section-subtitle">Tailor the portfolio emphasis to match your hiring or project requirements.</p>
       </div>
-      <a href="https://pokerdeeds.blogspot.com" target="_blank" rel="noopener" class="writing-link reveal-fade">pokerdeeds.blogspot.com</a>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════
-       07 · CONTACT
-       ═══════════════════════════════════════ -->
-  <section class="contact" id="contact">
-    <div class="contact-center">
-      <h2 class="contact-headline reveal-fade">Let's work together.</h2>
-      <a href="mailto:pratapjindal812@gmail.com" class="contact-email reveal-fade">pratapjindal812@gmail.com</a>
-      <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" rel="noopener" class="contact-link reveal-fade">linkedin.com/in/pratap-jindal/</a>
-    </div>
-  </section>
+      <div class="persona-tabs">
+        <button class="persona-tab-btn active" data-persona="leadership">
+          <span class="tab-icon">👑</span>
+          <span class="tab-title">Operations &amp; Strategy Leader</span>
+          <span class="tab-desc">Team Leadership, Revenue &amp; Change Governance</span>
+        </button>
 
-  <!-- ═══════════════════════════════════════
-       08 · FOOTER
-       ═══════════════════════════════════════ -->
+        <button class="persona-tab-btn" data-persona="analytics">
+          <span class="tab-icon">📊</span>
+          <span class="tab-title">MIS &amp; Analytics Specialist</span>
+          <span class="tab-desc">Automation, Looker Studio, Apps Script</span>
+        </button>
+
+        <button class="persona-tab-btn" data-persona="operations">
+          <span class="tab-icon">⚙️</span>
+          <span class="tab-title">Operations &amp; Systems Analyst</span>
+          <span class="tab-desc">Supply Chain, Inventory, SOPs &amp; Workflows</span>
+        </button>
+      </div>
+
+      <!-- Active Persona Summary Card -->
+      <div class="persona-card-display" id="personaCard">
+        <div class="persona-header-row">
+          <div>
+            <h3 class="persona-role-title" id="personaRoleTitle">Operations &amp; Strategy Leader</h3>
+            <p class="persona-role-subtitle" id="personaRoleSubtitle">I scale operations, drive strategy, and manage cross-functional teams.</p>
+          </div>
+          <a href="Jindal_Pratap_Resume_Leadership.docx" download target="_blank" class="btn btn-outline" id="personaResumeLink">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Tailored CV
+          </a>
+        </div>
+
+        <p class="persona-summary" id="personaSummaryText">
+          Operations and Strategy professional with 3+ years on the senior management team of a multi-company distribution group, driving business performance across an 80-member cross-functional organisation.
+        </p>
+
+        <div class="persona-body-grid">
+          <div class="persona-highlights-col">
+            <h4 class="col-heading">Key Proven Outcomes</h4>
+            <ul class="persona-bullets" id="personaBulletsList">
+              <!-- Dynamically populated from script.js -->
+            </ul>
+          </div>
+
+          <div class="persona-skills-col">
+            <h4 class="col-heading">Core Competencies</h4>
+            <div class="skills-tags-cloud" id="personaSkillsTags">
+              <!-- Dynamically populated from script.js -->
+            </div>
+
+            <h4 class="col-heading" style="margin-top: 1.5rem;">Key Statistics</h4>
+            <div class="persona-mini-stats" id="personaMiniStats">
+              <!-- Dynamically populated from script.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         03 · ALL 24 MODULES MATRIX (CORE SHOWCASE)
+         ═══════════════════════════════════════ -->
+    <section class="modules-matrix-section" id="modules">
+      <div class="section-header text-left">
+        <div class="header-flex">
+          <div>
+            <span class="section-tag">Complete System Catalogue</span>
+            <h2 class="section-title">All 24 Operational Modules</h2>
+            <p class="section-subtitle">Full visibility into every system, automation workflow, dashboard, and full-stack app built by Pratap Jindal.</p>
+          </div>
+          
+          <div class="matrix-view-toggle">
+            <button class="view-btn active" id="btnGridView" title="Grid View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Grid
+            </button>
+            <button class="view-btn" id="btnTableView" title="Table View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Table View
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Toolbar -->
+      <div class="matrix-controls-bar">
+        <!-- Search Input -->
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Search 24 modules by title, tech stack, KPI... (Press '/' to search)" autocomplete="off">
+          <button class="clear-search-btn hidden" id="clearSearchBtn">&times;</button>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="category-pills" id="categoryPills">
+          <button class="cat-pill active" data-cat="all">All Modules (24)</button>
+          <button class="cat-pill" data-cat="ai-systems">🤖 AI &amp; Voice (4)</button>
+          <button class="cat-pill" data-cat="fullstack">⚡ Full-Stack (4)</button>
+          <button class="cat-pill" data-cat="analytics">📊 MIS Analytics (6)</button>
+          <button class="cat-pill" data-cat="operations">⚙️ Ops &amp; Strategy (6)</button>
+          <button class="cat-pill" data-cat="products">🌐 Products (4)</button>
+        </div>
+
+        <!-- Perspective Lens Switcher -->
+        <div class="perspective-lens-bar">
+          <span class="lens-label">Perspective Lens:</span>
+          <button class="lens-btn active" data-lens="strategy" title="View ROI & Business Outcomes">
+            💼 Strategy
+          </button>
+          <button class="lens-btn" data-lens="product" title="View UX, Users & Product Specs">
+            🚀 Product
+          </button>
+          <button class="lens-btn" data-lens="research" title="View Hypotheses & Findings">
+            🔬 Research
+          </button>
+          <button class="lens-btn" data-lens="transformation" title="View Before vs After Workflow">
+            ⚡ Transformation
+          </button>
+        </div>
+      </div>
+
+      <!-- Module Count & Counter Header -->
+      <div class="matrix-status-header">
+        <span class="counter-badge" id="moduleCounterText">Showing 24 of 24 modules</span>
+        <span class="active-lens-indicator" id="activeLensText">Current Lens: <strong>Strategy &amp; Business Value</strong></span>
+      </div>
+
+      <!-- Dynamic Container for Grid or Table View -->
+      <div class="modules-grid-view" id="modulesContainer">
+        <!-- Javascript renders card grid or data table here -->
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         04 · EXPERIENCE & CAREER TIMELINE
+         ═══════════════════════════════════════ -->
+    <section class="experience-section" id="experience">
+      <div class="section-header">
+        <span class="section-tag">Leadership &amp; Analytics Track</span>
+        <h2 class="section-title">Work Experience</h2>
+        <p class="section-subtitle">A proven trajectory of building operational systems, scaling teams, and managing high-stakes revenue.</p>
+      </div>
+
+      <div class="timeline-container">
+        <!-- Timeline Item 1 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="role-title">Management Analyst — Strategy &amp; Operations</h3>
+                <h4 class="company-name">Group Biopolis (Biopolis + Ultrapolis)</h4>
+              </div>
+              <span class="date-badge">SEP 2023 – PRESENT</span>
+            </div>
+
+            <ul class="timeline-bullets">
+              <li>Directed the end-to-end design and rollout of an <strong>18-module internal analytics platform</strong> serving as the primary decision-support layer for an 80-member organization.</li>
+              <li>Owned reporting infrastructure across 4 operational functions: commissioned and deployed <strong>13 Looker Studio dashboards</strong> used daily by senior leadership.</li>
+              <li>Built a custom Chrome Extension (Manifest V3) to bypass Google's 15-minute cache delay, enabling real-time operations decisions.</li>
+              <li>Drove an <strong>80% reduction in manual reporting effort</strong> organization-wide by designing and deploying end-to-end Apps Script workflow automation.</li>
+              <li>Led inventory rationalization across <strong>500+ SKUs</strong>, reducing active lines to ~400 and cutting shortage complaints from 17 to 2 while driving a 20% sales uplift on rationalized lines.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Timeline Item 2 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="role-title">Divisional Manager</h3>
+                <h4 class="company-name">Bharat Financial Inclusion Ltd (IndusInd Bank Subsidiary)</h4>
+              </div>
+              <span class="date-badge">SEP 2022 – FEB 2023</span>
+            </div>
+
+            <ul class="timeline-bullets">
+              <li>Led a <strong>72-member field division</strong> managing 7,500+ clients across 10 regions; delivered <strong>INR 75 Cr monthly sales targets</strong> consistently within 2 days of each cycle.</li>
+              <li>Diagnosed chronic low field throughput using Maslow's Hierarchy of Needs, redesigning the incentive structure to hit <strong>40% of target in a single weekend</strong>.</li>
+              <li>Replaced punitive metrics with a Challenge and Reward system, lifting field lead conversion by 25%.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Timeline Item 3 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="role-title">Customer Delight Intern</h3>
+                <h4 class="company-name">Zolostays Property Solutions Ltd</h4>
+              </div>
+              <span class="date-badge">FEB 2021 – MAY 2021</span>
+            </div>
+
+            <ul class="timeline-bullets">
+              <li>Handled 2,000+ support tickets with <strong>99.95% accuracy</strong> and 95% SLA compliance.</li>
+              <li>Streamlined refund workflows through structured process documentation, reducing delay tickets by <strong>60%</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         05 · WRITING & CREATIVE PRODUCTS
+         ═══════════════════════════════════════ -->
+    <section class="products-section" id="writing">
+      <div class="section-header">
+        <span class="section-tag">Independent Products &amp; Writing</span>
+        <h2 class="section-title">Software &amp; Digital Products</h2>
+        <p class="section-subtitle">Web apps and publishing engines built under the pseudonym <em>Poker Hearts</em>.</p>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-badge">AI Web App</div>
+          <h3 class="product-title">PrepMaster AI</h3>
+          <p class="product-desc">A single-page AI exam preparation tool supporting multiple LLM backends. Built with pure Vanilla JS and Zero build dependencies for instant loading.</p>
+          <div class="product-footer">
+            <span class="tech-tag">Vanilla JS · LLM API · LocalStorage</span>
+            <a href="https://pokerhearts.github.io/PrepMaster/" target="_blank" rel="noopener" class="product-link">pokerhearts.github.io/PrepMaster &rarr;</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-badge">Reading Workspace</div>
+          <h3 class="product-title">Poker Hearts Reader</h3>
+          <p class="product-desc">Client-side document reading workspace for EPUB, PDF, and DOCX files with zero server cost. Features IndexedDB state preservation and offline text-to-speech rendering.</p>
+          <div class="product-footer">
+            <span class="tech-tag">EPUB.js · PDF.js · IndexedDB · TTS</span>
+            <a href="http://reader.pokerhearts.in/" target="_blank" rel="noopener" class="product-link">reader.pokerhearts.in &rarr;</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-badge">Audio Engine</div>
+          <h3 class="product-title">Blogger Audio Reading Suite</h3>
+          <p class="product-desc">Static Blogger template transformed into a continuous audiobook platform with stone-slab themes, background ambient music auto-ducking, and JSON full-text search.</p>
+          <div class="product-footer">
+            <span class="tech-tag">Web Audio API · LocalStorage · JSON Feed</span>
+            <a href="https://pokerdeeds.blogspot.com" target="_blank" rel="noopener" class="product-link">pokerdeeds.blogspot.com &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         06 · CONTACT & FOOTER
+         ═══════════════════════════════════════ -->
+    <section class="contact-section" id="contact">
+      <div class="contact-card">
+        <div class="contact-content">
+          <span class="section-tag">Let's Connect</span>
+          <h2 class="contact-title">Ready to automate, optimize &amp; scale?</h2>
+          <p class="contact-desc">
+            Open to senior roles in Strategy &amp; Operations, Management Analysis, and MIS Leadership. Based in Panchkula, India — open to relocation to Australia.
+          </p>
+
+          <div class="contact-links-grid">
+            <a href="mailto:jindal.pratap@outlook.com" class="contact-item">
+              <span class="item-icon">✉️</span>
+              <div>
+                <span class="item-label">Email Me</span>
+                <span class="item-val">jindal.pratap@outlook.com</span>
+              </div>
+            </a>
+
+            <a href="https://linkedin.com/in/pratapjindal" target="_blank" rel="noopener" class="contact-item">
+              <span class="item-icon">🔗</span>
+              <div>
+                <span class="item-label">LinkedIn</span>
+                <span class="item-val">linkedin.com/in/pratapjindal</span>
+              </div>
+            </a>
+
+            <div class="contact-item">
+              <span class="item-icon">📍</span>
+              <div>
+                <span class="item-label">Location &amp; Mobility</span>
+                <span class="item-val">Panchkula, India · Open to Australia</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resumes-download-row">
+            <span class="download-label">Download Customized Resumes:</span>
+            <div class="resumes-buttons">
+              <a href="Jindal_Pratap_Resume_Leadership.docx" download class="btn btn-outline btn-sm">Leadership CV (.docx)</a>
+              <a href="Pratap_Jindal_OPS_Analyst.docx" download class="btn btn-outline btn-sm">Ops Analyst CV (.docx)</a>
+              <a href="Pratap_Jindal_Resume.pdf" download class="btn btn-primary btn-sm">MIS Specialist CV (.pdf)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="site-footer">
-    <span>© Pratap Jindal · Poker Hearts · 2026</span>
-    <span>Built without a template.</span>
+    <div class="footer-container">
+      <p>&copy; 2026 Pratap Jindal — Systems Thinker &amp; Operations Architect.</p>
+      <p class="footer-tagline">Built with Vanilla JS &amp; Modern CSS · Zero frameworks, zero fluff.</p>
+    </div>
   </footer>
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- ═══════════════════════════════════════
+       DEEP-DIVE CASE STUDY DRAWER MODAL
+       ═══════════════════════════════════════ -->
+  <div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
+  <aside class="module-drawer hidden" id="moduleDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="drawer-badge" id="drawerBadge">AI Product</span>
+        <h3 class="drawer-title" id="drawerTitle">Module Title</h3>
+        <span class="drawer-category" id="drawerCategory">AI Systems</span>
+      </div>
+      <button class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close drawer">&times;</button>
+    </div>
+
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-dtab="overview">Overview</button>
+      <button class="drawer-tab" data-dtab="product">Product &amp; Users</button>
+      <button class="drawer-tab" data-dtab="research">Research Insights</button>
+      <button class="drawer-tab" data-dtab="transformation">Transformation</button>
+    </div>
+
+    <div class="drawer-body" id="drawerBody">
+      <!-- Populated dynamically by script.js -->
+    </div>
+  </aside>
+
+  <!-- Load Data Files First -->
+  <script src="extracted_projects.js"></script>
+  <script src="extracted_resumes.js"></script>
+  <!-- Main Application Script -->
   <script src="script.js"></script>
 </body>
 </html>

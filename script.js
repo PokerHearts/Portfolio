@@ -147,6 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function init() {
     initTheme();
     renderExecutiveProfile();
+    setupDecisionEngine();
+    setupRoiSimulator();
     renderModules();
     setupEventListeners();
     setupClickToCopyEmail();
@@ -653,11 +655,371 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
+  // 04.5 · INSTANT DECISION ENGINE & ROI SIMULATOR
+  // ═══════════════════════════════════════
+  const decisionEngineData = {
+    automation: {
+      roleTitle: "Head of Business Systems & Automation / Solutions Architect",
+      fitScore: "100% Verified Fit",
+      fitBadge: "Systems Architecture · Zero Agency Spend",
+      phases: [
+        {
+          phase: "Days 1–30",
+          heading: "Deep Workflow Audit & Choke-Point Mapping",
+          desc: "Audit existing cross-departmental operations across Google Sheets, ERPs, and email to isolate the top 5 time-wasting manual bottlenecks."
+        },
+        {
+          phase: "Days 31–60",
+          heading: "Automated Data Ingestion & Script Pipelines",
+          desc: "Engineer end-to-end Google Apps Script and webhook ingestion workflows that automatically parse data, validate schemas, and log real-time events."
+        },
+        {
+          phase: "Days 61–90",
+          heading: "Executive Decision Layer & Full Team Adoption",
+          desc: "Deploy live Looker Studio dashboards, build custom Chrome extensions to bypass latency, and train frontline staff to sustain 80% manual effort elimination."
+        }
+      ],
+      metrics: [
+        {
+          value: "80%",
+          pill: "Effort Saved",
+          label: "Manual Reporting Reduction",
+          detail: "Automated daily logging, email ingestion, and reconciliations across an 80-member org."
+        },
+        {
+          value: "18+",
+          pill: "Platform",
+          label: "Internal Modules Built",
+          detail: "Co-designed and deployed complete decision-support infrastructure for Group Biopolis."
+        },
+        {
+          value: "$0",
+          pill: "Capital Saved",
+          label: "External Consultant Cost",
+          detail: "Built entirely in-house using serverless web tools, Apps Script, and vanilla architectures."
+        }
+      ],
+      recommendedModules: [
+        { id: "MOD_05", label: "18-Module MIS Platform" },
+        { id: "MOD_03", label: "B2B Order Book Portal" }
+      ]
+    },
+    operations: {
+      roleTitle: "Director / Lead — Operations & MIS",
+      fitScore: "99% Verified Fit",
+      fitBadge: "Scale Operations · ₹75 Cr Monthly Target",
+      phases: [
+        {
+          phase: "Days 1–30",
+          heading: "SKU Velocity & Stock Health Diagnostics",
+          desc: "Run comprehensive turnover analyses across active inventory catalogues, identifying stock-out vulnerabilities and dead-weight SKUs."
+        },
+        {
+          phase: "Days 31–60",
+          heading: "Catalogue Rationalization & Incentive Restructuring",
+          desc: "Prune bloated inventories (500 down to ~400 SKUs) and redesign field incentive structures using behavioral psychology to lift conversions."
+        },
+        {
+          phase: "Days 61–90",
+          heading: "High-Cadence Revenue Delivery & Cross-Company Sync",
+          desc: "Orchestrate multi-region divisions to consistently achieve revenue targets within 48 hours while maintaining 98%+ stock reconciliation accuracy."
+        }
+      ],
+      metrics: [
+        {
+          value: "₹75 Cr",
+          pill: "Scale Target",
+          label: "Monthly Revenue Directed",
+          detail: "Led 72-member field division across 10 operational regions at BFIL (IndusInd subsidiary)."
+        },
+        {
+          value: "98%",
+          pill: "Precision",
+          label: "Sustained Stock Accuracy",
+          detail: "Maintained cross-company stock reconciliation across multi-warehouse distribution."
+        },
+        {
+          value: "88%",
+          pill: "Friction Cut",
+          label: "Shortage Complaints Dropped",
+          detail: "Reduced concurrent shortages from 17 down to 2 while unlocking a 20% sales uplift."
+        }
+      ],
+      recommendedModules: [
+        { id: "MOD_09", label: "500 SKU Rationalisation" },
+        { id: "MOD_04", label: "Workforce Dispatch Hub" }
+      ]
+    },
+    engineering: {
+      roleTitle: "Full-Stack Systems Engineer / AI Product Specialist",
+      fitScore: "98% Verified Fit",
+      fitBadge: "24 Systems Shipped · Voice AI & Web",
+      phases: [
+        {
+          phase: "Days 1–30",
+          heading: "Rapid Prototyping & Architecture Foundation",
+          desc: "Scaffold ultra-fast single-page web applications utilizing Web Audio API, Gemini LLM endpoints, and serverless IndexedDB/Firestore layers."
+        },
+        {
+          phase: "Days 31–60",
+          heading: "Zero-Latency Performance & Real-Time Sync",
+          desc: "Optimize data dispatch engines down to sub-second response times, cutting operational booking cycles from 8 minutes to 45 seconds."
+        },
+        {
+          phase: "Days 61–90",
+          heading: "Production Tooling & Custom Browser Integrations",
+          desc: "Deploy client-side reader workspaces and custom Manifest V3 extensions, delivering immediate utility with zero hosting or server maintenance overhead."
+        }
+      ],
+      metrics: [
+        {
+          value: "24",
+          pill: "Production",
+          label: "Operational Systems Shipped",
+          detail: "Built across Voice AI simulators, B2B order books, dispatch hubs, and document engines."
+        },
+        {
+          value: "~$0.05",
+          pill: "Efficiency",
+          label: "Cost per AI Voice Session",
+          detail: "Built real-time mock interview simulator with Web Audio API and Gemini LLM."
+        },
+        {
+          value: "45s",
+          pill: "Speed",
+          label: "Order Booking Velocity",
+          detail: "Reduced B2B ordering cycle from 8 minutes down to 45 seconds with 0 server fees."
+        }
+      ],
+      recommendedModules: [
+        { id: "MOD_01", label: "Voice Mock Interviewer" },
+        { id: "MOD_03", label: "B2B Order Book Portal" }
+      ]
+    },
+    strategy: {
+      roleTitle: "Senior Management Analyst / Executive Strategy Partner",
+      fitScore: "100% Verified Fit",
+      fitBadge: "UGC NET Qualified · MBA Honors 8.83/10",
+      phases: [
+        {
+          phase: "Days 1–30",
+          heading: "Empirical Baseline & Financial Modeling",
+          desc: "Perform rigorous financial, variance, and operational root-cause analysis to uncover hidden margin leaks and capacity bottlenecks."
+        },
+        {
+          phase: "Days 31–60",
+          heading: "Executive MIS Cockpit Deployment",
+          desc: "Build and deploy 13+ customized Looker Studio dashboards giving C-level executives instant visibility into daily operational health."
+        },
+        {
+          phase: "Days 61–90",
+          heading: "Standard Operating Procedures & Knowledge Transfer",
+          desc: "Draft clear SOPs, training manuals, and change-management frameworks, upskilling 30+ team members for self-sustaining governance."
+        }
+      ],
+      metrics: [
+        {
+          value: "UGC NET",
+          pill: "Academic Rank",
+          label: "National Professorship Qualified",
+          detail: "Top national credential in Management; deep foundation in organizational governance."
+        },
+        {
+          value: "8.83",
+          pill: "Honors",
+          label: "MBA CGPA / 10",
+          detail: "Mittal School of Business & NSE Academy with executive certifications from Duke, ISB & Geneva."
+        },
+        {
+          value: "13",
+          pill: "Governance",
+          label: "Looker Studio Dashboards",
+          detail: "Designed and maintained as the core daily operational command center for executive leadership."
+        }
+      ],
+      recommendedModules: [
+        { id: "MOD_05", label: "18-Module MIS Platform" },
+        { id: "MOD_09", label: "500 SKU Rationalisation" }
+      ]
+    }
+  };
+
+  const roiSimulatorData = {
+    startup: [
+      { val: "550+ Hrs", lbl: "Annual Hours Saved", sub: "Manual reporting & reconciliation eliminated" },
+      { val: "₹12L+", lbl: "Agency & SaaS Saved", sub: "$15K+ in custom software build costs avoided" },
+      { val: "< 1 Sec", lbl: "Decision Latency", sub: "Real-time Looker visibility vs weekly spreadsheets" },
+      { val: "99.5%", lbl: "Data Precision", sub: "Automated validation & zero manual typo errors" }
+    ],
+    mid: [
+      { val: "1,600+ Hrs", lbl: "Annual Hours Saved", sub: "Equivalent to 1 full-time analyst FTE recovered" },
+      { val: "₹35L+", lbl: "Agency & SaaS Saved", sub: "$42K+ in external dev & license fees avoided" },
+      { val: "Instant", lbl: "Decision Latency", sub: "Live Apps Script & webhook data sync" },
+      { val: "98–99.8%", lbl: "Stock & Order Accuracy", sub: "Reconciled multi-warehouse & SKU flows" }
+    ],
+    enterprise: [
+      { val: "3,200+ Hrs", lbl: "Annual Hours Saved", sub: "Cross-divisional operational efficiency unlocked" },
+      { val: "₹65L+", lbl: "Agency & SaaS Saved", sub: "$78K+ eliminated in multi-consultant spend" },
+      { val: "Automated", lbl: "Operational Flow", sub: "Continuous background ETL & audit pipelines" },
+      { val: "99.8%", lbl: "Institutional Precision", sub: "Governance-grade reporting for executive leadership" }
+    ]
+  };
+
+  function setupDecisionEngine() {
+    const selectorContainer = document.getElementById('personaSelector');
+    const displayCard = document.getElementById('decisionDisplayCard');
+    if (!selectorContainer || !displayCard) return;
+
+    let activePersona = 'automation';
+
+    function renderDisplay(personaKey) {
+      const data = decisionEngineData[personaKey];
+      if (!data) return;
+
+      displayCard.innerHTML = `
+        <div class="d-card-header">
+          <div class="d-role-meta">
+            <h3 class="d-role-title">${data.roleTitle}</h3>
+            <span class="d-fit-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              ${data.fitScore}
+            </span>
+          </div>
+          <span class="telemetry-badge">${data.fitBadge}</span>
+        </div>
+
+        <div class="d-grid">
+          <div class="d-roadmap-column">
+            <h4 class="d-block-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              First 90-Day High-Impact Execution Plan
+            </h4>
+            <div class="roadmap-timeline">
+              ${data.phases.map(p => `
+                <div class="roadmap-step">
+                  <span class="step-phase">${p.phase}</span>
+                  <strong class="step-heading">${p.heading}</strong>
+                  <p class="step-desc">${p.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="d-proof-column">
+            <h4 class="d-block-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Verified Historical Business Proof
+            </h4>
+            ${data.metrics.map(m => `
+              <div class="proof-metric-box">
+                <div class="proof-val-row">
+                  <span class="proof-val">${m.value}</span>
+                  <span class="proof-pill">${m.pill}</span>
+                </div>
+                <strong class="proof-lbl">${m.label}</strong>
+                <p class="proof-detail">${m.detail}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="d-action-bar">
+          <div class="d-action-left">
+            <span class="d-systems-tag">
+              <strong>Matching Systems:</strong>
+              ${data.recommendedModules.map(rm => `
+                <button type="button" class="d-quick-inspect-btn" data-mod-id="${rm.id}">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  ${rm.label}
+                </button>
+              `).join('')}
+            </span>
+          </div>
+
+          <div class="d-action-right">
+            <button type="button" class="btn btn-outline btn-sm contact-copy-btn" data-email="pratapjindal812@gmail.com" title="Copy Pratap's Direct Email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Copy Email
+            </button>
+            <a href="Pratap_Jindal_Resume.pdf" target="_blank" download="Pratap_Jindal_Resume.pdf" class="btn btn-primary btn-sm" title="Download Official Resume PDF">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Hire Pratap (PDF)
+            </a>
+          </div>
+        </div>
+      `;
+
+      // Attach quick inspect buttons to open the module drawer
+      displayCard.querySelectorAll('.d-quick-inspect-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const modId = btn.getAttribute('data-mod-id');
+          const mod = modulesData.find(m => m.id === modId);
+          if (mod) {
+            sfx.playClick();
+            openDrawer(mod);
+          }
+        });
+      });
+
+      // Re-bind click to copy email on newly created button
+      setupClickToCopyEmail();
+    }
+
+    // Attach persona selector clicks
+    selectorContainer.querySelectorAll('.persona-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sfx.playTab();
+        selectorContainer.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activePersona = btn.getAttribute('data-persona');
+        renderDisplay(activePersona);
+      });
+    });
+
+    // Initial render
+    renderDisplay(activePersona);
+  }
+
+  function setupRoiSimulator() {
+    const scaleToggle = document.getElementById('simScaleToggle');
+    const metricsGrid = document.getElementById('simMetricsGrid');
+    if (!scaleToggle || !metricsGrid) return;
+
+    let activeScale = 'mid';
+
+    function renderScale(scaleKey) {
+      const metrics = roiSimulatorData[scaleKey] || roiSimulatorData.mid;
+      metricsGrid.innerHTML = metrics.map(m => `
+        <div class="sim-metric-card">
+          <span class="sim-metric-val">${m.val}</span>
+          <strong class="sim-metric-lbl">${m.lbl}</strong>
+          <span class="sim-metric-sub">${m.sub}</span>
+        </div>
+      `).join('');
+    }
+
+    scaleToggle.querySelectorAll('.sim-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sfx.playTab();
+        scaleToggle.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeScale = btn.getAttribute('data-scale');
+        renderScale(activeScale);
+      });
+    });
+
+    // Initial render
+    renderScale(activeScale);
+  }
+
+  // ═══════════════════════════════════════
   // 05 · NAVIGATION SCROLL SPY
   // ═══════════════════════════════════════
   function setupNavigationScrollSpy() {
     const navItems = [
       { id: 'hero', link: document.querySelector('.nav-links a[href="#hero"]') },
+      { id: 'decision-engine', link: document.querySelector('.nav-links a[href="#decision-engine"]') },
       { id: 'profile', link: document.querySelector('.nav-links a[href="#profile"]') },
       { id: 'bento', link: document.querySelector('.nav-links a[href="#bento"]') },
       { id: 'modules', link: document.querySelector('.nav-links a[href="#modules"]') },
@@ -1029,6 +1391,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const hintText = btn.querySelector('.copy-hint-text');
         if (hintText) hintText.textContent = 'Copied to clipboard! ✓';
 
+        const heroText = btn.querySelector('.hero-copy-text');
+        if (heroText) heroText.textContent = 'Copied!';
+
         showCopyToast(copied ? `Email ${email} copied to clipboard!` : `Email: ${email}`);
 
         if (resetTimeout) clearTimeout(resetTimeout);
@@ -1037,6 +1402,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (badge) badge.classList.remove('copied');
           if (statusText) statusText.textContent = 'Copy';
           if (hintText) hintText.textContent = 'Click to copy';
+          if (heroText) heroText.textContent = 'Copy Email';
         }, 2400);
       });
     });

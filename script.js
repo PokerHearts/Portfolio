@@ -1,45 +1,159 @@
 /* ═══════════════════════════════════════════════════════════════
-   HELIX PORTFOLIO — PRATAP JINDAL (2026 AWWWARDS & LINEAR REVAMP)
-   Bento Grid, Architecture Graph & 24-Module Engine
+   HELIX PORTFOLIO — PRATAP JINDAL (2026 AWWWARDS STANDARD)
+   Interactive Ambient Mesh, Custom Cursor, Systems Matrix & PRD Engine
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
   // Global State
-  let modulesData = (typeof projectData !== 'undefined') ? projectData : [];
-  let resumes = (typeof resumeData !== 'undefined') ? resumeData : {};
+  const modulesData = (typeof projectData !== 'undefined') ? projectData : [];
+  const resumes = (typeof resumeData !== 'undefined') ? resumeData : {};
+  const master = (typeof masterProfile !== 'undefined') ? masterProfile : (resumes.master || {});
 
   let currentCategory = 'all';
   let currentLens = 'strategy';
   let currentView = 'grid'; // 'grid' | 'graph' | 'table'
-  let currentPersona = 'leadership';
   let searchQuery = '';
   let activeModuleForDrawer = null;
 
   // DOM Elements
-  const container = document.getElementById('modulesContainer');
-  const searchInput = document.getElementById('searchInput');
+  const container = document.getElementById('modulesContainer') || document.getElementById('projectsGrid');
+  const searchInput = document.getElementById('searchInput') || document.getElementById('registrySearch');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
   const moduleCounterText = document.getElementById('moduleCounterText');
   const activeLensText = document.getElementById('activeLensText');
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeIcon');
+  const soundToggleBtn = document.getElementById('soundToggleBtn');
+  const soundIcon = document.getElementById('soundIcon');
   const progressBar = document.getElementById('progressBar');
   
   // Drawer Elements
   const drawerBackdrop = document.getElementById('drawerBackdrop');
   const moduleDrawer = document.getElementById('moduleDrawer');
   const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+  const drawerPrevBtn = document.getElementById('drawerPrevBtn');
+  const drawerNextBtn = document.getElementById('drawerNextBtn');
+  const drawerShareBtn = document.getElementById('drawerShareBtn');
+
+  // ═══════════════════════════════════════
+  // 00 · SYNTHETIC AUDIO ENGINE (Web Audio API)
+  // ═══════════════════════════════════════
+  class SoundEngine {
+    constructor() {
+      this.ctx = null;
+      this.enabled = localStorage.getItem('sound_enabled') === 'true';
+      this.updateUI();
+    }
+
+    init() {
+      if (!this.ctx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          this.ctx = new AudioContextClass();
+        }
+      }
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+    }
+
+    toggle() {
+      this.init();
+      this.enabled = !this.enabled;
+      localStorage.setItem('sound_enabled', this.enabled ? 'true' : 'false');
+      this.updateUI();
+      if (this.enabled) {
+        this.playJoy();
+      }
+    }
+
+    updateUI() {
+      const soundOnSvg = document.querySelector('.sound-on-svg');
+      const soundOffSvg = document.querySelector('.sound-off-svg');
+      if (soundOnSvg && soundOffSvg) {
+        if (this.enabled) {
+          soundOnSvg.classList.remove('hidden');
+          soundOffSvg.classList.add('hidden');
+        } else {
+          soundOnSvg.classList.add('hidden');
+          soundOffSvg.classList.remove('hidden');
+        }
+      }
+      if (soundToggleBtn) {
+        soundToggleBtn.title = this.enabled ? 'Mute Sound Effects' : 'Enable Interactive Sound Effects';
+      }
+    }
+
+    playClick() {
+      if (!this.enabled || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(440, this.ctx.currentTime + 0.035);
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.035);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.035);
+      } catch (e) {}
+    }
+
+    playTab() {
+      if (!this.enabled || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(660, this.ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      } catch (e) {}
+    }
+
+    playJoy() {
+      if (!this.ctx) return;
+      try {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, index) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const startTime = this.ctx.currentTime + (index * 0.06);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, startTime);
+          gain.gain.setValueAtTime(0.04, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.12);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 0.12);
+        });
+      } catch (e) {}
+    }
+  }
+
+  const sfx = new SoundEngine();
 
   // ═══════════════════════════════════════
   // 01 · INITIALIZATION & THEME SETUP
   // ═══════════════════════════════════════
   function init() {
     initTheme();
-    renderPersona(currentPersona);
+    renderExecutiveProfile();
     renderModules();
     setupEventListeners();
-    initMascotAndCursor();
+    setupClickToCopyEmail();
+    initCustomCursor();
+    setupNavigationScrollSpy();
     setupNumberCounters();
+    checkUrlHashForDeepLink();
   }
 
   function initTheme() {
@@ -48,15 +162,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setTheme(theme) {
+    const sunSvg = document.querySelector('.theme-sun-svg');
+    const moonSvg = document.querySelector('.theme-moon-svg');
     if (theme === 'dark') {
       document.body.classList.remove('light-theme');
       document.body.classList.add('dark-theme');
-      if (themeIcon) themeIcon.textContent = '☀️';
+      if (sunSvg) sunSvg.classList.remove('hidden');
+      if (moonSvg) moonSvg.classList.add('hidden');
       localStorage.setItem('theme', 'dark');
     } else {
       document.body.classList.remove('dark-theme');
       document.body.classList.add('light-theme');
-      if (themeIcon) themeIcon.textContent = '🌙';
+      if (sunSvg) sunSvg.classList.add('hidden');
+      if (moonSvg) moonSvg.classList.remove('hidden');
       localStorage.setItem('theme', 'light');
     }
   }
@@ -98,11 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filtered.length === 0) {
       container.className = 'modules-grid-view';
       container.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
-          <span style="font-size: 2.5rem;">🔍</span>
-          <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin-top: 0.5rem;">No modules found</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Try adjusting your search query or switching categories.</p>
-          <button class="btn btn-outline btn-sm" id="resetFiltersBtn" style="margin-top: 1rem;">Reset Search Filters</button>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1.5rem; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(79, 70, 229, 0.08); color: var(--accent-indigo); margin-bottom: 0.85rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.35rem;">No operational modules match your filter</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Try adjusting your keyword or switching categories.</p>
+          <button class="btn btn-outline btn-sm" id="resetFiltersBtn" style="margin-top: 1.25rem;">Reset All Filters</button>
         </div>
       `;
       document.getElementById('resetFiltersBtn')?.addEventListener('click', () => {
@@ -111,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = 'all';
         updateCategoryPillsUI();
         renderModules();
+        sfx.playClick();
       });
       return;
     }
@@ -161,12 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Attach click listeners to cards
     container.querySelectorAll('.module-card').forEach(card => {
       card.addEventListener('click', () => {
         const id = card.getAttribute('data-id');
         const mod = modulesData.find(m => m.id === id);
-        if (mod) openDrawer(mod);
+        if (mod) {
+          sfx.playTab();
+          openDrawer(mod);
+        }
       });
     });
   }
@@ -176,8 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.innerHTML = `
       <div style="margin-bottom: 1.5rem;">
-        <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;">System Architecture Flow Map</h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">Visualizing how operational data flows across Sales, Inventory, AI Speech QA, and Executive MIS Analytics.</p>
+        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">System Architecture Flow Map</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Visualizing operational telemetry flowing from Voice Screening &amp; Core ERP to Executive MIS Dashboards.</p>
       </div>
 
       <div class="graph-flow-grid">
@@ -185,9 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="graph-node-card" data-id="${mod.id}">
             <span class="node-flow-num">NODE ${String(idx + 1).padStart(2, '0')}</span>
             <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.25rem;">${mod.id} · ${mod.category.toUpperCase()}</div>
-            <h4 style="font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem;">${mod.strategy?.title || ''}</h4>
-            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">${mod.product?.solution || mod.strategy?.desc || ''}</p>
-            <div style="margin-top: 0.75rem; font-size: 0.75rem; font-weight: 700; color: var(--accent-gold);">Click to Inspect Node &rarr;</div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-main);">${mod.strategy?.title || ''}</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.45;">${mod.product?.solution || mod.strategy?.desc || ''}</p>
+            <div style="margin-top: 0.85rem; font-size: 0.76rem; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 0.35rem;">
+              <span>Inspect Node</span>
+              <span>&rarr;</span>
+            </div>
           </div>
         `).join('')}
       </div>
@@ -197,7 +323,10 @@ document.addEventListener('DOMContentLoaded', () => {
       node.addEventListener('click', () => {
         const id = node.getAttribute('data-id');
         const mod = modulesData.find(m => m.id === id);
-        if (mod) openDrawer(mod);
+        if (mod) {
+          sfx.playTab();
+          openDrawer(mod);
+        }
       });
     });
   }
@@ -207,31 +336,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.innerHTML = `
       <table class="matrix-table">
+        <colgroup>
+          <col style="width: 85px;">
+          <col style="width: 230px;">
+          <col style="width: 125px;">
+          <col style="width: auto;">
+          <col style="width: 210px;">
+          <col style="width: 100px;">
+        </colgroup>
         <thead>
           <tr>
             <th>ID</th>
             <th>Module Name</th>
             <th>Category</th>
             <th>${getLensHeaderName(currentLens)} Context</th>
-            <th>Key Metric / Tech</th>
-            <th>Action</th>
+            <th>Key Metric &amp; Tech</th>
+            <th style="text-align: right;">Action</th>
           </tr>
         </thead>
         <tbody>
           ${modules.map(mod => {
             const lensData = getLensContent(mod, currentLens);
             return `
-              <tr data-id="${mod.id}">
+              <tr data-id="${mod.id}" class="table-row">
                 <td><span class="mod-id-tag">${mod.id}</span></td>
-                <td><div class="table-title">${mod.strategy?.title || ''}</div></td>
-                <td><span class="mod-badge">${mod.category}</span></td>
-                <td style="max-width: 320px;">${lensData.shortText}</td>
                 <td>
-                  <div style="font-weight:600; color:var(--accent-cyan); font-size:0.8rem;">${lensData.kpi || ''}</div>
-                  <div style="font-size:0.75rem; color:var(--text-dim);">${(mod.strategy?.tech || []).slice(0,2).join(', ')}</div>
+                  <div class="table-title">${mod.strategy?.title || ''}</div>
+                  <div class="table-badge-mobile">${mod.product?.badge || ''}</div>
+                </td>
+                <td><span class="mod-cat-badge ${mod.category}">${mod.category}</span></td>
+                <td>
+                  <div class="table-context-clamp" title="${lensData.shortText}">${lensData.shortText}</div>
                 </td>
                 <td>
-                  <button class="btn btn-outline btn-sm">Inspect &rarr;</button>
+                  <div class="table-kpi-val">${lensData.kpi || ''}</div>
+                  <div class="table-tech-tags">${(mod.strategy?.tech || []).slice(0, 3).map(t => `<span class="table-tech-tag">${t}</span>`).join('')}</div>
+                </td>
+                <td style="text-align: right;">
+                  <button class="btn btn-outline btn-xs" aria-label="Inspect ${mod.id}">Inspect &rarr;</button>
                 </td>
               </tr>
             `;
@@ -240,12 +382,14 @@ document.addEventListener('DOMContentLoaded', () => {
       </table>
     `;
 
-    // Attach click listeners to table rows
-    container.querySelectorAll('tr[data-id]').forEach(row => {
+    container.querySelectorAll('.table-row').forEach(row => {
       row.addEventListener('click', () => {
         const id = row.getAttribute('data-id');
         const mod = modulesData.find(m => m.id === id);
-        if (mod) openDrawer(mod);
+        if (mod) {
+          sfx.playTab();
+          openDrawer(mod);
+        }
       });
     });
   }
@@ -297,78 +441,109 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
-
   // ═══════════════════════════════════════
-  // 04 · PERSONA RENDER ENGINE
+  // 03 · EXECUTIVE PROFILE & RESUME CONTROLLER
   // ═══════════════════════════════════════
-  function renderPersona(personaKey) {
-    const data = resumes[personaKey];
-    if (!data) return;
+  function renderExecutiveProfile() {
+    const data = (typeof masterProfile !== 'undefined') ? masterProfile : (resumes.master || {});
+    const resumeFile = data.resumeFile || 'Pratap_Jindal_Resume.pdf';
 
-    const roleTitle = document.getElementById('personaRoleTitle');
-    const roleSubtitle = document.getElementById('personaRoleSubtitle');
-    const summaryText = document.getElementById('personaSummaryText');
-    const resumeLink = document.getElementById('personaResumeLink');
-    const bulletsList = document.getElementById('personaBulletsList');
-    const skillsTags = document.getElementById('personaSkillsTags');
-    const miniStats = document.getElementById('personaMiniStats');
-
-    if (roleTitle) roleTitle.textContent = data.roleTitle;
-    if (roleSubtitle) roleSubtitle.textContent = data.roleSubtitle;
-    if (summaryText) summaryText.textContent = data.summary;
-    if (resumeLink) resumeLink.href = data.resumeFile;
-
-    // Render Bullets from first experience
-    if (bulletsList && data.experience && data.experience[0]) {
-      bulletsList.innerHTML = data.experience[0].bullets.slice(0, 5).map(b => `<li>${b}</li>`).join('');
-    }
-
-    // Render Skills Tags
-    if (skillsTags && data.skills) {
-      skillsTags.innerHTML = data.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
-    }
-
-    // Render Mini Stats
-    if (miniStats && data.stats) {
-      miniStats.innerHTML = data.stats.map(s => `
-        <div class="p-stat-item">
-          <div class="p-stat-val">${s.value}</div>
-          <div class="p-stat-lbl">${s.label}</div>
-        </div>
-      `).join('');
-    }
-
-    // Also update Navbar resume button target
-    const navResumeBtn = document.getElementById('navResumeBtn');
-    if (navResumeBtn) navResumeBtn.href = data.resumeFile;
+    // Ensure all CV / Resume links on the page point strictly to the official PDF
+    const resumeLinks = document.querySelectorAll('a[href*="Resume"], a[href*="resume"], #navResumeBtn, #heroResumeBtn');
+    resumeLinks.forEach(link => {
+      link.href = resumeFile;
+      if (link.getAttribute('download') !== null) {
+        link.setAttribute('download', resumeFile);
+      }
+    });
   }
 
   // ═══════════════════════════════════════
-  // 05 · CASE STUDY DRAWER MODAL
+  // 04 · CASE STUDY DRAWER MODAL
   // ═══════════════════════════════════════
   function openDrawer(mod) {
+    if (!mod) return;
     activeModuleForDrawer = mod;
+    window.location.hash = 'mod=' + mod.id;
 
     document.getElementById('drawerBadge').textContent = mod.product?.badge || 'Module';
     document.getElementById('drawerTitle').textContent = mod.strategy?.title || 'Module Title';
-    document.getElementById('drawerCategory').textContent = `Category: ${mod.category.toUpperCase()}`;
+    document.getElementById('drawerCategory').textContent = `${mod.id} · ${mod.category.toUpperCase()}`;
 
     renderDrawerTabContent('overview');
 
-    // Reset drawer tabs active state
     document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
     document.querySelector('.drawer-tab[data-dtab="overview"]')?.classList.add('active');
 
     drawerBackdrop.classList.remove('hidden');
     moduleDrawer.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      drawerBackdrop.classList.add('open');
+      moduleDrawer.classList.add('open');
+    });
     document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
-    drawerBackdrop.classList.add('hidden');
-    moduleDrawer.classList.add('hidden');
+    drawerBackdrop.classList.remove('open');
+    moduleDrawer.classList.remove('open');
+    setTimeout(() => {
+      drawerBackdrop.classList.add('hidden');
+      moduleDrawer.classList.add('hidden');
+    }, 280);
     document.body.style.overflow = '';
+    if (window.location.hash.startsWith('#mod=')) {
+      history.replaceState(null, null, window.location.pathname);
+    }
+  }
+
+  function navigateDrawer(direction) {
+    if (!activeModuleForDrawer) return;
+    const currentIndex = modulesData.findIndex(m => m.id === activeModuleForDrawer.id);
+    if (currentIndex === -1) return;
+
+    let nextIndex = currentIndex + direction;
+    if (nextIndex < 0) nextIndex = modulesData.length - 1;
+    if (nextIndex >= modulesData.length) nextIndex = 0;
+
+    sfx.playTab();
+    openDrawer(modulesData[nextIndex]);
+  }
+
+  function shareCurrentModule() {
+    if (!activeModuleForDrawer) return;
+    const url = window.location.origin + window.location.pathname + '#mod=' + activeModuleForDrawer.id;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Link copied to clipboard!');
+      sfx.playClick();
+    }).catch(() => {
+      showToast('URL: ' + url);
+    });
+  }
+
+  function showToast(msg) {
+    let toast = document.querySelector('.toast-notice');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'toast-notice';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  function checkUrlHashForDeepLink() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#mod=')) {
+      const modId = hash.replace('#mod=', '');
+      const targetMod = modulesData.find(m => m.id === modId);
+      if (targetMod) {
+        setTimeout(() => openDrawer(targetMod), 300);
+      }
+    }
   }
 
   function renderDrawerTabContent(tabKey) {
@@ -406,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'research':
         drawerBody.innerHTML = `
           <div class="drawer-section">
-            <h4 class="drawer-section-h4">Research Title</h4>
+            <h4 class="drawer-section-h4">Research Investigation</h4>
             <p class="drawer-text"><strong>${mod.research?.title || 'N/A'}</strong></p>
           </div>
           <div class="drawer-section">
@@ -418,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="drawer-text">${mod.research?.question || 'N/A'}</p>
           </div>
           <div class="drawer-section">
-            <h4 class="drawer-section-h4">Methodology</h4>
+            <h4 class="drawer-section-h4">Methodology &amp; Architecture</h4>
             <p class="drawer-text">${mod.research?.methodology || 'N/A'}</p>
           </div>
           <div class="drawer-section">
@@ -478,13 +653,123 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 06 · EVENT LISTENERS
+  // 05 · NAVIGATION SCROLL SPY
+  // ═══════════════════════════════════════
+  function setupNavigationScrollSpy() {
+    const navItems = [
+      { id: 'hero', link: document.querySelector('.nav-links a[href="#hero"]') },
+      { id: 'profile', link: document.querySelector('.nav-links a[href="#profile"]') },
+      { id: 'bento', link: document.querySelector('.nav-links a[href="#bento"]') },
+      { id: 'modules', link: document.querySelector('.nav-links a[href="#modules"]') },
+      { id: 'experience', link: document.querySelector('.nav-links a[href="#experience"]') },
+      { id: 'contact', link: document.querySelector('.nav-links a[href="#contact"]') }
+    ].filter(item => item.link);
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 140;
+      let activeItem = navItems[0];
+
+      navItems.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el && el.offsetTop <= scrollPos) {
+          activeItem = item;
+        }
+      });
+
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        if (!a.classList.contains('nav-external-pill')) {
+          a.classList.remove('active');
+        }
+      });
+
+      if (activeItem && activeItem.link) {
+        activeItem.link.classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+  }
+
+  // ═══════════════════════════════════════
+  // 06 · CUSTOM MAGNETIC CURSOR
+  // ═══════════════════════════════════════
+  function initCustomCursor() {
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let isMouseActive = false;
+
+    // Smooth cursor follower loop
+    function animateCursorRing() {
+      if (isMouseActive) {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+
+        if (cursorRing) {
+          cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+        }
+      }
+      requestAnimationFrame(animateCursorRing);
+    }
+    animateCursorRing();
+
+    // Mouse Movement
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!isMouseActive) {
+        isMouseActive = true;
+        if (cursorDot) cursorDot.style.opacity = '1';
+        if (cursorRing) cursorRing.style.opacity = '1';
+      }
+
+      if (cursorDot) {
+        cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
+    });
+
+    // Window Leave / Enter
+    document.addEventListener('mouseleave', () => {
+      if (cursorDot) cursorDot.style.opacity = '0';
+      if (cursorRing) cursorRing.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      if (cursorDot) cursorDot.style.opacity = '1';
+      if (cursorRing) cursorRing.style.opacity = '1';
+    });
+
+    // Hover Scaling for Clickables
+    document.addEventListener('mouseover', (e) => {
+      const target = e.target.closest('a, button, .module-card, .bento-card, .graph-node-card, .competency-pillar-card, .table-row, .cat-pill, .lens-btn, .single-resume-card, .hero-telemetry-card');
+      if (target) {
+        cursorRing?.classList.add('active-hover');
+      } else {
+        cursorRing?.classList.remove('active-hover');
+      }
+    });
+  }
+
+  // ═══════════════════════════════════════
+  // 07 · EVENT LISTENERS
   // ═══════════════════════════════════════
   function setupEventListeners() {
     // Theme Toggle Listener
     themeToggleBtn?.addEventListener('click', () => {
+      sfx.playClick();
       const isDark = document.body.classList.contains('dark-theme');
       setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Sound Toggle Listener
+    soundToggleBtn?.addEventListener('click', () => {
+      sfx.toggle();
     });
 
     // Scroll Reading Progress Bar
@@ -493,14 +778,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (scrollTop / (docHeight || 1)) * 100;
       if (progressBar) progressBar.style.width = `${progress}%`;
-    });
+    }, { passive: true });
 
     // Bento Card Clicks
     document.querySelectorAll('.bento-card').forEach(card => {
       card.addEventListener('click', () => {
         const id = card.getAttribute('data-id');
         const mod = modulesData.find(m => m.id === id);
-        if (mod) openDrawer(mod);
+        if (mod) {
+          sfx.playTab();
+          openDrawer(mod);
+        }
       });
     });
 
@@ -521,25 +809,39 @@ document.addEventListener('DOMContentLoaded', () => {
         searchQuery = '';
         clearSearchBtn.classList.add('hidden');
         renderModules();
+        sfx.playClick();
       });
     }
 
-    // Shortcut '/' to focus search
+    // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
+      // '/' to focus search
       if (e.key === '/' && document.activeElement !== searchInput) {
         e.preventDefault();
         searchInput.focus();
+        sfx.playClick();
       }
+      // Escape to close drawer
       if (e.key === 'Escape') {
         closeDrawer();
+      }
+      // Arrow keys to navigate drawer
+      if (moduleDrawer && !moduleDrawer.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') {
+          navigateDrawer(-1);
+        } else if (e.key === 'ArrowRight') {
+          navigateDrawer(1);
+        }
       }
     });
 
     // Category Pills
-    document.querySelectorAll('.cat-pill').forEach(pill => {
+    document.querySelectorAll('.cat-pill, .filter-pill').forEach(pill => {
       pill.addEventListener('click', () => {
-        currentCategory = pill.getAttribute('data-cat');
-        updateCategoryPillsUI();
+        sfx.playTab();
+        currentCategory = pill.getAttribute('data-cat') || pill.getAttribute('data-filter') || 'all';
+        document.querySelectorAll('.cat-pill, .filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
         renderModules();
       });
     });
@@ -547,6 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lens Buttons
     document.querySelectorAll('.lens-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        sfx.playTab();
         currentLens = btn.getAttribute('data-lens');
         document.querySelectorAll('.lens-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -565,6 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnGridView && btnTableView && btnGraphView) {
       btnGridView.addEventListener('click', () => {
+        sfx.playTab();
         currentView = 'grid';
         btnGridView.classList.add('active');
         btnGraphView.classList.remove('active');
@@ -573,6 +877,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       btnGraphView.addEventListener('click', () => {
+        sfx.playTab();
         currentView = 'graph';
         btnGraphView.classList.add('active');
         btnGridView.classList.remove('active');
@@ -581,6 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       btnTableView.addEventListener('click', () => {
+        sfx.playTab();
         currentView = 'table';
         btnTableView.classList.add('active');
         btnGridView.classList.remove('active');
@@ -589,28 +895,34 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Persona Selector Buttons
-    document.querySelectorAll('.persona-tab-btn, .persona-nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentPersona = btn.getAttribute('data-persona');
-        
-        document.querySelectorAll('.persona-tab-btn').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-persona') === currentPersona);
-        });
-        document.querySelectorAll('.persona-nav-btn').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-persona') === currentPersona);
-        });
-
-        renderPersona(currentPersona);
+    // Interactive sound effects for Competency Pillars
+    document.querySelectorAll('.competency-pillar-card, .p-metric-item').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        sfx.playTab();
       });
     });
 
     // Drawer Listeners
-    closeDrawerBtn?.addEventListener('click', closeDrawer);
-    drawerBackdrop?.addEventListener('click', closeDrawer);
+    closeDrawerBtn?.addEventListener('click', () => {
+      sfx.playClick();
+      closeDrawer();
+    });
+    drawerBackdrop?.addEventListener('click', () => {
+      closeDrawer();
+    });
+    drawerPrevBtn?.addEventListener('click', () => {
+      navigateDrawer(-1);
+    });
+    drawerNextBtn?.addEventListener('click', () => {
+      navigateDrawer(1);
+    });
+    drawerShareBtn?.addEventListener('click', () => {
+      shareCurrentModule();
+    });
 
     document.querySelectorAll('.drawer-tab').forEach(tab => {
       tab.addEventListener('click', () => {
+        sfx.playTab();
         document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const key = tab.getAttribute('data-dtab');
@@ -623,98 +935,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.cat-pill').forEach(pill => {
       pill.classList.toggle('active', pill.getAttribute('data-cat') === currentCategory);
     });
-  }
-
-  // ═══════════════════════════════════════
-  // 07 · MASCOT & CURSOR INTERACTION
-  // ═══════════════════════════════════════
-  function initMascotAndCursor() {
-    const leftPupil = document.getElementById('leftPupil');
-    const rightPupil = document.getElementById('rightPupil');
-    const mascotHeadGroup = document.getElementById('mascotHeadGroup');
-    const mascotFrame = document.getElementById('heroMascotFrame');
-    const mascotStatusText = document.getElementById('mascotStatusText');
-
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorRing = document.getElementById('cursorRing');
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      if (cursorDot) {
-        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      }
-
-      if (mascotFrame && leftPupil && rightPupil) {
-        const rect = mascotFrame.getBoundingClientRect();
-        const mascotCenterX = rect.left + rect.width / 2;
-        const mascotCenterY = rect.top + rect.height / 2;
-
-        const deltaX = mouseX - mascotCenterX;
-        const deltaY = mouseY - mascotCenterY;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        const maxOffset = 6;
-        const offsetX = (deltaX / (distance || 1)) * Math.min(distance / 20, maxOffset);
-        const offsetY = (deltaY / (distance || 1)) * Math.min(distance / 20, maxOffset);
-
-        leftPupil.setAttribute('cx', 75 + offsetX);
-        leftPupil.setAttribute('cy', 85 + offsetY);
-        rightPupil.setAttribute('cx', 125 + offsetX);
-        rightPupil.setAttribute('cy', 85 + offsetY);
-
-        if (mascotHeadGroup) {
-          const rotX = Math.min(Math.max(-deltaY / 30, -8), 8);
-          const rotY = Math.min(Math.max(deltaX / 30, -8), 8);
-          mascotHeadGroup.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-          mascotHeadGroup.style.transformOrigin = '100px 90px';
-        }
-      }
-
-      if (e.clientY <= 30 && mascotStatusText) {
-        mascotStatusText.textContent = "Don't leave yet! Explore all 24 Modules below 🚀";
-      }
-    });
-
-    function animateCursorRing() {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
-
-      if (cursorRing) {
-        cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      }
-      requestAnimationFrame(animateCursorRing);
-    }
-    animateCursorRing();
-
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest('a, button, .module-card, .bento-card, .graph-node-card, .persona-tab-btn')) {
-        cursorRing?.classList.add('active-hover');
-      } else {
-        cursorRing?.classList.remove('active-hover');
-      }
-    });
-
-    function blinkMascot() {
-      if (leftPupil && rightPupil) {
-        leftPupil.style.transform = 'scaleY(0.1)';
-        rightPupil.style.transform = 'scaleY(0.1)';
-
-        setTimeout(() => {
-          leftPupil.style.transform = 'scaleY(1)';
-          rightPupil.style.transform = 'scaleY(1)';
-        }, 150);
-      }
-      const nextBlink = Math.random() * 4000 + 2000;
-      setTimeout(blinkMascot, nextBlink);
-    }
-    blinkMascot();
   }
 
   // ═══════════════════════════════════════
@@ -746,6 +966,96 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.5 });
 
     counters.forEach(c => observer.observe(c));
+  }
+
+  // ═══════════════════════════════════════
+  // 09 · CLICK-TO-COPY EMAIL CONTROLLER
+  // ═══════════════════════════════════════
+  async function copyTextToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (err) {
+        console.warn('navigator.clipboard failed, attempting execCommand fallback:', err);
+      }
+    }
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      textArea.style.left = '-9999px';
+      textArea.setAttribute('readonly', '');
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      console.error('execCommand copy failed:', err);
+      return false;
+    }
+  }
+
+  function setupClickToCopyEmail() {
+    const copyButtons = document.querySelectorAll('.contact-copy-btn, .copy-email-btn, [data-copy-email], [data-email]');
+
+    copyButtons.forEach(btn => {
+      let resetTimeout = null;
+
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = btn.getAttribute('data-email') || 'pratapjindal812@gmail.com';
+
+        const copied = await copyTextToClipboard(email);
+
+        if (typeof sfx !== 'undefined' && sfx) {
+          try {
+            sfx.init();
+            if (sfx.enabled) sfx.playJoy();
+          } catch (e) {}
+        }
+
+        // Visual feedback on card
+        btn.classList.add('copied-state');
+        const badge = btn.querySelector('.copy-badge');
+        if (badge) badge.classList.add('copied');
+
+        const statusText = btn.querySelector('.copy-status-text');
+        if (statusText) statusText.textContent = 'Copied!';
+
+        const hintText = btn.querySelector('.copy-hint-text');
+        if (hintText) hintText.textContent = 'Copied to clipboard! ✓';
+
+        showCopyToast(copied ? `Email ${email} copied to clipboard!` : `Email: ${email}`);
+
+        if (resetTimeout) clearTimeout(resetTimeout);
+        resetTimeout = setTimeout(() => {
+          btn.classList.remove('copied-state');
+          if (badge) badge.classList.remove('copied');
+          if (statusText) statusText.textContent = 'Copy';
+          if (hintText) hintText.textContent = 'Click to copy';
+        }, 2400);
+      });
+    });
+  }
+
+  function showCopyToast(message) {
+    let toast = document.getElementById('portfolioToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'portfolioToast';
+      toast.className = 'portfolio-toast';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>${message}</span>`;
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2400);
   }
 
   // Run App

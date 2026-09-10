@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
-   THE SYSTEMS ATELIER — PRATAP JINDAL
-   Executive Portfolio Controller (Executive Swiss Modernism)
-   Clean, Resilient, Accessible & Flawless Interactions
+   PRATAP JINDAL — AI ENGINEER & OPERATIONS ARCHITECT
+   Client-Side Controller (Pristine Daylight Aesthetic)
+   Zero-Gimmick, Pure Vanilla JS, High Reliability
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,95 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const profile = (typeof masterProfile !== 'undefined') ? masterProfile : (window.masterProfile || (typeof resumeData !== 'undefined' ? (resumeData.master || resumeData.default) : (window.resumeData ? window.resumeData.master : {})));
 
   // ═══════════════════════════════════════
-  // 01 · THEME CONTROLLER (DEFAULT: ARCHITECTURAL LIGHT)
+  // 01 · 24-SYSTEM ENTERPRISE LABORATORY
   // ═══════════════════════════════════════
-  const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const savedTheme = localStorage.getItem('pj_theme') || 'light';
+  const systemsGrid = document.getElementById('systemsGrid');
+  const categoryFilterPills = document.getElementById('categoryFilterPills');
+  const systemsSearchInput = document.getElementById('systemsSearchInput');
 
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.body.classList.add('dark-theme');
-      if (themeToggleBtn) {
-        themeToggleBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-        themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
-      }
-    } else {
-      document.body.classList.remove('dark-theme');
-      if (themeToggleBtn) {
-        themeToggleBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
-        themeToggleBtn.setAttribute('title', 'Switch to Dark Theme');
-      }
-    }
-    localStorage.setItem('pj_theme', theme);
-  }
-
-  applyTheme(savedTheme);
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const current = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    });
-  }
-
-  // ═══════════════════════════════════════
-  // 02 · 3-LENS EXECUTIVE DOSSIER CONTROLLER
-  // ═══════════════════════════════════════
-  const lensNav = document.getElementById('lensNav');
-  const lensTitle = document.getElementById('lensTitle');
-  const lensHeadline = document.getElementById('lensHeadline');
-  const lensSummary = document.getElementById('lensSummary');
-  const lensMetricsStrip = document.getElementById('lensMetricsStrip');
-  const lensDeliverablesList = document.getElementById('lensDeliverablesList');
-
-  if (lensNav && profile.lenses) {
-    const tabs = lensNav.querySelectorAll('.lens-tab-btn');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const key = tab.getAttribute('data-lens');
-        renderLens(key);
-      });
-    });
-  }
-
-  function renderLens(key) {
-    const data = profile.lenses && profile.lenses[key];
-    if (!data) return;
-
-    if (lensTitle) lensTitle.textContent = data.title;
-    if (lensHeadline) lensHeadline.textContent = data.headline;
-    if (lensSummary) lensSummary.textContent = data.summary;
-
-    if (lensMetricsStrip && data.metrics) {
-      lensMetricsStrip.innerHTML = data.metrics.map(m => `
-        <div class="lens-metric-box">
-          <div class="lmb-val">${m.val}</div>
-          <div class="lmb-lbl">${m.lbl}</div>
-        </div>
-      `).join('');
-    }
-
-    if (lensDeliverablesList && data.deliverables) {
-      lensDeliverablesList.innerHTML = data.deliverables.map(d => `
-        <li class="lens-deliverable-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>${d}</span>
-        </li>
-      `).join('');
-    }
-  }
-  window.renderLens = renderLens;
-
-  // ═══════════════════════════════════════
-  // 03 · 24-SYSTEM INTERACTIVE LABORATORY
-  // ═══════════════════════════════════════
-  const systemsGrid = document.getElementById('systemsGrid') || document.getElementById('projectsGrid');
-  const categoryFilterPills = document.getElementById('categoryFilterPills') || document.querySelector('.projects-category-pills');
-  const systemsSearchInput = document.getElementById('systemsSearchInput') || document.getElementById('registrySearch');
-
-  // Category mapping for the 24 modules
   function getModuleCategoryKey(mod) {
     const id = mod.id;
     if (['MOD_01', 'MOD_02', 'MOD_16'].includes(id)) return 'ai';
@@ -129,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (filtered.length === 0) {
       systemsGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
-          <p style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 600;">No matching systems found.</p>
-          <p style="font-size: 0.88rem; margin-top: 0.5rem;">Try adjusting your search query or switching category filters.</p>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-dim);">
+          <p style="font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">No matching systems found.</p>
+          <p style="font-size: 0.88rem; margin-top: 0.4rem;">Try adjusting your search query or choosing another category.</p>
         </div>
       `;
       return;
@@ -144,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const catKey = getModuleCategoryKey(mod).toUpperCase();
 
       return `
-        <article class="system-card" data-modid="${mod.id}" tabindex="0" role="button" aria-label="View case study for ${title}">
+        <article class="system-card" data-modid="${mod.id}" tabindex="0" role="button" aria-label="Inspect spec for ${title}">
           <div>
             <div class="sys-header">
               <span class="sys-id-tag">${mod.id}</span>
@@ -181,12 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (categoryFilterPills) {
-    const pills = categoryFilterPills.querySelectorAll('.cat-pill, .filter-pill');
+    const pills = categoryFilterPills.querySelectorAll('.cat-pill');
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
         pills.forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
-        activeCategory = pill.getAttribute('data-cat') || pill.getAttribute('data-filter') || 'all';
+        activeCategory = pill.getAttribute('data-cat') || 'all';
         renderSystems();
       });
     });
@@ -212,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ═══════════════════════════════════════
-  // 04 · CASE STUDY DRAWER MODAL
+  // 02 · CASE STUDY DRAWER MODAL
   // ═══════════════════════════════════════
   const drawerBackdrop = document.getElementById('drawerBackdrop');
   const moduleDrawer = document.getElementById('moduleDrawer');
@@ -290,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="drawer-section">
           <h4 class="drawer-section-h4">Key Target Users</h4>
-          <p class="drawer-text">${mod.product?.targetUsers || 'Executive leadership, operations managers, and field staff.'}</p>
+          <p class="drawer-text">${mod.product?.targetUsers || 'Executive leadership, operations managers, and frontline staff.'}</p>
         </div>
       `;
     } else if (activeDrawerTab === 'architecture') {
@@ -342,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 05 · CALIBRATED ROI SIMULATOR
+  // 03 · CALIBRATED ROI SIMULATOR
   // ═══════════════════════════════════════
   const sliderTeamSize = document.getElementById('sliderTeamSize');
   const sliderHoursPerFte = document.getElementById('sliderHoursPerFte');
@@ -383,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateROI();
 
   // ═══════════════════════════════════════
-  // 06 · 1-CLICK CLIPBOARD CONTROLLER
+  // 04 · 1-CLICK CLIPBOARD CONTROLLER
   // ═══════════════════════════════════════
   const toast = document.getElementById('portfolioToast');
   const toastMsg = document.getElementById('toastMsg');
@@ -396,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove('show');
-    }, 3200);
+    }, 3000);
   }
 
   document.querySelectorAll('.contact-copy-btn').forEach(btn => {
@@ -432,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 07 · UNIVERSAL RESUME ROUTING
+  // 05 · UNIVERSAL RESUME ROUTING
   // ═══════════════════════════════════════
   const resumeFileName = profile.resumeFile || 'resume.pdf';
   const downloadFileName = profile.downloadFileName || 'Pratap_Jindal_Resume.pdf';

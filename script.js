@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    THE SYSTEMS ATELIER — PRATAP JINDAL
-   Executive Portfolio Controller (2026 Awwwards Standard)
+   Executive Portfolio Controller (Executive Swiss Modernism)
+   Clean, Resilient, Accessible & Flawless Interactions
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,86 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const profile = (typeof masterProfile !== 'undefined') ? masterProfile : (window.masterProfile || (typeof resumeData !== 'undefined' ? (resumeData.master || resumeData.default) : (window.resumeData ? window.resumeData.master : {})));
 
   // ═══════════════════════════════════════
-  // 01 · TACTILE WEB AUDIO SYNTHESIZER
-  // ═══════════════════════════════════════
-  class SoundEngine {
-    constructor() {
-      this.ctx = null;
-      this.enabled = localStorage.getItem('pj_sound_enabled') === 'true';
-      this.initBtn();
-    }
-
-    initContext() {
-      if (!this.ctx) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) {
-          this.ctx = new AudioCtx();
-        }
-      }
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume();
-      }
-    }
-
-    initBtn() {
-      const btn = document.getElementById('soundToggleBtn');
-      if (!btn) return;
-      this.updateBtnUI(btn);
-      btn.addEventListener('click', () => {
-        this.initContext();
-        this.enabled = !this.enabled;
-        localStorage.setItem('pj_sound_enabled', this.enabled);
-        this.updateBtnUI(btn);
-        if (this.enabled) this.playTone(520, 0.08, 'triangle');
-      });
-    }
-
-    updateBtnUI(btn) {
-      if (this.enabled) {
-        btn.classList.add('active');
-        btn.setAttribute('title', 'Tactile Sound: ON (Click to Mute)');
-      } else {
-        btn.classList.remove('active');
-        btn.setAttribute('title', 'Tactile Sound: OFF (Click to Enable)');
-      }
-    }
-
-    playTone(freq = 440, duration = 0.05, type = 'sine') {
-      if (!this.enabled) return;
-      this.initContext();
-      if (!this.ctx) return;
-
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + duration);
-      } catch (e) {
-        // Fallback silently if audio blocked
-      }
-    }
-
-    playClick() { this.playTone(800, 0.04, 'sine'); }
-    playTab() { this.playTone(480, 0.06, 'triangle'); }
-    playSuccess() { this.playTone(650, 0.12, 'sine'); }
-  }
-
-  const sound = new SoundEngine();
-
-  // ═══════════════════════════════════════
-  // 01.5 · THEME CONTROLLER (DEFAULT: ARCHITECTURAL DAYLIGHT)
+  // 01 · THEME CONTROLLER (DEFAULT: ARCHITECTURAL LIGHT)
   // ═══════════════════════════════════════
   const themeToggleBtn = document.getElementById('themeToggleBtn');
-  // Default to light theme for CD personality (Conscientious & Dominant)
   const savedTheme = localStorage.getItem('pj_theme') || 'light';
 
   function applyTheme(theme) {
@@ -96,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('dark-theme');
       if (themeToggleBtn) {
         themeToggleBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-        themeToggleBtn.setAttribute('title', 'Switch to Daylight Theme');
+        themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
       }
     } else {
       document.body.classList.remove('dark-theme');
@@ -112,39 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      sound.playClick();
       const current = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
   }
 
   // ═══════════════════════════════════════
-  // 02 · LIVE CHANDIGARH IST CLOCK
-  // ═══════════════════════════════════════
-  function updateClock() {
-    const clockEl = document.getElementById('clockDigits');
-    if (!clockEl) return;
-    const now = new Date();
-    // Format to Asia/Kolkata (IST)
-    const options = {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    };
-    try {
-      const timeStr = new Intl.DateTimeFormat('en-GB', options).format(now);
-      clockEl.textContent = `IST ${timeStr}`;
-    } catch (e) {
-      clockEl.textContent = `IST ${now.toTimeString().substring(0, 8)}`;
-    }
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
-
-  // ═══════════════════════════════════════
-  // 03 · 3-LENS EXECUTIVE DOSSIER CONTROLLER
+  // 02 · 3-LENS EXECUTIVE DOSSIER CONTROLLER
   // ═══════════════════════════════════════
   const lensNav = document.getElementById('lensNav');
   const lensTitle = document.getElementById('lensTitle');
@@ -157,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabs = lensNav.querySelectorAll('.lens-tab-btn');
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        sound.playTab();
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const key = tab.getAttribute('data-lens');
@@ -195,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.renderLens = renderLens;
 
   // ═══════════════════════════════════════
-  // 04 · 24-SYSTEM INTERACTIVE LABORATORY
+  // 03 · 24-SYSTEM INTERACTIVE LABORATORY
   // ═══════════════════════════════════════
   const systemsGrid = document.getElementById('systemsGrid') || document.getElementById('projectsGrid');
   const categoryFilterPills = document.getElementById('categoryFilterPills') || document.querySelector('.projects-category-pills');
@@ -233,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filtered.length === 0) {
       systemsGrid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
-          <p style="font-family: var(--font-display); font-size: 1.25rem;">No matching systems found.</p>
-          <p style="font-size: 0.88rem; margin-top: 0.5rem;">Try adjusting your search query or switching categories.</p>
+          <p style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 600;">No matching systems found.</p>
+          <p style="font-size: 0.88rem; margin-top: 0.5rem;">Try adjusting your search query or switching category filters.</p>
         </div>
       `;
       return;
@@ -260,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div class="sys-footer">
-            <span>Inspect Spec</span>
+            <span>Inspect Specification</span>
             <span>&rarr;</span>
           </div>
         </article>
@@ -270,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach click listeners to cards
     systemsGrid.querySelectorAll('.system-card').forEach(card => {
       card.addEventListener('click', () => {
-        sound.playClick();
         const id = card.getAttribute('data-modid');
         const mod = allModules.find(m => m.id === id);
         if (mod) openDrawer(mod);
@@ -288,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pills = categoryFilterPills.querySelectorAll('.cat-pill, .filter-pill');
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
-        sound.playTab();
         pills.forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
         activeCategory = pill.getAttribute('data-cat') || pill.getAttribute('data-filter') || 'all';
@@ -307,10 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial Systems Render
   renderSystems();
 
-  // Also wire flagship card buttons
+  // Wire flagship card buttons
   document.querySelectorAll('.open-module-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      sound.playClick();
       const id = btn.getAttribute('data-modid');
       const mod = allModules.find(m => m.id === id);
       if (mod) openDrawer(mod);
@@ -318,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ═══════════════════════════════════════
-  // 05 · CASE STUDY DRAWER MODAL
+  // 04 · CASE STUDY DRAWER MODAL
   // ═══════════════════════════════════════
   const drawerBackdrop = document.getElementById('drawerBackdrop');
   const moduleDrawer = document.getElementById('moduleDrawer');
@@ -373,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.drawer-tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      sound.playTab();
       document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeDrawerTab = tab.getAttribute('data-dtab');
@@ -416,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
       drawerBody.innerHTML = `
         <div class="drawer-section">
           <h4 class="drawer-section-h4">Production Technologies Used</h4>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
+          <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.75rem;">
             ${stack.map(s => `<span class="sys-tag" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">${s}</span>`).join('')}
           </div>
         </div>
@@ -449,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 06 · CALIBRATED ROI SIMULATOR
+  // 05 · CALIBRATED ROI SIMULATOR
   // ═══════════════════════════════════════
   const sliderTeamSize = document.getElementById('sliderTeamSize');
   const sliderHoursPerFte = document.getElementById('sliderHoursPerFte');
@@ -490,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateROI();
 
   // ═══════════════════════════════════════
-  // 07 · 1-CLICK CLIPBOARD CONTROLLER
+  // 06 · 1-CLICK CLIPBOARD CONTROLLER
   // ═══════════════════════════════════════
   const toast = document.getElementById('portfolioToast');
   const toastMsg = document.getElementById('toastMsg');
@@ -509,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.contact-copy-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      sound.playSuccess();
       const email = btn.getAttribute('data-email') || 'pratapjindal812@gmail.com';
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email).then(() => {
@@ -540,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════
-  // 08 · UNIVERSAL RESUME ROUTING
+  // 07 · UNIVERSAL RESUME ROUTING
   // ═══════════════════════════════════════
   const resumeFileName = profile.resumeFile || 'resume.pdf';
   const downloadFileName = profile.downloadFileName || 'Pratap_Jindal_Resume.pdf';

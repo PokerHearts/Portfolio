@@ -341,8 +341,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (triageTabs.length > 0) {
     triageTabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        triageTabs.forEach(t => t.classList.remove('active'));
+        triageTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
         tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const triagePanel = document.getElementById('triagePanel');
+        if (triagePanel) triagePanel.setAttribute('aria-labelledby', tab.id);
 
         const key = tab.getAttribute('data-triage');
         const data = triageData[key];
@@ -364,8 +371,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (focusTabs.length > 0) {
     focusTabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        focusTabs.forEach(t => t.classList.remove('active'));
+        focusTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
         tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const focusPanel = document.getElementById('focusPanel');
+        if (focusPanel) focusPanel.setAttribute('aria-labelledby', tab.id);
 
         const trackKey = tab.getAttribute('data-track');
         const data = focusTracks[trackKey];

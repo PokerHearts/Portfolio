@@ -95,13 +95,13 @@
           <h2 class="section-title-compact">Where Is Your Organization Losing Momentum?</h2>
         </div>
 
-        <div class="triage-selectors">
-          <button class="triage-tab-btn active" data-triage="spreadsheets">Disconnected Spreadsheets & Clerical Drag</button>
-          <button class="triage-tab-btn" data-triage="field">Field Quota Inertia & Frontline Sluggishness</button>
-          <button class="triage-tab-btn" data-triage="supply">Chronic Stockouts & Dead Catalog Capital</button>
+        <div class="triage-selectors" role="tablist" aria-label="Operational diagnostic triage">
+          <button class="triage-tab-btn active" role="tab" aria-selected="true" aria-controls="triagePanel" id="triage-tab-1" data-triage="spreadsheets">Disconnected Spreadsheets & Clerical Drag</button>
+          <button class="triage-tab-btn" role="tab" aria-selected="false" aria-controls="triagePanel" id="triage-tab-2" data-triage="field">Field Quota Inertia & Frontline Sluggishness</button>
+          <button class="triage-tab-btn" role="tab" aria-selected="false" aria-controls="triagePanel" id="triage-tab-3" data-triage="supply">Chronic Stockouts & Dead Catalog Capital</button>
         </div>
 
-        <div class="triage-display">
+        <div class="triage-display" role="tabpanel" id="triagePanel" aria-labelledby="triage-tab-1">
           <div>
             <div class="triage-col-title">The Hidden Drag & Financial Cost</div>
             <div class="triage-pain" id="triagePain">
@@ -128,13 +128,13 @@
     <!-- Strategic Focus Section (Compact Open Tabs) -->
     <section class="focus-section" id="focus">
       <div class="container">
-        <div class="focus-nav">
-          <button class="focus-tab-btn active" data-track="strategy">Strategy & Operational Leadership</button>
-          <button class="focus-tab-btn" data-track="systems">Systems & Software Architecture</button>
-          <button class="focus-tab-btn" data-track="analytics">Decision BI & Inventory Analytics</button>
+        <div class="focus-nav" role="tablist" aria-label="Strategic focus tracks">
+          <button class="focus-tab-btn active" role="tab" aria-selected="true" aria-controls="focusPanel" id="focus-tab-1" data-track="strategy">Strategy & Operational Leadership</button>
+          <button class="focus-tab-btn" role="tab" aria-selected="false" aria-controls="focusPanel" id="focus-tab-2" data-track="systems">Systems & Software Architecture</button>
+          <button class="focus-tab-btn" role="tab" aria-selected="false" aria-controls="focusPanel" id="focus-tab-3" data-track="analytics">Decision BI & Inventory Analytics</button>
         </div>
 
-        <div class="focus-content">
+        <div class="focus-content" role="tabpanel" id="focusPanel" aria-labelledby="focus-tab-1">
           <div>
             <p class="focus-lead" id="focusLead">
               3+ years directing cross-functional operational divisions of up to 80 members. Proven track record turning sluggish field operations around with Maslow-inspired motivation, authoring master SOP repositories, and enforcing zero cash-transit risk governance.

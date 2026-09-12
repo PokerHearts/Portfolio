@@ -1,13 +1,68 @@
 /**
- * Pratap Jindal — Unboxed Editorial Portfolio Logic
- * Clean, lightweight, interactive scripts for:
- * - Strategic Focus Track Tabs
- * - 24-System Interactive Directory (Minimalist Table/Row view with search & filters)
- * - Minimalist System Detail Modal
- * - Toast Notification for Email Copy
+ * Pratap Jindal — High-Converting Editorial Portfolio Logic
+ * Includes:
+ * - Interactive Diagnostic Triage (Behavioral Psychology)
+ * - Strategic Focus Tracks
+ * - 24-System Interactive Directory
+ * - Detail Modal Window
+ * - Direct-to-Email AJAX Contact Form Submission (pratapjindal812@gmail.com)
+ * - Toast Notifications
  */
 
-// 24 Production Modules Repository
+// Problem-to-Solution Triage Data Matrix
+const triageData = {
+  spreadsheets: {
+    pain: '"Teams spend 40+ hours weekly manually reconciling data across Google Sheets, losing real-time visibility and introducing transcription errors."',
+    painDetail: 'When sales, logistics, and finance rely on detached manual registers, Managing Directors lose the ability to steer midday closings. Caching latency and manual entry backlogs delay critical strategic decisions by days.',
+    solution: '18-Module Internal Decision Platform & Zero-Latency Pipelines',
+    solutionDetail: 'Architected a company-wide decision infrastructure with custom Google Apps Script ingestion engines, Manifest V3 Chrome extensions bypassing Looker latency, and automated reconciliation scripts—cutting 80% of clerical drag with 100% staff adoption.'
+  },
+  field: {
+    pain: '"Frontline field sales teams suffer from mid-cycle inertia, backloading 60% of monthly quotas into the stressful final 72 hours."',
+    painDetail: 'Disorganized review cadences, unclear territory milestones, and passive oversight create severe revenue volatility and burn out frontline officers.',
+    solution: 'Turnaround Operating Rhythm & 48-Hour Sprint Mobilization',
+    solutionDetail: 'Applied behavioral psychology (Maslow-inspired empowerment huddles) and structured gamified milestones across 72 frontline officers, mobilizing the division to clear 40% of the total ₹75 Cr monthly quota in the first 48 hours.'
+  },
+  supply: {
+    pain: '"Working capital is suffocated by chronic shortages on fast-movers alongside bloated dead stock on sluggish lines."',
+    painDetail: 'Without dynamic lead-time variance analysis, inventory buffers are set on arbitrary static rules, leading to concurrent shortages, stockouts, and dissatisfied key accounts.',
+    solution: 'Multi-SKU Catalog Rationalization & Predictive Reorder Engines',
+    solutionDetail: 'Pruned overextended catalog from 500+ down to ~400 focused SKUs, slashing chronic shortage escalations from 17 down to 2, increasing inventory turnover by 20%, and unlocking working capital.'
+  }
+};
+
+// Strategic Focus Tracks Content
+const focusTracks = {
+  strategy: {
+    lead: "3+ years directing cross-functional operational divisions of up to 80 members. Proven track record turning sluggish field operations around with Maslow-inspired motivation, authoring master SOP repositories, and enforcing zero cash-transit risk governance.",
+    deliverables: [
+      "Led 72-member field operations division across 10 regions managing 7,500+ microfinance borrower accounts.",
+      "Overhauled frontline operational cadences with empowerment huddles and gamified milestone structures.",
+      "Mobilized high-velocity divisional sprint achieving 40% of the monthly target within the first 48 hours.",
+      "Authored master SOP repository and digital training curriculum achieving 100% adoption across non-technical staff."
+    ]
+  },
+  systems: {
+    lead: "Autonomous full-stack and internal software systems developer bridging executive strategy with rapid technical deployment. Personally engineered 18 production modules, coded a Chrome Extension bypassing Looker latency, and deployed real-time WebSockets with zero external consulting overhead.",
+    deliverables: [
+      "Architected 18-module internal decision platform covering sales tracking, party health, inventory, and payroll.",
+      "Engineered Manifest V3 Chrome Extension bypassing Looker Studio's 15-minute query caching constraint.",
+      "Automated cross-departmental data ingestion and sales reconciliation pipelines via Google Apps Script & REST webhooks.",
+      "Engineered real-time warehouse dispatch Kanban with Google Apps Script, Firestore WebSockets, and OAuth 2.0."
+    ]
+  },
+  analytics: {
+    lead: "Quantitative decision analyst combining top-tier MBA academic standing (CGPA 8.83/10) with UGC NET Assistant Professor qualification in management. Mastered multi-SKU catalog rationalization, predictive purchase patterns, and speech AI QA telemetry.",
+    deliverables: [
+      "Commissioned 13 role-based Looker Studio dashboards utilized daily by Managing Directors for real-time sales closing.",
+      "Pruned catalog from 500+ to ~400 focused SKUs, slashing chronic shortage escalations from 17 down to 2.",
+      "Directed speech AI audio QA pipeline transforming telecalling recordings into structured performance rubrics.",
+      "Architected Sales & Distribution Analytics Platform with a unified 67-column schema on PostgreSQL and Supabase."
+    ]
+  }
+};
+
+// 24 Production Modules Catalog
 const systemsCatalog = [
   {
     id: "MOD_01",
@@ -275,58 +330,37 @@ const systemsCatalog = [
   }
 ];
 
-// Strategic Focus Tracks Content
-const focusTracks = {
-  strategy: {
-    lead: "3+ years directing cross-functional operational divisions of up to 80 members. Proven track record turning sluggish field operations around with Maslow-inspired motivation, authoring master SOP repositories, and enforcing zero cash-transit risk governance.",
-    deliverables: [
-      "Led 72-member field operations division across 10 regions managing 7,500+ microfinance borrower accounts.",
-      "Overhauled frontline operational cadences with empowerment huddles and gamified milestone structures.",
-      "Mobilized high-velocity divisional sprint achieving 40% of the monthly target within the first 48 hours.",
-      "Authored master SOP repository and digital training curriculum achieving 100% adoption across non-technical staff."
-    ]
-  },
-  systems: {
-    lead: "Autonomous full-stack and internal software systems developer bridging executive strategy with rapid technical deployment. Personally engineered 18 production modules, coded a Chrome Extension bypassing Looker latency, and deployed real-time WebSockets with zero external consulting overhead.",
-    deliverables: [
-      "Architected 18-module internal decision platform covering sales tracking, party health, inventory, and payroll.",
-      "Engineered Manifest V3 Chrome Extension bypassing Looker Studio's 15-minute query caching constraint.",
-      "Automated cross-departmental data ingestion and sales reconciliation pipelines via Google Apps Script & REST webhooks.",
-      "Engineered real-time warehouse dispatch Kanban with Google Apps Script, Firestore WebSockets, and OAuth 2.0."
-    ]
-  },
-  analytics: {
-    lead: "Quantitative decision analyst combining top-tier MBA academic standing (CGPA 8.83/10) with UGC NET Assistant Professor qualification in management. Mastered multi-SKU catalog rationalization, predictive purchase patterns, and speech AI QA telemetry.",
-    deliverables: [
-      "Commissioned 13 role-based Looker Studio dashboards utilized daily by Managing Directors for real-time sales closing.",
-      "Pruned catalog from 500+ to ~400 focused SKUs, slashing chronic shortage escalations from 17 down to 2.",
-      "Directed speech AI audio QA pipeline transforming telecalling recordings into structured performance rubrics.",
-      "Architected Sales & Distribution Analytics Platform with a unified 67-column schema on PostgreSQL and Supabase."
-    ]
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Elements
+  // 1. Diagnostic Triage Selector
+  const triageTabs = document.querySelectorAll('.triage-tab-btn');
+  const triagePain = document.getElementById('triagePain');
+  const triagePainDetail = document.getElementById('triagePainDetail');
+  const triageSolution = document.getElementById('triageSolution');
+  const triageSolutionDetail = document.getElementById('triageSolutionDetail');
+
+  if (triageTabs.length > 0) {
+    triageTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        triageTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const key = tab.getAttribute('data-triage');
+        const data = triageData[key];
+        if (data) {
+          if (triagePain) triagePain.textContent = data.pain;
+          if (triagePainDetail) triagePainDetail.textContent = data.painDetail;
+          if (triageSolution) triageSolution.textContent = data.solution;
+          if (triageSolutionDetail) triageSolutionDetail.textContent = data.solutionDetail;
+        }
+      });
+    });
+  }
+
+  // 2. Focus Tracks Selector
   const focusTabs = document.querySelectorAll('.focus-tab-btn');
   const focusLead = document.getElementById('focusLead');
   const focusDeliverables = document.getElementById('focusDeliverables');
 
-  const directoryTable = document.getElementById('directoryTable');
-  const filterLinks = document.querySelectorAll('.filter-link');
-  const searchInput = document.getElementById('directorySearchInput');
-
-  const modalOverlay = document.getElementById('systemModal');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalBadge = document.getElementById('modalBadge');
-  const modalProblem = document.getElementById('modalProblem');
-  const modalSolution = document.getElementById('modalSolution');
-  const modalArchitecture = document.getElementById('modalArchitecture');
-  const modalOutcome = document.getElementById('modalOutcome');
-  const modalUsers = document.getElementById('modalUsers');
-
-  // 1. Focus Tracks Switching
   if (focusTabs.length > 0) {
     focusTabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -350,7 +384,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Directory Table Rendering (Unboxed Rows)
+  // 3. Directory Table (Minimalist Rows)
+  const directoryTable = document.getElementById('directoryTable');
+  const filterLinks = document.querySelectorAll('.filter-link');
+  const searchInput = document.getElementById('directorySearchInput');
+
   let currentCategory = 'all';
   let currentSearch = '';
 
@@ -371,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (filtered.length === 0) {
       directoryTable.innerHTML = `
-        <div style="padding: 3rem 0.5rem; color: var(--text-muted); font-size: 0.95rem;">
+        <div style="padding: 2.5rem 0.5rem; color: var(--text-muted); font-size: 0.92rem;">
           No matching systems found for "${currentSearch}".
         </div>
       `;
@@ -388,7 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  // Category Filter Link Handlers
   if (filterLinks.length > 0) {
     filterLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -400,7 +437,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Search Input Handler
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       currentSearch = e.target.value.trim();
@@ -408,7 +444,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Modal Handlers
+  renderDirectory();
+
+  // 4. Modal Window Logic
+  const modalOverlay = document.getElementById('systemModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBadge = document.getElementById('modalBadge');
+  const modalProblem = document.getElementById('modalProblem');
+  const modalSolution = document.getElementById('modalSolution');
+  const modalArchitecture = document.getElementById('modalArchitecture');
+  const modalOutcome = document.getElementById('modalOutcome');
+  const modalUsers = document.getElementById('modalUsers');
+
   window.openSystemDetail = function(id) {
     const item = systemsCatalog.find(s => s.id === id);
     if (!item || !modalOverlay) return;
@@ -441,8 +489,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // 4. Initial Render
-  renderDirectory();
+  // 5. Contact Form Direct AJAX Submission to pratapjindal812@gmail.com
+  const contactForm = document.getElementById('contactForm');
+  const formStatusMsg = document.getElementById('formStatusMsg');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Transmitting Message...';
+      }
+
+      const formData = new FormData(contactForm);
+
+      fetch("https://formsubmit.co/ajax/pratapjindal812@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (formStatusMsg) {
+          formStatusMsg.className = 'form-status-msg success';
+          formStatusMsg.innerHTML = '✓ <strong>Message Transmitted.</strong> Your operational brief has been delivered directly to Pratap\'s personal inbox. Expect a response within 24 hours.';
+        }
+        contactForm.reset();
+      })
+      .catch(error => {
+        if (formStatusMsg) {
+          formStatusMsg.className = 'form-status-msg error';
+          formStatusMsg.innerHTML = 'Direct transmission encountered a network issue. Please email directly to <a href="mailto:pratapjindal812@gmail.com" style="text-decoration:underline;">pratapjindal812@gmail.com</a>.';
+        }
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Transmit Direct Message →';
+        }
+      });
+    });
+  }
 });
 
 // Toast / Copy Email

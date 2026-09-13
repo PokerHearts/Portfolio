@@ -1,571 +1,582 @@
 /**
- * Pratap Jindal — High-Converting Editorial Portfolio Logic
- * Includes:
- * - Interactive Diagnostic Triage (Behavioral Psychology)
- * - Strategic Focus Tracks
- * - 24-System Interactive Directory
- * - Detail Modal Window
- * - Direct-to-Email AJAX Contact Form Submission (pratapjindal812@gmail.com)
- * - Toast Notifications
+ * Pratap Jindal — Interactive Executive Resume & Recruiter Cockpit
+ * 
+ * Features:
+ * 1. Direct Contact Triggers (Phone native call, Email clipboard copy with toast, LinkedIn/GitHub external links)
+ * 2. Click-to-Expand Granular Details (Education topped subjects, Projects with GitHub repos, Experience milestones)
+ * 3. Recruiter Live Notes Engine (sessionStorage backed — vanishes on session refresh as requested)
+ * 4. Recruiter Rating & Scorecard (1–5 Stars, Hiring Decision Pills, Exportable Evaluation Dossier)
+ * 5. Theme Switcher (Ivory paper, Crisp monochrome, Obsidian slate)
+ * 6. Background Telemetry Ledger & Secret Admin Cockpit (Ctrl+Shift+A or ?admin=audit)
  */
 
-// Problem-to-Solution Triage Data Matrix
-const triageData = {
-  spreadsheets: {
-    pain: '"Teams spend 40+ hours weekly manually reconciling data across Google Sheets, losing real-time visibility and introducing transcription errors."',
-    painDetail: 'When sales, logistics, and finance rely on detached manual registers, Managing Directors lose the ability to steer midday closings. Caching latency and manual entry backlogs delay critical strategic decisions by days.',
-    solution: '18-Module Internal Decision Platform & Zero-Latency Pipelines',
-    solutionDetail: 'Architected a company-wide decision infrastructure with custom Google Apps Script ingestion engines, Manifest V3 Chrome extensions bypassing Looker latency, and automated reconciliation scripts—cutting 80% of clerical drag with 100% staff adoption.'
-  },
-  field: {
-    pain: '"Frontline field sales teams suffer from mid-cycle inertia, backloading 60% of monthly quotas into the stressful final 72 hours."',
-    painDetail: 'Disorganized review cadences, unclear territory milestones, and passive oversight create severe revenue volatility and burn out frontline officers.',
-    solution: 'Turnaround Operating Rhythm & 48-Hour Sprint Mobilization',
-    solutionDetail: 'Applied behavioral psychology (Maslow-inspired empowerment huddles) and structured gamified milestones across 72 frontline officers, mobilizing the division to clear 40% of the total ₹75 Cr monthly quota in the first 48 hours.'
-  },
-  supply: {
-    pain: '"Working capital is suffocated by chronic shortages on fast-movers alongside bloated dead stock on sluggish lines."',
-    painDetail: 'Without dynamic lead-time variance analysis, inventory buffers are set on arbitrary static rules, leading to concurrent shortages, stockouts, and dissatisfied key accounts.',
-    solution: 'Multi-SKU Catalog Rationalization & Predictive Reorder Engines',
-    solutionDetail: 'Pruned overextended catalog from 500+ down to ~400 focused SKUs, slashing chronic shortage escalations from 17 down to 2, increasing inventory turnover by 20%, and unlocking working capital.'
+(function () {
+  'use strict';
+
+  // Session ID for telemetry tracking
+  const SESSION_KEY = 'pratap_recruiter_notes';
+  const AUDIT_LEDGER_KEY = 'pratap_telemetry_audit_ledger';
+  const WEBHOOK_KEY = 'pratap_telemetry_webhook_url';
+  
+  let currentSessionId = sessionStorage.getItem('pratap_session_id');
+  if (!currentSessionId) {
+    currentSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    sessionStorage.setItem('pratap_session_id', currentSessionId);
   }
-};
 
-// Strategic Focus Tracks Content
-const focusTracks = {
-  strategy: {
-    lead: "3+ years directing cross-functional operational divisions of up to 80 members. Proven track record turning sluggish field operations around with Maslow-inspired motivation, authoring master SOP repositories, and enforcing zero cash-transit risk governance.",
-    deliverables: [
-      "Led 72-member field operations division across 10 regions managing 7,500+ microfinance borrower accounts.",
-      "Overhauled frontline operational cadences with empowerment huddles and gamified milestone structures.",
-      "Mobilized high-velocity divisional sprint achieving 40% of the monthly target within the first 48 hours.",
-      "Authored master SOP repository and digital training curriculum achieving 100% adoption across non-technical staff."
-    ]
-  },
-  systems: {
-    lead: "Autonomous full-stack and internal software systems developer bridging executive strategy with rapid technical deployment. Personally engineered 18 production modules, coded a Chrome Extension bypassing Looker latency, and deployed real-time WebSockets with zero external consulting overhead.",
-    deliverables: [
-      "Architected 18-module internal decision platform covering sales tracking, party health, inventory, and payroll.",
-      "Engineered Manifest V3 Chrome Extension bypassing Looker Studio's 15-minute query caching constraint.",
-      "Automated cross-departmental data ingestion and sales reconciliation pipelines via Google Apps Script & REST webhooks.",
-      "Engineered real-time warehouse dispatch Kanban with Google Apps Script, Firestore WebSockets, and OAuth 2.0."
-    ]
-  },
-  analytics: {
-    lead: "Quantitative decision analyst combining top-tier MBA academic standing (CGPA 8.83/10) with UGC NET Assistant Professor qualification in management. Mastered multi-SKU catalog rationalization, predictive purchase patterns, and speech AI QA telemetry.",
-    deliverables: [
-      "Commissioned 13 role-based Looker Studio dashboards utilized daily by Managing Directors for real-time sales closing.",
-      "Pruned catalog from 500+ to ~400 focused SKUs, slashing chronic shortage escalations from 17 down to 2.",
-      "Directed speech AI audio QA pipeline transforming telecalling recordings into structured performance rubrics.",
-      "Architected Sales & Distribution Analytics Platform with a unified 67-column schema on PostgreSQL and Supabase."
-    ]
+  // --- 1. DIRECT ACTION CONTACT TRIGGERS ---
+  const emailBtn = document.getElementById('contactEmailBtn');
+  const toastEl = document.getElementById('toastNotification');
+  const toastMsg = document.getElementById('toastMessage');
+  let toastTimer = null;
+
+  function showToast(message) {
+    if (!toastEl) return;
+    if (toastMsg) toastMsg.textContent = message;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove('show');
+    }, 3200);
   }
-};
 
-// 24 Production Modules Catalog
-const systemsCatalog = [
-  {
-    id: "MOD_01",
-    category: "ai",
-    badge: "AI & SPEECH",
-    title: "AI Voice Mock Interview Simulator & Portal",
-    problem: "Candidates and corporate trainees lack realistic, low-latency, voice-adaptive sandboxes to rehearse high-pressure verbal delivery.",
-    solution: "Interactive, voice-first mock interview training portal using Web Audio and generative AI with client-side PDF resume parsing.",
-    architecture: "Browser-side PDF.js parsing keeps user data private, combined with Speech API Voice Activity Detection (VAD) calibration.",
-    outcome: "Lowered practice costs to ~$0.05 per session, logging comprehensive performance feedback and scoring metrics to a central database.",
-    users: "108+ team members and corporate candidates."
-  },
-  {
-    id: "MOD_02",
-    category: "ai",
-    badge: "AI & SPEECH",
-    title: "AI-Powered Call QA Analysis Engine",
-    problem: "Manual QA audits covered less than 2% of daily recordings across 12 telecalling units, leaving critical agent execution errors undetected.",
-    solution: "Speech-to-text transcript processing engine analyzing agent objection handling, script alignment, and customer purchase intent.",
-    architecture: "Engineered rate-limited task queuing matrix to handle API thresholds for 800 daily audio minutes across 1,200 recordings.",
-    outcome: "Achieved 100% evaluation coverage across all decentralized units, saving 360 hours of manual evaluation every month.",
-    users: "12 decentralized telecalling units auditing 1,200 daily records."
-  },
-  {
-    id: "MOD_03",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "B2B Field Order Book & Dispatch Pad",
-    problem: "Scattered order collections via text and phone calls caused transcription errors and slow booking times (8 mins per order).",
-    solution: "Responsive single-page digital order pad with dynamic stock filters, local storage draft protection, and instant client-side receipt generation.",
-    architecture: "Google Apps Script backend with dynamic chunked CacheService pipeline fitting inventory matrices within strict 100KB limits.",
-    outcome: "Reduced order booking turnaround from 8 minutes to 45 seconds while maintaining 100% order logging accuracy at zero hosting cost.",
-    users: "Field sales agents, distributors, and operational order desks."
-  },
-  {
-    id: "MOD_04",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Predictive Inventory & Purchase Order Optimizer",
-    problem: "Chronic shortages and overstocked dead capital restricted fulfillment velocity and tied up working capital.",
-    solution: "Strategic inventory governance dashboard tracking batch histories, safety margins, and predictive reorder advisories.",
-    architecture: "Safety stock formulations dynamically calculated from supplier lead-time variance rather than static threshold caps.",
-    outcome: "Slashed chronic shortage escalations from 17 down to 2, accelerating stock rotation and enabling a 20% sales expansion.",
-    users: "Supply chain managers and procurement directors."
-  },
-  {
-    id: "MOD_05",
-    category: "operations",
-    badge: "ENGINEERING",
-    title: "Looker Studio Real-Time Data Refresher",
-    problem: "Native 15-minute caching limits in Google Looker Studio prevented executive monitoring of live midday sales operations.",
-    solution: "Custom Manifest V3 Chrome extension injecting background event runners to trigger real-time, non-invasive dashboard refreshes.",
-    architecture: "Engineered seamless DOM-state preservation that maintains user-selected filters, pivots, and screen scroll coordinates.",
-    outcome: "Enabled real-time, live operational telemetry monitoring for senior executives during crucial monthend closing cadences.",
-    users: "Managing Directors and senior operational leadership."
-  },
-  {
-    id: "MOD_06",
-    category: "operations",
-    badge: "MARKETING OPS",
-    title: "Automated Visual Asset & Banner Engine",
-    problem: "Marketing operations faced turnaround bottlenecks waiting for design adjustments for daily catalog updates.",
-    solution: "Template-driven banner generator compiling promotional graphics with programmatic typography and dynamic product injections.",
-    architecture: "Browser-based canvas layout renderer exporting print- and web-ready assets instantaneously.",
-    outcome: "Eliminated graphic production backlogs, enabling same-day campaign rollouts across multiple distribution channels.",
-    users: "Growth marketing and digital distribution teams."
-  },
-  {
-    id: "MOD_07",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "Field Sales Activity & Route Tracking Terminal",
-    problem: "Lack of field visibility into daily route completion and client visitation patterns across field officers.",
-    solution: "Mobile-responsive check-in terminal logging geolocation timestamps, visitation notes, and next-action pipelines.",
-    architecture: "Lightweight offline-first web application syncing queued visits automatically upon network restoration.",
-    outcome: "Delivered transparent field accountability and boosted active daily client coverage across 10 regional territories.",
-    users: "Frontline field officers and regional territory managers."
-  },
-  {
-    id: "MOD_08",
-    category: "operations",
-    badge: "FINANCE & HR",
-    title: "Cross-Entity Attendance & Payroll Reconciler",
-    problem: "Discrepancies between biometric logs, shift overrides, and manual timesheets delayed monthend payroll finalization.",
-    solution: "Automated reconciliation pipeline harmonizing biometric inputs with approval matrices and leave ledgers.",
-    architecture: "Google Apps Script pipeline with automated audit validations and PDF payslip compilation.",
-    outcome: "Cut monthend payroll processing time by 75% and eliminated payroll dispute escalations.",
-    users: "HR operations and finance administration."
-  },
-  {
-    id: "MOD_09",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "Customer Credit Governance & Ledger Health",
-    problem: "Uncoordinated credit extensions resulted in overdue receivables and high credit default risk.",
-    solution: "Credit health cockpit providing real-time aging analysis, payment velocity ratings, and automated hold triggers.",
-    architecture: "PostgreSQL analytical views calculating rolling Days Sales Outstanding (DSO) and automated warning thresholds.",
-    outcome: "Reduced overdue receivables by 35% and standardized credit approval cadences across all commercial accounts.",
-    users: "Commercial finance teams and credit controllers."
-  },
-  {
-    id: "MOD_10",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Warehouse Dispatch & Logistics Kanban",
-    problem: "Warehouse packing queues suffered from communication gaps between order desks and loading bay supervisors.",
-    solution: "Real-time dispatch Kanban board displaying order fulfillment stages, packing slips, and carrier assignments.",
-    architecture: "Real-time event subscriptions via Firestore WebSockets providing instant stage transitions across devices.",
-    outcome: "Accelerated order turnaround by 40% and eliminated misrouted dispatches across warehouse operations.",
-    users: "Warehouse supervisors and logistics coordinators."
-  },
-  {
-    id: "MOD_11",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "Distributor Portal & Secondary Sales Tracker",
-    problem: "Secondary sales visibility was delayed by weeks due to reliance on monthly distributor self-reporting.",
-    solution: "Self-service distributor portal allowing real-time secondary stock reporting, warranty registrations, and claim filings.",
-    architecture: "Secure scoped authentication granting distributors access strictly to their contractual product catalogs and claims.",
-    outcome: "Gained real-time secondary sales visibility and reduced distributor claim processing cycles from 2 weeks to 24 hours.",
-    users: "Authorized distribution partners and regional sales leads."
-  },
-  {
-    id: "MOD_12",
-    category: "operations",
-    badge: "GOVERNANCE",
-    title: "Centralized Enterprise SOP & Policy Repository",
-    problem: "Operational standards and process documentation were scattered across fragmented emails, drives, and local files.",
-    solution: "Searchable, version-controlled central operational knowledge base with role-scoped access and onboarding tracks.",
-    architecture: "Clean static site generation indexed by workflow taxonomy, ensuring zero latency and high readability.",
-    outcome: "Accelerated new hire operational ramp-up by 50% and standardized standard operating procedures across 80+ employees.",
-    users: "All organization members and departmental leads."
-  },
-  {
-    id: "MOD_13",
-    category: "operations",
-    badge: "GOVERNANCE",
-    title: "Regulatory Compliance & Audit Trail Tracker",
-    problem: "Managing statutory filing deadlines and drug license renewals across multiple legal entities created compliance vulnerability.",
-    solution: "Central compliance monitor with automated countdown triggers, documentation vaults, and escalation cadences.",
-    architecture: "Automated cron schedules running periodic audit checks and alerting designated compliance officers before critical windows.",
-    outcome: "Maintained a 100% on-time statutory compliance record across all operational entities with zero lapsed licenses.",
-    users: "Legal counsel, regulatory officers, and Managing Directors."
-  },
-  {
-    id: "MOD_14",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Vendor SLA Governance & Procurement Scorecard",
-    problem: "Lack of quantified vendor performance data hampered supplier negotiations and SLA enforcement.",
-    solution: "Automated vendor scorecard measuring delivery punctuality, quality pass rates, and invoice pricing consistency.",
-    architecture: "Aggregated purchase order fulfillment data into composite supplier health indices.",
-    outcome: "Equipped procurement leadership with objective leverage during contract negotiations, improving vendor SLA compliance by 25%.",
-    users: "Procurement managers and executive leadership."
-  },
-  {
-    id: "MOD_15",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Batch Expiry & Cold-Chain Telemetry Monitor",
-    problem: "Near-expiry pharmaceutical batches risked inventory write-offs without early proactive reallocation.",
-    solution: "Proactive batch aging monitor flagging lots approaching critical shelf-life thresholds with reallocation playbooks.",
-    architecture: "Automated SQL alerts generating priority dispatch suggestions for early-expiring batches.",
-    outcome: "Near-zero expired stock write-offs across distribution centers, protecting operating margins.",
-    users: "Quality assurance managers and warehouse heads."
-  },
-  {
-    id: "MOD_16",
-    category: "ai",
-    badge: "AI & SPEECH",
-    title: "Conversational FAQ & Knowledge Retrieval Bot",
-    problem: "Internal support desks were overwhelmed with repetitive questions regarding company policies and operational guidelines.",
-    solution: "Retrieval-augmented conversational agent answering internal queries grounded in company SOPs and HR handbooks.",
-    architecture: "Client-side document embedding retrieval with structured markdown synthesis and citation links.",
-    outcome: "Deflected 60% of routine internal inquiries, allowing support personnel to focus on complex operational issues.",
-    users: "Cross-functional internal staff."
-  },
-  {
-    id: "MOD_17",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Inter-Depot Stock Transfer Optimization Engine",
-    problem: "Regional inventory imbalances resulted in excess stock in one warehouse while another experienced stockouts.",
-    solution: "Optimization algorithm calculating optimal balancing stock transfers between regional depots based on regional demand velocities.",
-    architecture: "Algorithmic route balancing balancing transport freight costs against urgent fulfillment priority.",
-    outcome: "Reduced regional stockout incidence by 30% without increasing total system inventory holdings.",
-    users: "Logistics planners and regional depot managers."
-  },
-  {
-    id: "MOD_18",
-    category: "operations",
-    badge: "GOVERNANCE",
-    title: "Customer Escalation & Root Cause Registry",
-    problem: "Customer complaints were treated as isolated incidents rather than systemic operational feedback.",
-    solution: "Structured Root Cause Analysis (RCA) portal enforcing 5-Whys methodology and preventive corrective action plans.",
-    architecture: "Ticket workflow lifecycle enforcing verified CAPA (Corrective and Preventive Action) closure.",
-    outcome: "Decreased recurring customer complaint categories by 45% within two operational quarters.",
-    users: "Customer support leads and operations managers."
-  },
-  {
-    id: "MOD_19",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "Commission & Sales Incentive Calculator",
-    problem: "Manual monthly incentive calculations caused delays, disputes, and reduced sales team motivation.",
-    solution: "Transparent commission engine calculating individual and tiered team payouts based on verified closed revenue.",
-    architecture: "Automated data linkage to reconciled invoice ledgers, preventing unverified commission disbursements.",
-    outcome: "Eliminated commission disputes and disbursed monthly incentive statements on Day 1 of the new cycle.",
-    users: "Field sales teams and payroll accountants."
-  },
-  {
-    id: "MOD_20",
-    category: "supply",
-    badge: "SUPPLY CHAIN",
-    title: "Packaging Material Consumption & Wastage Tracker",
-    problem: "Unmonitored usage of cartons, foils, and packaging inputs led to hidden production cost leakages.",
-    solution: "Batch-wise packaging reconciliation ledger comparing theoretical recipe consumption against actual material usage.",
-    architecture: "Variance detection models flagging statistical wastage anomalies exceeding standard tolerances.",
-    outcome: "Reduced packaging material waste by 18% and tightened batch cost controls.",
-    users: "Plant supervisors and production cost controllers."
-  },
-  {
-    id: "MOD_21",
-    category: "operations",
-    badge: "GOVERNANCE",
-    title: "Fleet Maintenance & Operational Logbook",
-    problem: "Unscheduled vehicle breakdowns disrupted critical delivery routes and incurred emergency repair costs.",
-    solution: "Preventive maintenance scheduling system tracking mileage, routine service intervals, and fuel efficiency metrics.",
-    architecture: "Predictive service alert triggers based on odometer milestones and service log history.",
-    outcome: "Reduced transit delivery breakdowns by 65% and extended company delivery fleet lifespan.",
-    users: "Fleet coordinators and logistics supervisors."
-  },
-  {
-    id: "MOD_22",
-    category: "sales",
-    badge: "SALES & COMMERCE",
-    title: "Competitor Market Intelligence Registry",
-    problem: "Valuable frontline market intelligence regarding competitor pricing and promotional schemes was lost in verbal conversations.",
-    solution: "Standardized market intelligence repository for field agents to submit competitor price points, discounts, and sample photos.",
-    architecture: "Structured mobile submission forms with automated category tagging and regional price heatmaps.",
-    outcome: "Allowed commercial strategy leadership to counter competitor tactical pricing moves within 24 hours.",
-    users: "Commercial strategy analysts and sales directors."
-  },
-  {
-    id: "MOD_23",
-    category: "operations",
-    badge: "MARKETING OPS",
-    title: "Product Knowledge Card & Visual Playbook Generator",
-    problem: "Medical representatives struggled with rapid product knowledge assimilation for newly introduced formulations.",
-    solution: "Visual digital flashcard generator summarizing indications, contraindications, dosage, and USP talking points.",
-    architecture: "Automated layout generator compiling medical data into mobile-friendly digital cards.",
-    outcome: "Shortened sales team product briefing cycles from weeks to 2 days with 100% syllabus mastery.",
-    users: "Medical representatives and product training managers."
-  },
-  {
-    id: "MOD_24",
-    category: "operations",
-    badge: "GOVERNANCE",
-    title: "Enterprise Document Vault & Access Matrix",
-    problem: "Confidential corporate contracts, lease agreements, and board resolutions lacked rigorous role-based governance.",
-    solution: "Encrypted internal digital vault categorizing corporate assets with strict access auditing and link expiration.",
-    architecture: "Role-scoped access control matrix with immutable access audit trails.",
-    outcome: "Eliminated unauthorized document access and streamlined external compliance and due diligence audits.",
-    users: "Corporate officers, legal counsel, and Managing Directors."
-  }
-];
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Diagnostic Triage Selector
-  const triageTabs = document.querySelectorAll('.triage-tab-btn');
-  const triagePain = document.getElementById('triagePain');
-  const triagePainDetail = document.getElementById('triagePainDetail');
-  const triageSolution = document.getElementById('triageSolution');
-  const triageSolutionDetail = document.getElementById('triageSolutionDetail');
-
-  if (triageTabs.length > 0) {
-    triageTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        triageTabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-
-        const triagePanel = document.getElementById('triagePanel');
-        if (triagePanel) triagePanel.setAttribute('aria-labelledby', tab.id);
-
-        const key = tab.getAttribute('data-triage');
-        const data = triageData[key];
-        if (data) {
-          if (triagePain) triagePain.textContent = data.pain;
-          if (triagePainDetail) triagePainDetail.textContent = data.painDetail;
-          if (triageSolution) triageSolution.textContent = data.solution;
-          if (triageSolutionDetail) triageSolutionDetail.textContent = data.solutionDetail;
+  if (emailBtn) {
+    emailBtn.addEventListener('click', async () => {
+      const email = 'pratapjindal812@gmail.com';
+      let copied = false;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(email);
+          copied = true;
         }
-      });
+      } catch (err) {}
+
+      if (!copied) {
+        try {
+          const tempInput = document.createElement('textarea');
+          tempInput.value = email;
+          tempInput.style.position = 'fixed';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.focus();
+          tempInput.select();
+          copied = document.execCommand('copy');
+          document.body.removeChild(tempInput);
+        } catch (e) {}
+      }
+
+      showToast('✓ Copied ' + email + ' to clipboard!');
+      logTelemetryEvent('action_email_copied', { email });
     });
   }
 
-  // 2. Focus Tracks Selector
-  const focusTabs = document.querySelectorAll('.focus-tab-btn');
-  const focusLead = document.getElementById('focusLead');
-  const focusDeliverables = document.getElementById('focusDeliverables');
+  const phoneLink = document.getElementById('contactPhone');
+  if (phoneLink) {
+    phoneLink.addEventListener('click', () => {
+      logTelemetryEvent('action_phone_clicked', { phone: '+91 70090 19719' });
+    });
+  }
 
-  if (focusTabs.length > 0) {
-    focusTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        focusTabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
+  const linkedinLink = document.getElementById('contactLinkedin');
+  if (linkedinLink) {
+    linkedinLink.addEventListener('click', () => {
+      logTelemetryEvent('action_linkedin_clicked', {});
+    });
+  }
 
-        const focusPanel = document.getElementById('focusPanel');
-        if (focusPanel) focusPanel.setAttribute('aria-labelledby', tab.id);
+  const githubLink = document.getElementById('contactGithub');
+  if (githubLink) {
+    githubLink.addEventListener('click', () => {
+      logTelemetryEvent('action_github_clicked', {});
+    });
+  }
 
-        const trackKey = tab.getAttribute('data-track');
-        const data = focusTracks[trackKey];
-        if (data) {
-          if (focusLead) focusLead.textContent = data.lead;
-          if (focusDeliverables) {
-            focusDeliverables.innerHTML = data.deliverables.map((item, idx) => `
-              <li>
-                <span class="deliverable-num">0${idx + 1}</span>
-                <span>${item}</span>
-              </li>
-            `).join('');
-          }
+  // --- 2. CLICK-TO-EXPAND INLINE DETAILS HANDLERS ---
+  const expandButtons = document.querySelectorAll('.inline-expand-btn');
+
+  expandButtons.forEach(btn => {
+    const targetId = btn.getAttribute('aria-controls');
+    const panel = document.getElementById(targetId);
+    if (!panel) return;
+
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        btn.setAttribute('aria-expanded', 'false');
+        panel.hidden = true;
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+
+        // Log telemetry event for Pratap
+        const entry = btn.closest('.flowing-entry');
+        const title = entry?.querySelector('.entry-role')?.textContent || targetId;
+        logTelemetryEvent('section_expanded', { id: targetId, title: title.trim() });
+      }
+    });
+  });
+
+  // --- 3. THEME SWITCHER ---
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  const savedTheme = sessionStorage.getItem('pratap_resume_theme') || 'theme-ivory';
+  applyTheme(savedTheme);
+
+  function applyTheme(themeName) {
+    document.body.classList.remove('theme-ivory', 'theme-white', 'theme-obsidian');
+    document.body.classList.add(themeName);
+    themeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-theme') === themeName);
+    });
+    sessionStorage.setItem('pratap_resume_theme', themeName);
+  }
+
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-theme');
+      if (theme) applyTheme(theme);
+    });
+  });
+
+  // --- 4. RECRUITER ASSESSMENT MODE TOGGLE ---
+  const modeToggle = document.getElementById('recruiterModeToggle');
+  if (modeToggle) {
+    modeToggle.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        document.body.classList.remove('clean-resume-mode');
+        showToast('Recruiter live note pads enabled');
+      } else {
+        document.body.classList.add('clean-resume-mode');
+        showToast('Clean resume document view enabled');
+      }
+    });
+  }
+
+  // --- 5. RECRUITER LIVE NOTES ENGINE (sessionStorage) ---
+  const noteTextareas = document.querySelectorAll('.note-textarea');
+  let notesState = {};
+
+  // If the page was refreshed / reloaded, clear on-screen session notes so they disappear
+  try {
+    const navEntries = performance.getEntriesByType('navigation');
+    if (navEntries.length > 0 && navEntries[0].type === 'reload') {
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+  } catch (e) {}
+
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (raw) notesState = JSON.parse(raw);
+  } catch (e) {
+    notesState = {};
+  }
+
+  // Populate existing notes if present in this session
+  noteTextareas.forEach(textarea => {
+    const key = textarea.getAttribute('data-key');
+    if (key && notesState[key]) {
+      textarea.value = notesState[key];
+    }
+
+    let debounceTimer = null;
+    textarea.addEventListener('input', () => {
+      const section = textarea.closest('.recruiter-note-box')?.getAttribute('data-section') || 'overall';
+      const indicator = document.getElementById('saveStatus-' + section);
+      if (indicator) {
+        indicator.textContent = 'Saving...';
+        indicator.classList.add('saving');
+      }
+
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        notesState[key] = textarea.value;
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(notesState));
+        if (indicator) {
+          indicator.textContent = 'Autosaved';
+          indicator.classList.remove('saving');
         }
-      });
+        // Telemetry update in background
+        syncTelemetryNotes(key, textarea.value);
+      }, 400);
+    });
+  });
+
+  // Scorecard Rating Stars
+  const starBtns = document.querySelectorAll('.star-btn');
+  let currentRating = notesState.rating || 5;
+  setRatingDisplay(currentRating);
+
+  starBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const rating = parseInt(btn.getAttribute('data-rating'), 10) || 5;
+      currentRating = rating;
+      notesState.rating = rating;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(notesState));
+      setRatingDisplay(rating);
+      logTelemetryEvent('rating_updated', { rating });
+    });
+  });
+
+  function setRatingDisplay(rating) {
+    starBtns.forEach(btn => {
+      const starVal = parseInt(btn.getAttribute('data-rating'), 10);
+      btn.classList.toggle('active', starVal <= rating);
     });
   }
 
-  // 3. Directory Table (Minimalist Rows)
-  const directoryTable = document.getElementById('directoryTable');
-  const filterLinks = document.querySelectorAll('.filter-link');
-  const searchInput = document.getElementById('directorySearchInput');
-
-  let currentCategory = 'all';
-  let currentSearch = '';
-
-  function renderDirectory() {
-    if (!directoryTable) return;
-
-    const filtered = systemsCatalog.filter(item => {
-      const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
-      if (!matchCat) return false;
-
-      if (!currentSearch) return true;
-      const q = currentSearch.toLowerCase();
-      return item.title.toLowerCase().includes(q) ||
-             item.problem.toLowerCase().includes(q) ||
-             item.id.toLowerCase().includes(q) ||
-             item.badge.toLowerCase().includes(q);
+  // Scorecard Decision Pills
+  const decisionPills = document.querySelectorAll('.decision-pill');
+  if (notesState.decision) {
+    decisionPills.forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-decision') === notesState.decision);
     });
+  }
 
-    if (filtered.length === 0) {
-      directoryTable.innerHTML = `
-        <div style="padding: 2.5rem 0.5rem; color: var(--text-muted); font-size: 0.92rem;">
-          No matching systems found for "${currentSearch}".
-        </div>
-      `;
+  decisionPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      decisionPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const decision = pill.getAttribute('data-decision');
+      notesState.decision = decision;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(notesState));
+      logTelemetryEvent('decision_updated', { decision });
+    });
+  });
+
+  // Clear Session Notes Button
+  const btnClearNotes = document.getElementById('btnClearNotes');
+  if (btnClearNotes) {
+    btnClearNotes.addEventListener('click', () => {
+      if (confirm('Clear all live recruiter notes for this session?')) {
+        notesState = {};
+        sessionStorage.removeItem(SESSION_KEY);
+        noteTextareas.forEach(t => t.value = '');
+        currentRating = 5;
+        setRatingDisplay(5);
+        decisionPills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+        showToast('Live notes cleared for this session');
+        logTelemetryEvent('notes_cleared', {});
+      }
+    });
+  }
+
+  // --- 6. EXPORT / DOWNLOAD RECRUITER DOSSIER ---
+  const btnExportTop = document.getElementById('btnExportNotes');
+  const btnDownloadDossier = document.getElementById('btnDownloadDossier');
+
+  function exportRecruiterDossier() {
+    const dateStr = new Date().toLocaleDateString('en-US', { dateStyle: 'full' });
+    const timeStr = new Date().toLocaleTimeString('en-US');
+    const rating = notesState.rating || currentRating || 5;
+    const decision = notesState.decision || 'Strong Hire (Fast-Track to Final Round)';
+
+    let content = `# CANDIDATE EVALUATION DOSSIER — PRATAP JINDAL
+Document: Management Analyst & Operational Systems Architect
+Candidate Contact: +91 70090 19719 | pratapjindal812@gmail.com
+LinkedIn: https://www.linkedin.com/in/pratap-jindal/
+Evaluation Timestamp: ${dateStr} at ${timeStr}
+Session ID: ${currentSessionId}
+
+================================================================================
+EXECUTIVE HIRING VERDICT
+================================================================================
+Match Rating: ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)} (${rating} / 5 Stars)
+Assessment Recommendation: ${decision}
+
+Overall Recruiter Synthesis & Interview Agenda:
+${notesState.note_overall ? notesState.note_overall.trim() : '(No overall notes recorded)'}
+
+================================================================================
+SECTION-BY-SECTION RECRUITER NOTES
+================================================================================
+
+[1. Initial Impression & Contact]
+${notesState.note_contact ? notesState.note_contact.trim() : '(No notes)'}
+
+[2. Executive Summary & Verified Metrics (₹75 Cr Quota, 18 Modules, 13 Dashboards)]
+${notesState.note_summary ? notesState.note_summary.trim() : '(No notes)'}
+
+[3. Professional Experience (Group Biopolis, Bharat Financial Inclusion, Zolostays)]
+${notesState.note_experience ? notesState.note_experience.trim() : '(No notes)'}
+
+[4. Technical Projects & Open Source Repos (OmniReader, Fuzzy MCDM, GeoJSON, PrepMaster)]
+${notesState.note_projects ? notesState.note_projects.trim() : '(No notes)'}
+
+[5. Education & Academic Pedigree (MBA CGPA 8.83/10, UGC NET Assistant Professor)]
+${notesState.note_education ? notesState.note_education.trim() : '(No notes)'}
+
+[6. Competency Matrix & Certifications (Operations, Systems Architecture, AI QA)]
+${notesState.note_skills ? notesState.note_skills.trim() : '(No notes)'}
+
+================================================================================
+KEY VERIFIED CREDENTIALS FOR VERIFICATION
+================================================================================
+- MBA (CGPA 8.83/10) — Mittal School of Business & NSE Academy (2021-2023)
+- UGC NET Qualified — Assistant Professor in Management (Roll Verified)
+- Australian Skills Assessment — ANZSCO 224711 Management Consultant (VETASSESS)
+- Tableau Credential — Duke University
+- 18 Production Modules Architected & 13 Looker Studio Dashboards Deployed
+- Led 72-Member Field Operations Division delivering ₹75 Cr Monthly Targets
+
+Generated live via Pratap Jindal Interactive Executive Dossier.
+`;
+
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Pratap_Jindal_Recruiter_Evaluation_${new Date().toISOString().slice(0, 10)}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    showToast('✓ Evaluation Dossier downloaded!');
+    logTelemetryEvent('dossier_downloaded', { rating, decision });
+  }
+
+  if (btnExportTop) btnExportTop.addEventListener('click', exportRecruiterDossier);
+  if (btnDownloadDossier) btnDownloadDossier.addEventListener('click', exportRecruiterDossier);
+
+  // Print Handlers
+  const btnPrintResume = document.getElementById('btnPrintResume');
+  if (btnPrintResume) {
+    btnPrintResume.addEventListener('click', () => {
+      document.body.classList.remove('print-with-notes');
+      window.print();
+    });
+  }
+
+  const btnPrintAnnotated = document.getElementById('btnPrintAnnotated');
+  if (btnPrintAnnotated) {
+    btnPrintAnnotated.addEventListener('click', () => {
+      document.body.classList.add('print-with-notes');
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('print-with-notes');
+      }, 2000);
+    });
+  }
+
+  // --- 7. BACKGROUND NOTES TELEMETRY (For Pratap) ---
+  function getAuditLedger() {
+    try {
+      return JSON.parse(localStorage.getItem(AUDIT_LEDGER_KEY) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveAuditLedger(ledger) {
+    try {
+      localStorage.setItem(AUDIT_LEDGER_KEY, JSON.stringify(ledger.slice(-60)));
+    } catch (e) {}
+  }
+
+  let syncDebounce = null;
+  function syncTelemetryNotes(changedKey, value) {
+    clearTimeout(syncDebounce);
+    syncDebounce = setTimeout(() => {
+      const entry = {
+        type: 'notes_snapshot',
+        timestamp: new Date().toISOString(),
+        sessionId: currentSessionId,
+        rating: notesState.rating || currentRating,
+        decision: notesState.decision || 'Strong Hire',
+        changedKey: changedKey,
+        notes: { ...notesState }
+      };
+
+      const ledger = getAuditLedger();
+      ledger.push(entry);
+      saveAuditLedger(ledger);
+      dispatchWebhookPayload(entry);
+      renderAuditLedger();
+    }, 1500);
+  }
+
+  function logTelemetryEvent(eventType, metadata) {
+    const entry = {
+      type: eventType,
+      timestamp: new Date().toISOString(),
+      sessionId: currentSessionId,
+      metadata: metadata || {}
+    };
+
+    const ledger = getAuditLedger();
+    ledger.push(entry);
+    saveAuditLedger(ledger);
+    dispatchWebhookPayload(entry);
+    renderAuditLedger();
+  }
+
+  function dispatchWebhookPayload(payload) {
+    const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
+    if (!webhookUrl || !webhookUrl.startsWith('http')) return;
+
+    try {
+      fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  // --- 8. ADMIN TELEMETRY MODAL (Ctrl+Shift+A or ?admin=audit) ---
+  const adminModal = document.getElementById('adminModal');
+  const btnCloseAdmin = document.getElementById('btnCloseAdminModal');
+  const btnAdminTrigger = document.getElementById('btnAdminTrigger');
+  const webhookInput = document.getElementById('webhookUrlInput');
+  const btnSaveWebhook = document.getElementById('btnSaveWebhook');
+  const btnTestWebhook = document.getElementById('btnTestWebhook');
+  const webhookStatus = document.getElementById('webhookStatusText');
+  const ledgerContainer = document.getElementById('auditLedgerContainer');
+  const btnClearAudit = document.getElementById('btnClearAuditLedger');
+
+  function openAdminModal() {
+    if (!adminModal) return;
+    if (webhookInput) {
+      webhookInput.value = localStorage.getItem(WEBHOOK_KEY) || '';
+      updateWebhookStatusDisplay();
+    }
+    renderAuditLedger();
+    if (typeof adminModal.showModal === 'function') {
+      adminModal.showModal();
+    } else {
+      adminModal.setAttribute('open', '');
+    }
+  }
+
+  function closeAdminModal() {
+    if (!adminModal) return;
+    if (typeof adminModal.close === 'function') {
+      adminModal.close();
+    } else {
+      adminModal.removeAttribute('open');
+    }
+  }
+
+  if (btnCloseAdmin) btnCloseAdmin.addEventListener('click', closeAdminModal);
+  if (btnAdminTrigger) btnAdminTrigger.addEventListener('click', openAdminModal);
+
+  // Keyboard shortcut Ctrl+Shift+A or Cmd+Shift+A
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      e.preventDefault();
+      openAdminModal();
+    }
+  });
+
+  // URL query parameter check ?admin=audit or ?admin=true
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'audit' || urlParams.get('admin') === 'true') {
+      setTimeout(openAdminModal, 500);
+    }
+  } catch (e) {}
+
+  function updateWebhookStatusDisplay() {
+    const url = localStorage.getItem(WEBHOOK_KEY);
+    if (webhookStatus) {
+      if (url) {
+        webhookStatus.textContent = 'Active Webhook: ' + url.substring(0, 48) + '...';
+        webhookStatus.style.color = '#059669';
+      } else {
+        webhookStatus.textContent = 'No webhook configured (captured notes stored in local ledger).';
+        webhookStatus.style.color = 'var(--text-muted)';
+      }
+    }
+  }
+
+  if (btnSaveWebhook && webhookInput) {
+    btnSaveWebhook.addEventListener('click', () => {
+      const val = webhookInput.value.trim();
+      if (val) {
+        localStorage.setItem(WEBHOOK_KEY, val);
+        showToast('Webhook URL saved!');
+      } else {
+        localStorage.removeItem(WEBHOOK_KEY);
+        showToast('Webhook cleared');
+      }
+      updateWebhookStatusDisplay();
+    });
+  }
+
+  if (btnTestWebhook) {
+    btnTestWebhook.addEventListener('click', () => {
+      const url = localStorage.getItem(WEBHOOK_KEY);
+      if (!url) {
+        alert('Please enter and save a Webhook URL first (e.g., Discord or Google Apps Script Web App).');
+        return;
+      }
+      dispatchWebhookPayload({
+        type: 'test_ping',
+        message: 'Pratap Jindal Resume Telemetry Test Ping',
+        timestamp: new Date().toISOString()
+      });
+      alert('Test ping sent to webhook!');
+    });
+  }
+
+  if (btnClearAudit) {
+    btnClearAudit.addEventListener('click', () => {
+      if (confirm('Clear all captured telemetry audit history?')) {
+        localStorage.removeItem(AUDIT_LEDGER_KEY);
+        renderAuditLedger();
+        showToast('Audit ledger cleared');
+      }
+    });
+  }
+
+  function renderAuditLedger() {
+    if (!ledgerContainer) return;
+    const ledger = getAuditLedger().reverse();
+    if (!ledger || ledger.length === 0) {
+      ledgerContainer.innerHTML = '<div style="color:var(--text-muted); font-style:italic;">No recruiter activity recorded yet. When recruiters enter notes or click sections, logs will appear here.</div>';
       return;
     }
 
-    directoryTable.innerHTML = filtered.map(item => `
-      <div class="directory-row" onclick="openSystemDetail('${item.id}')">
-        <span class="row-id">${item.id}</span>
-        <span class="row-title">${item.title}</span>
-        <span class="row-desc">${item.problem}</span>
-        <span class="row-action">Details →</span>
-      </div>
-    `).join('');
-  }
-
-  if (filterLinks.length > 0) {
-    filterLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        filterLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-        currentCategory = link.getAttribute('data-cat') || 'all';
-        renderDirectory();
-      });
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      currentSearch = e.target.value.trim();
-      renderDirectory();
-    });
-  }
-
-  renderDirectory();
-
-  // 4. Modal Window Logic
-  const modalOverlay = document.getElementById('systemModal');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalBadge = document.getElementById('modalBadge');
-  const modalProblem = document.getElementById('modalProblem');
-  const modalSolution = document.getElementById('modalSolution');
-  const modalArchitecture = document.getElementById('modalArchitecture');
-  const modalOutcome = document.getElementById('modalOutcome');
-  const modalUsers = document.getElementById('modalUsers');
-
-  window.openSystemDetail = function(id) {
-    const item = systemsCatalog.find(s => s.id === id);
-    if (!item || !modalOverlay) return;
-
-    modalTitle.textContent = item.title;
-    modalBadge.textContent = `${item.id} · ${item.badge}`;
-    modalProblem.textContent = item.problem;
-    modalSolution.textContent = item.solution;
-    modalArchitecture.textContent = item.architecture;
-    modalOutcome.textContent = item.outcome;
-    modalUsers.textContent = item.users;
-
-    modalOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
-
-  function closeModal() {
-    if (!modalOverlay) return;
-    modalOverlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-  }
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // 5. Contact Form Direct AJAX Submission to pratapjindal812@gmail.com
-  const contactForm = document.getElementById('contactForm');
-  const formStatusMsg = document.getElementById('formStatusMsg');
-  const submitBtn = document.getElementById('submitBtn');
-
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Transmitting Message...';
+    ledgerContainer.innerHTML = ledger.map(entry => {
+      const time = new Date(entry.timestamp).toLocaleString();
+      let detail = '';
+      if (entry.type === 'notes_snapshot') {
+        detail = `Rating: ${entry.rating || 'N/A'}★ | Recommendation: ${entry.decision || 'N/A'}\nNotes: ${JSON.stringify(entry.notes || {})}`;
+      } else if (entry.type === 'section_expanded') {
+        detail = `Expanded: ${entry.metadata?.title || entry.metadata?.id || ''}`;
+      } else if (entry.type === 'action_email_copied') {
+        detail = `Recruiter clicked 'Copy Email'`;
+      } else if (entry.type === 'action_phone_clicked') {
+        detail = `Recruiter clicked Phone Dial`;
+      } else if (entry.type === 'dossier_downloaded') {
+        detail = `Recruiter exported Evaluation Dossier! Rating: ${entry.metadata?.rating}★, Decision: ${entry.metadata?.decision}`;
+      } else {
+        detail = `Event: ${entry.type} | ${JSON.stringify(entry.metadata || {})}`;
       }
 
-      const formData = new FormData(contactForm);
-
-      fetch("https://formsubmit.co/ajax/pratapjindal812@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (formStatusMsg) {
-          formStatusMsg.className = 'form-status-msg success';
-          formStatusMsg.innerHTML = '✓ <strong>Message Transmitted.</strong> Your operational brief has been delivered directly to Pratap\'s personal inbox. Expect a response within 24 hours.';
-        }
-        contactForm.reset();
-      })
-      .catch(error => {
-        if (formStatusMsg) {
-          formStatusMsg.className = 'form-status-msg error';
-          formStatusMsg.innerHTML = 'Direct transmission encountered a network issue. Please email directly to <a href="mailto:pratapjindal812@gmail.com" style="text-decoration:underline;">pratapjindal812@gmail.com</a>.';
-        }
-      })
-      .finally(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Transmit Direct Message →';
-        }
-      });
-    });
+      return `
+        <div class="ledger-entry">
+          <div class="ledger-time">[${time}] Session: ${entry.sessionId || 'anonymous'} &bull; <strong>${entry.type}</strong></div>
+          <div class="ledger-content">${escapeHtml(detail)}</div>
+        </div>
+      `;
+    }).join('');
   }
-});
 
-// Toast / Copy Email
-function copyEmail() {
-  const email = "pratapjindal812@gmail.com";
-  navigator.clipboard.writeText(email).then(() => {
-    showToast(`✓ Copied ${email} to clipboard!`);
-  }).catch(() => {
-    showToast(`Contact: ${email}`);
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Initial audit event on page load
+  logTelemetryEvent('page_view', {
+    referrer: document.referrer || 'direct',
+    screen: `${window.innerWidth}x${window.innerHeight}`
   });
-}
 
-function showToast(msg) {
-  const toast = document.getElementById('toastBar');
-  if (!toast) return;
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
+})();

@@ -3,605 +3,852 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pratap Jindal — Management Analyst & Enterprise Systems Architect</title>
-  <meta name="description" content="Portfolio of Pratap Jindal — Management Analyst & Systems Architect. Eliminating clerical drag, rationalizing multi-SKU supply chains, and engineering enterprise decision infrastructure.">
-  <link rel="stylesheet" href="style.css">
+  <title>Pratap Jindal — Executive Resume & Operational Systems Dossier</title>
+  <meta name="description" content="Interactive Executive Resume of Pratap Jindal — Management Analyst & Systems Architect. Directed ₹75 Cr monthly field operations, engineered 18 production decision modules, and rationalized multi-SKU supply chains.">
   <link rel="icon" type="image/png" href="profile.png">
+
+  <!-- Google Fonts: Instrument Serif for luxury editorial titles, Inter for high-clarity document body, JetBrains Mono for metrics and code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css?v=6.0">
 </head>
-<body>
+<body class="theme-ivory">
 
-  <!-- Live Status & Executive Availability Bar -->
-  <aside class="status-ticker" aria-label="Professional status notice">
-    <div class="container status-ticker-inner">
-      <span class="status-live-pill">
-        <span class="live-beacon"></span>
-        Status: Open for Select Senior Leadership & Advisory Roles
-      </span>
-      <span class="status-meta">Relocation Ready: Australia, Europe, North America · ANZSCO 224711</span>
-    </div>
-  </aside>
+  <!-- Top Sticky Command Dock -->
+  <header class="recruiter-dock" id="recruiterDock" aria-label="Resume Command Bar">
+    <div class="dock-container">
+      <div class="dock-left">
+        <a href="#resumeTop" class="dock-brand">
+          <img src="profile.png" alt="Pratap Jindal" class="dock-avatar">
+          <div class="dock-brand-text">
+            <span class="dock-name">Pratap Jindal</span>
+            <span class="dock-role">Executive Resume</span>
+          </div>
+        </a>
+        <div class="dock-divider"></div>
+        <!-- Theme Switcher -->
+        <div class="theme-pill-group" role="radiogroup" aria-label="Resume Paper Style">
+          <button type="button" class="theme-btn active" data-theme="theme-ivory" title="Warm Executive Ivory Paper">📜 Ivory</button>
+          <button type="button" class="theme-btn" data-theme="theme-white" title="Crisp Modern Monochrome">📄 White</button>
+          <button type="button" class="theme-btn" data-theme="theme-obsidian" title="Executive Slate Dark Mode">🌘 Obsidian</button>
+        </div>
+      </div>
 
-  <!-- Sticky Executive Navigation Bar -->
-  <header class="top-nav">
-    <div class="container nav-row">
-      <a href="#hero" class="nav-brand-group">
-        <img src="profile.png" alt="Pratap Jindal Portrait" class="nav-avatar-mini">
-        <span class="nav-brand-title">Pratap Jindal</span>
-      </a>
-      <nav aria-label="Main Navigation">
-        <ul class="nav-links-list">
-          <li><a href="#triage" class="nav-item-link">Diagnostics</a></li>
-          <li><a href="#focus" class="nav-item-link">Focus</a></li>
-          <li><a href="#cases" class="nav-item-link">Case Studies</a></li>
-          <li><a href="#directory" class="nav-item-link">Systems Index</a></li>
-          <li><a href="#github" class="nav-item-link">Code</a></li>
-          <li><a href="#contact" class="nav-item-link">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="nav-cta-group">
-        <a href="#contact" class="btn-nav-outline">Initiate Inquiry</a>
-        <a href="resume.pdf" target="_blank" class="btn-nav-primary">Resume (PDF) ↗</a>
+      <div class="dock-right">
+        <!-- Recruiter Assessment Mode Toggle -->
+        <label class="recruiter-toggle-label" title="Toggle interactive live note-taking and evaluation tools">
+          <input type="checkbox" id="recruiterModeToggle" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-text">Recruiter Live Notes <span class="badge-live">LIVE</span></span>
+        </label>
+
+        <div class="dock-divider"></div>
+
+        <!-- Action Buttons -->
+        <button type="button" id="btnExportNotes" class="btn-dock btn-dock-primary" title="Download your session evaluation notes and assessment report">
+          <span>📥</span> Download Notes
+        </button>
+        <a href="Pratap_Jindal_Resume.pdf" download="Pratap_Jindal_Resume.pdf" class="btn-dock btn-dock-secondary" title="Download the original official PDF resume">
+          <span>📄</span> Resume (PDF)
+        </a>
+        <button type="button" id="btnPrintResume" class="btn-dock btn-dock-ghost" title="Print clean resume or save as PDF">
+          <span>🖨️</span> Print
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Hero Section (High-Craft 2-Column Spread + Portrait Anchor) -->
-    <section class="hero-section" id="hero">
-      <div class="container hero-grid">
-        <!-- Left Narrative Column -->
-        <div>
-          <div class="hero-tagline">
-            Operational Architecture · Rapid Systems Engineering
+  <!-- Main Document Stage -->
+  <main class="document-stage">
+    
+    <!-- Flowing Authentic Resume Document Sheet -->
+    <article class="resume-sheet" id="resumeTop">
+
+      <!-- ==================== HEADER BLOCK ==================== -->
+      <header class="resume-header">
+        <div class="header-main-row">
+          <div class="header-identity">
+            <h1 class="candidate-name">Pratap Jindal</h1>
+            <div class="candidate-title">Management Analyst — Strategy, Operations & Business Systems</div>
+            <div class="candidate-tagline">Architecting Enterprise Decision Infrastructure · Rationalizing Supply Chains · Automating Complex Workflows</div>
           </div>
-          
-          <h1 class="hero-main-title">Pratap Jindal</h1>
-          
-          <p class="hero-pitch">
-            Most growing enterprises lose <strong>40+ hours weekly</strong> and significant working capital to disconnected spreadsheets, unmonitored SLAs, and operational latency. <strong>I build the decision infrastructure that eliminates that drag.</strong>
-          </p>
-          
-          <div class="hero-buttons-row">
-            <a href="#contact" class="btn-solid-dark">Start an Operational Inquiry →</a>
-            <a href="resume.pdf" target="_blank" class="btn-pill-soft">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              Download Master Resume (PDF)
-            </a>
-            <button class="btn-pill-soft" onclick="copyEmail()" aria-label="Copy direct email address">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-              Copy Direct Email
-            </button>
-            <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" class="btn-pill-soft">
-              <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-              LinkedIn ↗
-            </a>
+          <div class="header-photo-wrapper">
+            <img src="profile.png" alt="Pratap Jindal portrait" class="candidate-portrait">
           </div>
         </div>
 
-        <!-- Right Portrait Anchor Column -->
-        <div class="hero-portrait-frame">
-          <div class="portrait-wrapper">
-            <img src="profile.png" alt="Pratap Jindal — Management Analyst & Systems Architect" class="portrait-img">
-            <div class="portrait-badge-overlay">
-              <div class="portrait-badge-name">Pratap Jindal</div>
-              <div class="portrait-badge-sub">Management Analyst & Systems Architect</div>
-              <div class="portrait-badge-loc">Mohali / Panchkula · Relocation Ready (ANZSCO 224711)</div>
+        <!-- Flowing Contact & Direct Action Line -->
+        <nav class="contact-strip" aria-label="Direct Candidate Actions">
+          <!-- Direct Phone Dial Trigger -->
+          <a href="tel:+917009019719" id="contactPhone" class="contact-chip" title="Click to launch phone dialer">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span class="chip-label">+91 70090 19719</span>
+            <span class="chip-action">Call</span>
+          </a>
+
+          <span class="contact-sep">•</span>
+
+          <!-- Direct Email Clipboard Copy Trigger -->
+          <button type="button" id="contactEmailBtn" class="contact-chip contact-btn" title="Click to copy email address">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <span class="chip-label">pratapjindal812@gmail.com</span>
+            <span class="chip-action">Click to copy</span>
+          </button>
+
+          <span class="contact-sep">•</span>
+
+          <!-- Direct LinkedIn Profile Trigger -->
+          <a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank" rel="noopener noreferrer" id="contactLinkedin" class="contact-chip" title="Open LinkedIn Profile in new tab">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </span>
+            <span class="chip-label">LinkedIn ↗</span>
+          </a>
+
+          <span class="contact-sep">•</span>
+
+          <!-- Direct GitHub Profile Trigger -->
+          <a href="https://github.com/PokerHearts" target="_blank" rel="noopener noreferrer" id="contactGithub" class="contact-chip" title="Open GitHub repositories">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </span>
+            <span class="chip-label">GitHub ↗</span>
+          </a>
+
+          <span class="contact-sep">•</span>
+
+          <!-- Location & Global Mobility -->
+          <div class="contact-chip contact-chip-static" title="Current Location & Relocation Scope">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <span class="chip-label">Mohali / Panchkula · <strong>Relocation Ready</strong> (Australia, Europe, North America)</span>
+          </div>
+        </nav>
+
+        <!-- Recruiter Section Note: Contact -->
+        <div class="recruiter-note-slip" id="note-contact" data-section="contact">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Contact &amp; Initial Match
+            </span>
+            <span class="note-save-indicator" id="saveStatus-contact">Autosaved</span>
+          </div>
+          <textarea class="note-textarea" placeholder="Notes on candidate fit, compensation alignment, or interview schedule..." data-key="note_contact"></textarea>
+        </div>
+      </header>
+
+
+      <!-- ==================== EXECUTIVE SUMMARY & UNIFIED METRICS ==================== -->
+      <section class="resume-section" id="section-summary">
+        <div class="section-title-row">
+          <h2 class="section-title">Executive Summary</h2>
+          <span class="section-badge">Verified Performance</span>
+        </div>
+
+        <p class="summary-paragraph">
+          <strong>Management Analyst with 3+ years of experience</strong> on senior management teams leading cross-functional divisions of up to <strong>80 FTEs</strong> across operational strategy, business process re-engineering (BPR), and rapid systems engineering. Directed the architecture and enterprise-wide rollout of an <strong>18-module internal decision platform</strong> for a multi-company distribution group, eliminating <strong>40+ hours weekly of manual clerical drag (80% effort reduction)</strong>. Managed a 72-member field operations division at Bharat Financial Inclusion (IndusInd Bank subsidiary) delivering consistent <strong>₹75 Cr monthly targets</strong>. MBA graduate (<strong>CGPA 8.83/10 Top Tier Standing</strong>) and <strong>UGC NET Assistant Professor Qualified</strong> in Management.
+        </p>
+
+        <!-- Flowing Unified Metrics Strip -->
+        <div class="unified-metrics-strip">
+          <div class="metric-item">
+            <div class="metric-val">₹75 Cr</div>
+            <div class="metric-lbl">Monthly Quota Directed</div>
+            <div class="metric-sub">72-FTE Division (IndusInd subsidiary)</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">18</div>
+            <div class="metric-lbl">Enterprise Modules Built</div>
+            <div class="metric-sub">Zero-consultant decision infrastructure</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">13</div>
+            <div class="metric-lbl">Looker Production Dashboards</div>
+            <div class="metric-sub">Real-time daily sales closing & SLAs</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">80%</div>
+            <div class="metric-lbl">Clerical Drag Slashed</div>
+            <div class="metric-sub">40+ hrs saved weekly via automation</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">20%</div>
+            <div class="metric-lbl">ITR Improvement</div>
+            <div class="metric-sub">500 to ~400 SKU rationalization</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">8.83</div>
+            <div class="metric-lbl">MBA CGPA / 10.0</div>
+            <div class="metric-sub">Mittal School of Business & NSE honors</div>
+          </div>
+        </div>
+
+        <!-- Recruiter Section Note: Summary -->
+        <div class="recruiter-note-slip" id="note-summary" data-section="summary">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Executive Summary
+            </span>
+            <span class="note-save-indicator" id="saveStatus-summary">Autosaved</span>
+          </div>
+          <textarea class="note-textarea" placeholder="Notes on executive scope, metric credibility, leadership scale..." data-key="note_summary"></textarea>
+        </div>
+      </section>
+
+
+      <!-- ==================== PROFESSIONAL EXPERIENCE ==================== -->
+      <section class="resume-section" id="section-experience">
+        <div class="section-title-row">
+          <h2 class="section-title">Professional Experience</h2>
+        </div>
+
+        <!-- Experience Item 1: Group Biopolis -->
+        <div class="flowing-entry" id="exp-biopolis">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <h3 class="entry-role">Management Analyst — Strategy &amp; Operations</h3>
+              <div class="entry-company">Group Biopolis (Biopolis Lifesciences + Ultrapolis) · Panchkula, India</div>
+              <div class="entry-scope">Senior Management Team · 80-Member Dual Pharmaceutical Distribution Group</div>
+            </div>
+            <div class="entry-header-right">
+              <span class="entry-period">Sep 2023 – Present</span>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Proof Ticker Section (4 Verified Authority Metrics) -->
-    <section class="proof-ticker-section">
-      <div class="container proof-ticker-grid">
-        <div class="proof-tile">
-          <div class="proof-tile-num">₹75 Cr</div>
-          <div class="proof-tile-lbl">Divisional Scale</div>
-          <div class="proof-tile-sub">Monthly operational targets steered across distributed operations</div>
-        </div>
-        <div class="proof-tile">
-          <div class="proof-tile-num">8.83 / 10</div>
-          <div class="proof-tile-lbl">Academic Pedigree</div>
-          <div class="proof-tile-sub">Top-tier MBA in Finance & Operations with high honors (CGPA)</div>
-        </div>
-        <div class="proof-tile">
-          <div class="proof-tile-num">UGC NET</div>
-          <div class="proof-tile-lbl">Verified Credential</div>
-          <div class="proof-tile-sub">Qualified for Assistant Professor in Management (Govt. of India)</div>
-        </div>
-        <div class="proof-tile">
-          <div class="proof-tile-num">18 Modules</div>
-          <div class="proof-tile-lbl">Systems Built</div>
-          <div class="proof-tile-sub">In-house operational production software without external overhead</div>
-        </div>
-      </div>
-    </section>
+          <ul class="entry-bullets">
+            <li>Directed end-to-end architecture, coding, and rollout of an <strong>18-module internal decision platform</strong> adopted company-wide as operational backbone with zero external consultants.</li>
+            <li>Commissioned <strong>13 Looker Studio dashboards</strong> used daily by Managing Directors for real-time sales closing, lead verification, and vendor SLA tracking.</li>
+            <li>Engineered a custom <strong>Manifest V3 Chrome Extension</strong> eliminating Looker’s 15-minute query latency during month-end closings.</li>
+            <li>Audited 500+ active SKUs, pruning to ~400 focused lines; unlocked working capital and drove <strong>20% inventory turnover (ITR) uplift</strong>.</li>
+          </ul>
 
-    <!-- Problem-to-Solution Triage (Psychological Framing & Cognitive Ease) -->
-    <section class="triage-section" id="triage">
-      <div class="container">
-        <div class="section-label">Interactive Diagnostic Triage</div>
-        <h2 class="section-h2">Where Is Your Organization Losing Momentum?</h2>
+          <!-- Subtle Expand Toggle Button -->
+          <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="exp-biopolis-detail">
+            <span class="btn-text">View 4 Detailed Operational Architectures &amp; SOPs</span>
+            <span class="chevron">▾</span>
+          </button>
 
-        <div class="triage-segmented-control" role="tablist" aria-label="Operational diagnostic triage">
-          <button class="triage-tab-btn active" role="tab" aria-selected="true" aria-controls="triagePanel" id="triage-tab-1" data-triage="spreadsheets">Disconnected Spreadsheets & Clerical Drag</button>
-          <button class="triage-tab-btn" role="tab" aria-selected="false" aria-controls="triagePanel" id="triage-tab-2" data-triage="field">Field Quota Inertia & Frontline Sluggishness</button>
-          <button class="triage-tab-btn" role="tab" aria-selected="false" aria-controls="triagePanel" id="triage-tab-3" data-triage="supply">Chronic Stockouts & Dead Catalog Capital</button>
-        </div>
-
-        <div class="triage-card" role="tabpanel" id="triagePanel" aria-labelledby="triage-tab-1">
-          <div>
-            <div class="triage-col-header header-friction">● The Hidden Drag & Financial Cost</div>
-            <div class="triage-lead-quote" id="triagePain">
-              "Teams spend 40+ hours weekly manually reconciling data across Google Sheets, losing real-time visibility and introducing transcription errors."
-            </div>
-            <p class="triage-narrative" id="triagePainDetail">
-              When sales, logistics, and finance rely on detached manual registers, Managing Directors lose the ability to steer midday closings. Caching latency and manual entry backlogs delay critical strategic decisions by days.
-            </p>
-          </div>
-
-          <div>
-            <div class="triage-col-header header-solution">● The Engineered Solution & Outcome</div>
-            <div class="triage-lead-quote" id="triageSolution">
-              18-Module Internal Decision Platform & Zero-Latency Pipelines
-            </div>
-            <p class="triage-narrative" id="triageSolutionDetail">
-              Architected a company-wide decision infrastructure with custom Google Apps Script ingestion engines, Manifest V3 Chrome extensions bypassing Looker latency, and automated reconciliation scripts—cutting 80% of clerical drag with 100% staff adoption.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Strategic Focus Section (Interactive Domain Tabs) -->
-    <section class="focus-section" id="focus">
-      <div class="container">
-        <div class="section-label">Core Capabilities</div>
-        <h2 class="section-h2">Strategic Focus Tracks</h2>
-
-        <div class="focus-tabs-nav" role="tablist" aria-label="Strategic focus tracks">
-          <button class="focus-tab-btn active" role="tab" aria-selected="true" aria-controls="focusPanel" id="focus-tab-1" data-track="strategy">Strategy & Operational Leadership</button>
-          <button class="focus-tab-btn" role="tab" aria-selected="false" aria-controls="focusPanel" id="focus-tab-2" data-track="systems">Systems & Software Architecture</button>
-          <button class="focus-tab-btn" role="tab" aria-selected="false" aria-controls="focusPanel" id="focus-tab-3" data-track="analytics">Decision BI & Inventory Analytics</button>
-        </div>
-
-        <div class="focus-content-grid" role="tabpanel" id="focusPanel" aria-labelledby="focus-tab-1">
-          <div>
-            <p class="focus-lead-para" id="focusLead">
-              3+ years directing cross-functional operational divisions of up to 80 members. Proven track record turning sluggish field operations around with Maslow-inspired motivation, authoring master SOP repositories, and enforcing zero cash-transit risk governance.
-            </p>
-          </div>
-          <div>
-            <ul class="focus-bullets-list" id="focusDeliverables">
-              <li>
-                <span class="focus-bullet-idx">01</span>
-                <span>Led 72-member field operations division across 10 regions managing 7,500+ microfinance borrower accounts.</span>
-              </li>
-              <li>
-                <span class="focus-bullet-idx">02</span>
-                <span>Overhauled frontline operational cadences with empowerment huddles and gamified milestone structures.</span>
-              </li>
-              <li>
-                <span class="focus-bullet-idx">03</span>
-                <span>Mobilized high-velocity divisional sprint achieving 40% of the monthly target within the first 48 hours.</span>
-              </li>
-              <li>
-                <span class="focus-bullet-idx">04</span>
-                <span>Authored master SOP repository and digital training curriculum achieving 100% adoption across non-technical staff.</span>
-              </li>
+          <!-- Flowing Detailed Bullets -->
+          <div class="inline-expandable-panel" id="exp-biopolis-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Decision Infrastructure Modules:</strong> Architected modules covering Sales DoD, Party Health, MR Quota Allocation, CRM, Inventory Velocity, Financial Flow, and Biometric Attendance. Replaced detached spreadsheets with unified data models.</li>
+              <li><strong>80% Reporting Effort Reduction:</strong> Designed end-to-end automated pipelines using Google Apps Script and webhooks for automated data refresh, email-to-data parsing, and audit trails, saving 40+ operational hours every week.</li>
+              <li><strong>Shortage-Escalation &amp; Stock Precision:</strong> Engineered a formal workflow linking field sales directly to production batches, slashing shortage escalations from 17 down to 2 while sustaining 98% audited stock precision.</li>
+              <li><strong>AI-Powered Speech QA Telemetry:</strong> Directed speech AI pipeline converting telecalling recordings into structured performance rubrics, expanding compliance audit coverage from 2% spot-checks to 100% of all calls.</li>
             </ul>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Case Studies Section (Empirical Evidence) -->
-    <section class="cases-section" id="cases">
-      <div class="container">
-        <div class="section-label">Empirical Proof of Execution</div>
-        <h2 class="section-h2">Flagship Case Studies</h2>
-
-        <!-- Case 01 -->
-        <article class="case-card-module">
-          <div>
-            <div class="case-chapter-tag">01 / Group Biopolis · Dual Distribution Enterprise</div>
-            <h3 class="case-headline">18-Module Internal Decision Platform</h3>
-            <div class="case-stats-strip">
-              <div class="case-stat-block">
-                <strong>18</strong>
-                <span>Custom Modules</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>80 FTEs</strong>
-                <span>Active Scope</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>Zero</strong>
-                <span>Consulting Cost</span>
-              </div>
+        <!-- Experience Item 2: Bharat Financial Inclusion -->
+        <div class="flowing-entry" id="exp-bfil">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <h3 class="entry-role">Divisional Manager</h3>
+              <div class="entry-company">Bharat Financial Inclusion Ltd (IndusInd Bank Subsidiary) · Ludhiana, India</div>
+              <div class="entry-scope">72-Member Field Operations Division · 7,500+ Accounts · 10 Regions · ₹75 Cr Monthly Quota</div>
+            </div>
+            <div class="entry-header-right">
+              <span class="entry-period">Sep 2022 – Feb 2023</span>
             </div>
           </div>
-          <div class="case-body-content">
-            <p>
-              Fragmented spreadsheet entries across dual pharmaceutical distribution companies caused significant operational latency, delayed monthend reconciliations, and obscured daily cash flow visibility.
-            </p>
-            <p>
-              Directed the end-to-end architecture and company-wide rollout of an 18-module internal decision platform. Personally engineered custom Google Apps Script ingestion engines, a Manifest V3 Chrome Extension bypassing Looker Studio's 15-minute caching latency, and automated reconciliation pipelines for attendance, inventory, and field sales bookings.
-            </p>
-            <ul class="case-key-takeaways">
-              <li><strong>B2B Digital Order Pad:</strong> Slashed booking loops from 8 minutes down to 45 seconds with offline draft protection.</li>
-              <li><strong>Manifest V3 Chrome Extension:</strong> Injected background event runners to trigger real-time dashboard refreshes during monthend sales closings.</li>
-              <li><strong>Organizational Impact:</strong> Eliminated 40+ hours of weekly clerical friction with 100% voluntary adoption.</li>
+
+          <ul class="entry-bullets">
+            <li>Led 72-member field operations division managing 7,500+ borrower accounts across 10 regions with full top-line responsibility for monthly targets totaling <strong>₹75 Cr</strong>.</li>
+            <li>Turned around frontline team throughput via <strong>Maslow-inspired empowerment huddles</strong> and gamified milestone tracking, lifting field conversion by <strong>25%</strong>.</li>
+            <li>Mobilized high-velocity operational sprints to consistently achieve <strong>40% of the ₹75 Cr monthly quota within the first 48 hours</strong> of cycle start.</li>
+            <li>Enforced zero cash-transit risk governance, conducted weekly branch audits, and reported executive portfolio briefings to regional bank leadership.</li>
+          </ul>
+
+          <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="exp-bfil-detail">
+            <span class="btn-text">View Turnaround Strategy &amp; Leadership Insights</span>
+            <span class="chevron">▾</span>
+          </button>
+
+          <div class="inline-expandable-panel" id="exp-bfil-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Behavioral Modeling &amp; Incentive Architecture:</strong> Replaced punitive review structures with a transparent 'Challenge &amp; Reward' incentive architecture. Mapped operational tasks to Maslow's hierarchy of security and esteem needs to curb frontline officer burnout.</li>
+              <li><strong>48-Hour Sprint Cadence Execution:</strong> Engineered weekend mobilization workflows that aligned branch managers and collection officers, front-loading 40% of monthly quotas into the first 2 days and removing month-end chaos.</li>
             </ul>
-          </div>
-        </article>
-
-        <!-- Case 02 -->
-        <article class="case-card-module">
-          <div>
-            <div class="case-chapter-tag">02 / Bharat Financial Inclusion · IndusInd Bank Subsidiary</div>
-            <h3 class="case-headline">Operational Turnaround & Quota Sprint</h3>
-            <div class="case-stats-strip">
-              <div class="case-stat-block">
-                <strong>72</strong>
-                <span>Officers Managed</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>10</strong>
-                <span>Regional Hubs</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>48h</strong>
-                <span>Sprint Velocity</span>
-              </div>
-            </div>
-          </div>
-          <div class="case-body-content">
-            <p>
-              Diagnosed systemic operational inertia across a 72-member field operations division managing 7,500+ microfinance borrower accounts across 10 regional territories. Monthly targets were routinely backloaded to the final days, causing extreme operational strain and customer friction.
-            </p>
-            <p>
-              Restructured operating cadences by applying behavioral psychology (Maslow's Hierarchy of Needs), authoring standardized field playbooks, and replacing passive review meetings with daily empowerment huddles and gamified "Challenge & Reward" milestones.
-            </p>
-            <ul class="case-key-takeaways">
-              <li><strong>48-Hour Opening Sprint:</strong> Cleared 40% of the total monthly target within the first 48 hours of cycle kickoff.</li>
-              <li><strong>Zero Cash-Transit Breaches:</strong> Established strict procedural SOPs, maintaining 100% regulatory compliance.</li>
-              <li><strong>Frontline Empowerment:</strong> Transformed motivation, driving a sustained 25% lift in regional lead conversions.</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- Case 03 -->
-        <article class="case-card-module">
-          <div>
-            <div class="case-chapter-tag">03 / Speech Intelligence & Automation</div>
-            <h3 class="case-headline">AI-Powered Call QA Analysis Engine</h3>
-            <div class="case-stats-strip">
-              <div class="case-stat-block">
-                <strong>1,200</strong>
-                <span>Daily Calls Audited</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>100%</strong>
-                <span>Audit Coverage</span>
-              </div>
-              <div class="case-stat-block">
-                <strong>360h</strong>
-                <span>Saved Monthly</span>
-              </div>
-            </div>
-          </div>
-          <div class="case-body-content">
-            <p>
-              Manual QA listening audits covered less than 2% of daily customer interaction recordings across 12 decentralized telecalling units. Agent execution errors, script deviations, and customer churn signals routinely went undetected.
-            </p>
-            <p>
-              Engineered an automated speech evaluation engine processing 1,200 daily recordings (800 minutes of voice data). The system automatically extracts transcripts, assesses agent objection-handling alignment against structured rubrics, and detects customer purchase intent signals.
-            </p>
-            <ul class="case-key-takeaways">
-              <li><strong>Complete Audit Coverage:</strong> Elevated evaluation coverage from under 2% to 100% across all 12 decentralized units.</li>
-              <li><strong>Queuing Matrix Architecture:</strong> Built rate-limited queuing pipelines to handle heavy audio ingestion bursts smoothly.</li>
-              <li><strong>Actionable Coaching Telemetry:</strong> Delivered automated daily coaching summaries, saving 360 hours of manual QA listening monthly.</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 24-System Enterprise Index (Interactive Search & Filter) -->
-    <section class="directory-section" id="directory">
-      <div class="container">
-        <div class="section-label">The Engineering Catalog</div>
-        <h2 class="section-h2">24 Production Software Modules</h2>
-
-        <div class="directory-controls">
-          <div class="filter-pills-bar" id="directoryFilterLinks">
-            <button class="filter-link active" data-cat="all">All Systems (24)</button>
-            <button class="filter-link" data-cat="ai">AI & Speech</button>
-            <button class="filter-link" data-cat="supply">Supply Chain</button>
-            <button class="filter-link" data-cat="sales">Sales & Commerce</button>
-            <button class="filter-link" data-cat="operations">Operations & Governance</button>
-          </div>
-          <div>
-            <input type="text" class="directory-search-input" id="directorySearchInput" placeholder="Filter 24 systems by keyword...">
           </div>
         </div>
 
-        <div class="directory-table-container" id="directoryTable">
-          <!-- Populated dynamically by script.js -->
+        <!-- Experience Item 3: Zolostays -->
+        <div class="flowing-entry" id="exp-zolo">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <h3 class="entry-role">Customer Delight Intern — Operations &amp; Lifecycle</h3>
+              <div class="entry-company">Zolostays Property Solutions Ltd · India</div>
+              <div class="entry-scope">Enterprise Co-Living &amp; Property Operations</div>
+            </div>
+            <div class="entry-header-right">
+              <span class="entry-period">Feb 2021 – May 2021</span>
+            </div>
+          </div>
+
+          <ul class="entry-bullets">
+            <li>Processed and resolved 2,000+ customer lifecycle and property management escalations with 99.95% accuracy and 95% SLA compliance.</li>
+            <li>Mapped refund lifecycles and authored standardized operational SOPs, eliminating approval bottlenecks and cutting customer refund-delay tickets by 60%.</li>
+          </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- Open Source Code Shelf -->
-    <section class="github-section" id="github">
-      <div class="container">
-        <div class="section-label">Public Repositories</div>
-        <h2 class="section-h2">Open Source Code (@PokerHearts)</h2>
-
-        <div class="github-grid-cards">
-          <a href="https://github.com/PokerHearts/omnireader" target="_blank" class="github-repo-card">
-            <div>
-              <div class="github-card-top">
-                <div class="github-repo-title">omnireader ↗</div>
-              </div>
-              <div class="github-repo-desc">
-                Adaptive web reading interface engineered to make long-form document reading effortless with distraction-free layouts and reading ergonomics.
-              </div>
-            </div>
-            <div class="github-card-footer">
-              <span class="lang-pill"><span class="lang-dot"></span> JavaScript</span>
-              <span>Public Repository</span>
-            </div>
-          </a>
-
-          <a href="https://github.com/PokerHearts/fuzzy" target="_blank" class="github-repo-card">
-            <div>
-              <div class="github-card-top">
-                <div class="github-repo-title">fuzzy ↗</div>
-              </div>
-              <div class="github-repo-desc">
-                Fuzzy Multi-Criteria Decision Making (MCDM) and Explainable AI (XAI) Decision Support System implementing fuzzy logic models.
-              </div>
-            </div>
-            <div class="github-card-footer">
-              <span class="lang-pill"><span class="lang-dot"></span> Python</span>
-              <span>Public Repository</span>
-            </div>
-          </a>
-
-          <a href="https://github.com/PokerHearts/geojson" target="_blank" class="github-repo-card">
-            <div>
-              <div class="github-card-top">
-                <div class="github-repo-title">geojson ↗</div>
-              </div>
-              <div class="github-repo-desc">
-                Topologically validated GeoJSON repository of Indian administrative districts curated for logistics routing, GIS dashboards, and choropleths.
-              </div>
-            </div>
-            <div class="github-card-footer">
-              <span class="lang-pill"><span class="lang-dot"></span> GeoJSON Data</span>
-              <span>Curated Dataset</span>
-            </div>
-          </a>
-
-          <a href="https://github.com/PokerHearts/PrepMaster" target="_blank" class="github-repo-card">
-            <div>
-              <div class="github-card-top">
-                <div class="github-repo-title">PrepMaster ↗</div>
-              </div>
-              <div class="github-repo-desc">
-                Curriculum training and assessment preparation engine structured for rapid knowledge retention and automated evaluation metrics.
-              </div>
-            </div>
-            <div class="github-card-footer">
-              <span class="lang-pill"><span class="lang-dot"></span> Python</span>
-              <span>Public Repository</span>
-            </div>
-          </a>
+        <!-- Recruiter Section Note: Experience -->
+        <div class="recruiter-note-slip" id="note-experience" data-section="experience">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Experience &amp; Leadership Assessment
+            </span>
+            <span class="note-save-indicator" id="saveStatus-experience">Autosaved</span>
+          </div>
+          <textarea class="note-textarea" placeholder="Notes on cross-functional management, 80 FTE team leadership, P&L ownership..." data-key="note_experience"></textarea>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Competencies & Verified Credentials Matrix -->
-    <section class="competency-section" id="competencies">
-      <div class="container">
-        <div class="section-label">Academic & Domain Credentials</div>
-        <h2 class="section-h2">Verified Domain Expertise</h2>
 
-        <div class="competency-cards-grid">
-          <div class="competency-box">
-            <h3 class="competency-box-title">Strategy & Operations</h3>
-            <ul class="competency-skill-list">
-              <li>Business Process Re-engineering</li>
+      <!-- ==================== SIGNATURE PROJECTS & CODE REPOSITORIES ==================== -->
+      <section class="resume-section" id="section-projects">
+        <div class="section-title-row">
+          <h2 class="section-title">Signature Technical Projects &amp; Code Repositories</h2>
+        </div>
+
+        <!-- Project 1: OmniReader -->
+        <div class="flowing-entry project-entry" id="proj-omnireader">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">OmniReader — Adaptive Document Reading Platform</h3>
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Web Audio API</span>
+                <span class="tech-tag">Blogger JSON</span>
+              </div>
+              <p class="project-desc">Continuous-listening audio-reading engine engineered to make long-form document reading immersive and accessible with ambient soundscapes and client-side full-text search.</p>
+              <div class="project-links-line">
+                <a href="https://github.com/PokerHearts/omnireader" target="_blank" rel="noopener noreferrer" class="link-action">
+                  <span>💻</span> GitHub Repository (PokerHearts/omnireader) ↗
+                </a>
+                <span class="contact-sep">•</span>
+                <a href="http://reader.pokerhearts.in/" target="_blank" rel="noopener noreferrer" class="link-action">
+                  <span>🌐</span> Launch Live Production Reader ↗
+                </a>
+              </div>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-omnireader-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-omnireader-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Architecture:</strong> Static Blogger template re-engineered into a web app. Continuous-listening audiobook player with localStorage resume, ambient audio player with auto-ducking, client-side regex search engine over JSON feeds, and pinch-to-zoom carousels.</li>
+              <li><strong>Operational Impact:</strong> Distraction-free research and long-form consumption with zero server hosting overhead.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 2: Fuzzy MCDM -->
+        <div class="flowing-entry project-entry" id="proj-fuzzy">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">Fuzzy Decision Engine — Multi-Criteria Decision Making (MCDM)</h3>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Fuzzy Logic</span>
+                <span class="tech-tag">Explainable AI</span>
+              </div>
+              <p class="project-desc">Decision support system implementing fuzzy set theory and multi-criteria evaluation algorithms for strategic vendor selection, risk rating, and capital allocation.</p>
+              <div class="project-links-line">
+                <a href="https://github.com/PokerHearts/fuzzy" target="_blank" rel="noopener noreferrer" class="link-action">
+                  <span>💻</span> GitHub Repository (PokerHearts/fuzzy) ↗
+                </a>
+              </div>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-fuzzy-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-fuzzy-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Architecture:</strong> Python implementation of triangular and trapezoidal fuzzy numbers, defuzzification methods (Centroid, Bisector), and multi-criteria matrix weightings for decisions under ambiguity.</li>
+              <li><strong>Operational Impact:</strong> Replaces arbitrary gut-feel rankings with rigorous mathematical decision boundaries and explainable criteria weighting.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 3: GeoJSON Logistics -->
+        <div class="flowing-entry project-entry" id="proj-geojson">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">Indian Logistics GeoJSON Repository</h3>
+                <span class="tech-tag">GeoJSON</span>
+                <span class="tech-tag">GIS Analytics</span>
+                <span class="tech-tag">Logistics Routing</span>
+              </div>
+              <p class="project-desc">Curated, topologically validated GeoJSON repository of Indian administrative districts, optimized for logistics routing, field sales choropleths, and GIS dashboards.</p>
+              <div class="project-links-line">
+                <a href="https://github.com/PokerHearts/geojson" target="_blank" rel="noopener noreferrer" class="link-action">
+                  <span>💻</span> GitHub Repository (PokerHearts/geojson) ↗
+                </a>
+              </div>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-geojson-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-geojson-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Dataset Scope:</strong> Normalized multi-polygon boundaries across Indian states and districts, validated for zero geometry self-intersections and minimal payload size for high-speed WebGL and Leaflet rendering.</li>
+              <li><strong>Operational Impact:</strong> Powered territory mapping for 7,500+ microfinance accounts and pharmaceutical distribution route rationalization.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 4: PrepMaster -->
+        <div class="flowing-entry project-entry" id="proj-prepmaster">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">PrepMaster — Adaptive Assessment &amp; Curriculum Engine</h3>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Spaced Repetition</span>
+                <span class="tech-tag">Data Modeling</span>
+              </div>
+              <p class="project-desc">Structured assessment preparation engine built for rapid technical knowledge retention, topic-level mastery scoring, and automated question ranking.</p>
+              <div class="project-links-line">
+                <a href="https://github.com/PokerHearts/PrepMaster" target="_blank" rel="noopener noreferrer" class="link-action">
+                  <span>💻</span> GitHub Repository (PokerHearts/PrepMaster) ↗
+                </a>
+              </div>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-prepmaster-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-prepmaster-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Architecture:</strong> Python-based learning engine applying spaced repetition algorithms and confidence-weighted score rubrics to assess technical competencies and domain frameworks.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 5: AI Voice Mock Interview Simulator -->
+        <div class="flowing-entry project-entry" id="proj-aivoice">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">AI Voice Mock Interview Simulator &amp; Portal</h3>
+                <span class="tech-tag">Gemini API</span>
+                <span class="tech-tag">Web Audio VAD</span>
+                <span class="tech-tag">PDF.js</span>
+              </div>
+              <p class="project-desc">Interactive, serverless AI voice training simulator. Parses resumes client-side via PDF.js, triggering a real-time conversational voice loop with noise calibration and interruption-handling.</p>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-aivoice-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-aivoice-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Technical Architecture:</strong> Client-side PDF.js parsing eliminates cloud storage costs and preserves privacy. Speech API Voice Activity Detection (VAD) handles conversational turn-taking at ~$0.05 API cost per interview.</li>
+              <li><strong>Impact &amp; Scale:</strong> Tested across 108+ team members and corporate candidates, logging quantitative rubrics directly to Google Sheets databases.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 6: Looker Studio Cache-Bypass Extension -->
+        <div class="flowing-entry project-entry" id="proj-lookerext">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">Looker Studio Real-Time Cache-Bypass Extension</h3>
+                <span class="tech-tag">Manifest V3</span>
+                <span class="tech-tag">Chrome Extension</span>
+                <span class="tech-tag">Looker API</span>
+              </div>
+              <p class="project-desc">Engineered a custom Chrome Extension that forces on-demand cache-busting queries, completely eliminating Google Looker Studio's 15-minute data latency during time-critical month-end closing.</p>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-lookerext-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-lookerext-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Technical Solution:</strong> Injected content scripts that intercept Looker query dispatches and append timestamp tokens, invalidating CDN caches to force live operational database refreshes.</li>
+              <li><strong>Outcome:</strong> Deployed to Managing Directors, giving executive leadership sub-second live sales closing visibility during month-end target sprints.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 7: BioMIS Platform & B2B Order Book -->
+        <div class="flowing-entry project-entry" id="proj-biomis">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <div class="project-title-line">
+                <h3 class="entry-role">BioMIS Decision Platform &amp; B2B Field Order Pad</h3>
+                <span class="tech-tag">React 19</span>
+                <span class="tech-tag">Supabase</span>
+                <span class="tech-tag">Apps Script</span>
+                <span class="tech-tag">jsPDF</span>
+              </div>
+              <p class="project-desc">Single-page responsive B2B ordering portal and executive analytics platform. Features dynamic stock matrices, localStorage draft protection, and instant client-side receipt generation.</p>
+            </div>
+            <div class="entry-header-right">
+              <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="proj-biomis-detail">
+                <span class="btn-text">Architecture</span>
+                <span class="chevron">▾</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inline-expandable-panel" id="proj-biomis-detail" hidden>
+            <ul class="entry-bullets expanded-bullets">
+              <li><strong>Architecture:</strong> Chunked Google Apps Script CacheService matrix fitting entire inventory catalogs within strict 100KB limits, coupled with client-side jsPDF invoice generation.</li>
+              <li><strong>Measurable Outcome:</strong> Slashed order booking turnaround from 8 minutes to 45 seconds while sustaining 100% order logging accuracy at zero hosting cost.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Recruiter Section Note: Projects -->
+        <div class="recruiter-note-slip" id="note-projects" data-section="projects">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Projects &amp; Code Review
+            </span>
+            <span class="note-save-indicator" id="saveStatus-projects">Autosaved</span>
+          </div>
+          <textarea class="note-textarea" placeholder="Notes on coding capability, systems problem solving, GitHub code review..." data-key="note_projects"></textarea>
+        </div>
+      </section>
+
+
+      <!-- ==================== EDUCATION & ACADEMIC PEDIGREE ==================== -->
+      <section class="resume-section" id="section-education">
+        <div class="section-title-row">
+          <h2 class="section-title">Education &amp; Academic Credentials</h2>
+        </div>
+
+        <!-- Degree 1: MBA -->
+        <div class="flowing-entry" id="edu-mba">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <h3 class="entry-role">Master of Business Administration (MBA)</h3>
+              <div class="entry-company">Mittal School of Business &amp; NSE Academy, Lovely Professional University</div>
+              <div class="entry-scope">Integrated Financial Markets &amp; Analytics Specialization · Top Tier Standing</div>
+            </div>
+            <div class="entry-header-right">
+              <div class="grade-badge">CGPA: 8.83 / 10.0</div>
+              <div class="entry-period">2021 – 2023</div>
+            </div>
+          </div>
+
+          <button type="button" class="inline-expand-btn" aria-expanded="false" aria-controls="edu-mba-detail">
+            <span class="btn-text">🏆 View Topped Subjects &amp; High-Distinction Modules</span>
+            <span class="chevron">▾</span>
+          </button>
+
+          <!-- Expandable Topped Subjects -->
+          <div class="inline-expandable-panel" id="edu-mba-detail" hidden>
+            <div class="topped-subjects-flow">
+              <div class="topped-flow-intro">
+                <strong>Recognized for top academic standing across core quantitative &amp; financial curriculum:</strong>
+              </div>
+              <ul class="entry-bullets topped-bullets">
+                <li>★ <strong>Financial Modelling | Valuation &amp; Forecasting:</strong> Discounted Cash Flow (DCF), sensitivity testing, dynamic scenario modeling, and M&amp;A valuation models.</li>
+                <li>★ <strong>Investment Analysis &amp; Portfolio Management:</strong> Modern Portfolio Theory, Markowitz optimization, CAPM, Sharpe ratios, and asset allocation strategies.</li>
+                <li>★ <strong>Equity Derivatives &amp; Options Trading Strategies:</strong> Black-Scholes pricing, Option Greeks, volatility surfaces, structured hedging, and synthetic spreads.</li>
+                <li>★ <strong>Business Process Analytics &amp; Decision Systems:</strong> Linear programming, queuing theory, inventory optimization models (EOQ/Safety Stock), and operational MIS.</li>
+                <li>★ <strong>Technical &amp; Fundamental Analysis of Securities:</strong> Quantitative indicator analysis, macroeconomic cyclical factors, forensic audits, and cash flows.</li>
+                <li>★ <strong>Macroeconomics &amp; Global Monetary Systems:</strong> Central banking liquidity mechanisms, interest rate transmission channels, and cross-border trade economics.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Degree 2: BBA -->
+        <div class="flowing-entry" id="edu-bba">
+          <div class="entry-header">
+            <div class="entry-header-left">
+              <h3 class="entry-role">Bachelor of Business Administration (BBA)</h3>
+              <div class="entry-company">Mittal School of Business, Lovely Professional University</div>
+              <div class="entry-scope">Foundational Management, Operations &amp; Business Information Systems</div>
+            </div>
+            <div class="entry-header-right">
+              <div class="grade-badge">CGPA: 8.36 / 10.0</div>
+              <div class="entry-period">2018 – 2021</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- National Qualifications Flow Line -->
+        <div class="qualifications-flow-row">
+          <div class="qual-flow-item">
+            <span class="qual-flow-pill">National Qualification</span>
+            <strong>UGC NET Qualified — Assistant Professor in Management</strong>
+            <span class="qual-flow-desc">Verified eligibility for university professorship &amp; academic research.</span>
+          </div>
+          <div class="qual-flow-item">
+            <span class="qual-flow-pill">Global Assessment</span>
+            <strong>ANZSCO 224711 — Management Consultant / Analyst</strong>
+            <span class="qual-flow-desc">VETASSESS Group B verified professional standing for Australia &amp; global mobility.</span>
+          </div>
+        </div>
+
+        <!-- Recruiter Section Note: Education -->
+        <div class="recruiter-note-slip" id="note-education" data-section="education">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Academic Rigour &amp; Pedigree
+            </span>
+            <span class="note-save-indicator" id="saveStatus-education">Autosaved</span>
+          </div>
+          <textarea class="note-textarea" placeholder="Notes on MBA CGPA 8.83, quantitative subject mastery, UGC NET ranking..." data-key="note_education"></textarea>
+        </div>
+      </section>
+
+
+      <!-- ==================== VERIFIED CERTIFICATIONS & SKILLS ==================== -->
+      <section class="resume-section" id="section-skills">
+        <div class="section-title-row">
+          <h2 class="section-title">Certifications &amp; Competency Matrix</h2>
+        </div>
+
+        <!-- Flowing Certifications List -->
+        <div class="certifications-flow-list">
+          <span class="cert-pill">✓ UGC NET Assistant Professor</span>
+          <span class="cert-pill">✓ Duke University Tableau</span>
+          <span class="cert-pill">✓ NCFM Financial Modelling</span>
+          <span class="cert-pill">✓ NCFM Equity Derivatives</span>
+          <span class="cert-pill">✓ NCFM Investment Analysis</span>
+          <span class="cert-pill">✓ University of Geneva Financial Markets</span>
+        </div>
+
+        <!-- Flowing Competency Columns -->
+        <div class="skills-flow-grid">
+          <div class="skill-flow-col">
+            <h3 class="flow-col-title">Strategy &amp; Operations</h3>
+            <ul class="flow-col-list">
+              <li>Business Process Re-engineering (BPR)</li>
               <li>Multi-SKU Catalog Rationalization</li>
               <li>Root-Cause Analysis (CAPA)</li>
-              <li>SLA & KPI Governance</li>
+              <li>SLA &amp; KPI Governance</li>
               <li>Master SOP Architecture</li>
-              <li>Cross-Functional Leadership (80+)</li>
-              <li>Change Management & Adoption</li>
+              <li>Cross-Functional Leadership (80+ FTEs)</li>
+              <li>Change Management &amp; Adoption</li>
             </ul>
           </div>
 
-          <div class="competency-box">
-            <h3 class="competency-box-title">BI & Analytics</h3>
-            <ul class="competency-skill-list">
-              <li>Looker Studio (13 Dashboards)</li>
-              <li>Executive Board MIS Briefings</li>
-              <li>Advanced Google Sheets</li>
-              <li>Financial Modeling & DCF</li>
-              <li>Tableau (Duke University)</li>
-              <li>PostgreSQL Analytical Schemas</li>
-              <li>ERP & CRM Systems Integration</li>
+          <div class="skill-flow-col">
+            <h3 class="flow-col-title">BI, MIS &amp; Analytics</h3>
+            <ul class="flow-col-list">
+              <li>Looker Studio (13 Production Dashboards)</li>
+              <li>Google Sheets (QUERY, ARRAYFORMULA)</li>
+              <li>Excel Financial Modeling (DCF / Projections)</li>
+              <li>Tableau (Duke University Credential)</li>
+              <li>PostgreSQL &amp; Unified Schemas</li>
+              <li>ERP/CRM Systems (MARG ERP, OMEGA)</li>
+              <li>Inventory Turnover Ratio (ITR) Optimization</li>
             </ul>
           </div>
 
-          <div class="competency-box">
-            <h3 class="competency-box-title">Software & Pipelines</h3>
-            <ul class="competency-skill-list">
-              <li>Google Apps Script Pipelines</li>
-              <li>Chrome Extension (Manifest V3)</li>
-              <li>Automated REST Webhooks & APIs</li>
+          <div class="skill-flow-col">
+            <h3 class="flow-col-title">Systems &amp; Automation</h3>
+            <ul class="flow-col-list">
+              <li>Google Apps Script Enterprise Pipelines</li>
+              <li>Chrome Extension Engineering (Manifest V3)</li>
+              <li>Automated Webhooks &amp; REST APIs</li>
               <li>Real-Time WebSockets (Firestore)</li>
-              <li>React & Vite Rapid Prototyping</li>
-              <li>Android Engineering (Kotlin)</li>
-              <li>Headless OAuth 2.0 Integrations</li>
+              <li>React 19 &amp; Supabase Prototyping</li>
+              <li>Android (Kotlin, Compose, Room DB)</li>
+              <li>Zero-Consultant Rapid Deployment</li>
             </ul>
           </div>
 
-          <div class="competency-box">
-            <h3 class="competency-box-title">AI & Emerging Tech</h3>
-            <ul class="competency-skill-list">
-              <li>Gemini API Prompt Engineering</li>
-              <li>Voice Activity Detection (VAD)</li>
-              <li>Automated Speech QA Scoring</li>
-              <li>Client-Side PDF Parsing</li>
-              <li>Document Retrieval Bots</li>
-              <li>Noise Calibration Buffers</li>
-              <li>Zero-Compute Browser AI</li>
+          <div class="skill-flow-col">
+            <h3 class="flow-col-title">AI &amp; Emerging Tech</h3>
+            <ul class="flow-col-list">
+              <li>Gemini API &amp; LLM Prompt Engineering</li>
+              <li>Web Audio Voice Activity Detection (VAD)</li>
+              <li>Speech AI Call QA Pipelines (100% Coverage)</li>
+              <li>Client-Side PDF.js OCR &amp; Document Parsing</li>
+              <li>Rate-Limited Audio Task Queues</li>
+              <li>Fuzzy Logic &amp; MCDM Algorithms</li>
             </ul>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Dedicated Contact Section (Direct-to-Email Form Submission) -->
-    <section class="contact-section" id="contact">
-      <div class="container contact-wrapper">
-        <!-- Direct Channel Info -->
-        <div class="contact-meta-col">
-          <div class="section-label">Direct Executive Channel</div>
-          <h2>Initiate an Operational Dialogue</h2>
-          <p>
-            Whether you are addressing operational friction, exploring senior systems leadership, or seeking strategic advisory support, send a direct brief below. Submissions route immediately to Pratap's personal inbox with guaranteed response within 24 hours.
-          </p>
-          
-          <div class="contact-detail-row">
-            <div class="detail-row-lbl">Direct Email</div>
-            <div class="detail-row-val">
-              <a href="mailto:pratapjindal812@gmail.com" style="text-decoration: underline; color: var(--brand-accent);">pratapjindal812@gmail.com</a>
-            </div>
+        <!-- Recruiter Section Note: Skills -->
+        <div class="recruiter-note-slip" id="note-skills" data-section="skills">
+          <div class="note-slip-header">
+            <span class="note-slip-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Recruiter Note — Technical &amp; Operational Skills
+            </span>
+            <span class="note-save-indicator" id="saveStatus-skills">Autosaved</span>
           </div>
-          <div class="contact-detail-row">
-            <div class="detail-row-lbl">Direct Phone / WhatsApp</div>
-            <div class="detail-row-val">+91 70090 19719</div>
-          </div>
-          <div class="contact-detail-row">
-            <div class="detail-row-lbl">Location & Mobility</div>
-            <div class="detail-row-val">Mohali / Panchkula, India · Open to Global Relocation (ANZSCO 224711)</div>
-          </div>
+          <textarea class="note-textarea" placeholder="Notes on technical versatility, data stack, tools alignment..." data-key="note_skills"></textarea>
         </div>
+      </section>
 
-        <!-- Functional Form routed to pratapjindal812@gmail.com via FormSubmit AJAX -->
-        <div>
-          <form class="form-stack" id="contactForm">
-            <!-- Hidden configuration for FormSubmit -->
-            <input type="hidden" name="_subject" value="New Portfolio Inquiry via pokerhearts.in">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_honey" style="display:none">
 
-            <div class="form-item">
-              <label class="form-item-label" for="contactName">Your Name & Organization *</label>
-              <input class="form-control-input" type="text" id="contactName" name="name" placeholder="e.g. Elena Vance · COO, BioPharma Corp" required>
+      <!-- ==================== RECRUITER LIVE ASSESSMENT & SCORECARD ==================== -->
+      <section class="recruiter-scorecard-section" id="section-scorecard">
+        <div class="scorecard-wrapper">
+          <div class="scorecard-header">
+            <div>
+              <h2 class="scorecard-title">Recruiter Assessment &amp; Hiring Verdict</h2>
+              <p class="scorecard-subtitle">Take live interview notes, select evaluation ratings, and export your candidate assessment dossier. (Notes vanish on refresh unless exported).</p>
+            </div>
+            <div class="session-badge" id="sessionTimer">Session Active</div>
+          </div>
+
+          <div class="scorecard-flow-grid">
+            <!-- Overall Rating -->
+            <div class="scorecard-field">
+              <label class="scorecard-label">Overall Match Rating:</label>
+              <div class="rating-stars" id="ratingStars" role="radiogroup" aria-label="Candidate Rating">
+                <button type="button" class="star-btn" data-rating="1" title="1 Star — Low Match">★</button>
+                <button type="button" class="star-btn" data-rating="2" title="2 Stars — Partial Match">★</button>
+                <button type="button" class="star-btn" data-rating="3" title="3 Stars — Solid Match">★</button>
+                <button type="button" class="star-btn" data-rating="4" title="4 Stars — Strong Candidate">★</button>
+                <button type="button" class="star-btn active" data-rating="5" title="5 Stars — Exceptional Match">★</button>
+              </div>
             </div>
 
-            <div class="form-item">
-              <label class="form-item-label" for="contactEmail">Corporate Email *</label>
-              <input class="form-control-input" type="email" id="contactEmail" name="email" placeholder="elena@company.com" required>
+            <!-- Hiring Decision Pill Selector -->
+            <div class="scorecard-field">
+              <label class="scorecard-label">Assessment Recommendation:</label>
+              <div class="decision-pill-group" id="decisionGroup">
+                <button type="button" class="decision-pill active" data-decision="Strong Hire (Fast-Track to Final Round)">🌟 Strong Hire</button>
+                <button type="button" class="decision-pill" data-decision="Advance to Round 1 Interview">👍 Round 1 Interview</button>
+                <button type="button" class="decision-pill" data-decision="Request Systems / Analytical Case Study">📋 Request Case Study</button>
+                <button type="button" class="decision-pill" data-decision="Keep in Talent Network">📁 Talent Network</button>
+              </div>
             </div>
+          </div>
 
-            <div class="form-item">
-              <label class="form-item-label" for="contactScope">Nature of Discussion</label>
-              <select class="form-control-select" id="contactScope" name="discussion_scope">
-                <option value="Senior Management / Leadership Role">Senior Management / Leadership Role</option>
-                <option value="Systems Architecture & Process Automation">Systems Architecture & Process Automation</option>
-                <option value="Supply Chain & Inventory Turnaround">Supply Chain & Inventory Turnaround</option>
-                <option value="Strategic Advisory / Consulting">Strategic Advisory / Consulting</option>
-                <option value="General Exploration / Networking">General Exploration / Networking</option>
-              </select>
-            </div>
+          <!-- Overall Recruiter Synthesis Note -->
+          <div class="scorecard-field" style="margin-top: 1.25rem;">
+            <label class="scorecard-label">Executive Interview Notes &amp; Follow-up Agenda:</label>
+            <textarea class="note-textarea scorecard-textarea" placeholder="Overall synthesis: strengths, compensation expectations, questions for hiring manager, next steps..." data-key="note_overall"></textarea>
+          </div>
 
-            <div class="form-item">
-              <label class="form-item-label" for="contactMessage">Operational Context / Project Brief *</label>
-              <textarea class="form-control-textarea" id="contactMessage" name="message" placeholder="Briefly describe your operating challenge, timeline, or discussion agenda..." required></textarea>
-            </div>
-
-            <button type="submit" class="btn-form-submit" id="submitBtn">
-              Transmit Direct Message →
+          <!-- Scorecard Action Bar -->
+          <div class="scorecard-actions">
+            <button type="button" id="btnDownloadDossier" class="btn-primary-large">
+              <span>📥</span> Export Recruiter Evaluation Dossier (.txt / .md)
             </button>
+            <button type="button" id="btnPrintAnnotated" class="btn-secondary-large">
+              <span>🖨️</span> Print Resume with Notes
+            </button>
+            <button type="button" id="btnClearNotes" class="btn-ghost-large" title="Reset current session notes">
+              <span>🔄</span> Clear Session Notes
+            </button>
+          </div>
 
-            <div class="form-status-msg" id="formStatusMsg"></div>
-          </form>
+          <div class="privacy-disclaimer">
+            <span>🔒 <strong>Privacy &amp; Session Model:</strong> All live evaluation notes are securely stored in your browser's <code>sessionStorage</code>. When you refresh or close this tab, the local notes will disappear cleanly.</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- Resume Footer -->
+      <footer class="resume-footer">
+        <div class="footer-meta-row">
+          <span>Pratap Jindal · Executive Resume &amp; Systems Architecture Dossier</span>
+          <span>Verified Master Profile · Updated 2026</span>
+          <!-- Discreet Admin Telemetry Trigger -->
+          <button type="button" id="btnAdminTrigger" class="admin-trigger-btn" title="Admin / Candidate Telemetry View (Ctrl+Shift+A)">🔒 Live Telemetry</button>
+        </div>
+      </footer>
+
+    </article>
   </main>
 
-  <!-- System Detail Modal Window -->
-  <div class="modal-overlay" id="systemModal" role="dialog" aria-modal="true">
-    <div class="modal-window">
-      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">&times;</button>
-      
-      <div style="margin-bottom: 1.5rem;">
-        <span style="font-size: 0.78rem; font-weight: 700; color: var(--brand-accent); text-transform: uppercase;" id="modalBadge">MOD_01 · SYSTEM</span>
-        <h3 style="font-family: var(--font-display); font-size: 1.7rem; font-weight: 800; color: var(--text-title); margin-top: 0.35rem; line-height: 1.2;" id="modalTitle">System Title</h3>
-      </div>
-
-      <div class="modal-detail-block">
-        <div class="modal-detail-label">The Operational Problem</div>
-        <div class="modal-detail-text" id="modalProblem">Problem description...</div>
-      </div>
-
-      <div class="modal-detail-block">
-        <div class="modal-detail-label">The Deployed Solution</div>
-        <div class="modal-detail-text" id="modalSolution">Solution details...</div>
-      </div>
-
-      <div class="modal-detail-block">
-        <div class="modal-detail-label">Architecture & Engineering Decisions</div>
-        <div class="modal-detail-text" id="modalArchitecture">Architecture decisions...</div>
-      </div>
-
-      <div class="modal-detail-block">
-        <div class="modal-detail-label">Business Outcome & Impact</div>
-        <div class="modal-detail-text" id="modalOutcome" style="font-weight: 600; color: var(--accent-emerald);">Outcome details...</div>
-      </div>
-
-      <div class="modal-detail-block" style="margin-bottom: 0;">
-        <div class="modal-detail-label">Primary Users & Scope</div>
-        <div class="modal-detail-text" id="modalUsers">Users...</div>
-      </div>
-    </div>
+  <!-- Interactive Feedback Toast -->
+  <div class="toast-notification" id="toastNotification" role="status" aria-live="polite">
+    <span class="toast-icon">✓</span>
+    <span class="toast-text" id="toastMessage">Email copied to clipboard!</span>
   </div>
 
-  <!-- Executive Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-row">
-        <div>
-          <div class="footer-brand">Pratap Jindal</div>
-          <p style="font-size: 0.92rem; color: var(--text-muted); max-width: 440px;">
-            Management Analyst & Enterprise Systems Architect. Based in Mohali / Panchkula, India. Relocation ready for global executive leadership.
-          </p>
+  <!-- Candidate / Admin Background Telemetry Modal -->
+  <dialog class="admin-modal" id="adminModal" aria-labelledby="adminModalTitle">
+    <div class="admin-modal-content">
+      <div class="admin-modal-header">
+        <div class="admin-title-group">
+          <span class="admin-icon">🔒</span>
+          <div>
+            <h3 class="admin-modal-title" id="adminModalTitle">Candidate Telemetry &amp; Recruiter Audit Cockpit</h3>
+            <p class="admin-modal-sub">Pratap Jindal Private View — Captures recruiter notes across visits &amp; syncs live webhooks.</p>
+          </div>
         </div>
-        <ul class="footer-nav-list">
-          <li><a href="mailto:pratapjindal812@gmail.com">pratapjindal812@gmail.com</a></li>
-          <li><a href="https://www.linkedin.com/in/pratap-jindal/" target="_blank">LinkedIn</a></li>
-          <li><a href="https://github.com/PokerHearts" target="_blank">GitHub</a></li>
-          <li><a href="resume.pdf" target="_blank">Resume (PDF)</a></li>
-        </ul>
+        <button type="button" id="btnCloseAdminModal" class="btn-close-modal" aria-label="Close modal">✕</button>
       </div>
-      <div class="footer-credit-row">
-        <span>&copy; 2026 Pratap Jindal · Enterprise Systems Architecture & Operations.</span>
-        <span>Verified with MCP Workflows.</span>
+
+      <div class="admin-body">
+        <!-- Webhook Configuration -->
+        <div class="admin-section">
+          <h4 class="admin-section-title">📡 Real-Time Webhook Synchronization</h4>
+          <p class="admin-text">Enter a Google Apps Script, Discord, Telegram, or custom webhook URL to receive live recruiter notes instantly in the background:</p>
+          <div class="webhook-input-row">
+            <input type="url" id="webhookUrlInput" class="webhook-input" placeholder="https://script.google.com/macros/s/... or https://discord.com/api/webhooks/...">
+            <button type="button" id="btnSaveWebhook" class="btn-admin-save">Save Webhook</button>
+            <button type="button" id="btnTestWebhook" class="btn-admin-test">Test Ping</button>
+          </div>
+          <span class="webhook-status-text" id="webhookStatusText">No webhook configured (using local persistent audit ledger).</span>
+        </div>
+
+        <!-- Captured Recruiter Audit Ledger -->
+        <div class="admin-section">
+          <div class="ledger-header">
+            <h4 class="admin-section-title">📋 Captured Recruiter Activity &amp; Notes Ledger</h4>
+            <button type="button" id="btnClearAuditLedger" class="btn-clear-ledger">Clear Audit History</button>
+          </div>
+          <div class="audit-ledger-container" id="auditLedgerContainer">
+            <!-- Dynamically populated from localStorage pratap_telemetry_audit_ledger -->
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
+  </dialog>
 
-  <!-- Toast Notification Bar -->
-  <div class="toast-bar" id="toastBar">✓ Email copied to clipboard</div>
-
+  <!-- Load Extracted Master Resumes & Projects Data -->
+  <script src="extracted_resumes.js"></script>
+  <script src="extracted_projects.js"></script>
+  <!-- Application Logic -->
   <script src="script.js"></script>
 </body>
 </html>
